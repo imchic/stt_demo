@@ -38,6 +38,8 @@ dependencies:
   speech_to_text: ^6.6.2
   syncfusion_flutter_datagrid: ^26.1.35
   get: ^4.6.6
+  flutter_lints: ^3.0.2
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
