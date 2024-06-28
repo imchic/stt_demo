@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'login_controller.dart';
@@ -24,8 +25,8 @@ class LoginScreen extends GetView<LoginController> {
           child: Container(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Image.asset('assets/debrix_ci.png', width: 100, height: 50, fit: BoxFit.contain),
+              padding: const EdgeInsets.only(left: 20),
+              child: SvgPicture.asset('assets/images/ic_kwater_logo.svg', width: 100, height: 50, fit: BoxFit.contain)
             ),
           )
         ),

@@ -33,13 +33,8 @@ class ItemDataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
           return Container(
-            // alignment: dataGridCell.columnName == 'isListening'
-            //     ? Alignment.center
-            //     : dataGridCell.columnName == 'id'
-            //         ? Alignment.centerRight
-            //         : Alignment.centerLeft,
             alignment: Alignment.center,
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(dataGridCell.value.toString()),
           );
         }).toList());

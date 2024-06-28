@@ -16,6 +16,16 @@ class BsnsController extends GetxController {
 
   RxBool isExpanded = false.obs;
 
+  RxInt selectedIndex = 0.obs;
+  RxBool isNavOpen = false.obs;
+
+  RxList<String> navItems = [
+    '사업관리',
+    '소유자관리',
+    '실태조사',
+    '통계정보',
+    '고객카드',
+  ].obs;
 
   @override
   void onInit() {
@@ -42,7 +52,7 @@ class BsnsController extends GetxController {
   // fetch
   fetchItems() async {
     var items = <Item>[];
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 10; i++) {
       items.add(Item(
           no: i,
           areaNo: i,
