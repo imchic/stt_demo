@@ -1,7 +1,16 @@
-class Item{
+class Item {
 
-  Item({this.no, this.areaNo, this.bizName, this.bizCount, this.bizArea, this.bizDate});
+  Item({
+      this.select = false,
+      this.no,
+      this.areaNo,
+      this.bizName,
+      this.bizCount,
+      this.bizArea,
+      this.bizDate
+  });
 
+  bool select = false;
   int? no;
   int? areaNo;
   String? bizName;
@@ -13,5 +22,4 @@ class Item{
   String toString() {
     return 'Item{no: $no, areaNo: $areaNo, bizName: $bizName, bizCount: $bizCount, bizArea: $bizArea, bizDate: $bizDate}';
   }
-
 }

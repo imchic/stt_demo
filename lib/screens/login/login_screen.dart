@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:stt_demo/utils/colors.dart';
 
 import 'login_controller.dart';
 
@@ -11,6 +13,7 @@ class LoginScreen extends GetView<LoginController> {
   Widget build(BuildContext context) {
     Get.put(LoginController());
     return Scaffold(
+      backgroundColor: Color(0xff005596),
       body: SafeArea(
         child: _buildBody(),
       ),
@@ -20,82 +23,95 @@ class LoginScreen extends GetView<LoginController> {
   Widget _buildBody() {
     return Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset('assets/images/ic_kwater_logo.svg',
+                  width: 100.w,
+                  height: 60.h,
+                  fit: BoxFit.contain,
+                  colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+              SizedBox(height: 20.h),
+              Text('현장조사 모바일', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: Colors.white)),
+            ],
+          ),
+        ),
         Expanded(
-          flex: 1,
           child: Container(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: SvgPicture.asset('assets/images/ic_kwater_logo.svg', width: 100, height: 50, fit: BoxFit.contain)
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
             ),
-          )
-        ),
-        Expanded(
-          flex: 10,
-          child: Container(
-            width: Get.width * 0.8,
-            child: _buildLoginBox(),
-          )
-        ),
-        Expanded(
-          flex: 1,
-          child: _buildCopyRight(),
+            child: SizedBox(
+              child: _buildLoginBox(),
+            ),
+          ),
         ),
       ],
     );
   }
 
   Widget _buildLoginBox() {
-    return Container(
-      padding: const EdgeInsets.all(24.0),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('현장조사 모바일', style:
-            TextStyle(fontSize: 30, fontWeight: FontWeight.bold)
-          ),
-          SizedBox(height: 10),
           Container(
+            margin: EdgeInsets.only(top: 20.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Radio(value: 0, groupValue: 0, onChanged: (value) {}),
-                Text('토지보상', style: TextStyle(fontSize: 18)),
+                Text('토지보상', style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold)),
                 Radio(value: 1, groupValue: 0, onChanged: (value) {}),
-                Text('현장조사자', style: TextStyle(fontSize: 18)),
+                Text('현장조사자', style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
-          SizedBox(height: 20),
-          _buildIdField(),
-          SizedBox(height: 10),
-          _buildPasswordField(),
-          SizedBox(height: 10),
-          // 자동 로그인
-          buildAutoLogin(),
-          SizedBox(height: 10),
-          _buildLoginButton(),
-          SizedBox(height: 10),
-          _buildBiometricButton(),
-          SizedBox(height: 10),
-          _buildFindIdPassword(),
+          Expanded(
+            flex: 9,
+            child: SizedBox(
+              width: Get.width * 0.8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildIdField(),
+                  SizedBox(height: 10.h),
+                  _buildPasswordField(),
+                  _buildAutoLogin(),
+                  _buildLoginButton(),
+                  SizedBox(height: 10.h),
+                  _buildBiometricButton(),
+                  SizedBox(height: 10.h),
+                  _buildFindIdPassword(),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: _buildCopyRight(),
+          ),
         ],
       ),
     );
   }
 
-
-  Widget buildAutoLogin() {
+  Widget _buildAutoLogin() {
     return Row(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Checkbox(value: false, onChanged: (value) {}),
-            Text('자동 로그인', style: TextStyle(fontSize: 18)),
-          ],
-        );
+      children: [
+        Checkbox(value: false, onChanged: (value) {}),
+        Text('자동 로그인', style: TextStyle(fontSize: 10.sp, color: Colors.grey[800], fontWeight: FontWeight.w500)),
+      ],
+    );
   }
 
   Widget _buildIdField() {
@@ -146,39 +162,43 @@ class LoginScreen extends GetView<LoginController> {
 
   Widget _buildLoginButton() {
     // round shape button
-    return Container(
+    return SizedBox(
       width: double.infinity,
+      height: 80.h,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+            backgroundColor: Color(0xff005596),
+            elevation: 0
           ),
-          backgroundColor: Colors.grey[800],
-        ),
-        onPressed: () {
-          controller.login();
-        },
-        child: Text('로그인', style: TextStyle(fontSize: 14, color: Colors.white))
-      ),
+          onPressed: () {
+            controller.login();
+          },
+          child: Text('로그인',
+              style: TextStyle(fontSize: 10.sp, color: Colors.white))),
     );
   }
 
   // 생체인증 버튼
   Widget _buildBiometricButton() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
+      height: 80.h,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+            backgroundColor: Color(0xfff8f8f8),
+            elevation: 0
           ),
-          backgroundColor: Colors.grey[800],
-        ),
-        onPressed: () {
-          controller.login();
-        },
-        child: Text('생체인증', style: TextStyle(fontSize: 14, color: Colors.white))
-      ),
+          onPressed: () {
+            controller.login();
+          },
+          child: Text('모바일 생체인증',
+              style: TextStyle(fontSize: 10.sp, color: gray600))),
     );
   }
 
@@ -191,12 +211,14 @@ class LoginScreen extends GetView<LoginController> {
         children: [
           TextButton(
             onPressed: () {},
-            child: Text('아이디 찾기', style: TextStyle(fontSize: 14, color: Colors.grey[800])),
+            child: Text('아이디 찾기',
+                style: TextStyle(fontSize: 8.sp, color: Colors.grey[800])),
           ),
-          Text('|', style: TextStyle(fontSize: 14, color: Colors.grey[800])),
+          Text('|', style: TextStyle(fontSize: 8.sp, color: Colors.grey[800])),
           TextButton(
             onPressed: () {},
-            child: Text('비밀번호 찾기', style: TextStyle(fontSize: 14, color: Colors.grey[800])),
+            child: Text('비밀번호 찾기',
+                style: TextStyle(fontSize: 8.sp, color: Colors.grey[800])),
           ),
         ],
       ),
@@ -207,8 +229,8 @@ class LoginScreen extends GetView<LoginController> {
   Widget _buildCopyRight() {
     return Container(
       alignment: Alignment.center,
-      child: Text('© 2021 DEBRIX. All rights reserved.', style: TextStyle(fontSize: 12, color: Colors.grey[800])),
+      child: Text('© 2024 DEBRIX. All rights reserved.',
+          style: TextStyle(fontSize: 6.sp, color: Colors.grey[800])),
     );
   }
-
 }
