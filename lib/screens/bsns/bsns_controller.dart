@@ -1,0 +1,750 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:stt_demo/screens/owner/lad/model/owner_lad_info_datasource_model.dart';
+import 'package:stt_demo/screens/owner/lad/owner_lad_info_datasource.dart';
+
+
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../utils/dialog_util.dart';
+import '../../utils/colors.dart';
+import '../../utils/custom_textfiled.dart';
+import '../accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
+import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
+import '../owner/datasource/owner_datasource.dart';
+import '../owner/datasource/model/owner_datasource_model.dart';
+import 'datasource/bsns_select_area_datasource.dart';
+import 'datasource/model/bsns_select_area_datasource_model.dart';
+import 'select/bsns_select_model.dart';
+import 'sqnc/bsns_sqnc_datasource.dart';
+import 'sqnc/model/bsns_sqnc_datasource_model.dart';
+
+
+class BsnsController extends GetxController
+    with GetTickerProviderStateMixin {
+
+  static BsnsController get to => Get.find();
+
+  late TextEditingController bsnsNameSearchController; // 사업명 검색
+  late TextEditingController bsnsNoSearchController; // 사업번호 검색
+
+  late TextEditingController orderAutoController;
+  late TextEditingController orderStartDtController;
+  late TextEditingController orderEndDtController;
+  late TextEditingController orderController;
+
+  // 소유자 관리
+  late TextEditingController ownerNameSearchController;
+  late TextEditingController ownerRegisterNoSearchController;
+
+  late ScrollController bsnsListScrollController;
+
+  // debounce
+  Timer? _debounce;
+
+  // 사업선택 탭 아이템
+  final bsnsSelectTabItems = [Tab(text: '사업선택'), Tab(text: '사업구역'), Tab(text: '조사차수')];
+  final bsnsSelectTabIsSelected = [true, false, false].obs;
+
+  // 소유자 관리 탭 아이템
+  final bsnsOwnerTabItems = [Tab(text: '소유자검색'), Tab(text: '토지정보'), Tab(text: '지장물정보'), Tab(text: '정보변경')];
+
+  // 실태조사 탭 아이템
+  final accdtlnvstgTabItems = [
+    Tab(text: '토지조사'),
+    Tab(text: '지장물조사'),
+    Tab(text: 'GIS')
+  ];
+  // 실태조사 토지조서 탭 아이템
+  final accdtlnvstgLadTabItems = [
+    Tab(text: '토지내역'),
+    Tab(text: '조사내용'),
+    Tab(text: '소유자 및 관계인'),
+    Tab(text: '지장물정보')
+  ];
+
+  late TabController bsnsTabController;
+  late TabController accdtlnvstgTabController;
+  late TabController accdtlnvstgLadTabController;
+
+  late TabController bsnsOwnerTabController;
+
+  /// [DataGridController] 는 데이터 그리드의 상태를 제어하는 컨트롤러 클래스이다.
+
+  late DataGridController bsnsListDataGridController;
+  late DataGridController bsnsOwnerDataGridController;
+  late DataGridController bsnsOrderDataGridController;
+
+  late DataGridController ownerLadInfoDataGridController;
+
+  late DataGridController accdtlnvstgLadDataGridController;
+
+  /// [BsnsSelectAreaDataSource] 는 [DataGridSource] 를 상속받아 구현한 데이터 소스 클래스이다.
+  final bsnsListDataSource = BsnsSelectAreaDataSource(items: []).obs; // 사업구역선택
+
+  final bsnsOwnerDataSource = OwnerDatasource(items: []).obs; // 소유자
+  RxList<OwnerDataSourceModel> bsnsOwner = <OwnerDataSourceModel>[].obs;
+
+  final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
+  //RxList<OwnerLadInfoModel> ownerLadInfo = <OwnerLadInfoModel>[].obs;
+
+  final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
+  RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
+
+  // 실태조사 > 토지내역
+  final accdtlnvstgLadDataSource = AccdtlnvstgLadDatasource(items: []).obs;
+
+  /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
+  RxInt radioValue = 0.obs;
+
+  RxBool isExpanded = false.obs;
+  RxBool isRightSideExpanded = false.obs;
+
+  RxInt selectedIndex = 0.obs;
+  RxBool isNavOpen = false.obs;
+
+  RxList<BsnsSelectModel> bsnsList = <BsnsSelectModel>[].obs;
+  RxList<BsnsSelectModel> searchBsnsList = <BsnsSelectModel>[].obs;
+
+  Rx<BsnsSelectModel> bsns = BsnsSelectModel().obs;
+  Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
+
+  Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource = BsnsSelectAreaDataSourceModel().obs;
+
+  //Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
+
+  RxList<String> leftNavItems = ['사업선택', '소유자관리', '실태조사', '통계정보', '고객카드'].obs;
+  RxList businessList = [].obs;
+  RxList<String> orderList = ['1차', '2차', '3차', '4차', '5차', '6차', '7차', '8차', '9차', '10차',].obs;
+
+  // select order
+  RxInt selectOrder = 0.obs;
+  // RxDouble surveyDateWidth = 100.0.obs;
+
+  RxMap<String, double> columnWidths = {
+    'bsnsZoneNo': double.nan,
+    'bsnsZoneNm': double.nan,
+    'lotCnt': double.nan,
+    'bsnsAra': double.nan,
+    'bsnsReadngPblancDe': double.nan,
+    'surveyDate': double.nan,
+    'surveyOrder': double.nan,
+    'location': double.nan,
+    'mainNumber': double.nan,
+    'subNumber': double.nan,
+    'publicLandType': double.nan,
+  }.obs;
+
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+
+    bsnsNameSearchController = TextEditingController();
+    bsnsNoSearchController = TextEditingController();
+
+    orderAutoController = TextEditingController();
+    orderStartDtController = TextEditingController();
+    orderEndDtController = TextEditingController();
+
+    ownerNameSearchController = TextEditingController();
+    ownerRegisterNoSearchController = TextEditingController();
+
+    accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
+    bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
+    bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
+    accdtlnvstgLadTabController = TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
+
+    orderController = TextEditingController();
+
+    bsnsListScrollController = ScrollController();
+
+    /// [DataGridController] 는 데이터 그리드의 상태를 제어하는 컨트롤러 클래스이다.
+    bsnsListDataGridController = DataGridController();
+    bsnsOwnerDataGridController = DataGridController();
+    bsnsOrderDataGridController = DataGridController();
+    ownerLadInfoDataGridController = DataGridController();
+    accdtlnvstgLadDataGridController = DataGridController();
+
+    bsnsTabController.addListener(() {
+      print('bsnsTabController.index : ${bsnsTabController.index}');
+      // 해당위치로 이동
+
+      // 사업구역 없이는 탭 1번, 2번 이동 불가능
+      if(selectedBsns.value.title == null && bsnsTabController.index > 0) {
+        bsnsTabController.index = 0;
+        DialogUtil.showSnackBar(Get.context!, '사업을 선택해주세요.');
+        return;
+      }
+
+      // 이전 탭 선택시 초기화
+      if(bsnsTabController.index == 0) {
+        selectedBsns.value = BsnsSelectModel();
+      }
+
+    });
+
+    bsnsListScrollController.addListener(() {
+      print('bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
+    });
+
+    /// [사업목록] 조회
+    await fetchBsnsSelectAreaGridDataSource();
+    /// [소유자 및 관리인] 조회
+    await fetchAccdtlnvstgLadDataSource();
+    // [차수] 조회
+    await fetchBsnsSqncDataSource();
+    // [자동 차수] 조회
+    await autoSqnc();
+    // [소유자관리 > 토지정보] 조회
+    await fetchOwnerLadInfoDataSource();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    bsnsTabController.dispose();
+    bsnsNameSearchController.dispose();
+    bsnsNoSearchController.dispose();
+  }
+
+  @override
+  Future<void> onReady() async {
+    super.onReady();
+  }
+
+  @override
+  Future<void> onClose() async {
+    super.onClose();
+  }
+
+  /// [사업선택] 라디오버튼
+  void handleRadioValueChange(int value) {
+    radioValue.value = value;
+  }
+
+  void handleBsnsSelectListTab(int index) {
+    for (var i = 0; i < bsnsSelectTabIsSelected.length; i++) {
+      bsnsSelectTabIsSelected[i] = false;
+    }
+    bsnsSelectTabIsSelected[index] = true;
+  }
+
+  /// [사업목록] 조회
+  Future<List<BsnsSelectModel>> fetchBsnsList() async {
+
+    await Future.delayed(Duration(milliseconds: 500));
+
+    var bsns = <BsnsSelectModel>[];
+    for (var i = 0; i < 10; i++) {
+      bsns.add(BsnsSelectModel(
+          no: i.toString(),
+          areaNo: i.toString(),
+          title: '(5101102)대교천 재해예상사업(차수 : $i)',
+          bizName: '사업구역 $i',
+          bizArea: '장군면 도계리 34$i 연기면 세종리 금강합류점검',
+          isExpand: false,
+          isSelect: false,
+          bizDate: DateTime.now().toString()));
+    }
+
+    bsnsList.value = bsns;
+    searchBsnsList.value = bsns;
+
+    return bsnsList;
+  }
+
+  /// [소유자 및 관리인] 조회
+  fetchBsnsOwnerDataSource() async {
+    for (var i = 0; i < 10; i++) {
+      bsnsOwner.add(OwnerDataSourceModel(
+          no: i,
+          ownerNo: 'Owner-00$i',
+          ladLdgrOwnerNm: '홍길동',
+          ladLdgrPosesnDivCd: '개인',
+          ownerRegisterNo: '891208-1000000',
+          ownerTelNo: '042-1234-5678',
+          ownerPhoneNo: '010-1234-5678'));
+    }
+
+    bsnsOwnerDataSource.value = OwnerDatasource(items: bsnsOwner);
+  }
+
+  /// [차수] 조회
+  fetchBsnsSqncDataSource() async {
+    for (var i = 1; i < 3; i++) {
+      bsnsSqnc.add(BsnsSqncDatasourceModel(
+          no: i,
+          bsnsSqnc: i,
+          bsnsStrtDe: '2021-10-0$i',
+          bsnsEndDe: '2021-10-0$i'));
+    }
+
+    bsnsSqncDataSource.value = BsnsSqncDatasource(items: bsnsSqnc);
+  }
+
+  /// [사업구역선택] 조회
+  fetchBsnsSelectAreaGridDataSource() async {
+    var bsns = <BsnsSelectAreaDataSourceModel>[];
+    for (var i = 0; i < 10; i++) {
+      bsns.add(BsnsSelectAreaDataSourceModel(
+          bsnsNo: i,
+          bsnsZoneNo: i,
+          bsnsZoneNm: '사업구역 $i',
+          lotCnt: i,
+          bsnsAra: i,
+          bsnsReadngPblancDe: '2021-10-0$i'));
+    }
+
+    bsnsListDataSource.value = BsnsSelectAreaDataSource(items: bsns);
+  }
+
+  /// [소유자관리 > 토지정보] 조회
+  fetchOwnerLadInfoDataSource() async {
+    var ownerLadInfo = <OwnerLadInfoDatasourceModel>[];
+    for (var i = 0; i < 10; i++) {
+      ownerLadInfo.add(OwnerLadInfoDatasourceModel(
+          lgdongNm: '대전광역시 유성구 봉명동',
+          lcrtsDivCd: '공부지목',
+          mlnoLtno: '12$i',
+          slnoLtno: '45$i',
+          ofcbkLndcgrDivCd: '공부지목',
+          sttusLndcgrDivCd: '현황지목',
+          ofcbkAra: 1000,
+          incrprAra: 2000,
+          cmpnstnInvstgAra: 3000,
+          acqsPrpDivCd: '취득소유구분코드',
+          aceptncPrpDivCd: '수용사용구분코드',
+          accdtInvstgSqnc: i,
+          accdtInvstgDe: '2021-10-0$i',
+          invstgDt: '2021-10-0$i',
+          cmpnstnDtaChnStatDivCd: '보상자료변경상태구분코드',
+          etc: '기타'
+      ));
+
+      ownerLadInfoDataSource.value = OwnerLadInfoDatasource(items: ownerLadInfo);
+    }
+  }
+
+  /// [실태조사 > 토지내역] 조회
+  fetchAccdtlnvstgLadDataSource() async {
+    var accdtlnvstgLad = <AccdtlnvstgLadModel>[];
+    for (var i = 0; i < 10; i++) {
+      accdtlnvstgLad.add(AccdtlnvstgLadModel(
+          surveyDate: '2021-10-0$i',
+          surveyOrder: '$i차',
+          location: '대전광역시 유성구 봉명동',
+          mainNumber: '12$i',
+          subNumber: '45$i',
+          publicLandType: '공부지목'));
+    }
+
+    accdtlnvstgLadDataSource.value = AccdtlnvstgLadDatasource(items: accdtlnvstgLad);
+  }
+
+  /// 사업 선택
+  getBusinessList() async {
+    for (var i = 0; i < 10; i++) {
+      businessList.add('사업 $i');
+    }
+
+    DialogUtil.showBottomSheet(
+      Get.context!,
+      '사업선택',
+      ListView.builder(
+        itemCount: businessList.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(businessList[index]),
+            onTap: () {
+              isNavOpen.value = false;
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  /// [차수] 선택
+  getSelectOrder() async {
+    DialogUtil.showBottomSheet(
+      Get.context!,
+      '신규 조사 차수 등록',
+        // 차수 자동입력
+      Container(
+        width: double.infinity,
+        height: 228.h,
+        padding: EdgeInsets.only(top: 24.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              height: 140.h,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 40.h,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 80.w,
+                          height: 24.h,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '차수등록',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: Container(
+                            height: 40.h,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: SizedBox(
+                                    child:
+                                      CustomTextFiled(
+                                        controller: orderAutoController,
+                                        hintText: '차수는 순차적으로 자동입력됩니다.',
+                                        isPassword: false,
+                                        isReadOnly: true,
+                                        onChanged: (value) {
+                                          print('orderAutoController : $value');
+                                        },
+                                      ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Container(
+                    width: double.infinity,
+                    height: 40.h,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 80.w,
+                          height: 24.h,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '시작일',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 16.sp,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: Container(
+                            height: 40.h,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: SizedBox(
+                                    child: CustomTextFiled(
+                                      controller: orderStartDtController,
+                                      hintText: '현재 날짜로 자동입력됩니다.',
+                                      isPassword: false,
+                                      isReadOnly: true,
+                                      onChanged: (value) {},
+                                      onTap: () {
+                                        showDatePicker(
+                                          context: Get.context!,
+                                          initialDate: orderStartDtController.text.isEmpty ? DateTime.now() : DateTime.parse(orderStartDtController.text),
+                                          firstDate: DateTime(2024),
+                                          lastDate: DateTime(2034),
+                                          initialDatePickerMode: DatePickerMode.day,
+                                        ).then((value) {
+                                          print('start dt : $value');
+                                          var year = value!.year;
+                                          var month = value.month < 10 ? '0${value.month}' : value.month;
+                                          var day = value.day < 10 ? '0${value.day}' : value.day;
+
+                                          orderStartDtController.text = '$year-$month-$day';
+
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Container(
+                    width: double.infinity,
+                    height: 40.h,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 80.w,
+                          height: 24.h,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '종료일',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 16.sp,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: Container(
+                            height: 40.h,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: SizedBox(
+                                    child: CustomTextFiled(
+                                      controller: orderEndDtController,
+                                      hintText: '종료일을 입력해주세요.',
+                                      isPassword: false,
+                                      isReadOnly: true,
+                                      onChanged: (value) {},
+                                      onTap: () {
+                                        showDatePicker(
+                                          context: Get.context!,
+                                          initialDate: orderEndDtController.text.isEmpty ? DateTime.now() : DateTime.parse(orderEndDtController.text),
+                                          firstDate: DateTime(2024),
+                                          lastDate: DateTime(2034),
+                                          initialDatePickerMode: DatePickerMode.day,
+                                        ).then((value) {
+                                          print('end dt : $value');
+                                          var year = value!.year;
+                                          var month = value.month < 10 ? '0${value.month}' : value.month;
+                                          var day = value.day < 10 ? '0${value.day}' : value.day;
+
+                                          orderEndDtController.text = '$year-$month-$day';
+
+                                        });
+                                      }
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 24.h),
+            InkWell(
+              onTap: () {
+                Get.back();
+
+                if (orderStartDtController.text == "") {
+                  return DialogUtil.showSnackBar(Get.context!, '시작일을 입력해주세요.');
+                }
+
+                if (orderEndDtController.text == "") {
+                  return DialogUtil.showSnackBar(Get.context!, '종료일을 입력해주세요.');
+                }
+
+                /*DialogUtil.showCustomDialog(
+                  Get.context!,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('${selectedBsns.value.title} 사업을 선택하셨습니다.',
+                          style: TextStyle(
+                              fontSize: 16.sp, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 10.h),
+                      Text(
+                        '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(Get.context!).colorScheme.primary,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        '시작일 : ${orderStartDtController.text} ~ 종료일 : ${orderEndDtController.text}',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          color: gray500,
+                        ),
+                      ),
+                      SizedBox(height: 40.h),
+                      Text(
+                        '모바일 실태조사를 시작하시겠습니까?',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  () {
+                    print('실태조사 시작');
+                    selectedIndex.value = 1;
+                    fetchBsnsOwnerDataSource();
+                    Get.back();
+                  },
+                  () {
+                    Get.back();
+                  },
+                );*/
+
+                DialogUtil.showAlertDialog(
+                  Get.context!,
+                  '실태조사 시작',
+                  '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.\n시작일 : ${orderStartDtController.text} ~ 종료일 : ${orderEndDtController.text}\n모바일 실태조사를 시작하시겠습니까?',
+                  () {
+                    print('실태조사 시작');
+                    selectedIndex.value = 1;
+                    fetchBsnsOwnerDataSource();
+                    Get.back();
+                  },
+                  () {
+                    Get.back();
+                  },
+                );
+
+              },
+              child: SizedBox(
+                width: double.infinity,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 40.h,
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        decoration: ShapeDecoration(
+                          color: Color(0xFF246AEA),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '저장',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// [사업명] 검색
+  Future<void> searchBsnsName(String value) async {
+    print('searchBsnsName : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchBsnsList.value = bsnsList;
+      } else {
+        // 검색결과가 없을 경우
+        //searchBsnsList.value = bsnsList.where((element) => element.title?.contains(value) ?? false).toList();
+        bsnsList.where((element) => element.title?.contains(value) ?? false) != null
+            ? searchBsnsList.value = bsnsList.where((element) => element.title?.contains(value) ?? false).toList()
+            : searchBsnsList.value = [];
+
+        print('searchBsnsList : ${searchBsnsList}');
+
+      }
+    });
+  }
+
+  /// [차수 자동 입력]
+  Future<void> autoSqnc() async {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      // 마지막 차수 가져오기
+      var lastSqnc = bsnsSqnc.last.bsnsSqnc;
+      print('lastOrder : $lastSqnc');
+      orderAutoController.text = (int.parse(lastSqnc.toString()) + 1).toString();
+    });
+  }
+
+
+}

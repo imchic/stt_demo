@@ -1,4 +1,7 @@
-class BsnsModel {
+/// [BsnsSelectModel] 모델 클래스
+
+// 사업선택
+class BsnsSelectModel {
 
   String? title;
   String? subTitle;
@@ -6,30 +9,33 @@ class BsnsModel {
   String? bizCount;
   String? bizArea;
   String? bizDate;
-  bool? select;
-  int? no;
-  int? areaNo;
+  bool? isExpand;
+  bool? isSelect;
+  String? no;
+  String? areaNo;
 
-  BsnsModel({
+  BsnsSelectModel({
     this.title,
     this.subTitle,
     this.bizName,
     this.bizCount,
     this.bizArea,
     this.bizDate,
-    this.select,
+    this.isExpand,
+    this.isSelect,
     this.no,
     this.areaNo,
   });
 
-  BsnsModel.fromJson(Map<String, dynamic> json) {
+  BsnsSelectModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     subTitle = json['subTitle'];
     bizName = json['bizName'];
     bizCount = json['bizCount'];
     bizArea = json['bizArea'];
     bizDate = json['bizDate'];
-    select = json['select'];
+    isExpand = json['isExpand'];
+    isSelect = json['isSelect'];
     no = json['no'];
     areaNo = json['areaNo'];
   }
@@ -42,7 +48,8 @@ class BsnsModel {
     data['bizCount'] = bizCount;
     data['bizArea'] = bizArea;
     data['bizDate'] = bizDate;
-    data['select'] = select;
+    data['isExpand'] = isExpand;
+    data['isSelect'] = isSelect;
     data['no'] = no;
     data['areaNo'] = areaNo;
     return data;

@@ -13,7 +13,7 @@
     </queries>
 
     <application
-        android:label="SpeechToText 앱"
+        android:label="K-water 모바일 토지보상시스템"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
