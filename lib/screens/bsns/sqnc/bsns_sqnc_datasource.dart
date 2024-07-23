@@ -9,7 +9,7 @@ class BsnsSqncDatasource extends DataGridSource {
   BsnsSqncDatasource({required List<BsnsSqncDatasourceModel> items}) {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell<int>(columnName: 'no', value: e.no),
+              // DataGridCell<int>(columnName: 'no', value: e.no),
               DataGridCell<int>(columnName: 'bsnsSqnc', value: e.bsnsSqnc),
               DataGridCell<String>(columnName: 'bsnsStrtDe', value: e.bsnsStrtDe),
               DataGridCell<String>(columnName: 'bsnsEndDe', value: e.bsnsEndDe),

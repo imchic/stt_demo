@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BaseTabBar extends StatefulWidget {
 
+  String type;
   final List<Tab> tabItems;
   final TabController controller;
 
@@ -12,6 +13,7 @@ class BaseTabBar extends StatefulWidget {
   final Color? unActiveColor;
 
   BaseTabBar({
+    this.type = 'login',
     required this.tabItems,
     required this.controller,
     this.activeColor,
@@ -28,17 +30,50 @@ class _BaseTabBarState extends State<BaseTabBar> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: widget.tabItems.length, child: _buildRoundShapeTabBar());
+      length: widget.tabItems.length, child: _buildLoginTabBar());
   }
 
-  /// Color(0xff00163D) is the color of the tab bar
-  /// Color(0xff1D1D1D) is the color of the selected tab
-  /// Color(0xffFFFFFF) is the color of the indicator
-  /// Color(0xffFFFFFF) is the color of the unselected tab
-  /// Color(0xffFFFFFF) is the color of the selected tab
+  /// [_buildTableTabBar] 테이블 탭 바
+  Widget _buildTableTabBar() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Color(0xff00163D),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.r),
+          topRight: Radius.circular(10.r),
+        ),
+      ),
+      child: TabBar(
+        controller: widget.controller,
+        tabs: widget.tabItems,
+        labelColor: Color(0xffFFFFFF),
+        dividerColor: Colors.transparent,
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicator: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.r),
+            topRight: Radius.circular(10.r),
+          ),
+          color: Color(0xffFFFFFF),
+        ),
+        indicatorPadding: EdgeInsets.zero,
+        indicatorWeight: 0,
+        unselectedLabelColor: Color(0xffFFFFFF),
+        labelStyle: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w500,
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
 
-  // custom tab round design
-  Widget _buildRoundShapeTabBar() {
+  /// [_buildLoginTabBar] 로그인 탭 바
+  Widget _buildLoginTabBar() {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -51,9 +86,6 @@ class _BaseTabBarState extends State<BaseTabBar> {
       child: TabBar(
         controller: widget.controller,
         tabs: widget.tabItems,
-        // tabAlignment: TabAlignment.start,
-        // isScrollable: true,
-        // labelPadding: EdgeInsets.symmetric(horizontal: 100.w, vertical: 5.h),
         labelColor: widget.activeTextColor,
         dividerColor: Colors.transparent,
         indicatorSize: TabBarIndicatorSize.tab,

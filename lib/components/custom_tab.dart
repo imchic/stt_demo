@@ -22,6 +22,7 @@ class CustomTab extends StatelessWidget {
         onTap();
       },
       child: Tab(
+        height: 40.h,
         child: Container(
           width: 214.w,
           height: 40.h,
@@ -34,11 +35,11 @@ class CustomTab extends StatelessWidget {
             ),
             border: Border.all(
               color: isSelected ? Color(0xff264DB1) : Color(0xFFD8D8D8),
-              width: 1,
+              width: 0,
             ),
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            //mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -54,7 +55,6 @@ class CustomTab extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 8.w),
               Container(
                 width: 24.w,
                 height: 24.h,
@@ -64,7 +64,7 @@ class CustomTab extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(999)),
                   border: Border.all(
                     color: isSelected ? Color(0xff264DB1) : Color(0xFFD8D8D8),
-                    width: 1,
+                    //width: 1,
                   ),
                 ),
                 child: Row(

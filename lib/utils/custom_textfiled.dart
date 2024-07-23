@@ -34,12 +34,12 @@ class _CustomTextFiledState extends State<CustomTextFiled> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40.h,
       decoration: BoxDecoration(
-        border: Border.all(color: gray300),
+        border: Border.all(color: borderLine),
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: TextField(
+        scrollPadding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         controller: widget.controller,
         readOnly: widget.isReadOnly,
         obscureText: widget.isPassword,
@@ -48,8 +48,9 @@ class _CustomTextFiledState extends State<CustomTextFiled> {
           hintText: widget.hintText,
           hintTextDirection: TextDirection.ltr,
           hintStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
           isDense: true,
-          contentPadding: EdgeInsets.all(12)
+          //contentPadding: EdgeInsets.all(12)
         ),
         onChanged: (value) {
           //print(value);

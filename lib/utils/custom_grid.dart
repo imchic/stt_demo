@@ -60,7 +60,7 @@ class _CustomGridState extends State<CustomGrid> {
       ),
       child: SizedBox(
         child: SfDataGrid(
-          headerRowHeight: 40.h,
+          //headerRowHeight: 60.h,
           highlightRowOnHover: true,
           headerGridLinesVisibility: GridLinesVisibility.both,
           gridLinesVisibility: GridLinesVisibility.both,

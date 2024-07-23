@@ -5,17 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stt_demo/screens/owner/lad/model/owner_lad_info_datasource_model.dart';
 import 'package:stt_demo/screens/owner/lad/owner_lad_info_datasource.dart';
+import 'package:stt_demo/screens/owner/obst/model/owner_obst_info_datasource_model.dart';
 
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../utils/dialog_util.dart';
-import '../../utils/colors.dart';
 import '../../utils/custom_textfiled.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
 import '../owner/datasource/owner_datasource.dart';
 import '../owner/datasource/model/owner_datasource_model.dart';
+import '../owner/obst/owner_obst_info_datasource.dart';
 import 'datasource/bsns_select_area_datasource.dart';
 import 'datasource/model/bsns_select_area_datasource_model.dart';
 import 'select/bsns_select_model.dart';
@@ -30,6 +31,15 @@ class BsnsController extends GetxController
 
   late TextEditingController bsnsNameSearchController; // 사업명 검색
   late TextEditingController bsnsNoSearchController; // 사업번호 검색
+
+  // 소유자관리 소재지 검색
+  late TextEditingController ownerLctnSearchController;
+  // 소유자관리 본번 검색
+  late TextEditingController ownerMlnoLtnoSearchController;
+  // 소유자관리 부번 검색
+  late TextEditingController ownerSlnoLtnoSearchController;
+  // 소유자관리 정보변경 특이사항
+  late TextEditingController ownerEtcController;
 
   late TextEditingController orderAutoController;
   late TextEditingController orderStartDtController;
@@ -48,9 +58,11 @@ class BsnsController extends GetxController
   // 사업선택 탭 아이템
   final bsnsSelectTabItems = [Tab(text: '사업선택'), Tab(text: '사업구역'), Tab(text: '조사차수')];
   final bsnsSelectTabIsSelected = [true, false, false].obs;
+  final bsnsOwnerTabIsSelected = [true, false, false, false].obs;
 
   // 소유자 관리 탭 아이템
   final bsnsOwnerTabItems = [Tab(text: '소유자검색'), Tab(text: '토지정보'), Tab(text: '지장물정보'), Tab(text: '정보변경')];
+
 
   // 실태조사 탭 아이템
   final accdtlnvstgTabItems = [
@@ -79,6 +91,7 @@ class BsnsController extends GetxController
   late DataGridController bsnsOrderDataGridController;
 
   late DataGridController ownerLadInfoDataGridController;
+  late DataGridController ownerObstInfoDataGridController;
 
   late DataGridController accdtlnvstgLadDataGridController;
 
@@ -89,7 +102,7 @@ class BsnsController extends GetxController
   RxList<OwnerDataSourceModel> bsnsOwner = <OwnerDataSourceModel>[].obs;
 
   final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
-  //RxList<OwnerLadInfoModel> ownerLadInfo = <OwnerLadInfoModel>[].obs;
+  final ownerObstInfoDataSource = OwnerObstInfoDatasource(items: []).obs; // 지장물정보
 
   final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
   RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
@@ -136,6 +149,61 @@ class BsnsController extends GetxController
     'mainNumber': double.nan,
     'subNumber': double.nan,
     'publicLandType': double.nan,
+    'gdongNm' : double.nan,
+    'gdongCd' : double.nan,
+    'crtsDivCd' : double.nan,
+    'lnoLtno' : double.nan,
+    'lnoLtno' : double.nan,
+    'bstSeq' : double.nan,
+    'bstDivCd' : double.nan,
+    'mpnstnThingKndDtls' : double.nan,
+    'bstStrctStndrdInfo' : double.nan,
+    'mpnstnQtyAraVu' : double.nan,
+    'mpnstnThingUnitDivCd' : double.nan,
+    'ttusLndcgrDivCd' : double.nan,
+    'cqsPrpDivCd' : double.nan,
+    'ceptncUseDivCd' : double.nan,
+    'ccdtInvstgSqnc' : double.nan,
+    'nvstgDt' : double.nan,
+    'mpnstnStepDivCd' : double.nan,
+    'pcitm' : double.nan,
+    'bsnsSqnc' : double.nan,
+    'bsnsStrtDe' : double.nan,
+    'bsnsEndDe' : double.nan,
+    'ownerNo' : double.nan,
+    'ladLdgrOwnerNm' : double.nan,
+    'ladLdgrPosesnDivCd' : double.nan,
+    'ownerRegisterNo' : double.nan,
+    'ownerTelNo' : double.nan,
+    'ownerPhoneNo' : double.nan,
+    'lgdongNm' : double.nan,
+    'lcrtsDivCd' : double.nan,
+    'mlnoLtno' : double.nan,
+    'slnoLtno' : double.nan,
+    'ofcbkLndcgrDivCd' : double.nan,
+    'sttusLndcgrDivCd' : double.nan,
+    'ofcbkAra' : double.nan,
+    'incrprAra' : double.nan,
+    'cmpnstnInvstgAra' : double.nan,
+    'acqsPrpDivCd' : double.nan,
+    'aceptncPrpDivCd' : double.nan,
+    'accdtInvstgSqnc' : double.nan,
+    'invstgDt' : double.nan,
+    'cmpnstnDtaChnStatDivCd' : double.nan,
+    'etc' : double.nan,
+    'obstSeq' : double.nan,
+    'obstDivCd' : double.nan,
+    'cmpnstnThingKndDtls' : double.nan,
+    'obstStrctStndrdInfo' : double.nan,
+    'cmpnstnQtyAraVu' : double.nan,
+    'cmpnstnThingUnitDivCd' : double.nan,
+    'sttusLndcgrDivCd' : double.nan,
+    'acqsPrpDivCd' : double.nan,
+    'aceptncUseDivCd' : double.nan,
+    'accdtInvstgSqnc' : double.nan,
+    'invstgDt' : double.nan,
+    'cmpnstnStepDivCd' : double.nan,
+    'spcitm' : double.nan,
   }.obs;
 
   @override
@@ -152,6 +220,11 @@ class BsnsController extends GetxController
     ownerNameSearchController = TextEditingController();
     ownerRegisterNoSearchController = TextEditingController();
 
+    ownerLctnSearchController = TextEditingController();
+    ownerMlnoLtnoSearchController = TextEditingController();
+    ownerSlnoLtnoSearchController = TextEditingController();
+    ownerEtcController = TextEditingController();
+
     accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
     bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
     bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
@@ -165,7 +238,12 @@ class BsnsController extends GetxController
     bsnsListDataGridController = DataGridController();
     bsnsOwnerDataGridController = DataGridController();
     bsnsOrderDataGridController = DataGridController();
+
+    // 소유자관리 > 토지정보
     ownerLadInfoDataGridController = DataGridController();
+    // 소유자관리 > 지장물정보
+    ownerObstInfoDataGridController = DataGridController();
+
     accdtlnvstgLadDataGridController = DataGridController();
 
     bsnsTabController.addListener(() {
@@ -193,13 +271,17 @@ class BsnsController extends GetxController
     /// [사업목록] 조회
     await fetchBsnsSelectAreaGridDataSource();
     /// [소유자 및 관리인] 조회
+    await fetchBsnsOwnerDataSource();
+    /// [소유자 및 관리인] 조회
     await fetchAccdtlnvstgLadDataSource();
-    // [차수] 조회
+    /// [차수] 조회
     await fetchBsnsSqncDataSource();
-    // [자동 차수] 조회
+    /// [자동 차수] 조회
     await autoSqnc();
-    // [소유자관리 > 토지정보] 조회
+    /// [소유자관리 > 토지정보] 조회
     await fetchOwnerLadInfoDataSource();
+    /// [소유자관리 > 지장물정보] 조회
+    await fetchOwnerObstInfoDataSource();
   }
 
   @override
@@ -225,11 +307,11 @@ class BsnsController extends GetxController
     radioValue.value = value;
   }
 
-  void handleBsnsSelectListTab(int index) {
-    for (var i = 0; i < bsnsSelectTabIsSelected.length; i++) {
-      bsnsSelectTabIsSelected[i] = false;
+  void handleSelectListTab(RxList<bool> tabSelected, int index) {
+    for (var i = 0; i < tabSelected.length; i++) {
+      tabSelected[i] = false;
     }
-    bsnsSelectTabIsSelected[index] = true;
+    tabSelected[index] = true;
   }
 
   /// [사업목록] 조회
@@ -325,6 +407,34 @@ class BsnsController extends GetxController
       ));
 
       ownerLadInfoDataSource.value = OwnerLadInfoDatasource(items: ownerLadInfo);
+    }
+  }
+
+  /// [소유자관리 > 지장물정보] 조회
+  fetchOwnerObstInfoDataSource() async {
+    var ownerObstInfo = <OwnerObstInfoDatasourceModel>[];
+    for (var i = 0; i < 10; i++) {
+      ownerObstInfo.add(OwnerObstInfoDatasourceModel(
+          lgdongNm: '대전광역시 유성구 봉명동',
+          lcrtsDivCd: '공부지목',
+          mlnoLtno: '12$i',
+          slnoLtno: '45$i',
+          obstSeq: '$i번',
+          obstDivCd: '지장물구분코드',
+          cmpnstnThingKndDtls: '물건의종류',
+          obstStrctStndrdInfo: '구조규격정보',
+          cmpnstnQtyAraVu: '보상수량면적값',
+          cmpnstnThingUnitDivCd: '보상물건단위구분코드',
+          sttusLndcgrDivCd: '현황지목구분코드',
+          acqsPrpDivCd: '취득용도구분코드',
+          aceptncUseDivCd: '수용용도구분코드',
+          accdtInvstgSqnc: i,
+          invstgDt: '2021-10-0$i',
+          cmpnstnStepDivCd: '보상단계구분코드',
+          spcitm: '특이사항'
+      ));
+
+      ownerObstInfoDataSource.value = OwnerObstInfoDatasource(items: ownerObstInfo);
     }
   }
 
@@ -600,7 +710,6 @@ class BsnsController extends GetxController
             InkWell(
               onTap: () {
                 Get.back();
-
                 if (orderStartDtController.text == "") {
                   return DialogUtil.showSnackBar(Get.context!, '시작일을 입력해주세요.');
                 }
@@ -609,54 +718,6 @@ class BsnsController extends GetxController
                   return DialogUtil.showSnackBar(Get.context!, '종료일을 입력해주세요.');
                 }
 
-                /*DialogUtil.showCustomDialog(
-                  Get.context!,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('${selectedBsns.value.title} 사업을 선택하셨습니다.',
-                          style: TextStyle(
-                              fontSize: 16.sp, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 10.h),
-                      Text(
-                        '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(Get.context!).colorScheme.primary,
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        '시작일 : ${orderStartDtController.text} ~ 종료일 : ${orderEndDtController.text}',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                          color: gray500,
-                        ),
-                      ),
-                      SizedBox(height: 40.h),
-                      Text(
-                        '모바일 실태조사를 시작하시겠습니까?',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  () {
-                    print('실태조사 시작');
-                    selectedIndex.value = 1;
-                    fetchBsnsOwnerDataSource();
-                    Get.back();
-                  },
-                  () {
-                    Get.back();
-                  },
-                );*/
-
                 DialogUtil.showAlertDialog(
                   Get.context!,
                   '실태조사 시작',
@@ -664,7 +725,6 @@ class BsnsController extends GetxController
                   () {
                     print('실태조사 시작');
                     selectedIndex.value = 1;
-                    fetchBsnsOwnerDataSource();
                     Get.back();
                   },
                   () {

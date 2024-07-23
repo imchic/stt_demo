@@ -13,7 +13,7 @@ class OwnerDatasource extends DataGridSource {
   OwnerDatasource({required List<OwnerDataSourceModel> items}) {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell<int>(columnName: 'no', value: e.no),
+              // DataGridCell<int>(columnName: 'no', value: e.no),
               DataGridCell<String>(columnName: 'ownerNo', value: e.ownerNo),
               DataGridCell<String>(columnName: 'ladLdgrOwnerNm', value: e.ladLdgrOwnerNm),
               DataGridCell<String>(columnName: 'ladLdgrPosesnDivCd', value: e.ladLdgrPosesnDivCd),
