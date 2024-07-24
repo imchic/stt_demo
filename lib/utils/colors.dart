@@ -12,6 +12,7 @@ const gray200 = Color(0xFFF4F4F4);
 const gray100 = Color(0xFFF5F5F5);
 const gray50 = Color(0xFFFAFAFA);
 
+const tableTextColor = Color(0xFF1D1D1D);
 const borderLine = Color(0xFFD8D8D8);
 
 const textUnselected = Color(0xFF949494);

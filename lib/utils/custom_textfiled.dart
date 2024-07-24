@@ -7,7 +7,7 @@ import 'colors.dart';
 /// [CustomTextFiled] is a custom text field widget
 class CustomTextFiled extends StatefulWidget {
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
   final String hintText;
   final bool isPassword;
@@ -16,13 +16,16 @@ class CustomTextFiled extends StatefulWidget {
   final Null Function(dynamic value) onChanged;
   Null Function()? onTap;
 
+  Color? backgroundColor;
+
   CustomTextFiled({
-    required this.controller,
+    this.controller,
     required this.hintText,
     this.isPassword = false,
     this.isReadOnly = false, required
     this.onChanged,
     this.onTap,
+    this.backgroundColor,
   });
 
   @override
