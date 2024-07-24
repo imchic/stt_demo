@@ -53,14 +53,14 @@ class _CustomGridState extends State<CustomGrid> {
   Widget build(BuildContext context) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-        headerColor: Color(0xffffedf1f5),
+        headerColor: Color(0xFFF6F6F6),
         sortIconColor: Theme.of(Get.context!).colorScheme.secondary,
         selectionColor: Colors.grey[200],
         indentColumnWidth: 0,
       ),
       child: SizedBox(
         child: SfDataGrid(
-          //headerRowHeight: 60.h,
+          headerRowHeight: Get.height * 0.05,
           highlightRowOnHover: true,
           headerGridLinesVisibility: GridLinesVisibility.both,
           gridLinesVisibility: GridLinesVisibility.both,
@@ -76,16 +76,12 @@ class _CustomGridState extends State<CustomGrid> {
           showVerticalScrollbar: true,
           showSortNumbers: true,
           allowSorting: widget.isSort,
-          // allowFiltering: true,
           allowColumnsResizing: true,
           onColumnResizeStart: (ColumnResizeStartDetails details) {
             return true;
           },
           onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
             setState(() {
-              //BsnsSelectController.to.columnWidths[details.column.columnName] = details.width;
-              //columnWidths[details.column.columnName] = details.width;
-              //BsnsSelectController.to.surveyDateWidth.value = details.width;
               BsnsController.to.columnWidths[details.column.columnName] = details.width;
             });
             return true;

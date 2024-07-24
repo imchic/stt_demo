@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:stt_demo/components/base_tabbar.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../../components/base_tabbar.dart';
 import '../../../components/base_header.dart';
 import '../../../components/custom_tab.dart';
 import '../../../utils/custom_textfiled.dart';
 import '../../../utils/dialog_util.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/custom_grid.dart';
-import '../../../utils/custom_sliver_persistent_headerdelegate.dart';
 import '../bsns_controller.dart';
 import '../datasource/model/bsns_select_area_datasource_model.dart';
-import 'bsns_select_model.dart';
 
 /// [BsnsSelectScreen] 사업선택 화면
 class BsnsSelectScreen extends GetView<BsnsController> {
@@ -54,22 +52,26 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                           () => IndexedStack(
                             index: controller.selectedIndex.value,
                             children: [
-                              // 사업선택
+                              /// [사업선택] 화면
                               RefreshIndicator(
                                 onRefresh: () async {
                                   await controller.fetchBsnsList();
                                 },
-                                child: Container(
-                                  color: Color(0xffF6F7FB),
-                                  child: Expanded(child: buildBsnsListView()),
-                                ),
+                                child: Expanded(child: buildBsnsListView()),
                               ),
-                              // 소유자관리
+                              /// [소유자관리] 화면
                               RefreshIndicator(
                                 onRefresh: () async {
                                   await controller.fetchBsnsList();
                                 },
-                                child: Expanded(child: buildOwnerListView()),
+                                child: Expanded(child: buildOwnerView()),
+                              ),
+                              /// [실태조사] 화면
+                              RefreshIndicator(
+                                onRefresh: () async {
+                                  await controller.fetchBsnsList();
+                                },
+                                child: Expanded(child: buildAccdtInvstgView()),
                               ),
                             ],
                           ),
@@ -144,7 +146,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   }
 
   /// [buildRightSideView] 오른쪽 뷰
-  Widget buildRightSideView() {
+  /*Widget buildRightSideView() {
     return Container(
       margin: EdgeInsets.only(top: 10.h),
       child: Padding(
@@ -169,7 +171,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         ),
       ),
     );
-  }
+  }*/
 
   /// [buildLeftVerticalMenu] 왼쪽 메뉴 버튼
   Widget buildLeftVerticalMenu() {
@@ -465,7 +467,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           padding: EdgeInsets.all(20.r),
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 1, color: borderLine),
+              side: BorderSide(width: 0, color: borderLine),
               borderRadius: BorderRadius.circular(8.r),
             ),
           ),
@@ -511,8 +513,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                     return InkWell(
                       onTap: () {
                         DialogUtil.showAlertDialog(context, '사업구역 선택',
-                            '${controller.searchBsnsList[index].title} \n사업을 선택하시겠습니까?',
-                            () {
+                            '${controller.searchBsnsList[index].title} \n사업을 선택하시겠습니까?', () {
                           controller.selectedBsns.value =
                               controller.searchBsnsList[index];
                           controller.bsnsTabController.animateTo(1);
@@ -534,8 +535,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                               decoration: ShapeDecoration(
                                 color: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      width: 1, color: Color(0xffD8D8D8)),
+                                  side: BorderSide(width: 0, color: borderLine),
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
                               ),
@@ -1020,21 +1020,11 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                 children: [
                   Expanded(
                     child: Obx(
-                      () => TabBar(
+                      () =>
+                      BaseTabBar(
                         controller: controller.bsnsTabController,
-                        isScrollable: true,
-                        padding: EdgeInsets.zero,
-                        labelPadding: EdgeInsets.zero,
-                        tabAlignment: TabAlignment.start,
-                        indicatorSize: TabBarIndicatorSize.label,
-                        indicator: BoxDecoration(
-                          color: Colors.transparent,
-                        ),
-                        indicatorWeight: 0.0,
-                        indicatorColor: Colors.transparent,
-                        indicatorPadding: EdgeInsets.zero,
-                        dividerColor: Colors.transparent,
-                        tabs: [
+                        unActiveColor: Colors.white,
+                        tabItems: [
                           CustomTab(
                               title: '사업선택',
                               isSelected: controller.bsnsSelectTabIsSelected[0],
@@ -1042,7 +1032,10 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 controller.bsnsTabController.animateTo(0);
                                 controller.handleSelectListTab(
                                     controller.bsnsSelectTabIsSelected, 0);
-                              }),
+                              },
+                              selectedColor: tabSelectColor,
+                              unselectedColor: tabUnSelectColor
+                          ),
                           CustomTab(
                               title: '사업구역',
                               isSelected: controller.bsnsSelectTabIsSelected[1],
@@ -1050,7 +1043,10 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 controller.bsnsTabController.animateTo(1);
                                 controller.handleSelectListTab(
                                     controller.bsnsSelectTabIsSelected, 1);
-                              }),
+                              },
+                              selectedColor: tabSelectColor,
+                              unselectedColor: tabUnSelectColor
+                          ),
                           CustomTab(
                               title: '조사차수',
                               isSelected: controller.bsnsSelectTabIsSelected[2],
@@ -1058,7 +1054,10 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 controller.bsnsTabController.animateTo(2);
                                 controller.handleSelectListTab(
                                     controller.bsnsSelectTabIsSelected, 2);
-                              }),
+                              },
+                              selectedColor: tabSelectColor,
+                              unselectedColor: tabUnSelectColor
+                          ),
                         ],
                       ),
                     ),
@@ -1069,14 +1068,126 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             Expanded(
                 child: TabBarView(
               controller: controller.bsnsTabController,
-              physics: NeverScrollableScrollPhysics(),
               children: [
+
+                // [사업선택 -> 사업목록]
                 buildBsnsCard(),
-                Expanded(child: buildBsnsSelectAreaListDataGrid()),
+
+                // [사업선택 -> 사업구역]
+                Container(
+                  width: Get.width,
+                  padding: EdgeInsets.all(20.r),
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 0, color: borderLine),
+                      borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                    ),
+                  ),
+                  child: SizedBox(
+                    width: Get.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '전체',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                ' ${controller.searchBsnsList.length}',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '건',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                        Expanded(child: buildBsnsSelectAreaListDataGrid())
+                      ],
+                    ),
+                  ),
+                ),
+
+                // [사업선택 -> 조사차수]
                 Expanded(
                     child: Column(
                   children: [
-                    Expanded(child: buildBsnsSqncDataGrid()),
+                    //Expanded(child: buildBsnsSqncDataGrid()),
+                    Expanded(
+                      child: Container(
+                        width: Get.width,
+                        padding: EdgeInsets.all(20.r),
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 0, color: borderLine),
+                            borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: Get.width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: '전체',
+                                      style: TextStyle(
+                                        color: Color(0xFF1D1D1D),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                      ' ${controller.searchBsnsList.length}',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '건',
+                                      style: TextStyle(
+                                        color: Color(0xFF1D1D1D),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 20.h),
+                              Expanded(child: buildBsnsSqncDataGrid())
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -1113,8 +1224,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
-  /// [buildOwnerListView] 사업소유자 리스트뷰
-  Widget buildOwnerListView() {
+  /// [buildOwnerView] 사업소유자 리스트뷰
+  Widget buildOwnerView() {
     return Container(
       width: Get.width,
       height: Get.height,
@@ -1137,63 +1248,56 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Obx(
-                      () => TabBar(
-                        controller: controller.bsnsOwnerTabController,
-                        isScrollable: true,
-                        padding: EdgeInsets.zero,
-                        labelPadding: EdgeInsets.zero,
-                        tabAlignment: TabAlignment.start,
-                        indicatorSize: TabBarIndicatorSize.label,
-                        indicator: BoxDecoration(
-                          color: Colors.transparent,
-                        ),
-                        indicatorWeight: 0.0,
-                        indicatorColor: Colors.transparent,
-                        indicatorPadding: EdgeInsets.zero,
-                        dividerColor: Colors.transparent,
-                        tabs: [
-                          CustomTab(
-                              title: '소유자검색',
-                              isSelected: controller.bsnsOwnerTabIsSelected[0],
-                              onTap: () {
-                                controller.bsnsOwnerTabController.animateTo(0);
-                                controller.handleSelectListTab(
-                                    controller.bsnsOwnerTabIsSelected, 0);
-                              }),
-                          CustomTab(
-                              title: '토지정보',
-                              isSelected: controller.bsnsOwnerTabIsSelected[1],
-                              onTap: () {
-                                controller.bsnsOwnerTabController.animateTo(1);
-                                controller.handleSelectListTab(
-                                    controller.bsnsOwnerTabIsSelected, 1);
-                              }),
-                          CustomTab(
-                              title: '지장물정보',
-                              isSelected: controller.bsnsOwnerTabIsSelected[2],
-                              onTap: () {
-                                controller.bsnsOwnerTabController.animateTo(2);
-                                controller.handleSelectListTab(
-                                    controller.bsnsOwnerTabIsSelected, 2);
-                              }),
-                          CustomTab(
-                              title: '정보변경',
-                              isSelected: controller.bsnsOwnerTabIsSelected[3],
-                              onTap: () {
-                                controller.bsnsOwnerTabController.animateTo(3);
-                                controller.handleSelectListTab(
-                                    controller.bsnsOwnerTabIsSelected, 3);
-                              }),
-                        ],
-                      ),
+                    child: Obx(() =>
+                      BaseTabBar(tabItems: [
+                        CustomTab(
+                            title: '소유자검색',
+                            isSelected: controller.bsnsOwnerTabIsSelected[0],
+                            onTap: () {
+                              controller.bsnsOwnerTabController.animateTo(0);
+                              controller.handleSelectListTab(
+                                  controller.bsnsOwnerTabIsSelected, 0);
+                            },
+                            selectedColor: tabSelectColor,
+                            unselectedColor: tabUnSelectColor),
+                        CustomTab(
+                            title: '토지정보',
+                            isSelected: controller.bsnsOwnerTabIsSelected[1],
+                            onTap: () {
+                              controller.bsnsOwnerTabController.animateTo(1);
+                              controller.handleSelectListTab(
+                                  controller.bsnsOwnerTabIsSelected, 1);
+                            },
+                            selectedColor: tabSelectColor,
+                            unselectedColor: tabUnSelectColor),
+                        CustomTab(
+                            title: '지장물정보',
+                            isSelected: controller.bsnsOwnerTabIsSelected[2],
+                            onTap: () {
+                              controller.bsnsOwnerTabController.animateTo(2);
+                              controller.handleSelectListTab(
+                                  controller.bsnsOwnerTabIsSelected, 2);
+                            },
+                            selectedColor: tabSelectColor,
+                            unselectedColor: tabUnSelectColor),
+                        CustomTab(
+                            title: '정보변경',
+                            isSelected: controller.bsnsOwnerTabIsSelected[3],
+                            onTap: () {
+                              controller.bsnsOwnerTabController.animateTo(3);
+                              controller.handleSelectListTab(
+                                  controller.bsnsOwnerTabIsSelected, 3);
+                            },
+                            selectedColor: tabSelectColor,
+                            unselectedColor: tabUnSelectColor),
+                      ], controller: controller.bsnsOwnerTabController),
                     ),
                   ),
                 ],
               ),
             ),
             Expanded(
-                child: TabBarView(
+              child: TabBarView(
               controller: controller.bsnsOwnerTabController,
               physics: NeverScrollableScrollPhysics(),
               children: [
@@ -1282,25 +1386,31 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 SizedBox(width: 10.w),
                                 // 본번
                                 Flexible(
-                                  child: CustomTextFiled(
-                                    controller: controller
-                                        .ownerMlnoLtnoSearchController,
-                                    hintText: '본번',
-                                    onChanged: (value) {
-                                      //controller.searchBsnsName(value);
-                                    },
+                                  child: SizedBox(
+                                    height: 40.h,
+                                    child: CustomTextFiled(
+                                      controller: controller
+                                          .ownerMlnoLtnoSearchController,
+                                      hintText: '본번',
+                                      onChanged: (value) {
+                                        //controller.searchBsnsName(value);
+                                      },
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: 4.w),
                                 // 부번
                                 Flexible(
-                                  child: CustomTextFiled(
-                                    controller: controller
-                                        .ownerSlnoLtnoSearchController,
-                                    hintText: '부번',
-                                    onChanged: (value) {
-                                      //controller.searchBsnsName(value);
-                                    },
+                                  child: SizedBox(
+                                    height: 40.h,
+                                    child: CustomTextFiled(
+                                      controller: controller
+                                          .ownerSlnoLtnoSearchController,
+                                      hintText: '부번',
+                                      onChanged: (value) {
+                                        //controller.searchBsnsName(value);
+                                      },
+                                    ),
                                   ),
                                 ),
                               ],
@@ -1369,13 +1479,123 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                     ),
                   ],
                 ),
-                Expanded(child: buildOwnerLadInfoDataGrid()),
-                Expanded(child: buildOwnerObstInfoDataGrid()),
+                /// [소유자관리 -> 토지정보]
+                Expanded(child: Container(
+                  width: Get.width,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 0, color: borderLine),
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8),
+                      ),
+                    ),
+                  ),
+                  padding: EdgeInsets.all(20.r),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '전체',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ' ${controller.searchBsnsList.length}',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '건',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                        Expanded(child: buildOwnerLadInfoDataGrid()),
+                      ],
+                    ))
+                ),
+                /// [소유자관리 -> 지장물정보]
+                //Expanded(child: Container(child: buildOwnerObstInfoDataGrid())),
+                Expanded(child: Container(
+                    width: Get.width,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 0, color: borderLine),
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(8),
+                          bottomLeft: Radius.circular(8),
+                          bottomRight: Radius.circular(8),
+                        ),
+                      ),
+                    ),
+                    padding: EdgeInsets.all(20.r),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '전체',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ' ${controller.searchBsnsList.length}',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '건',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                        Expanded(child: buildOwnerObstInfoDataGrid()),
+                      ],
+                    ))
+                ),
+                /// [소유자관리 -> 정보변경]
                 Expanded(
                     child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Container(
+                      /*Container(
                         width: Get.width,
                         padding: EdgeInsets.all(20.r),
                         decoration: ShapeDecoration(
@@ -1394,8 +1614,16 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(
+                                Container(
                                   height: 24.h,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.w),
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFFEFF5FF),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
                                   child: Row(
                                     children: [
                                       Text(
@@ -1422,11 +1650,19 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                   ),
                                 ),
                                 SizedBox(width: 10.w),
-                                SizedBox(
-                                  height: 24.h,
-                                  child: Row(
-                                    children: [
-                                      Text(
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 12.w),
+                                      decoration: ShapeDecoration(
+                                        color: Color(0xFFEFF5FF),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                      ),
+                                      child: Text(
                                         '주민등록번호',
                                         style: TextStyle(
                                           color: Color(0xFF1D1D1D),
@@ -1434,18 +1670,18 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
-                                      SizedBox(width: 10.w),
-                                      Text(
-                                        '123456-1234567',
-                                        style: TextStyle(
-                                          color: Color(0xFF1D1D1D)
-                                              .withOpacity(0.5),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Text(
+                                      '123456-1234567',
+                                      style: TextStyle(
+                                        color:
+                                            Color(0xFF1D1D1D).withOpacity(0.5),
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -1592,7 +1828,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                             ),
                           ],
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                 )),
@@ -1604,341 +1840,345 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
-  /// [buldAccdtlnvstgListView] 실태조사 리스트뷰
-  Widget buldAccdtlnvstgListView() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BaseTabBar(
-            tabItems: controller.accdtlnvstgTabItems,
-            controller: controller.accdtlnvstgTabController,
-            activeColor: Color(0xff1D1D1D),
-            activeTextColor: Colors.white,
-            unActiveTextColor: Colors.white,
-          ),
-          // 사업명
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('사업명',
-                              style: TextStyle(
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: gray800)),
-                          SizedBox(width: 10.w),
-                          Text(
-                            controller.searchBsnsList[0].title ?? '',
-                            style: TextStyle(fontSize: 10.sp),
-                          ),
-                          SizedBox(width: 10.w),
-                          Text('사업구역명',
-                              style: TextStyle(
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: gray800)),
-                          SizedBox(width: 10.w),
-                          Text(
-                            controller.searchBsnsList[0].bizName ?? '',
-                            style: TextStyle(fontSize: 10.sp),
-                          ),
-                        ],
-                      ),
-                      // Divider(color: gray300),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: controller.accdtlnvstgTabController,
-              children: [
-                //  탭바 중첩
-                Column(
-                  children: [
-                    BaseTabBar(
-                      tabItems: controller.accdtlnvstgLadTabItems,
-                      controller: controller.accdtlnvstgLadTabController,
-                      activeColor: Color(0xff1D1D1D),
-                      activeTextColor: Colors.white,
-                      unActiveTextColor: Colors.white,
-                    ),
-                    Divider(color: gray300),
-                    Expanded(
-                      child: TabBarView(
-                        controller: controller.accdtlnvstgLadTabController,
-                        children: [
-                          // buildAccdtlnvstgLadDataGrid(),
-                          // Text('2'),
-                          // Text('3'),
-                          // Text('4'),
-                          // buildBsnsListDataGrid(),
-                          // buildBsnsListDataGrid(),
-                          // buildBsnsListDataGrid(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// [buildBsnsDetailGridView] 실태조사 그리드 뷰
-  Widget buildBsnsDetailGridView(BsnsSelectModel bsns) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverPersistentHeader(
-          pinned: true,
-          floating: false,
-          delegate: CustomSliverPersistentHeaderDelegate(
-            minHeight: 70.0,
-            maxHeight: 70.0,
-            child: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 58.h,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffeff5ff),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          //controller.search();
-                        },
-                        child: Text('댐',
-                            style: TextStyle(
-                                color: Color(0xff1d56bc), fontSize: 12.sp)),
-                      ),
-                    ),
-                    SizedBox(width: 10.h),
-                    Container(
-                      height: 58.h,
-                      decoration: BoxDecoration(
-                        color: const Color(0xfffff1e4),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          //controller.search();
-                        },
-                        child: Text('건설',
-                            style: TextStyle(
-                                color: Color(0xffff7f00), fontSize: 12.sp)),
-                      ),
-                    ),
-                    SizedBox(width: 10.w),
-                    Expanded(
-                      child: Text(
-                        bsns.title ?? '',
-                        style: TextStyle(
-                            fontSize: 10.sp, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    const Divider(color: gray300),
-                  ],
-                )),
-          ),
+  /// [buildAccdtInvstgView] 실태조사
+  Widget buildAccdtInvstgView() {
+    return Container(
+      width: Get.width,
+      height: Get.height,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10.r),
         ),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '사업구역명',
-                  style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: gray800),
-                ),
-                SizedBox(height: 20.h),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 58.h,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            contentPadding: const EdgeInsets.all(8),
-                            hintText: '${bsns.bizName}',
-                            hintStyle: TextStyle(fontSize: 12.sp),
-                          ),
-                          readOnly: true,
-                        ),
-                      ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0.h),
+        child: Column(
+          children: [
+            SizedBox(height: 24.h),
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Obx(() =>
+                      BaseTabBar(tabItems: [
+                        CustomTab(
+                            title: '토지조사',
+                            isSelected: controller.accdtlnvstgTabIsSelected[0],
+                            onTap: () {
+                              controller.accdtlnvstgTabController.animateTo(0);
+                              controller.handleSelectListTab(
+                                  controller.accdtlnvstgTabIsSelected, 0);
+                            },
+                            selectedColor: tabSelectColor,
+                            unselectedColor: tabUnSelectColor),
+                        CustomTab(
+                            title: '지장물 조사',
+                            isSelected: controller.accdtlnvstgTabIsSelected[1],
+                            onTap: () {
+                              controller.accdtlnvstgTabController.animateTo(1);
+                              controller.handleSelectListTab(
+                                  controller.accdtlnvstgTabIsSelected, 1);
+                            },
+                            selectedColor: tabSelectColor,
+                            unselectedColor: tabUnSelectColor),
+                      ], controller: controller.accdtlnvstgTabController),
                     ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                Text(
-                  '소재지',
-                  style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: gray800),
-                ),
-                SizedBox(height: 20.h),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 58.h,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            contentPadding: const EdgeInsets.all(8),
-                            hintText: '읍면동',
-                            hintStyle: TextStyle(fontSize: 12.sp),
-                          ),
-                          readOnly: true,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10.w),
-                    Expanded(
-                      child: SizedBox(
-                        height: 58.h,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            contentPadding: const EdgeInsets.all(8),
-                            hintText: '본번',
-                            hintStyle: TextStyle(fontSize: 12.sp),
-                          ),
-                          readOnly: true,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10.w),
-                    Expanded(
-                      child: SizedBox(
-                        height: 58.h,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            contentPadding: const EdgeInsets.all(8),
-                            hintText: '부번',
-                            hintStyle: TextStyle(fontSize: 12.sp),
-                          ),
-                          readOnly: true,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                Text(
-                  '실태조사 차수 선택',
-                  style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: gray800),
-                ),
-                SizedBox(height: 20.h),
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 58.h,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          controller.getSelectOrder();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor: const Color(0xffeff5ff),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            side: const BorderSide(color: Color(0xff1d56bc)),
-                          ),
-                        ),
-                        child: Text('선택',
-                            style: TextStyle(
-                                color: Color(0xff1d56bc), fontSize: 12.sp)),
-                      ),
-                    ),
-                    SizedBox(width: 10.w),
-                    Expanded(
-                      child: SizedBox(
-                        height: 58.h,
-                        child: TextField(
-                          controller: controller.orderController,
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 8.w, vertical: 8.h),
-                            hintText: '선택된 차수 표시',
-                            hintStyle: TextStyle(fontSize: 12.sp),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                // 조회 버튼
-                SizedBox(
-                  width: Get.width,
-                  height: 58.h,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff2d2d2d),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                    ),
-                    onPressed: () {
-                      //controller.getBusinessList();
-                    },
-                    child: Text('조회',
-                        style: TextStyle(
-                            fontSize: 12.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold)),
                   ),
-                ),
-                SizedBox(height: 20.h),
-                buildBsnsOwnerDataGrid(),
-              ],
+                ],
+              ),
             ),
-          )
-        ])),
-      ],
+            Obx(() =>
+              Expanded(
+                  child: TabBarView(
+                    controller: controller.accdtlnvstgLadTabController,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: [
+                      /// 토지조사 상세 탭
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10.h),
+                            BaseTabBar(tabItems: [
+                              CustomTab(
+                                  title: '토지검색',
+                                  isSelected: controller.accdtlnvstgTabLadSelected[0],
+                                  onTap: () {
+                                    controller.accdtlnvstgLadTabController.animateTo(0);
+                                    controller.handleSelectListTab(
+                                        controller.accdtlnvstgTabLadSelected, 0);
+                                  },
+                                  selectedColor: subTabSelectColor,
+                                  unselectedColor: tabUnSelectColor
+                              ),
+                              CustomTab(
+                                  title: '소유자/관계인',
+                                  isSelected: controller.accdtlnvstgTabLadSelected[1],
+                                  onTap: () {
+                                    controller.accdtlnvstgLadTabController.animateTo(1);
+                                    controller.handleSelectListTab(
+                                        controller.accdtlnvstgTabLadSelected, 1);
+                                  },
+                                  selectedColor: subTabSelectColor,
+                                  unselectedColor: tabUnSelectColor
+                              ),
+                              CustomTab(
+                                  title: '조사내용',
+                                  isSelected: controller.accdtlnvstgTabLadSelected[2],
+                                  onTap: () {
+                                    controller.accdtlnvstgLadTabController.animateTo(2);
+                                    controller.handleSelectListTab(
+                                        controller.accdtlnvstgTabLadSelected, 2);
+                                  },
+                                  selectedColor: subTabSelectColor,
+                                  unselectedColor: tabUnSelectColor
+                              ),
+                            ], controller: controller.accdtlnvstgLadTabController),
+                            Expanded(
+                              child: TabBarView(
+                                controller: controller.accdtlnvstgLadTabController,
+                                children: [
+                                  /// 토지조사 - 토지검색
+                                  Column(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(20.r),
+                                        decoration: ShapeDecoration(
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            side: BorderSide(width: 0, color: borderLine),
+                                            borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(8),
+                                              bottomLeft: Radius.circular(8),
+                                              bottomRight: Radius.circular(8),
+                                            ),
+                                          ),
+                                        ),
+                                        child: SizedBox(
+                                          width: Get.width,
+                                          child: Column(
+                                            children: [
+                                              // 토지조사 검색
+                                              Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Expanded(
+                                                    child: SizedBox(
+                                                      height: 40.h,
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.center,
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: SizedBox(
+                                                              height: 24.h,
+                                                              child: Row(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment.start,
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment.start,
+                                                                children: [
+                                                                  Text(
+                                                                    '소재지',
+                                                                    style: TextStyle(
+                                                                      color: Color(0xFF1D1D1D),
+                                                                      fontSize: 16.sp,
+                                                                      fontWeight: FontWeight.w500,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 12.w),
+                                                          Expanded(
+                                                            flex: 5,
+                                                            child: Row(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.start,
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment.center,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: CustomTextFiled(
+                                                                    controller: controller.ownerLctnSearchController,
+                                                                    hintText: '소재지를 입력해주세요',
+                                                                    onChanged: (value) {
+                                                                      //controller.searchBsnsName(value);
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10.w),
+                                                  // 본번
+                                                  Flexible(
+                                                    child: SizedBox(
+                                                      height: 40.h,
+                                                      child: CustomTextFiled(
+                                                        controller: controller.ownerMlnoLtnoSearchController,
+                                                        hintText: '본번',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 4.w),
+                                                  // 부번
+                                                  Flexible(
+                                                    child: SizedBox(
+                                                      height: 40.h,
+                                                      child: CustomTextFiled(
+                                                        controller: controller.ownerSlnoLtnoSearchController,
+                                                        hintText: '부번',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 10.h),
+                                              // 취득용도
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '취득용도',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF1D1D1D),
+                                                      fontSize: 16.sp,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10.w),
+                                                  Container(
+                                                    width: 200.w,
+                                                    height: 40.h,
+                                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                                    decoration: ShapeDecoration(
+                                                      color: Color(0xFFEFF5FF),
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(4),
+                                                      ),
+                                                    ),
+                                                    child: DropdownButton<String>(
+                                                      isExpanded: true,
+                                                      value: controller.selectedPurpose.value,
+                                                      icon: const Icon(Icons.arrow_drop_down),
+                                                      iconSize: 24,
+                                                      elevation: 16,
+                                                      style: TextStyle(color: Theme.of(Get.context!).colorScheme.primary),
+                                                      underline: Container(
+                                                        height: 2,
+                                                        color: Colors.transparent,
+                                                      ),
+                                                      onChanged: (String? newValue) {
+                                                        controller.selectedPurpose.value = newValue!;
+                                                      },
+                                                      items: controller.purposeList
+                                                          .map<DropdownMenuItem<String>>((String value) {
+                                                        return DropdownMenuItem<String>(
+                                                          value: value,
+                                                          child: Text(value),
+                                                        );
+                                                      }).toList(),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 20.h),
+                                      Expanded(
+                                        child: Container(
+                                          padding: EdgeInsets.all(20.r),
+                                          decoration: ShapeDecoration(
+                                            //color: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(width: 0, color: borderLine),
+                                              borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                                            ),
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                      text: '전체',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF1D1D1D),
+                                                        fontSize: 15.sp,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    TextSpan(
+                                                      text:
+                                                      ' ${controller.searchBsnsList.length}',
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 15.sp,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    TextSpan(
+                                                      text: '건',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF1D1D1D),
+                                                        fontSize: 15.sp,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(height: 20.h),
+                                              Expanded(child: buildOwnerLadInfoDataGrid())
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text('소유자/관계인'),
+                                  Text('조사내용'),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                ],
+              )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -2119,8 +2359,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           '${controller.bsnsSelectAreaDataSource.value.bsnsZoneNm} 사업을 선택하시겠습니까?',
           () {
             controller.bsnsTabController.animateTo(2);
-            controller.handleSelectListTab(
-                controller.bsnsSelectTabIsSelected, 2);
+            controller.handleSelectListTab(controller.bsnsSelectTabIsSelected, 2);
             Get.back();
           },
           () {
@@ -2254,9 +2493,9 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             alignment: Alignment.center,
             child: Text(label,
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w700,
                     fontSize: 12.sp,
-                    color: gray700))));
+                    color: Color(0xFF1D1D1D)))));
   }
 
   /// [buildBsnsSearch] 검색

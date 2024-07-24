@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../components/base_tabbar.dart';
 import '../../utils/colors.dart';
 import 'login_controller.dart';
 
@@ -45,7 +44,7 @@ class LoginScreen extends GetView<LoginController> {
           Container(
             color: Colors.transparent,
             width: Get.width * 0.65,
-            height: Get.height * 0.85,
+            height: Get.height * 0.75,
             margin: EdgeInsets.only(top: 64.h, left: 308.w, right: 308.w),
             padding: EdgeInsets.all(24.r),
             child: Column(
@@ -54,7 +53,8 @@ class LoginScreen extends GetView<LoginController> {
                 Column(
                   children: [
                     SizedBox(
-                      child: SvgPicture.asset('assets/images/ic_kwater_logo.svg',
+                      child: SvgPicture.asset(
+                        'assets/images/ic_kwater_logo.svg',
                       ),
                     ),
                     Text('현장조사 모바일',
@@ -69,7 +69,6 @@ class LoginScreen extends GetView<LoginController> {
                 Expanded(
                   child: Container(
                     width: 408.w,
-                    height: 366.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12.r),
@@ -88,39 +87,70 @@ class LoginScreen extends GetView<LoginController> {
   Widget _buildLoginBox() {
     return Column(
       children: [
-        Expanded(
-          child: Column(
-            children: [
-              BaseTabBar(
-                controller: controller.loginTypeTabController,
-                tabItems: controller.loginTypeTabItems,
-                activeColor: Colors.white,
-                activeTextColor: Color(0xff1D1D1D),
-                unActiveColor: Color(0xff00163D),
-                unActiveTextColor: Colors.white,
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xff00163D),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.r),
+              topRight: Radius.circular(10.r),
+            ),
+          ),
+          child: TabBar(
+            controller: controller.loginTypeTabController,
+            tabs: controller.loginTypeTabItems,
+            labelColor: Color(0xFF1D1D1D),
+            dividerColor: Colors.transparent,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.r),
+                topRight: Radius.circular(10.r),
               ),
+              color: Color(0xFFFFFFFF)
+            ),
+            indicatorPadding: EdgeInsets.zero,
+            indicatorWeight: 0,
+            unselectedLabelColor: Colors.white,
+            labelStyle: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(24.r),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // SizedBox(height: 10.h),
+              // _buildIdField(),
+              // SizedBox(height: 10.h),
+              // _buildPasswordField(),
+              // SizedBox(height: 10.h),
+              // _buildAutoLogin(),
+              // SizedBox(height: 10.h),
+              // _buildLoginButton(),
+              // SizedBox(height: 10.h),
+              // _buildFindIdPassword(),
+              // SizedBox(height: 10.h),
+              // _buildBiometricButton(),
+              _buildIdField(),
               SizedBox(height: 10.h),
-              Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(24.r),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildIdField(),
-                        SizedBox(height: 10.h),
-                        _buildPasswordField(),
-                        SizedBox(height: 10.h),
-                        _buildAutoLogin(),
-                        SizedBox(height: 10.h),
-                        _buildLoginButton(),
-                        SizedBox(height: 10.h),
-                        _buildFindIdPassword(),
-                        SizedBox(height: 10.h),
-                        _buildBiometricButton(),
-                      ],
-                    ),
-                  )),
+              _buildPasswordField(),
+              SizedBox(height: 10.h),
+              _buildAutoLogin(),
+              SizedBox(height: 10.h),
+              _buildLoginButton(),
+              SizedBox(height: 10.h),
+              _buildFindIdPassword(),
+              SizedBox(height: 10.h),
+              _buildBiometricButton(),
             ],
           ),
         ),
@@ -129,8 +159,8 @@ class LoginScreen extends GetView<LoginController> {
   }
 
   Widget _buildAutoLogin() {
-    return Obx(() =>
-      Row(
+    return Obx(
+      () => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

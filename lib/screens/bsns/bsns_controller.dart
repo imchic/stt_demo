@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:stt_demo/screens/owner/lad/model/owner_lad_info_datasource_model.dart';
 import 'package:stt_demo/screens/owner/lad/owner_lad_info_datasource.dart';
 import 'package:stt_demo/screens/owner/obst/model/owner_obst_info_datasource_model.dart';
@@ -57,30 +58,29 @@ class BsnsController extends GetxController
 
   // 사업선택 탭 아이템
   final bsnsSelectTabItems = [Tab(text: '사업선택'), Tab(text: '사업구역'), Tab(text: '조사차수')];
+
   final bsnsSelectTabIsSelected = [true, false, false].obs;
   final bsnsOwnerTabIsSelected = [true, false, false, false].obs;
+  final accdtlnvstgTabIsSelected = [true, false].obs;
+  final accdtlnvstgTabLadSelected = [true, false, false].obs;
+  final accdtlnvstgTabObstSelected = [true, false].obs;
 
   // 소유자 관리 탭 아이템
   final bsnsOwnerTabItems = [Tab(text: '소유자검색'), Tab(text: '토지정보'), Tab(text: '지장물정보'), Tab(text: '정보변경')];
 
-
   // 실태조사 탭 아이템
-  final accdtlnvstgTabItems = [
-    Tab(text: '토지조사'),
-    Tab(text: '지장물조사'),
-    Tab(text: 'GIS')
-  ];
+  final accdtlnvstgTabItems = [Tab(text: '토지조사'), Tab(text: '지장물 조사')];
+
   // 실태조사 토지조서 탭 아이템
-  final accdtlnvstgLadTabItems = [
-    Tab(text: '토지내역'),
-    Tab(text: '조사내용'),
-    Tab(text: '소유자 및 관계인'),
-    Tab(text: '지장물정보')
-  ];
+  final accdtlnvstgLadTabItems = [Tab(text: '토지검색'), Tab(text: '소유자/관계인'), Tab(text: '조사내용')];
+
+  // 실태조사 지장물 조사 탭 아이템
+  final accdtlnvstgObstTabItems = [Tab(text: '지장물검색'), Tab(text: '조사내용')];
 
   late TabController bsnsTabController;
   late TabController accdtlnvstgTabController;
   late TabController accdtlnvstgLadTabController;
+  late TabController accdtlnvstgObstTabController;
 
   late TabController bsnsOwnerTabController;
 
@@ -206,6 +206,10 @@ class BsnsController extends GetxController
     'spcitm' : double.nan,
   }.obs;
 
+  RxString selectedPurpose = '단지구역'.obs;
+  // purpose list
+  RxList<String> purposeList = ['단지구역', '토취장', '진입도로', '문화재구역', '도로', '침수구역', '잔여부지', '정수시설', '송수관로', '도수관로', '가압시설', '일시사용'].obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -229,6 +233,7 @@ class BsnsController extends GetxController
     bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
     bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
     accdtlnvstgLadTabController = TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
+    accdtlnvstgObstTabController = TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
 
     orderController = TextEditingController();
 
@@ -492,7 +497,7 @@ class BsnsController extends GetxController
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               height: 140.h,
               child: Column(
@@ -500,7 +505,7 @@ class BsnsController extends GetxController
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 40.h,
                     child: Row(
@@ -508,7 +513,7 @@ class BsnsController extends GetxController
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 80.w,
                           height: 24.h,
                           child: Row(
@@ -529,7 +534,7 @@ class BsnsController extends GetxController
                         ),
                         SizedBox(width: 12.w),
                         Expanded(
-                          child: Container(
+                          child: SizedBox(
                             height: 40.h,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -558,7 +563,7 @@ class BsnsController extends GetxController
                     ),
                   ),
                   SizedBox(height: 10.h),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 40.h,
                     child: Row(
@@ -566,7 +571,7 @@ class BsnsController extends GetxController
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 80.w,
                           height: 24.h,
                           child: Row(
@@ -579,7 +584,6 @@ class BsnsController extends GetxController
                                 style: TextStyle(
                                   color: Color(0xFF1D1D1D),
                                   fontSize: 16.sp,
-                                  fontFamily: 'Pretendard',
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -588,7 +592,7 @@ class BsnsController extends GetxController
                         ),
                         SizedBox(width: 12.w),
                         Expanded(
-                          child: Container(
+                          child: SizedBox(
                             height: 40.h,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -631,7 +635,7 @@ class BsnsController extends GetxController
                     ),
                   ),
                   SizedBox(height: 10.h),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 40.h,
                     child: Row(
@@ -639,7 +643,7 @@ class BsnsController extends GetxController
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 80.w,
                           height: 24.h,
                           child: Row(
@@ -661,7 +665,7 @@ class BsnsController extends GetxController
                         ),
                         SizedBox(width: 12.w),
                         Expanded(
-                          child: Container(
+                          child: SizedBox(
                             height: 40.h,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -724,7 +728,7 @@ class BsnsController extends GetxController
                   '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.\n시작일 : ${orderStartDtController.text} ~ 종료일 : ${orderEndDtController.text}\n모바일 실태조사를 시작하시겠습니까?',
                   () {
                     print('실태조사 시작');
-                    selectedIndex.value = 1;
+                    selectedIndex.value = 2;
                     Get.back();
                   },
                   () {
