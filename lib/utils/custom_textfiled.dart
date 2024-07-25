@@ -12,11 +12,11 @@ class CustomTextFiled extends StatefulWidget {
   final String hintText;
   final bool isPassword;
   final bool isReadOnly;
-  // onchange
   final Null Function(dynamic value) onChanged;
   Null Function()? onTap;
 
   Color? backgroundColor;
+  Color? textColor;
 
   CustomTextFiled({
     this.controller,
@@ -26,6 +26,7 @@ class CustomTextFiled extends StatefulWidget {
     this.onChanged,
     this.onTap,
     this.backgroundColor,
+    this.textColor,
   });
 
   @override
@@ -37,23 +38,25 @@ class _CustomTextFiledState extends State<CustomTextFiled> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 300.h,
+      padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w, bottom: 8.h),
       decoration: BoxDecoration(
-        border: Border.all(color: borderLine),
-        borderRadius: BorderRadius.circular(10.r),
+        color: widget.backgroundColor ?? Colors.white,
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(color: borderLine, width: 1.w),
       ),
       child: TextField(
-        scrollPadding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         controller: widget.controller,
         readOnly: widget.isReadOnly,
         obscureText: widget.isPassword,
         decoration: InputDecoration(
+          // fillColor: widget.backgroundColor,
+          // filled: true,
           border: InputBorder.none,
           hintText: widget.hintText,
-          hintTextDirection: TextDirection.ltr,
           hintStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
           isDense: true,
-          //contentPadding: EdgeInsets.all(12)
+          contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 2.h),
         ),
         onChanged: (value) {
           //print(value);
@@ -62,6 +65,7 @@ class _CustomTextFiledState extends State<CustomTextFiled> {
         onTap: () {
           widget.onTap!();
         },
+        scrollPadding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       ),
     );
   }

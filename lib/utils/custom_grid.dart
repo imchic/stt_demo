@@ -16,6 +16,7 @@ import '../screens/bsns/bsns_controller.dart';
 /// [isSort] 는 정렬을 허용할지 여부를 결정한다.
 /// [controller] 는 [DataGridController] 를 상속받아 구현한 컨트롤러 클래스이다.
 /// [selectionEvent] 는 선택 이벤트를 처리하는 함수이다.
+/// [stackedHeaderRows] 는 헤더를 그룹화하는 클래스이다.
 
 class CustomGrid extends StatefulWidget {
 
@@ -60,7 +61,7 @@ class _CustomGridState extends State<CustomGrid> {
       ),
       child: SizedBox(
         child: SfDataGrid(
-          headerRowHeight: Get.height * 0.05,
+          //headerRowHeight: 40.h,
           highlightRowOnHover: true,
           headerGridLinesVisibility: GridLinesVisibility.both,
           gridLinesVisibility: GridLinesVisibility.both,

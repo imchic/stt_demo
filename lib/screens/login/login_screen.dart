@@ -19,55 +19,36 @@ class LoginScreen extends GetView<LoginController> {
         child: SizedBox(
           width: 1.sw,
           height: 1.sh,
-          child: Stack(
-            children: [
-              Image.asset(
-                'assets/images/bg_img.png',
-                width: 1.sw,
-                height: 1.sh,
-                fit: BoxFit.cover,
-              ),
-              SingleChildScrollView(child: _buildBody()),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBody() {
-    return SizedBox(
-      width: 1.sw,
-      height: 1.sh,
-      child: Column(
-        children: [
-          Container(
-            color: Colors.transparent,
-            width: Get.width * 0.65,
-            height: Get.height * 0.75,
-            margin: EdgeInsets.only(top: 64.h, left: 308.w, right: 308.w),
-            padding: EdgeInsets.all(24.r),
-            child: Column(
-              children: [
-                // 로고
-                Column(
-                  children: [
-                    SizedBox(
-                      child: SvgPicture.asset(
-                        'assets/images/ic_kwater_logo.svg',
-                      ),
-                    ),
-                    Text('현장조사 모바일',
-                        style: TextStyle(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white)),
-                  ],
+          child: Container(
+            width: 1.sw,
+            height: 1.sh,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/bg_img.png'),
+                  fit: BoxFit.cover,
                 ),
-                SizedBox(height: 24.h),
-                // 카드 뷰
-                Expanded(
-                  child: Container(
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(
+                        child: SvgPicture.asset(
+                          'assets/images/ic_kwater_logo.svg',
+                        ),
+                      ),
+                      Text('현장조사 모바일',
+                          style: TextStyle(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white)),
+                    ],
+                  ),
+                  SizedBox(height: 24.h),
+                  Container(
                     width: 408.w,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -75,11 +56,10 @@ class LoginScreen extends GetView<LoginController> {
                     ),
                     child: _buildLoginBox(),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ),
-        ],
+        ),
       ),
     );
   }

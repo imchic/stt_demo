@@ -353,7 +353,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                         Text(
                                           '조회',
                                           style: TextStyle(
-                                            color: Color(0xFF1D56BC),
+                                            color: Color(0xFF1D58BC),
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w500,
                                             // height: 0.09,
@@ -437,7 +437,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                         Text(
                                           '조회',
                                           style: TextStyle(
-                                            color: Color(0xFF1D56BC),
+                                            color: Color(0xFF1D58BC),
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w500,
                                             // height: 0.09,
@@ -602,7 +602,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                                                 .center,
                                                             style: TextStyle(
                                                               color: Color(
-                                                                  0xFF1D56BC),
+                                                                  0xFF1D58BC),
                                                               fontSize: 13.sp,
                                                               fontWeight:
                                                                   FontWeight
@@ -1597,445 +1597,455 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                     children: [
                       Container(
                         width: Get.width,
-                        height: 264.h,
-                        child: Container(
-                          color: Color(0XFFFFFFFF),
-                          width: Get.width,
-                          height: 224.h,
-                          padding: EdgeInsets.all(20.r),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFF6F6F6),
-                                        border: Border(
-                                          top: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          right: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      alignment: Alignment.center,
-                                      height: 56.h,
-                                      child: Text('소유자명', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700)),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFFFFFF),
-                                        border: Border(
-                                          top: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          right: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      alignment: Alignment.center,
-                                      height: 56.h,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          color: Color(0xFFF6F6F6),
-                                          child: CustomTextFiled(
-                                            isReadOnly: true,
-                                            hintText: '홍길동',
-                                            onChanged: (value) {
-                                              //controller.searchBsnsName(value);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20.h),
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFF6F6F6),
-                                        border: Border(
-                                          top: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          right: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      alignment: Alignment.center,
-                                      height: 56.h,
-                                      child: Text('소유자구분', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700)),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFFFFFF),
-                                        border: Border(
-                                          top: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          right: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      alignment: Alignment.center,
-                                      height: 56.h,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          color: Color(0xFFF6F6F6),
-                                          child: CustomTextFiled(
-                                            isReadOnly: true,
-                                            hintText: '사유',
-                                            onChanged: (value) {
-
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFF6F6F6),
-                                        border: Border(
-                                          top: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          right: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      alignment: Alignment.center,
-                                      height: 56.h,
-                                      child: Text('등록번호', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700)),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFFFFFF),
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                          right: BorderSide(
-                                            color: Color(0xFFD8D8D8),
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      alignment: Alignment.center,
-                                      height: 56.h,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          color: Color(0xFFF6F6F6),
-                                          child: CustomTextFiled(
-                                            isReadOnly: true,
-                                            hintText: '70092-1****',
-                                            onChanged: (value) {
-                                              //controller.searchBsnsName(value);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-
-                      /*Container(
-                        width: Get.width,
                         padding: EdgeInsets.all(20.r),
                         decoration: ShapeDecoration(
-                          color: Colors.white,
                           shape: RoundedRectangleBorder(
                             side: BorderSide(width: 0, color: borderLine),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.r)),
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(8),
+                              bottomLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            ),
                           ),
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // 소유자명, 소유자구분
                             Row(
                               mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  height: 24.h,
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 12.w),
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFFEFF5FF),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFF6F6F6),
+                                      border: Border(
+                                        top: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Text('소유자명', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700)),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFFFFFFF),
+                                      border: Border(
+                                        top: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomTextFiled(
+                                        isReadOnly: true,
+                                        hintText: '홍길동',
+                                        onChanged: (value) {
+                                          //controller.searchBsnsName(value);
+                                        },
+                                        backgroundColor: Color(0xFFF6F6F6),
+                                        textColor: Colors.red,
+                                      ),
                                     ),
                                   ),
-                                  child: Row(
+                                ),
+                                SizedBox(height: 20.h),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFF6F6F6),
+                                      border: Border(
+                                        top: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Text('소유자구분', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700)),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFFFFFFF),
+                                      border: Border(
+                                        top: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomTextFiled(
+                                        isReadOnly: true,
+                                        hintText: '사유',
+                                        onChanged: (value) {
+                                          //controller.searchBsnsName(value);
+                                        },
+                                        backgroundColor: Color(0xFFF6F6F6),
+                                        textColor: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // 등록번호
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFF6F6F6),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Text('등록번호', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700)),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFFFFFFF),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomTextFiled(
+                                        isReadOnly: true,
+                                        hintText: '70092-1****',
+                                        onChanged: (value) {
+                                          //controller.searchBsnsName(value);
+                                        },
+                                        backgroundColor: Color(0xFFF6F6F6),
+                                        textColor: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // 전화번호, 휴대폰번호
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFF6F6F6),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Text('전화번호', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700)),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFFFFFFF),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomTextFiled(
+                                        hintText: '전화번호',
+                                        onChanged: (value) {
+                                          //controller.searchBsnsName(value);
+                                        },
+                                        backgroundColor: Color(0xFFF6F6F6),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20.h),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFF6F6F6),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Text('휴대폰번호', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700)),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFFFFFFF),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 58.h,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomTextFiled(
+                                        isReadOnly: true,
+                                        hintText: '휴대폰번호',
+                                        onChanged: (value) {
+                                          //controller.searchBsnsName(value);
+                                        },
+                                        backgroundColor: Color(0xFFF6F6F6),
+                                        textColor: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // 특이사항
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFF6F6F6),
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                        right: BorderSide(
+                                          color: Color(0xFFD8D8D8),
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    height: 200.h,
+                                    child: Text('특이사항', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700)),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
                                     children: [
-                                      Text(
-                                        '소유자',
-                                        style: TextStyle(
-                                          color: Color(0xFF1D1D1D),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500,
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFFFFFFFF),
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              color: Color(0xFFD8D8D8),
+                                              width: 1,
+                                            ),
+                                            right: BorderSide(
+                                              color: Color(0xFFD8D8D8),
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        alignment: Alignment.center,
+                                        height: 200.h,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    width: 44.w,
+                                                    height: 40.h,
+                                                    decoration: BoxDecoration(
+                                                        color: Color(0xFFFFFFFF),
+                                                        borderRadius: BorderRadius.circular(6.r),
+                                                        border: Border.all(color: borderLine)
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: SvgPicture.asset(
+                                                        'assets/images/ic_microphone.svg',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10.w),
+                                                  Container(
+                                                    width: 44.w,
+                                                    height: 40.h,
+                                                    decoration: BoxDecoration(
+                                                        color: Color(0xFFFFFFFF),
+                                                        borderRadius: BorderRadius.circular(6.r),
+                                                        border: Border.all(color: borderLine)
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: SvgPicture.asset(
+                                                        'assets/images/ic_pen.svg',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 10.h),
+                                              Expanded(
+                                                child: CustomTextFiled(
+                                                  isReadOnly: true,
+                                                  hintText: '내용을 입력하세요',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
+                                                  backgroundColor: Color(0xFFF6F6F6),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: 10.w),
-                                SizedBox(
-                                  height: 24.h,
-                                  child: Text(
-                                    '홍길동',
-                                    style: TextStyle(
-                                      color: Color(0xFF1D1D1D).withOpacity(0.5),
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 12.w),
-                                      decoration: ShapeDecoration(
-                                        color: Color(0xFFEFF5FF),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        '주민등록번호',
-                                        style: TextStyle(
-                                          color: Color(0xFF1D1D1D),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    Text(
-                                      '123456-1234567',
-                                      style: TextStyle(
-                                        color:
-                                            Color(0xFF1D1D1D).withOpacity(0.5),
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ],
-                            ),
-                            SizedBox(height: 40.h),
-                            Text(
-                              '연락처 정보',
-                              style: TextStyle(
-                                color: Color(0xFF1D1D1D),
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(height: 20.h),
-                            Row(
-                              children: [
-                                Text(
-                                  '휴대폰',
-                                  style: TextStyle(
-                                    color: Color(0xFF1D1D1D),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                Text(
-                                  '010-1234-5678',
-                                  style: TextStyle(
-                                    color: Color(0xff8E8E8E),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                Text(
-                                  '전화',
-                                  style: TextStyle(
-                                    color: Color(0xFF1D1D1D),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                Text(
-                                  '02-1234-5678',
-                                  style: TextStyle(
-                                    color: Color(0xff8E8E8E),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20.h),
-                            Text(
-                              '주소',
-                              style: TextStyle(
-                                color: Color(0xFF1D1D1D),
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(height: 20.h),
-                            Row(
-                              children: [
-                                Text(
-                                  '우편번호',
-                                  style: TextStyle(
-                                    color: Color(0xFF1D1D1D),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                Text(
-                                  '12345',
-                                  style: TextStyle(
-                                    color: Color(0xff8E8E8E),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10.h),
-                            Row(
-                              children: [
-                                Text(
-                                  '주소',
-                                  style: TextStyle(
-                                    color: Color(0xFF1D1D1D),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                Text(
-                                  '서울시 강남구 역삼동 123-456',
-                                  style: TextStyle(
-                                    color: Color(0xff8E8E8E),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '특이사항',
-                                  style: TextStyle(
-                                    color: Color(0xFF1D1D1D),
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.mic_none_rounded,
-                                            color: Color(0xff8E8E8E))),
-                                    SizedBox(width: 10.w),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.edit_outlined,
-                                            color: Color(0xff8E8E8E))),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10.h),
-                            SizedBox(
-                              width: Get.width,
-                              height: Get.height * 0.28,
-                              child: CustomTextFiled(
-                                controller: controller.ownerEtcController,
-                                hintText: '특이사항을 입력해주세요',
-                                onChanged: (value) {
-                                  //controller.searchBsnsName(value);
-                                },
-                              ),
                             ),
                           ],
                         ),
-                      ),*/
+                      ),
+                      SizedBox(height: 20.h),
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Container(
+                          width: 60.w,
+                          height: 40.h,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          decoration: ShapeDecoration(
+                            color: Color(0xFF246AEA),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '저장',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 )),

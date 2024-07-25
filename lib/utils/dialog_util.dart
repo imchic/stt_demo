@@ -175,78 +175,67 @@ class DialogUtil {
 
   /// [showBottomSheet] 바텀 시트를 띄워줍니다.
   static void showBottomSheet(BuildContext context, String title, Widget child) {
-    Get.bottomSheet(
-      enableDrag: true,
-      ignoreSafeArea: false,
-      Container(
-        width: Get.width,
-        padding: EdgeInsets.all(40.r),
-        clipBehavior: Clip.antiAlias,
-        decoration: ShapeDecoration(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(width: 1, color: Color(0xFFC6C6C6)),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12.r),
-              topRight: Radius.circular(12.r),
-            ),
-          ),
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.r),
+          topRight: Radius.circular(12.r),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.only(bottom: 15.r),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    // '신규 조사 차수 등록',
-                    title,
-                    style: TextStyle(
-                      color: Color(0xFF1D1D1D),
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(width: 8.w),
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      width: 24.w,
-                      height: 24.h,
-                      child: SvgPicture.asset(
-                        'assets/images/ic_close.svg',
-                        width: 24.w,
-                        height: 24.h,
+      ),
+      constraints: BoxConstraints(
+        maxWidth: 640.w,
+        // maxHeight: 360.h
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          margin: EdgeInsets.all(24.r),
+          width: double.infinity,
+          padding: EdgeInsets.all(16.r),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: Color(0xFF1D1D1D),
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        width: 24.w,
+                        height: 24.h,
+                        child: SvgPicture.asset(
+                          'assets/images/ic_close.svg',
+                          width: 24.w,
+                          height: 24.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 5),
-            child
-          ],
-        ),
-      ),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
-    ).whenComplete(
-      () {
-        print('bottom sheet closed');
+              SizedBox(height: 5.h),
+              child,
+            ],
+          ),
+        );
       },
     );
   }
@@ -281,19 +270,6 @@ class DialogUtil {
                 padding: EdgeInsets.all(16.r),
                   child: Column(
                     children: [
-                      /*Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(16.r),
-                            child: SvgPicture.asset(
-                              'assets/images/ic_kwater_logo.svg',
-                              width: 50.w,
-                              height: 50.h,
-                            ),
-                          ),
-                        ],
-                      ),*/
                       Expanded(child: child),
                       // button
                       Row(
