@@ -28,6 +28,7 @@ class CustomGrid extends StatefulWidget {
   ColumnWidthMode columnWidthMode = ColumnWidthMode.none;
   Function(List<DataGridRow> addedRows, List<DataGridRow> removedRows) selectionEvent = _selectionEvent;
   List<StackedHeaderRow> stackedHeaderRows = [];
+  int freezeColumnCount = 0;
 
   CustomGrid({
     required this.dataSource,
@@ -38,6 +39,7 @@ class CustomGrid extends StatefulWidget {
     this.columnWidthMode = ColumnWidthMode.fill,
     this.selectionEvent = _selectionEvent,
     this.stackedHeaderRows = const [],
+    this.freezeColumnCount = 0,
   });
 
   static void _selectionEvent(List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
@@ -62,6 +64,7 @@ class _CustomGridState extends State<CustomGrid> {
       child: SizedBox(
         child: SfDataGrid(
           headerRowHeight: 48.h,
+          frozenColumnsCount: widget.freezeColumnCount,
           highlightRowOnHover: true,
           headerGridLinesVisibility: GridLinesVisibility.both,
           gridLinesVisibility: GridLinesVisibility.both,

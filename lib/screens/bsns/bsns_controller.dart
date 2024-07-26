@@ -203,8 +203,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     'ownerRegisterNo': double.nan,
     'ownerTelNo': double.nan,
     'ownerPhoneNo': double.nan,
-    'lgdongNm': 400.w,
-    'lcrtsDivCd': double.nan,
+    'lgdongNm': 300.w,
+    'lcrtsDivCd': 100.w,
     'mlnoLtno': double.nan,
     'slnoLtno': double.nan,
     'ofcbkLndcgrDivCd': double.nan,
@@ -802,14 +802,21 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                           text:
                               '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.\n',
                           style: TextStyle(
-                            color: Color(0xFF1D1D1D),
+                            color: Theme.of(Get.context!).colorScheme.primary,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
+                            height: 1.5,
                           ),
                         ),
                         TextSpan(
                           text:
-                              '${orderStartDtController.text} ~ ${orderEndDtController.text}\현장 실태조사를 시작하시겠습니까?',
+                              '사업기간: ${orderStartDtController.text} ~ ${orderEndDtController.text}\n현장 실태조사를 시작하시겠습니까?',
+                          style: TextStyle(
+                            color: Color(0xFF1D1D1D),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            height: 1.5,
+                          ),
                         ),
                       ],
                     ),
@@ -899,5 +906,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       orderAutoController.text =
           (int.parse(lastSqnc.toString()) + 1).toString();
     });
+  }
+
+  /// 실태조사 -> 토지조사 -> 토지검색
+  void handleAccdtlnvstgLadTabSelected(int index) {
+    for (var i = 0; i < accdtlnvstgTabLadSelected.length; i++) {
+      accdtlnvstgTabLadSelected[i] = false;
+    }
+    accdtlnvstgTabLadSelected[index] = true;
   }
 }
