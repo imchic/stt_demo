@@ -38,7 +38,6 @@ class _CustomTextFiledState extends State<CustomTextFiled> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300.h,
       padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w, bottom: 8.h),
       decoration: BoxDecoration(
         color: widget.backgroundColor ?? Colors.white,
@@ -54,9 +53,9 @@ class _CustomTextFiledState extends State<CustomTextFiled> {
           // filled: true,
           border: InputBorder.none,
           hintText: widget.hintText,
-          hintStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
+          hintStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
           isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 2.h),
+          contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 6.h),
         ),
         onChanged: (value) {
           //print(value);

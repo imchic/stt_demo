@@ -1232,53 +1232,23 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Obx(() =>
-                      BaseTabBar(tabItems: [
-                        CustomTab(
-                            title: '소유자검색',
-                            isSelected: controller.bsnsOwnerTabIsSelected[0],
-                            onTap: () {
-                              controller.bsnsOwnerTabController.animateTo(0);
-                              controller.handleSelectListTab(
-                                  controller.bsnsOwnerTabIsSelected, 0);
-                            },
-                            selectedColor: tabSelectColor,
-                            unselectedColor: tabUnSelectColor),
-                        CustomTab(
-                            title: '토지정보',
-                            isSelected: controller.bsnsOwnerTabIsSelected[1],
-                            onTap: () {
-                              controller.bsnsOwnerTabController.animateTo(1);
-                              controller.handleSelectListTab(
-                                  controller.bsnsOwnerTabIsSelected, 1);
-                            },
-                            selectedColor: tabSelectColor,
-                            unselectedColor: tabUnSelectColor),
-                        CustomTab(
-                            title: '지장물정보',
-                            isSelected: controller.bsnsOwnerTabIsSelected[2],
-                            onTap: () {
-                              controller.bsnsOwnerTabController.animateTo(2);
-                              controller.handleSelectListTab(
-                                  controller.bsnsOwnerTabIsSelected, 2);
-                            },
-                            selectedColor: tabSelectColor,
-                            unselectedColor: tabUnSelectColor),
-                        CustomTab(
-                            title: '정보변경',
-                            isSelected: controller.bsnsOwnerTabIsSelected[3],
-                            onTap: () {
-                              controller.bsnsOwnerTabController.animateTo(3);
-                              controller.handleSelectListTab(
-                                  controller.bsnsOwnerTabIsSelected, 3);
-                            },
-                            selectedColor: tabSelectColor,
-                            unselectedColor: tabUnSelectColor),
-                      ], controller: controller.bsnsOwnerTabController),
+                    child:
+                    Expanded(
+                      child: TabBar(
+                          controller: controller.bsnsOwnerTabController,
+                          labelColor: Colors.black,
+                          indicatorColor: Colors.black,
+                          isScrollable: true,
+                          tabs: controller.bsnsOwnerTabItems),
                     ),
                   ),
                 ],
               ),
+            ),
+            Divider(
+              height: 1,
+              thickness: 1,
+              color: tabBarDivider,
             ),
             Expanded(
               child: TabBarView(
@@ -1291,16 +1261,13 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   children: [
                     Container(
                       width: Get.width,
+                      margin: EdgeInsets.only(top: 24.h),
                       padding: EdgeInsets.all(20.r),
                       decoration: ShapeDecoration(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(width: 0, color: borderLine),
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(8),
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(8.r)),
                         ),
                       ),
                       child: SizedBox(
@@ -1311,6 +1278,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Expanded(
+                                  flex: 10,
                                   child: SizedBox(
                                     height: 40.h,
                                     child: Row(
@@ -1465,17 +1433,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                 /// [소유자관리 -> 토지정보]
                 Container(
                   width: Get.width,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0, color: borderLine),
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
-                    ),
-                  ),
                   padding: EdgeInsets.all(20.r),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -1517,20 +1474,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       ],
                     )),
                 /// [소유자관리 -> 지장물정보]
-                //Expanded(child: Container(child: buildOwnerObstInfoDataGrid())),
                 Container(
                     width: Get.width,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 0, color: borderLine),
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(8),
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
-                        ),
-                      ),
-                    ),
                     padding: EdgeInsets.all(20.r),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -1976,7 +1921,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                           SizedBox(height: 10.h),
                                           Expanded(
                                             child: CustomTextFiled(
-                                              isReadOnly: true,
                                               hintText: '내용을 입력하세요',
                                               onChanged: (value) {
                                                 //controller.searchBsnsName(value);
@@ -2553,7 +2497,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.bsnsOwnerDataSource.value,
       controller: controller.bsnsOwnerDataGridController,
-      isShowCheckbox: false,
+      isSort: false,
       columnWidthMode: ColumnWidthMode.fill,
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
@@ -2917,39 +2861,54 @@ class BsnsSelectScreen extends GetView<BsnsController> {
 
   /// [buildOwnerMngRadio] 라디오 버튼
   Widget buildOwnerMngRadio() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text('소유자구분',
-            style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500,
-                color: Color(0xff1D1D1D))),
-        Radio(
-          value: 0,
-          groupValue: controller.radioValue.value,
-          onChanged: (value) {
-            //controller.changeRadioValue(value);
-          },
-        ),
-        Text('소유자',
-            style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff1D1D1D))),
-        Radio(
-          value: 1,
-          groupValue: controller.radioValue.value,
-          onChanged: (value) {
-            //controller.changeRadioValue(value);
-          },
-        ),
-        Text('관계인',
-            style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff1D1D1D))),
-      ],
+    return Container(
+      margin: EdgeInsets.only(top: 10.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text('소유자구분',
+              style: TextStyle(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff1D1D1D))),
+          SizedBox(width: 10.w),
+          Container(
+            width: 24.w,
+            height: 24.h,
+            child: Radio(
+              value: 0,
+              groupValue: controller.radioValue.value,
+              onChanged: (value) {
+                //controller.changeRadioValue(value);
+              },
+            ),
+          ),
+          SizedBox(width: 5.w),
+          Text('소유자',
+              style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff1D1D1D))),
+          SizedBox(width: 10.w),
+          Container(
+            width: 24.w,
+            height: 24.h,
+            child: Radio(
+              value: 1,
+              groupValue: controller.radioValue.value,
+              onChanged: (value) {
+                //controller.changeRadioValue(value);
+              },
+            ),
+          ),
+          SizedBox(width: 8.w),
+          Text('관계인',
+              style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff1D1D1D))),
+        ],
+      ),
     );
   }
 }
