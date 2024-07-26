@@ -8,7 +8,6 @@ import 'package:stt_demo/screens/owner/lad/model/owner_lad_info_datasource_model
 import 'package:stt_demo/screens/owner/lad/owner_lad_info_datasource.dart';
 import 'package:stt_demo/screens/owner/obst/model/owner_obst_info_datasource_model.dart';
 
-
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../utils/dialog_util.dart';
@@ -24,10 +23,7 @@ import 'select/bsns_select_model.dart';
 import 'sqnc/bsns_sqnc_datasource.dart';
 import 'sqnc/model/bsns_sqnc_datasource_model.dart';
 
-
-class BsnsController extends GetxController
-    with GetTickerProviderStateMixin {
-
+class BsnsController extends GetxController with GetTickerProviderStateMixin {
   static BsnsController get to => Get.find();
 
   late TextEditingController bsnsNameSearchController; // 사업명 검색
@@ -35,10 +31,13 @@ class BsnsController extends GetxController
 
   // 소유자관리 소재지 검색
   late TextEditingController ownerLctnSearchController;
+
   // 소유자관리 본번 검색
   late TextEditingController ownerMlnoLtnoSearchController;
+
   // 소유자관리 부번 검색
   late TextEditingController ownerSlnoLtnoSearchController;
+
   // 소유자관리 정보변경 특이사항
   late TextEditingController ownerEtcController;
 
@@ -57,7 +56,11 @@ class BsnsController extends GetxController
   Timer? _debounce;
 
   // 사업선택 탭 아이템
-  final bsnsSelectTabItems = [Tab(text: '사업선택'), Tab(text: '사업구역'), Tab(text: '조사차수')];
+  final bsnsSelectTabItems = [
+    Tab(text: '사업선택'),
+    Tab(text: '사업구역'),
+    Tab(text: '조사차수')
+  ];
 
   final bsnsSelectTabIsSelected = [true, false, false].obs;
   final bsnsOwnerTabIsSelected = [true, false, false, false].obs;
@@ -66,13 +69,22 @@ class BsnsController extends GetxController
   final accdtlnvstgTabObstSelected = [true, false].obs;
 
   // 소유자 관리 탭 아이템
-  final bsnsOwnerTabItems = [Tab(text: '소유자검색'), Tab(text: '토지정보'), Tab(text: '지장물정보'), Tab(text: '정보변경')];
+  final bsnsOwnerTabItems = [
+    Tab(text: '소유자검색'),
+    Tab(text: '토지정보'),
+    Tab(text: '지장물정보'),
+    Tab(text: '정보변경')
+  ];
 
   // 실태조사 탭 아이템
   final accdtlnvstgTabItems = [Tab(text: '토지조사'), Tab(text: '지장물 조사')];
 
   // 실태조사 토지조서 탭 아이템
-  final accdtlnvstgLadTabItems = [Tab(text: '토지검색'), Tab(text: '소유자/관계인'), Tab(text: '조사내용')];
+  final accdtlnvstgLadTabItems = [
+    Tab(text: '토지검색'),
+    Tab(text: '소유자/관계인'),
+    Tab(text: '조사내용')
+  ];
 
   // 실태조사 지장물 조사 탭 아이템
   final accdtlnvstgObstTabItems = [Tab(text: '지장물검색'), Tab(text: '조사내용')];
@@ -101,8 +113,10 @@ class BsnsController extends GetxController
   final bsnsOwnerDataSource = OwnerDatasource(items: []).obs; // 소유자
   RxList<OwnerDataSourceModel> bsnsOwner = <OwnerDataSourceModel>[].obs;
 
-  final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
-  final ownerObstInfoDataSource = OwnerObstInfoDatasource(items: []).obs; // 지장물정보
+  final ownerLadInfoDataSource =
+      OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
+  final ownerObstInfoDataSource =
+      OwnerObstInfoDatasource(items: []).obs; // 지장물정보
 
   final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
   RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
@@ -125,90 +139,117 @@ class BsnsController extends GetxController
   Rx<BsnsSelectModel> bsns = BsnsSelectModel().obs;
   Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
 
-  Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource = BsnsSelectAreaDataSourceModel().obs;
+  Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource =
+      BsnsSelectAreaDataSourceModel().obs;
 
   //Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
 
   RxList<String> leftNavItems = ['사업선택', '소유자관리', '실태조사', '통계정보', '고객카드'].obs;
   RxList businessList = [].obs;
-  RxList<String> orderList = ['1차', '2차', '3차', '4차', '5차', '6차', '7차', '8차', '9차', '10차',].obs;
+  RxList<String> orderList = [
+    '1차',
+    '2차',
+    '3차',
+    '4차',
+    '5차',
+    '6차',
+    '7차',
+    '8차',
+    '9차',
+    '10차',
+  ].obs;
 
   // select order
   RxInt selectOrder = 0.obs;
+
   // RxDouble surveyDateWidth = 100.0.obs;
 
   RxMap<String, double> columnWidths = {
-    'bsnsZoneNo': double.nan,
-    'bsnsZoneNm': double.nan,
-    'lotCnt': double.nan,
-    'bsnsAra': double.nan,
-    'bsnsReadngPblancDe': double.nan,
+    'bsnsZoneNo': 40.w,
+    'bsnsZoneNm': 850.w,
+    'lotCnt': 60.w,
+    'bsnsAra': 60.w,
+    'bsnsReadngPblancDe': 120.w,
     'surveyDate': double.nan,
     'surveyOrder': double.nan,
     'location': double.nan,
     'mainNumber': double.nan,
     'subNumber': double.nan,
     'publicLandType': double.nan,
-    'gdongNm' : double.nan,
-    'gdongCd' : double.nan,
-    'crtsDivCd' : double.nan,
-    'lnoLtno' : double.nan,
-    'lnoLtno' : double.nan,
-    'bstSeq' : double.nan,
-    'bstDivCd' : double.nan,
-    'mpnstnThingKndDtls' : double.nan,
-    'bstStrctStndrdInfo' : double.nan,
-    'mpnstnQtyAraVu' : double.nan,
-    'mpnstnThingUnitDivCd' : double.nan,
-    'ttusLndcgrDivCd' : double.nan,
-    'cqsPrpDivCd' : double.nan,
-    'ceptncUseDivCd' : double.nan,
-    'ccdtInvstgSqnc' : double.nan,
-    'nvstgDt' : double.nan,
-    'mpnstnStepDivCd' : double.nan,
-    'pcitm' : double.nan,
-    'bsnsSqnc' : double.nan,
-    'bsnsStrtDe' : double.nan,
-    'bsnsEndDe' : double.nan,
-    'ownerNo' : double.nan,
-    'ladLdgrOwnerNm' : double.nan,
-    'ladLdgrPosesnDivCd' : double.nan,
-    'ownerRegisterNo' : double.nan,
-    'ownerTelNo' : double.nan,
-    'ownerPhoneNo' : double.nan,
-    'lgdongNm' : double.nan,
-    'lcrtsDivCd' : double.nan,
-    'mlnoLtno' : double.nan,
-    'slnoLtno' : double.nan,
-    'ofcbkLndcgrDivCd' : double.nan,
-    'sttusLndcgrDivCd' : double.nan,
-    'ofcbkAra' : double.nan,
-    'incrprAra' : double.nan,
-    'cmpnstnInvstgAra' : double.nan,
-    'acqsPrpDivCd' : double.nan,
-    'aceptncPrpDivCd' : double.nan,
-    'accdtInvstgSqnc' : double.nan,
-    'invstgDt' : double.nan,
-    'cmpnstnDtaChnStatDivCd' : double.nan,
-    'etc' : double.nan,
-    'obstSeq' : double.nan,
-    'obstDivCd' : double.nan,
-    'cmpnstnThingKndDtls' : double.nan,
-    'obstStrctStndrdInfo' : double.nan,
-    'cmpnstnQtyAraVu' : double.nan,
-    'cmpnstnThingUnitDivCd' : double.nan,
-    'sttusLndcgrDivCd' : double.nan,
-    'acqsPrpDivCd' : double.nan,
-    'aceptncUseDivCd' : double.nan,
-    'accdtInvstgSqnc' : double.nan,
-    'invstgDt' : double.nan,
-    'cmpnstnStepDivCd' : double.nan,
-    'spcitm' : double.nan,
+    'gdongNm': double.nan,
+    'gdongCd': double.nan,
+    'crtsDivCd': double.nan,
+    'lnoLtno': double.nan,
+    'lnoLtno': double.nan,
+    'bstSeq': double.nan,
+    'bstDivCd': double.nan,
+    'mpnstnThingKndDtls': double.nan,
+    'bstStrctStndrdInfo': double.nan,
+    'mpnstnQtyAraVu': double.nan,
+    'mpnstnThingUnitDivCd': double.nan,
+    'ttusLndcgrDivCd': double.nan,
+    'cqsPrpDivCd': double.nan,
+    'ceptncUseDivCd': double.nan,
+    'ccdtInvstgSqnc': double.nan,
+    'nvstgDt': double.nan,
+    'mpnstnStepDivCd': double.nan,
+    'pcitm': double.nan,
+    'bsnsSqnc': 60.w,
+    'bsnsStrtDe': 120.w,
+    'bsnsEndDe': 120.w,
+    'ownerNo': double.nan,
+    'ladLdgrOwnerNm': double.nan,
+    'ladLdgrPosesnDivCd': double.nan,
+    'ownerRegisterNo': double.nan,
+    'ownerTelNo': double.nan,
+    'ownerPhoneNo': double.nan,
+    'lgdongNm': 400.w,
+    'lcrtsDivCd': double.nan,
+    'mlnoLtno': double.nan,
+    'slnoLtno': double.nan,
+    'ofcbkLndcgrDivCd': double.nan,
+    'sttusLndcgrDivCd': double.nan,
+    'ofcbkAra': double.nan,
+    'incrprAra': double.nan,
+    'cmpnstnInvstgAra': double.nan,
+    'acqsPrpDivCd': double.nan,
+    'aceptncPrpDivCd': double.nan,
+    'accdtInvstgSqnc': double.nan,
+    'invstgDt': double.nan,
+    'cmpnstnDtaChnStatDivCd': double.nan,
+    'etc': double.nan,
+    'obstSeq': double.nan,
+    'obstDivCd': double.nan,
+    'cmpnstnThingKndDtls': double.nan,
+    'obstStrctStndrdInfo': double.nan,
+    'cmpnstnQtyAraVu': double.nan,
+    'cmpnstnThingUnitDivCd': double.nan,
+    'sttusLndcgrDivCd': double.nan,
+    'acqsPrpDivCd': double.nan,
+    'aceptncUseDivCd': double.nan,
+    'accdtInvstgSqnc': double.nan,
+    'invstgDt': double.nan,
+    'cmpnstnStepDivCd': double.nan,
+    'spcitm': double.nan,
   }.obs;
 
   RxString selectedPurpose = '단지구역'.obs;
+
   // purpose list
-  RxList<String> purposeList = ['단지구역', '토취장', '진입도로', '문화재구역', '도로', '침수구역', '잔여부지', '정수시설', '송수관로', '도수관로', '가압시설', '일시사용'].obs;
+  RxList<String> purposeList = [
+    '단지구역',
+    '토취장',
+    '진입도로',
+    '문화재구역',
+    '도로',
+    '침수구역',
+    '잔여부지',
+    '정수시설',
+    '송수관로',
+    '도수관로',
+    '가압시설',
+    '일시사용'
+  ].obs;
 
   @override
   Future<void> onInit() async {
@@ -229,11 +270,16 @@ class BsnsController extends GetxController
     ownerSlnoLtnoSearchController = TextEditingController();
     ownerEtcController = TextEditingController();
 
-    accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
-    bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
-    bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
-    accdtlnvstgLadTabController = TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
-    accdtlnvstgObstTabController = TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
+    accdtlnvstgTabController =
+        TabController(length: accdtlnvstgTabItems.length, vsync: this);
+    bsnsTabController =
+        TabController(length: bsnsSelectTabItems.length, vsync: this);
+    bsnsOwnerTabController =
+        TabController(length: bsnsOwnerTabItems.length, vsync: this);
+    accdtlnvstgLadTabController =
+        TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
+    accdtlnvstgObstTabController =
+        TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
 
     orderController = TextEditingController();
 
@@ -256,35 +302,41 @@ class BsnsController extends GetxController
       // 해당위치로 이동
 
       // 사업구역 없이는 탭 1번, 2번 이동 불가능
-      if(selectedBsns.value.title == null && bsnsTabController.index > 0) {
+      if (selectedBsns.value.title == null && bsnsTabController.index > 0) {
         bsnsTabController.index = 0;
         DialogUtil.showSnackBar(Get.context!, '사업을 선택해주세요.');
         return;
       }
 
       // 이전 탭 선택시 초기화
-      if(bsnsTabController.index == 0) {
+      if (bsnsTabController.index == 0) {
         selectedBsns.value = BsnsSelectModel();
       }
-
     });
 
     bsnsListScrollController.addListener(() {
-      print('bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
+      print(
+          'bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
     });
 
     /// [사업목록] 조회
     await fetchBsnsSelectAreaGridDataSource();
+
     /// [소유자 및 관리인] 조회
     await fetchBsnsOwnerDataSource();
+
     /// [소유자 및 관리인] 조회
     await fetchAccdtlnvstgLadDataSource();
+
     /// [차수] 조회
     await fetchBsnsSqncDataSource();
+
     /// [자동 차수] 조회
     await autoSqnc();
+
     /// [소유자관리 > 토지정보] 조회
     await fetchOwnerLadInfoDataSource();
+
     /// [소유자관리 > 지장물정보] 조회
     await fetchOwnerObstInfoDataSource();
   }
@@ -321,7 +373,6 @@ class BsnsController extends GetxController
 
   /// [사업목록] 조회
   Future<List<BsnsSelectModel>> fetchBsnsList() async {
-
     await Future.delayed(Duration(milliseconds: 500));
 
     var bsns = <BsnsSelectModel>[];
@@ -408,10 +459,10 @@ class BsnsController extends GetxController
           accdtInvstgDe: '2021-10-0$i',
           invstgDt: '2021-10-0$i',
           cmpnstnDtaChnStatDivCd: '보상자료변경상태구분코드',
-          etc: '기타'
-      ));
+          etc: '기타'));
 
-      ownerLadInfoDataSource.value = OwnerLadInfoDatasource(items: ownerLadInfo);
+      ownerLadInfoDataSource.value =
+          OwnerLadInfoDatasource(items: ownerLadInfo);
     }
   }
 
@@ -436,10 +487,10 @@ class BsnsController extends GetxController
           accdtInvstgSqnc: i,
           invstgDt: '2021-10-0$i',
           cmpnstnStepDivCd: '보상단계구분코드',
-          spcitm: '특이사항'
-      ));
+          spcitm: '특이사항'));
 
-      ownerObstInfoDataSource.value = OwnerObstInfoDatasource(items: ownerObstInfo);
+      ownerObstInfoDataSource.value =
+          OwnerObstInfoDatasource(items: ownerObstInfo);
     }
   }
 
@@ -456,7 +507,8 @@ class BsnsController extends GetxController
           publicLandType: '공부지목'));
     }
 
-    accdtlnvstgLadDataSource.value = AccdtlnvstgLadDatasource(items: accdtlnvstgLad);
+    accdtlnvstgLadDataSource.value =
+        AccdtlnvstgLadDatasource(items: accdtlnvstgLad);
   }
 
   /// 사업 선택
@@ -487,7 +539,7 @@ class BsnsController extends GetxController
     DialogUtil.showBottomSheet(
       Get.context!,
       '신규 조사 차수 등록',
-        // 차수 자동입력
+      // 차수 자동입력
       Container(
         width: double.infinity,
         height: 228.h,
@@ -543,16 +595,15 @@ class BsnsController extends GetxController
                               children: [
                                 Expanded(
                                   child: SizedBox(
-                                    child:
-                                      CustomTextFiled(
-                                        controller: orderAutoController,
-                                        hintText: '차수는 순차적으로 자동입력됩니다.',
-                                        isPassword: false,
-                                        isReadOnly: true,
-                                        onChanged: (value) {
-                                          print('orderAutoController : $value');
-                                        },
-                                      ),
+                                    child: CustomTextFiled(
+                                      controller: orderAutoController,
+                                      hintText: '차수는 순차적으로 자동입력됩니다.',
+                                      isPassword: false,
+                                      isReadOnly: true,
+                                      onChanged: (value) {
+                                        print('orderAutoController : $value');
+                                      },
+                                    ),
                                   ),
                                 ),
                               ],
@@ -610,18 +661,27 @@ class BsnsController extends GetxController
                                       onTap: () {
                                         showDatePicker(
                                           context: Get.context!,
-                                          initialDate: orderStartDtController.text.isEmpty ? DateTime.now() : DateTime.parse(orderStartDtController.text),
+                                          initialDate: orderStartDtController
+                                                  .text.isEmpty
+                                              ? DateTime.now()
+                                              : DateTime.parse(
+                                                  orderStartDtController.text),
                                           firstDate: DateTime(2024),
                                           lastDate: DateTime(2034),
-                                          initialDatePickerMode: DatePickerMode.day,
+                                          initialDatePickerMode:
+                                              DatePickerMode.day,
                                         ).then((value) {
                                           print('start dt : $value');
                                           var year = value!.year;
-                                          var month = value.month < 10 ? '0${value.month}' : value.month;
-                                          var day = value.day < 10 ? '0${value.day}' : value.day;
+                                          var month = value.month < 10
+                                              ? '0${value.month}'
+                                              : value.month;
+                                          var day = value.day < 10
+                                              ? '0${value.day}'
+                                              : value.day;
 
-                                          orderStartDtController.text = '$year-$month-$day';
-
+                                          orderStartDtController.text =
+                                              '$year-$month-$day';
                                         });
                                       },
                                     ),
@@ -675,29 +735,37 @@ class BsnsController extends GetxController
                                 Expanded(
                                   child: SizedBox(
                                     child: CustomTextFiled(
-                                      controller: orderEndDtController,
-                                      hintText: '종료일을 입력해주세요.',
-                                      isPassword: false,
-                                      isReadOnly: true,
-                                      onChanged: (value) {},
-                                      onTap: () {
-                                        showDatePicker(
-                                          context: Get.context!,
-                                          initialDate: orderEndDtController.text.isEmpty ? DateTime.now() : DateTime.parse(orderEndDtController.text),
-                                          firstDate: DateTime(2024),
-                                          lastDate: DateTime(2034),
-                                          initialDatePickerMode: DatePickerMode.day,
-                                        ).then((value) {
-                                          print('end dt : $value');
-                                          var year = value!.year;
-                                          var month = value.month < 10 ? '0${value.month}' : value.month;
-                                          var day = value.day < 10 ? '0${value.day}' : value.day;
+                                        controller: orderEndDtController,
+                                        hintText: '종료일을 입력해주세요.',
+                                        isPassword: false,
+                                        isReadOnly: true,
+                                        onChanged: (value) {},
+                                        onTap: () {
+                                          showDatePicker(
+                                            context: Get.context!,
+                                            initialDate: orderEndDtController
+                                                    .text.isEmpty
+                                                ? DateTime.now()
+                                                : DateTime.parse(
+                                                    orderEndDtController.text),
+                                            firstDate: DateTime(2024),
+                                            lastDate: DateTime(2034),
+                                            initialDatePickerMode:
+                                                DatePickerMode.day,
+                                          ).then((value) {
+                                            print('end dt : $value');
+                                            var year = value!.year;
+                                            var month = value.month < 10
+                                                ? '0${value.month}'
+                                                : value.month;
+                                            var day = value.day < 10
+                                                ? '0${value.day}'
+                                                : value.day;
 
-                                          orderEndDtController.text = '$year-$month-$day';
-
-                                        });
-                                      }
-                                    ),
+                                            orderEndDtController.text =
+                                                '$year-$month-$day';
+                                          });
+                                        }),
                                   ),
                                 ),
                               ],
@@ -725,7 +793,27 @@ class BsnsController extends GetxController
                 DialogUtil.showAlertDialog(
                   Get.context!,
                   '실태조사 시작',
-                  '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.\n시작일 : ${orderStartDtController.text} ~ 종료일 : ${orderEndDtController.text}\n모바일 실태조사를 시작하시겠습니까?',
+                  // '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.',
+                  // '${orderStartDtController.text} ~ ${orderEndDtController.text}\현장 실태조사를 시작하시겠습니까?',
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.\n',
+                          style: TextStyle(
+                            color: Color(0xFF1D1D1D),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                              '${orderStartDtController.text} ~ ${orderEndDtController.text}\현장 실태조사를 시작하시겠습니까?',
+                        ),
+                      ],
+                    ),
+                  ),
                   () {
                     print('실태조사 시작');
                     selectedIndex.value = 2;
@@ -735,7 +823,6 @@ class BsnsController extends GetxController
                     Get.back();
                   },
                 );
-
               },
               child: SizedBox(
                 width: double.infinity,
@@ -750,7 +837,8 @@ class BsnsController extends GetxController
                         padding: EdgeInsets.symmetric(horizontal: 12.w),
                         decoration: ShapeDecoration(
                           color: Color(0xFF246AEA),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -789,12 +877,14 @@ class BsnsController extends GetxController
       } else {
         // 검색결과가 없을 경우
         //searchBsnsList.value = bsnsList.where((element) => element.title?.contains(value) ?? false).toList();
-        bsnsList.where((element) => element.title?.contains(value) ?? false) != null
-            ? searchBsnsList.value = bsnsList.where((element) => element.title?.contains(value) ?? false).toList()
+        bsnsList.where((element) => element.title?.contains(value) ?? false) !=
+                null
+            ? searchBsnsList.value = bsnsList
+                .where((element) => element.title?.contains(value) ?? false)
+                .toList()
             : searchBsnsList.value = [];
 
         print('searchBsnsList : ${searchBsnsList}');
-
       }
     });
   }
@@ -806,9 +896,8 @@ class BsnsController extends GetxController
       // 마지막 차수 가져오기
       var lastSqnc = bsnsSqnc.last.bsnsSqnc;
       print('lastOrder : $lastSqnc');
-      orderAutoController.text = (int.parse(lastSqnc.toString()) + 1).toString();
+      orderAutoController.text =
+          (int.parse(lastSqnc.toString()) + 1).toString();
     });
   }
-
-
 }

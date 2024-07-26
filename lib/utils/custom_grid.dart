@@ -54,14 +54,14 @@ class _CustomGridState extends State<CustomGrid> {
   Widget build(BuildContext context) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-        headerColor: Color(0xFFF6F6F6),
+        headerColor: Color(0xFFE5E8ED),
         sortIconColor: Theme.of(Get.context!).colorScheme.secondary,
         selectionColor: Colors.grey[200],
         indentColumnWidth: 0,
       ),
       child: SizedBox(
         child: SfDataGrid(
-          //headerRowHeight: 40.h,
+          headerRowHeight: 48.h,
           highlightRowOnHover: true,
           headerGridLinesVisibility: GridLinesVisibility.both,
           gridLinesVisibility: GridLinesVisibility.both,
@@ -73,11 +73,12 @@ class _CustomGridState extends State<CustomGrid> {
           navigationMode: GridNavigationMode.row,
           columnWidthMode: widget.columnWidthMode,
           columnSizer: ColumnSizer(),
-          showHorizontalScrollbar: true,
-          showVerticalScrollbar: true,
+          showHorizontalScrollbar: false,
+          showVerticalScrollbar: false,
           showSortNumbers: true,
           allowSorting: widget.isSort,
           allowColumnsResizing: true,
+          // allowFiltering: true,
           onColumnResizeStart: (ColumnResizeStartDetails details) {
             return true;
           },

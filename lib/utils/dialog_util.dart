@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:stt_demo/utils/colors.dart';
 
 /// [DialogUtil] 다이얼로그 관련 유틸리티 클래스
 class DialogUtil {
 
   /// [showAlertDialog] 알럿창을 띄워줍니다.
-  static void showAlertDialog(BuildContext context, String title,
-      String message, Function onOk, Function onCancel) {
+  static void showAlertDialog(BuildContext context, String title, Widget textView, Function onOk, Function onCancel) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -80,15 +78,7 @@ class DialogUtil {
                     children: [
                       SizedBox(
                         width: double.infinity,
-                        child: Text(
-                          message,
-                          style: TextStyle(
-                            color: Color(0xFF1D1D1D),
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                            height: 1.5,
-                          ),
-                        ),
+                        child: textView,
                       ),
                       SizedBox(height: 24.h),
                       Container(

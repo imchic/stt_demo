@@ -18,42 +18,13 @@ class _BaseHeaderState extends State<BaseHeader> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: Get.width,
-          height: 64.h,
-          // color: Colors.grey,
+        SizedBox(
+          height: 56.h,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: 120.w,
-                height: double.infinity,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(0),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/ic_kwater_base_header_logo.svg',
-                           fit: BoxFit.fitHeight,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
               Expanded(child: buildSelectBsnsContainer()),
               Expanded(
                 child: Container(
@@ -95,7 +66,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        '홍길동님',
+                                        '홍길동 대리',
                                         style: TextStyle(
                                           color: Color(0xFF2C2C2C),
                                           fontSize: 15.sp,
@@ -142,7 +113,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                   DialogUtil.showAlertDialog(
                                     context,
                                     '로그아웃',
-                                    '로그아웃 하시겠습니까?',
+                                    Text('로그아웃 하시겠습니까?'),
                                     () {
                                       Get.back();
                                       Get.offAllNamed(AppRoute.login);
