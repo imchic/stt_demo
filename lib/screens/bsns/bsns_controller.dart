@@ -3,19 +3,23 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:stt_demo/screens/owner/lad/model/owner_lad_info_datasource_model.dart';
-import 'package:stt_demo/screens/owner/lad/owner_lad_info_datasource.dart';
-import 'package:stt_demo/screens/owner/obst/model/owner_obst_info_datasource_model.dart';
+import 'package:stt_demo/screens/accdtlnvstg/datasource/accdtlnvstg_lad_owner_datasource.dart';
+import 'package:stt_demo/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
+import 'package:stt_demo/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
+
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../utils/dialog_util.dart';
 import '../../utils/custom_textfiled.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
+import '../accdtlnvstg/datasource/accdtlnvstg_lad_partcpnt_datasource.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
 import '../owner/datasource/owner_datasource.dart';
 import '../owner/datasource/model/owner_datasource_model.dart';
+import '../owner/lad/model/owner_lad_info_datasource_model.dart';
+import '../owner/lad/owner_lad_info_datasource.dart';
+import '../owner/obst/model/owner_obst_info_datasource_model.dart';
 import '../owner/obst/owner_obst_info_datasource.dart';
 import 'datasource/bsns_select_area_datasource.dart';
 import 'datasource/model/bsns_select_area_datasource_model.dart';
@@ -105,7 +109,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   late DataGridController ownerLadInfoDataGridController;
   late DataGridController ownerObstInfoDataGridController;
 
-  late DataGridController accdtlnvstgLadDataGridController;
+  late DataGridController accdtlnvstgLadSelectDataGridController;
+  late DataGridController accdtlnvstgLadOwnerDataGridController;
+  late DataGridController accdtlnvstgLadPartcpntDataGridController;
 
   /// [BsnsSelectAreaDataSource] 는 [DataGridSource] 를 상속받아 구현한 데이터 소스 클래스이다.
   final bsnsListDataSource = BsnsSelectAreaDataSource(items: []).obs; // 사업구역선택
@@ -113,16 +119,26 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   final bsnsOwnerDataSource = OwnerDatasource(items: []).obs; // 소유자
   RxList<OwnerDataSourceModel> bsnsOwner = <OwnerDataSourceModel>[].obs;
 
-  final ownerLadInfoDataSource =
-      OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
-  final ownerObstInfoDataSource =
-      OwnerObstInfoDatasource(items: []).obs; // 지장물정보
+  final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
+  final ownerObstInfoDataSource = OwnerObstInfoDatasource(items: []).obs; // 지장물정보
 
   final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
   RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
 
   // 실태조사 > 토지내역
   final accdtlnvstgLadDataSource = AccdtlnvstgLadDatasource(items: []).obs;
+
+  // 실태조사 > 소유자/관계인
+
+  // 실태조사 > 소유자/관계인 > 토지
+  final accdtlnvstgOwnerLadDataSource = OwnerLadInfoDatasource(items: []).obs;
+  Rx<OwnerLadInfoDatasourceModel> selectedOwnerLadInfoData = OwnerLadInfoDatasourceModel().obs;
+
+  // 실태조사 > 소유자/관계인 > 소유자 현황
+  final accdtlnvstgLadOwnerDataSource = AccdtlnvstgLadOwnerDatasource(items: []).obs;
+
+  // 실태조사 > 소유자/관계인 > 소유자별 관계인 현황
+  final accdtlnvstgLadPartcpntDataSource = AccdtlnvstgLadPartcpntDatasource(items: []).obs;
 
   /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
   RxInt radioValue = 0.obs;
@@ -146,18 +162,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   RxList<String> leftNavItems = ['사업선택', '소유자관리', '실태조사', '통계정보', '고객카드'].obs;
   RxList businessList = [].obs;
-  RxList<String> orderList = [
-    '1차',
-    '2차',
-    '3차',
-    '4차',
-    '5차',
-    '6차',
-    '7차',
-    '8차',
-    '9차',
-    '10차',
-  ].obs;
 
   // select order
   RxInt selectOrder = 0.obs;
@@ -270,16 +274,11 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     ownerSlnoLtnoSearchController = TextEditingController();
     ownerEtcController = TextEditingController();
 
-    accdtlnvstgTabController =
-        TabController(length: accdtlnvstgTabItems.length, vsync: this);
-    bsnsTabController =
-        TabController(length: bsnsSelectTabItems.length, vsync: this);
-    bsnsOwnerTabController =
-        TabController(length: bsnsOwnerTabItems.length, vsync: this);
-    accdtlnvstgLadTabController =
-        TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
-    accdtlnvstgObstTabController =
-        TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
+    accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
+    bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
+    bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
+    accdtlnvstgLadTabController = TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
+    accdtlnvstgObstTabController = TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
 
     orderController = TextEditingController();
 
@@ -295,7 +294,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     // 소유자관리 > 지장물정보
     ownerObstInfoDataGridController = DataGridController();
 
-    accdtlnvstgLadDataGridController = DataGridController();
+    accdtlnvstgLadSelectDataGridController = DataGridController();
+    accdtlnvstgLadOwnerDataGridController = DataGridController();
+    accdtlnvstgLadPartcpntDataGridController = DataGridController();
 
     bsnsTabController.addListener(() {
       print('bsnsTabController.index : ${bsnsTabController.index}');
@@ -509,6 +510,40 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     accdtlnvstgLadDataSource.value =
         AccdtlnvstgLadDatasource(items: accdtlnvstgLad);
+  }
+
+  /// [실태조사 > 소유자/관계인] 조회
+  fetchAccdtlnvstgOwnerDataSource() async {
+    var accdtlnvstgOwner = selectedOwnerLadInfoData.value;
+    accdtlnvstgOwnerLadDataSource.value = OwnerLadInfoDatasource(items: [accdtlnvstgOwner]);
+
+
+    var accdtlnvstgOwnerDataSource = <AccdtlnvstgLadOwnerModel>[];
+    for (var i = 0; i < 1; i++) {
+      accdtlnvstgOwnerDataSource.add(AccdtlnvstgLadOwnerModel(
+          ownerNo: '$i',
+          ownerName: '홍길동',
+          ownerType: '개인',
+          ownerTypeDetail: '개인',
+          ownerDetail2: '조회',
+          ownerRegisterNo: '891208-1000000'));
+    }
+    this.accdtlnvstgLadOwnerDataSource.value = AccdtlnvstgLadOwnerDatasource(items: accdtlnvstgOwnerDataSource);
+
+
+    var accdtlnvstgPartcpntDataSource = <AccdtlnvstgLadPartcpntModel>[];
+    for (var i = 0; i < 1; i++) {
+      accdtlnvstgPartcpntDataSource.add(AccdtlnvstgLadPartcpntModel(
+          ownerNo: '$i',
+          ladLdgrOwnerNm: '조회',
+          ladLdgrPosesnDivCd: '홍길순',
+          ownerTypeDetail: '대전광역시 유성구 봉명동',
+          ownerDetail2: '13510',
+          ownerRegisterNo: '010-0000-0000'));
+    }
+
+    this.accdtlnvstgLadPartcpntDataSource.value = AccdtlnvstgLadPartcpntDatasource(items: accdtlnvstgPartcpntDataSource);
+
   }
 
   /// 사업 선택

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:stt_demo/routes/app_route.dart';
 import 'package:stt_demo/screens/bsns/bsns_controller.dart';
+import 'package:stt_demo/utils/colors.dart';
 import 'package:stt_demo/utils/dialog_util.dart';
 
 class BaseHeader extends StatefulWidget {
@@ -88,7 +89,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                               Container(
                                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFF6F6F6),
+                                  color: tableColor1,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Row(
@@ -126,7 +127,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                 child: Container(
                                   padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
                                   decoration: ShapeDecoration(
-                                    color: Color(0xFFF6F6F6),
+                                    color: tableColor1,
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
                                   ),
                                   child: Row(

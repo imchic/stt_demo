@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stt_demo/routes/app_route.dart';
 import 'package:stt_demo/utils/colors.dart';
 
-void main() {
+Future<void> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await NaverMapSdk.instance.initialize(clientId: "i6tcrwjpxh");
+
   runApp(const MyApp());
 }
 
