@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:stt_demo/screens/accdtlnvstg/datasource/accdtlnvstg_lad_owner_datasource.dart';
 import 'package:stt_demo/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
 import 'package:stt_demo/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
+import 'package:stt_demo/screens/accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
 
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -14,6 +15,7 @@ import '../../utils/dialog_util.dart';
 import '../../utils/custom_textfiled.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_partcpnt_datasource.dart';
+import '../accdtlnvstg/datasource/accdtlnvstg_obst_datasource.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
 import '../owner/datasource/owner_datasource.dart';
 import '../owner/datasource/model/owner_datasource_model.dart';
@@ -113,6 +115,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   late DataGridController accdtlnvstgLadOwnerDataGridController;
   late DataGridController accdtlnvstgLadPartcpntDataGridController;
 
+  late DataGridController accdtlnvstgObstDataGridController;
+
   /// [BsnsSelectAreaDataSource] 는 [DataGridSource] 를 상속받아 구현한 데이터 소스 클래스이다.
   final bsnsListDataSource = BsnsSelectAreaDataSource(items: []).obs; // 사업구역선택
 
@@ -128,8 +132,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   // 실태조사 > 토지내역
   final accdtlnvstgLadDataSource = AccdtlnvstgLadDatasource(items: []).obs;
 
-  // 실태조사 > 소유자/관계인
-
   // 실태조사 > 소유자/관계인 > 토지
   final accdtlnvstgOwnerLadDataSource = OwnerLadInfoDatasource(items: []).obs;
   Rx<OwnerLadInfoDatasourceModel> selectedOwnerLadInfoData = OwnerLadInfoDatasourceModel().obs;
@@ -139,6 +141,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   // 실태조사 > 소유자/관계인 > 소유자별 관계인 현황
   final accdtlnvstgLadPartcpntDataSource = AccdtlnvstgLadPartcpntDatasource(items: []).obs;
+
+  // 실태조사 > 지장물내역
+  final accdtlnvstgObstDataSource = AccdtlnvstgObstDatasource(items: []).obs;
 
   /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
   RxInt radioValue = 0.obs;
@@ -294,9 +299,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     // 소유자관리 > 지장물정보
     ownerObstInfoDataGridController = DataGridController();
 
+    // 실태조사 > 토지
     accdtlnvstgLadSelectDataGridController = DataGridController();
     accdtlnvstgLadOwnerDataGridController = DataGridController();
     accdtlnvstgLadPartcpntDataGridController = DataGridController();
+
+    // 실태조사 > 지장물
+    accdtlnvstgObstDataGridController = DataGridController();
 
     bsnsTabController.addListener(() {
       print('bsnsTabController.index : ${bsnsTabController.index}');
@@ -316,8 +325,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     });
 
     bsnsListScrollController.addListener(() {
-      print(
-          'bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
+      print('bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
     });
 
     /// [사업목록] 조회
@@ -340,6 +348,12 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     /// [소유자관리 > 지장물정보] 조회
     await fetchOwnerObstInfoDataSource();
+
+    // [실태조사 > 토지 정보] 조회
+    await fetchAccdtlnvstgOwnerDataSource();
+
+    /// [실태조사 > 지장물 정보] 조회
+    await fetchAccdtlnvstgObstDataSource();
   }
 
   @override
@@ -514,9 +528,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [실태조사 > 소유자/관계인] 조회
   fetchAccdtlnvstgOwnerDataSource() async {
+
     var accdtlnvstgOwner = selectedOwnerLadInfoData.value;
     accdtlnvstgOwnerLadDataSource.value = OwnerLadInfoDatasource(items: [accdtlnvstgOwner]);
-
 
     var accdtlnvstgOwnerDataSource = <AccdtlnvstgLadOwnerModel>[];
     for (var i = 0; i < 1; i++) {
@@ -543,6 +557,31 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     }
 
     this.accdtlnvstgLadPartcpntDataSource.value = AccdtlnvstgLadPartcpntDatasource(items: accdtlnvstgPartcpntDataSource);
+
+  }
+
+  /// [실태조사 > 지장물 정보] 조회
+  fetchAccdtlnvstgObstDataSource() async {
+    var accdtlnvstgObst = <AccdtlnvstgObstModel>[];
+    for (var i = 0; i < 10; i++) {
+      accdtlnvstgObst.add(AccdtlnvstgObstModel(
+          obstSeq: int.parse('$i'),
+          obstDivCd: '지장물구분코드',
+          cmpnstnThingKndDtls: '물건의종류',
+          obstStrctStndrdInfo: '구조규격정보',
+          cmpnstnQtyAraVu: 10,
+          cmpnstnThingUnitDivCd: '보상물건단위구분코드',
+          invstrEmpNo: '조사자',
+          invstrJgrdNm: '대리',
+          invstrNm: '김덕수',
+          obsrverNm: '관측자',
+          accdtInvstgObsrverAddr: '대전광역시 유성구 봉명동',
+          acddtInvstgSqnc: '1차',
+          invstgDt: '2021-10-0$i',
+          spcitm: '특이사항'));
+    }
+
+    accdtlnvstgObstDataSource.value = AccdtlnvstgObstDatasource(items: accdtlnvstgObst);
 
   }
 
@@ -949,5 +988,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       accdtlnvstgTabLadSelected[i] = false;
     }
     accdtlnvstgTabLadSelected[index] = true;
+  }
+
+  /// 실태조사 -> 지장물조사 -> 지장물검색
+  void handleAccdtlnvstgObstTabSelected(int index) {
+    for (var i = 0; i < accdtlnvstgTabObstSelected.length; i++) {
+      accdtlnvstgTabObstSelected[i] = false;
+    }
+    accdtlnvstgTabObstSelected[index] = true;
   }
 }
