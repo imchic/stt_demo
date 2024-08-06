@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:stt_demo/routes/app_route.dart';
 import 'package:stt_demo/screens/bsns/bsns_controller.dart';
 import 'package:stt_demo/utils/colors.dart';
+import 'package:stt_demo/utils/custom_bsns_badge.dart';
 import 'package:stt_demo/utils/dialog_util.dart';
 
 class BaseHeader extends StatefulWidget {
@@ -208,55 +209,9 @@ class _BaseHeaderState extends State<BaseHeader> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                  height: 34.h,
-                                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFFEFF5FF),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '댐',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Color(0xFF1D56BC),
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                CustomBsnsBadge(text: '댐', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
                                 SizedBox(width: 6.w),
-                                Container(
-                                  height: 34.h,
-                                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFFFFF1E3),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '건설',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Color(0xFFFF7F00),
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                CustomBsnsBadge(text: '건설', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
                               ],
                             ),
                             SizedBox(width: 10.w),
@@ -265,7 +220,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                 child: Text(
                                   BsnsController.to.selectedBsns.value.title ?? '',
                                   style: TextStyle(
-                                    color: Color(0xFF1D1D1D),
+                                    color: tableTextColor,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w700,
                                   ),

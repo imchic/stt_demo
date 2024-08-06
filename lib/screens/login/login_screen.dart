@@ -79,7 +79,7 @@ class LoginScreen extends GetView<LoginController> {
           child: TabBar(
             controller: controller.loginTypeTabController,
             tabs: controller.loginTypeTabItems,
-            labelColor: Color(0xFF1D1D1D),
+            labelColor: tableTextColor,
             dividerColor: Colors.transparent,
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(

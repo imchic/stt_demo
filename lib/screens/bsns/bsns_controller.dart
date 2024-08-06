@@ -1,22 +1,24 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:stt_demo/screens/accdtlnvstg/datasource/accdtlnvstg_lad_owner_datasource.dart';
-import 'package:stt_demo/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
-import 'package:stt_demo/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
-import 'package:stt_demo/screens/accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
-
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
+import '../../utils/colors.dart';
 import '../../utils/dialog_util.dart';
-import '../../utils/custom_textfiled.dart';
+import '../../utils/custom_textfield.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
+import '../accdtlnvstg/datasource/accdtlnvstg_lad_owner_datasource.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_partcpnt_datasource.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_obst_datasource.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
+import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
+import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
+import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
 import '../owner/datasource/owner_datasource.dart';
 import '../owner/datasource/model/owner_datasource_model.dart';
 import '../owner/lad/model/owner_lad_info_datasource_model.dart';
@@ -56,7 +58,11 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController ownerNameSearchController;
   late TextEditingController ownerRegisterNoSearchController;
 
+  late PageController pageController; // 페이지 컨트롤러
   late ScrollController bsnsListScrollController;
+
+  // navermap controller
+  late NaverMapController naverMapController;
 
   // debounce
   Timer? _debounce;
@@ -64,8 +70,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   // 사업선택 탭 아이템
   final bsnsSelectTabItems = [
     Tab(text: '사업선택'),
-    Tab(text: '사업구역'),
-    Tab(text: '조사차수')
+    // Tab(text: '사업구역'),
+    // Tab(text: '조사차수')
   ];
 
   final bsnsSelectTabIsSelected = [true, false, false].obs;
@@ -95,12 +101,16 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   // 실태조사 지장물 조사 탭 아이템
   final accdtlnvstgObstTabItems = [Tab(text: '지장물검색'), Tab(text: '조사내용')];
 
+  // 통계 정보 탭 아이템
+  final sttusTabItems = [Tab(text: '토지현황'), Tab(text: '지장물현황')];
+
   late TabController bsnsTabController;
   late TabController accdtlnvstgTabController;
   late TabController accdtlnvstgLadTabController;
   late TabController accdtlnvstgObstTabController;
 
   late TabController bsnsOwnerTabController;
+  late TabController sttusTabController;
 
   /// [DataGridController] 는 데이터 그리드의 상태를 제어하는 컨트롤러 클래스이다.
 
@@ -123,8 +133,10 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   final bsnsOwnerDataSource = OwnerDatasource(items: []).obs; // 소유자
   RxList<OwnerDataSourceModel> bsnsOwner = <OwnerDataSourceModel>[].obs;
 
-  final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
-  final ownerObstInfoDataSource = OwnerObstInfoDatasource(items: []).obs; // 지장물정보
+  final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: [])
+      .obs; // 소유자 및 관계인
+  final ownerObstInfoDataSource = OwnerObstInfoDatasource(items: [])
+      .obs; // 지장물정보
 
   final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
   RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
@@ -134,13 +146,17 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   // 실태조사 > 소유자/관계인 > 토지
   final accdtlnvstgOwnerLadDataSource = OwnerLadInfoDatasource(items: []).obs;
-  Rx<OwnerLadInfoDatasourceModel> selectedOwnerLadInfoData = OwnerLadInfoDatasourceModel().obs;
+  Rx<
+      OwnerLadInfoDatasourceModel> selectedOwnerLadInfoData = OwnerLadInfoDatasourceModel()
+      .obs;
 
   // 실태조사 > 소유자/관계인 > 소유자 현황
-  final accdtlnvstgLadOwnerDataSource = AccdtlnvstgLadOwnerDatasource(items: []).obs;
+  final accdtlnvstgLadOwnerDataSource = AccdtlnvstgLadOwnerDatasource(items: [])
+      .obs;
 
   // 실태조사 > 소유자/관계인 > 소유자별 관계인 현황
-  final accdtlnvstgLadPartcpntDataSource = AccdtlnvstgLadPartcpntDatasource(items: []).obs;
+  final accdtlnvstgLadPartcpntDataSource = AccdtlnvstgLadPartcpntDatasource(
+      items: []).obs;
 
   // 실태조사 > 지장물내역
   final accdtlnvstgObstDataSource = AccdtlnvstgObstDatasource(items: []).obs;
@@ -149,7 +165,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   RxInt radioValue = 0.obs;
 
   RxBool isExpanded = false.obs;
-  RxBool isRightSideExpanded = false.obs;
+
+  // 사업선택 화면에서 사업선택 여부
+  RxBool isBsnsSelectFlag = false.obs;
+  // 사업구역 선택 화면에서 사업구역 선택 여부
+  RxBool isBsnsZoneSelectFlag = false.obs;
+  // 조사차수 화면에서 조사차수 선택 여부
+  RxBool isBsnsSqncSelectFlag = false.obs;
 
   RxInt selectedIndex = 0.obs;
   RxBool isNavOpen = false.obs;
@@ -174,11 +196,11 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   // RxDouble surveyDateWidth = 100.0.obs;
 
   RxMap<String, double> columnWidths = {
-    'bsnsZoneNo': 40.w,
-    'bsnsZoneNm': 850.w,
-    'lotCnt': 60.w,
-    'bsnsAra': 60.w,
-    'bsnsReadngPblancDe': 120.w,
+    'bsnsZoneNo': double.nan,
+    'bsnsZoneNm': double.nan,
+    'lotCnt': double.nan,
+    'bsnsAra': double.nan,
+    'bsnsReadngPblancDe': double.nan,
     'surveyDate': double.nan,
     'surveyOrder': double.nan,
     'location': double.nan,
@@ -203,17 +225,20 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     'nvstgDt': double.nan,
     'mpnstnStepDivCd': double.nan,
     'pcitm': double.nan,
-    'bsnsSqnc': 60.w,
-    'bsnsStrtDe': 120.w,
-    'bsnsEndDe': 120.w,
+    'bsnsSqnc': double.nan,
+    'bsnsStrtDe': double.nan,
+    'bsnsEndDe': double.nan,
     'ownerNo': double.nan,
+    'ownerName': double.nan,
     'ladLdgrOwnerNm': double.nan,
     'ladLdgrPosesnDivCd': double.nan,
+    'ownerTypeDetail': double.nan,
+    'ownerDetail2': double.nan,
     'ownerRegisterNo': double.nan,
     'ownerTelNo': double.nan,
     'ownerPhoneNo': double.nan,
-    'lgdongNm': 300.w,
-    'lcrtsDivCd': 100.w,
+    'lgdongNm': double.nan,
+    'lcrtsDivCd': double.nan,
     'mlnoLtno': double.nan,
     'slnoLtno': double.nan,
     'ofcbkLndcgrDivCd': double.nan,
@@ -264,6 +289,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   Future<void> onInit() async {
     super.onInit();
 
+    pageController = PageController(initialPage: selectedIndex.value);
+
     bsnsNameSearchController = TextEditingController();
     bsnsNoSearchController = TextEditingController();
 
@@ -279,11 +306,18 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     ownerSlnoLtnoSearchController = TextEditingController();
     ownerEtcController = TextEditingController();
 
-    accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
-    bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
-    bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
-    accdtlnvstgLadTabController = TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
-    accdtlnvstgObstTabController = TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
+    accdtlnvstgTabController =
+        TabController(length: accdtlnvstgTabItems.length, vsync: this);
+    bsnsTabController =
+        TabController(length: bsnsSelectTabItems.length, vsync: this);
+    bsnsOwnerTabController =
+        TabController(length: bsnsOwnerTabItems.length, vsync: this);
+    accdtlnvstgLadTabController =
+        TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
+    accdtlnvstgObstTabController =
+        TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
+    sttusTabController =
+        TabController(length: sttusTabItems.length, vsync: this);
 
     orderController = TextEditingController();
 
@@ -325,11 +359,12 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     });
 
     bsnsListScrollController.addListener(() {
-      print('bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
+      print('bsnsListScrollController.offset : ${bsnsListScrollController
+          .offset}');
     });
 
-    /// [사업목록] 조회
-    await fetchBsnsSelectAreaGridDataSource();
+    // /// [사업목록] 조회
+    // await fetchBsnsSelectAreaGridDataSource();
 
     /// [소유자 및 관리인] 조회
     await fetchBsnsOwnerDataSource();
@@ -350,7 +385,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     await fetchOwnerObstInfoDataSource();
 
     // [실태조사 > 토지 정보] 조회
-    await fetchAccdtlnvstgOwnerDataSource();
+    // await fetchAccdtlnvstgOwnerDataSource();
 
     /// [실태조사 > 지장물 정보] 조회
     await fetchAccdtlnvstgObstDataSource();
@@ -391,17 +426,50 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     await Future.delayed(Duration(milliseconds: 500));
 
     var bsns = <BsnsSelectModel>[];
-    for (var i = 0; i < 10; i++) {
-      bsns.add(BsnsSelectModel(
-          no: i.toString(),
-          areaNo: i.toString(),
-          title: '(5101102)대교천 재해예상사업(차수 : $i)',
-          bizName: '사업구역 $i',
-          bizArea: '장군면 도계리 34$i 연기면 세종리 금강합류점검',
-          isExpand: false,
-          isSelect: false,
-          bizDate: DateTime.now().toString()));
-    }
+    // for (var i = 0; i < 10; i++) {
+    //   bsns.add(BsnsSelectModel(
+    //       no: i.toString(),
+    //       areaNo: i.toString(),
+    //       title: '(5101102)대교천 재해예상사업(차수 : $i)',
+    //       bizName: '사업구역 $i',
+    //       bizArea: '장군면 도계리 34$i 연기면 세종리 금강합류점검',
+    //       isExpand: false,
+    //       isSelect: false,
+    //       bizDate: DateTime.now().toString()));
+    // }
+
+    bsns.add(BsnsSelectModel(no: '1',
+        areaNo: '1',
+        title: '(T101) 대교천 재해예상사업',
+        bizName: '대교천 재해예상사업(1구역)',
+        bizArea: '장군면 도계리 341 연기면 세종리 금강합류점검',
+        isExpand: false,
+        isSelect: false,
+        bizDate: DateTime.now().toString()));
+    bsns.add(BsnsSelectModel(no: '2',
+        areaNo: '2',
+        title: '(T201) 안동댐 치수능력증대사업',
+        bizName: '안동댐 치수능력증대사업(1구역)',
+        bizArea: '경상북도 안동시 상아동',
+        isExpand: false,
+        isSelect: false,
+        bizDate: DateTime.now().toString()));
+    bsns.add(BsnsSelectModel(no: '3',
+        areaNo: '3',
+        title: '(T301) 안동댐직하하천정비사업',
+        bizName: '안동댐직하하천정비사업(1구역)',
+        bizArea: '경상북도 안동시 성곡동',
+        isExpand: false,
+        isSelect: false,
+        bizDate: DateTime.now().toString()));
+    bsns.add(BsnsSelectModel(no: '4',
+        areaNo: '4',
+        title: '(T401) 안동댐_보상선2',
+        bizName: '안동댐_보상선2(1구역)',
+        bizArea: '경상북도 안동시 녹전면 구송리',
+        isExpand: false,
+        isSelect: false,
+        bizDate: DateTime.now().toString()));
 
     bsnsList.value = bsns;
     searchBsnsList.value = bsns;
@@ -409,17 +477,32 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     return bsnsList;
   }
 
+  /// [사업구역선택] 조회
+  fetchBsnsSelectAreaGridDataSource() async {
+    var bsns = <BsnsSelectAreaDataSourceModel>[];
+    for (var i = 0; i < 10; i++) {
+      bsns.add(BsnsSelectAreaDataSourceModel(
+          bsnsNo: i,
+          bsnsZoneNo: i,
+          bsnsZoneNm: '${BsnsController.to.selectedBsns.value.title ?? ''}($i구역)',
+          lotCnt: Random().nextInt(10),
+          bsnsAra: Random().nextInt(5000),
+          bsnsReadngPblancDe: '2021-10-0$i'));
+    }
+    bsnsListDataSource.value = BsnsSelectAreaDataSource(items: bsns);
+  }
+
   /// [소유자 및 관리인] 조회
   fetchBsnsOwnerDataSource() async {
     for (var i = 0; i < 10; i++) {
       bsnsOwner.add(OwnerDataSourceModel(
           no: i,
-          ownerNo: 'Owner-00$i',
-          ladLdgrOwnerNm: '홍길동',
-          ladLdgrPosesnDivCd: '개인',
-          ownerRegisterNo: '891208-1000000',
-          ownerTelNo: '042-1234-5678',
-          ownerPhoneNo: '010-1234-5678'));
+          ownerNo: '10000${Random().nextInt(100)}'.toString(),
+          ladLdgrOwnerNm: randomName(),
+          ladLdgrPosesnDivCd: randomLdgrPosesnDivCd(),
+          ownerRegisterNo: '${randomBirth()}-1000000',
+          ownerTelNo: '${randomTelNo()}',
+          ownerPhoneNo: '${randomPhoneNo()}'));
     }
 
     bsnsOwnerDataSource.value = OwnerDatasource(items: bsnsOwner);
@@ -438,42 +521,26 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     bsnsSqncDataSource.value = BsnsSqncDatasource(items: bsnsSqnc);
   }
 
-  /// [사업구역선택] 조회
-  fetchBsnsSelectAreaGridDataSource() async {
-    var bsns = <BsnsSelectAreaDataSourceModel>[];
-    for (var i = 0; i < 10; i++) {
-      bsns.add(BsnsSelectAreaDataSourceModel(
-          bsnsNo: i,
-          bsnsZoneNo: i,
-          bsnsZoneNm: '사업구역 $i',
-          lotCnt: i,
-          bsnsAra: i,
-          bsnsReadngPblancDe: '2021-10-0$i'));
-    }
-
-    bsnsListDataSource.value = BsnsSelectAreaDataSource(items: bsns);
-  }
-
   /// [소유자관리 > 토지정보] 조회
   fetchOwnerLadInfoDataSource() async {
     var ownerLadInfo = <OwnerLadInfoDatasourceModel>[];
     for (var i = 0; i < 10; i++) {
       ownerLadInfo.add(OwnerLadInfoDatasourceModel(
           lgdongNm: '대전광역시 유성구 봉명동',
-          lcrtsDivCd: '공부지목',
+          lcrtsDivCd: '일반',
           mlnoLtno: '12$i',
           slnoLtno: '45$i',
-          ofcbkLndcgrDivCd: '공부지목',
-          sttusLndcgrDivCd: '현황지목',
-          ofcbkAra: 1000,
-          incrprAra: 2000,
-          cmpnstnInvstgAra: 3000,
-          acqsPrpDivCd: '취득소유구분코드',
-          aceptncPrpDivCd: '수용사용구분코드',
+          ofcbkLndcgrDivCd: randomLndcgrDivCd(),
+          sttusLndcgrDivCd: randomLndcgrDivCd(),
+          ofcbkAra: Random().nextInt(1000),
+          incrprAra: Random().nextInt(1000),
+          cmpnstnInvstgAra: Random().nextInt(1000),
+          acqsPrpDivCd: '기타',
+          aceptncPrpDivCd: '취득',
           accdtInvstgSqnc: i,
           accdtInvstgDe: '2021-10-0$i',
           invstgDt: '2021-10-0$i',
-          cmpnstnDtaChnStatDivCd: '보상자료변경상태구분코드',
+          cmpnstnDtaChnStatDivCd: '변경',
           etc: '기타'));
 
       ownerLadInfoDataSource.value =
@@ -490,7 +557,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           lcrtsDivCd: '공부지목',
           mlnoLtno: '12$i',
           slnoLtno: '45$i',
-          obstSeq: '$i번',
+          obstSeq: '$i',
           obstDivCd: '지장물구분코드',
           cmpnstnThingKndDtls: '물건의종류',
           obstStrctStndrdInfo: '구조규격정보',
@@ -528,9 +595,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [실태조사 > 소유자/관계인] 조회
   fetchAccdtlnvstgOwnerDataSource() async {
-
     var accdtlnvstgOwner = selectedOwnerLadInfoData.value;
-    accdtlnvstgOwnerLadDataSource.value = OwnerLadInfoDatasource(items: [accdtlnvstgOwner]);
+    accdtlnvstgOwnerLadDataSource.value =
+        OwnerLadInfoDatasource(items: [accdtlnvstgOwner]);
 
     var accdtlnvstgOwnerDataSource = <AccdtlnvstgLadOwnerModel>[];
     for (var i = 0; i < 1; i++) {
@@ -542,7 +609,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           ownerDetail2: '조회',
           ownerRegisterNo: '891208-1000000'));
     }
-    this.accdtlnvstgLadOwnerDataSource.value = AccdtlnvstgLadOwnerDatasource(items: accdtlnvstgOwnerDataSource);
+    this.accdtlnvstgLadOwnerDataSource.value =
+        AccdtlnvstgLadOwnerDatasource(items: accdtlnvstgOwnerDataSource);
 
 
     var accdtlnvstgPartcpntDataSource = <AccdtlnvstgLadPartcpntModel>[];
@@ -556,8 +624,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           ownerRegisterNo: '010-0000-0000'));
     }
 
-    this.accdtlnvstgLadPartcpntDataSource.value = AccdtlnvstgLadPartcpntDatasource(items: accdtlnvstgPartcpntDataSource);
-
+    this.accdtlnvstgLadPartcpntDataSource.value =
+        AccdtlnvstgLadPartcpntDatasource(items: accdtlnvstgPartcpntDataSource);
   }
 
   /// [실태조사 > 지장물 정보] 조회
@@ -566,46 +634,23 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     for (var i = 0; i < 10; i++) {
       accdtlnvstgObst.add(AccdtlnvstgObstModel(
           obstSeq: int.parse('$i'),
-          obstDivCd: '지장물구분코드',
-          cmpnstnThingKndDtls: '물건의종류',
-          obstStrctStndrdInfo: '구조규격정보',
-          cmpnstnQtyAraVu: 10,
-          cmpnstnThingUnitDivCd: '보상물건단위구분코드',
-          invstrEmpNo: '조사자',
+          obstDivCd:'${randomObstDivCd()}',
+          cmpnstnThingKndDtls: '${randomCmpnstnThingKndDtls()}',
+          obstStrctStndrdInfo: '${randomCmpnstnThingKndDtls()}',
+          cmpnstnQtyAraVu: Random().nextInt(1000),
+          cmpnstnThingUnitDivCd: '${randomCmpnstnThingKndDtls()}',
+          invstrEmpNo: '100${Random().nextInt(100)}',
           invstrJgrdNm: '대리',
-          invstrNm: '김덕수',
-          obsrverNm: '관측자',
+          invstrNm: randomName(),
+          obsrverNm: randomName(),
           accdtInvstgObsrverAddr: '대전광역시 유성구 봉명동',
-          acddtInvstgSqnc: '1차',
+          acddtInvstgSqnc: '$i차',
           invstgDt: '2021-10-0$i',
           spcitm: '특이사항'));
     }
 
-    accdtlnvstgObstDataSource.value = AccdtlnvstgObstDatasource(items: accdtlnvstgObst);
-
-  }
-
-  /// 사업 선택
-  getBusinessList() async {
-    for (var i = 0; i < 10; i++) {
-      businessList.add('사업 $i');
-    }
-
-    DialogUtil.showBottomSheet(
-      Get.context!,
-      '사업선택',
-      ListView.builder(
-        itemCount: businessList.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(businessList[index]),
-            onTap: () {
-              isNavOpen.value = false;
-            },
-          );
-        },
-      ),
-    );
+    accdtlnvstgObstDataSource.value =
+        AccdtlnvstgObstDatasource(items: accdtlnvstgObst);
   }
 
   /// [차수] 선택
@@ -650,7 +695,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                               Text(
                                 '차수등록',
                                 style: TextStyle(
-                                  color: Color(0xFF1D1D1D),
+                                  color: tableTextColor,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -669,11 +714,12 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                               children: [
                                 Expanded(
                                   child: SizedBox(
-                                    child: CustomTextFiled(
+                                    child: CustomTextField(
                                       controller: orderAutoController,
-                                      hintText: '차수는 순차적으로 자동입력됩니다.',
+                                      hintText: orderAutoController.text,
                                       isPassword: false,
                                       isReadOnly: true,
+                                      textColor: tableTextColor,
                                       onChanged: (value) {
                                         print('orderAutoController : $value');
                                       },
@@ -707,7 +753,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                               Text(
                                 '시작일',
                                 style: TextStyle(
-                                  color: Color(0xFF1D1D1D),
+                                  color: tableTextColor,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -726,7 +772,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                               children: [
                                 Expanded(
                                   child: SizedBox(
-                                    child: CustomTextFiled(
+                                    child: CustomTextField(
                                       controller: orderStartDtController,
                                       hintText: '현재 날짜로 자동입력됩니다.',
                                       isPassword: false,
@@ -736,14 +782,14 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                         showDatePicker(
                                           context: Get.context!,
                                           initialDate: orderStartDtController
-                                                  .text.isEmpty
+                                              .text.isEmpty
                                               ? DateTime.now()
                                               : DateTime.parse(
-                                                  orderStartDtController.text),
+                                              orderStartDtController.text),
                                           firstDate: DateTime(2024),
                                           lastDate: DateTime(2034),
                                           initialDatePickerMode:
-                                              DatePickerMode.day,
+                                          DatePickerMode.day,
                                         ).then((value) {
                                           print('start dt : $value');
                                           var year = value!.year;
@@ -755,7 +801,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                               : value.day;
 
                                           orderStartDtController.text =
-                                              '$year-$month-$day';
+                                          '$year-$month-$day';
                                         });
                                       },
                                     ),
@@ -788,7 +834,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                               Text(
                                 '종료일',
                                 style: TextStyle(
-                                  color: Color(0xFF1D1D1D),
+                                  color: tableTextColor,
                                   fontSize: 16.sp,
                                   fontFamily: 'Pretendard',
                                   fontWeight: FontWeight.w500,
@@ -808,7 +854,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                               children: [
                                 Expanded(
                                   child: SizedBox(
-                                    child: CustomTextFiled(
+                                    child: CustomTextField(
                                         controller: orderEndDtController,
                                         hintText: '종료일을 입력해주세요.',
                                         isPassword: false,
@@ -818,14 +864,14 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                           showDatePicker(
                                             context: Get.context!,
                                             initialDate: orderEndDtController
-                                                    .text.isEmpty
+                                                .text.isEmpty
                                                 ? DateTime.now()
                                                 : DateTime.parse(
-                                                    orderEndDtController.text),
+                                                orderEndDtController.text),
                                             firstDate: DateTime(2024),
                                             lastDate: DateTime(2034),
                                             initialDatePickerMode:
-                                                DatePickerMode.day,
+                                            DatePickerMode.day,
                                           ).then((value) {
                                             print('end dt : $value');
                                             var year = value!.year;
@@ -837,7 +883,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                                 : value.day;
 
                                             orderEndDtController.text =
-                                                '$year-$month-$day';
+                                            '$year-$month-$day';
                                           });
                                         }),
                                   ),
@@ -867,16 +913,17 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                 DialogUtil.showAlertDialog(
                   Get.context!,
                   '실태조사 시작',
-                  // '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.',
-                  // '${orderStartDtController.text} ~ ${orderEndDtController.text}\현장 실태조사를 시작하시겠습니까?',
                   RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
                           text:
-                              '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.\n',
+                          '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.\n',
                           style: TextStyle(
-                            color: Theme.of(Get.context!).colorScheme.primary,
+                            color: Theme
+                                .of(Get.context!)
+                                .colorScheme
+                                .primary,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             height: 1.5,
@@ -884,9 +931,11 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                         ),
                         TextSpan(
                           text:
-                              '사업기간: ${orderStartDtController.text} ~ ${orderEndDtController.text}\n현장 실태조사를 시작하시겠습니까?',
+                          '사업기간: ${orderStartDtController
+                              .text} ~ ${orderEndDtController
+                              .text}\n현장 실태조사를 시작하시겠습니까?',
                           style: TextStyle(
-                            color: Color(0xFF1D1D1D),
+                            color: tableTextColor,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                             height: 1.5,
@@ -895,12 +944,15 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  () {
+                      () {
                     print('실태조사 시작');
-                    selectedIndex.value = 2;
+                    isBsnsSelectFlag.value = false;
+                    isBsnsSqncSelectFlag.value = false;
+                    isBsnsZoneSelectFlag.value = false;
+                    pageController.jumpToPage(2);
                     Get.back();
                   },
-                  () {
+                      () {
                     Get.back();
                   },
                 );
@@ -959,10 +1011,10 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
         // 검색결과가 없을 경우
         //searchBsnsList.value = bsnsList.where((element) => element.title?.contains(value) ?? false).toList();
         bsnsList.where((element) => element.title?.contains(value) ?? false) !=
-                null
+            null
             ? searchBsnsList.value = bsnsList
-                .where((element) => element.title?.contains(value) ?? false)
-                .toList()
+            .where((element) => element.title?.contains(value) ?? false)
+            .toList()
             : searchBsnsList.value = [];
 
         print('searchBsnsList : ${searchBsnsList}');
@@ -997,4 +1049,205 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     }
     accdtlnvstgTabObstSelected[index] = true;
   }
-}
+
+  randomName() {
+    var names = [
+      '김덕수',
+      '김덕순',
+      '김덕자',
+      '김덕영',
+      '김덕희',
+      '김덕호',
+      '김덕준',
+      '김덕중',
+      '김덕철',
+      '김덕훈',
+    ];
+
+    return names[Random().nextInt(names.length)];
+  }
+
+  randomLdgrPosesnDivCd() {
+    var names = [
+      '개인',
+      '법인',
+      '기타',
+    ];
+
+    return names[Random().nextInt(names.length)];
+  }
+
+  randomBirth() {
+    var names = [
+      '891208',
+      '910101',
+      '920202',
+      '930303',
+      '940404',
+      '950505',
+      '960606',
+      '970707',
+      '980808',
+      '990909',
+    ];
+
+    return names[Random().nextInt(names.length)];
+  }
+
+  randomPhoneNo() {
+    var names = [
+      '010-0000-0000',
+      '010-1111-1111',
+      '010-2222-2222',
+      '010-3333-3333',
+      '010-4444-4444',
+      '010-5555-5555',
+      '010-6666-6666',
+      '010-7777-7777',
+      '010-8888-8888',
+      '010-9999-9999',
+    ];
+
+    return names[Random().nextInt(names.length)];
+  }
+
+
+  randomTelNo() {
+    var names = [
+      '042-000-0000',
+      '042-111-1111',
+      '042-222-2222',
+      '042-333-3333',
+      '042-444-4444',
+      '042-555-5555',
+      '042-666-6666',
+      '042-777-7777',
+      '042-888-8888',
+      '042-999-9999',
+    ];
+
+    return names[Random().nextInt(names.length)];
+  }
+
+  randomLndcgrDivCd() {
+    var names = [
+    '미등록',
+    '전',
+    '답',
+    '과수원',
+    '목장용지',
+    '없음',
+    '광천지',
+    '염전',
+    '대',
+    '공장용지',
+    '학교용지',
+    '도로',
+    '철도용지',
+    '하천',
+    '제방',
+    '구거',
+    '유지',
+    '수도용지',
+    '공원',
+    '체육용지',
+    '보상비산정',
+    '종교용지',
+    '사적지',
+    '묘지',
+    '보상비산정완료',
+    '주차장',
+    '주유소용지',
+    '창고용지',
+    '양어장',
+    '지적도',
+    '(無)',
+    '임야',
+    '유원지',
+    '잡종지',
+    '묵답',
+    '묵전',
+    '수',
+    '전,답',
+    '학',
+    '기타'
+    ];
+
+    return names[Random().nextInt(names.length)];
+  }
+
+  randomObstDivCd() {
+    var names = [
+     '건축물'
+     '공작물'
+     '과수 등',
+     '입목',
+     '묘목',
+     '농작물'
+     '농기구'
+     '축산보상',
+     '분묘',
+     '개간비',
+     '영업보상',
+     '광업권',
+     '어업보상',
+     '영농손실액',
+     '이사비'
+     '주거이전비',
+     '(소유자)'
+     '이주정착금',
+     '이주정착지원금'
+     '생활안정지원금',
+     '가산보상',
+     '토지사용료',
+     '이농/이어비',
+     '휴직/실직보상',
+     '주거이전비(세입자)',
+     '분묘이장보조비',
+     '동산이전비',
+     '구축물',
+     '물사용권',
+     '기타',
+    ];
+
+    return names[Random().nextInt(names.length)];
+  }
+
+  randomCmpnstnThingKndDtls() {
+    var names = [
+      '건축물',
+      '공작물',
+      '과수 등',
+      '입목',
+      '묘목',
+      '농작물',
+      '농기구',
+      '축산보상',
+      '분묘',
+      '개간비',
+      '영업보상',
+      '광업권',
+      '어업보상',
+      '영농손실액',
+      '이사비',
+      '주거이전비',
+      '(소유자)',
+      '이주정착금',
+      '이주정착지원금',
+      '생활안정지원금',
+      '가산보상',
+      '토지사용료',
+      '이농/이어비',
+      '휴직/실직보상',
+      '주거이전비(세입자)',
+      '분묘이장보조비',
+      '동산이전비',
+      '구축물',
+      '물사용권',
+      '기타',
+    ];
+
+    return names[Random().nextInt(names.length)];
+  }
+
+  }

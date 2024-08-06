@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stt_demo/screens/bsns/datasource/model/bsns_select_area_datasource_model.dart';
+import 'package:stt_demo/utils/colors.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// TD_LP10111 (LP_사업계획구역정보)
@@ -37,13 +38,23 @@ class BsnsSelectAreaDataSource extends DataGridSource {
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
+        color: Colors.white,
         cells: row.getCells().map<Widget>((dataGridCell) {
-      return Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(dataGridCell.value.toString(),
-            overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.sp)),
-      );
-    }).toList());
+          if(dataGridCell.columnName == 'bsnsZoneNm') {
+            return Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 12.sp)),
+            );
+          } else {
+            return Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.sp)),
+            );
+          }
+
+        }).toList());
   }
+
 }

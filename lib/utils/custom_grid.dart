@@ -60,10 +60,12 @@ class _CustomGridState extends State<CustomGrid> {
         sortIconColor: Theme.of(Get.context!).colorScheme.secondary,
         selectionColor: Colors.grey[200],
         indentColumnWidth: 0,
+        headerHoverColor: Color(0xFFE5E8ED),
       ),
       child: SizedBox(
         child: SfDataGrid(
-          headerRowHeight: 48.h,
+          rowHeight: 40.h,
+          allowPullToRefresh: true,
           frozenColumnsCount: widget.freezeColumnCount,
           highlightRowOnHover: true,
           headerGridLinesVisibility: GridLinesVisibility.both,
@@ -93,6 +95,9 @@ class _CustomGridState extends State<CustomGrid> {
           },
           onColumnResizeEnd: (ColumnResizeEndDetails details) {
             BsnsController.to.columnWidths[details.column.columnName] = details.width;
+          },
+          onQueryRowHeight: (RowHeightDetails details) {
+            return 40.h;
           },
           columnResizeMode: ColumnResizeMode.onResizeEnd,
           showColumnHeaderIconOnHover: true,

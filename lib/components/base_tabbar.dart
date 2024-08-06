@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:stt_demo/components/custom_tab.dart';
-import 'package:stt_demo/utils/colors.dart';
 
 class BaseTabBar extends StatefulWidget {
 

@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import 'colors.dart';
+
 /// [DialogUtil] 다이얼로그 관련 유틸리티 클래스
 class DialogUtil {
 
@@ -44,7 +46,7 @@ class DialogUtil {
                       Text(
                         title,
                         style: TextStyle(
-                          color: Color(0xFF1D1D1D),
+                          color: tableTextColor,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w700,
                         ),
@@ -174,7 +176,7 @@ class DialogUtil {
         ),
       ),
       constraints: BoxConstraints(
-        maxWidth: 640.w,
+        maxWidth: 440.w,
         // maxHeight: 360.h
       ),
       builder: (BuildContext context) {
@@ -198,7 +200,7 @@ class DialogUtil {
                     Text(
                       title,
                       style: TextStyle(
-                        color: Color(0xFF1D1D1D),
+                        color: tableTextColor,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w700,
                       ),

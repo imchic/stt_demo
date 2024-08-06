@@ -6,8 +6,9 @@ import 'package:stt_demo/screens/bsns/bsns_controller.dart';
 import 'package:stt_demo/screens/bsns/select/bsns_select_screen.dart';
 
 import '../utils/colors.dart';
-import '../utils/custom_textfiled.dart';
+import '../utils/custom_textfield.dart';
 
+/// 소유자 위젯
 class OwnerWidget {
   static buildOwnerView(BsnsController controller) {
     return Container(
@@ -94,7 +95,7 @@ class OwnerWidget {
                                                   Text(
                                                     '소재지',
                                                     style: TextStyle(
-                                                      color: Color(0xFF1D1D1D),
+                                                      color: tableTextColor,
                                                       fontSize: 16.sp,
                                                       fontWeight: FontWeight.w500,
                                                     ),
@@ -112,7 +113,7 @@ class OwnerWidget {
                                                 CrossAxisAlignment.center,
                                                 children: [
                                                   Expanded(
-                                                    child: CustomTextFiled(
+                                                    child: CustomTextField(
                                                       controller: controller.ownerLctnSearchController,
                                                       hintText: '소재지를 입력해주세요',
                                                       onChanged: (value) {
@@ -132,7 +133,7 @@ class OwnerWidget {
                                     Flexible(
                                       child: SizedBox(
                                         height: 40.h,
-                                        child: CustomTextFiled(
+                                        child: CustomTextField(
                                           controller: controller
                                               .ownerMlnoLtnoSearchController,
                                           hintText: '본번',
@@ -147,7 +148,7 @@ class OwnerWidget {
                                     Flexible(
                                       child: SizedBox(
                                         height: 40.h,
-                                        child: CustomTextFiled(
+                                        child: CustomTextField(
                                           controller: controller
                                               .ownerSlnoLtnoSearchController,
                                           hintText: '부번',
@@ -160,7 +161,7 @@ class OwnerWidget {
                                   ],
                                 ),
                                 SizedBox(height: 10.h),
-                                //buildOwnerMngRadio()
+                                BsnsSelectScreen().buildOwnerMngRadio()
                               ],
                             ),
                           ),
@@ -188,14 +189,14 @@ class OwnerWidget {
                                       TextSpan(
                                         text: '전체',
                                         style: TextStyle(
-                                          color: Color(0xFF1D1D1D),
+                                          color: tableTextColor,
                                           fontSize: 15.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                       TextSpan(
                                         text:
-                                        ' ${controller.searchBsnsList.length}',
+                                        ' ${controller.bsnsOwnerDataSource.value.rows.length}',
                                         style: TextStyle(
                                           color: Colors.red,
                                           fontSize: 15.sp,
@@ -205,7 +206,7 @@ class OwnerWidget {
                                       TextSpan(
                                         text: '건',
                                         style: TextStyle(
-                                          color: Color(0xFF1D1D1D),
+                                          color: tableTextColor,
                                           fontSize: 15.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -238,13 +239,13 @@ class OwnerWidget {
                                   TextSpan(
                                     text: '전체',
                                     style: TextStyle(
-                                      color: Color(0xFF1D1D1D),
+                                      color: tableTextColor,
                                       fontSize: 15.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   TextSpan(
-                                    text: ' ${controller.searchBsnsList.length}',
+                                    text: ' ${controller.ownerLadInfoDataSource.value.rows.length}',
                                     style: TextStyle(
                                       color: Colors.red,
                                       fontSize: 15.sp,
@@ -254,7 +255,7 @@ class OwnerWidget {
                                   TextSpan(
                                     text: '건',
                                     style: TextStyle(
-                                      color: Color(0xFF1D1D1D),
+                                      color: tableTextColor,
                                       fontSize: 15.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -281,13 +282,13 @@ class OwnerWidget {
                                   TextSpan(
                                     text: '전체',
                                     style: TextStyle(
-                                      color: Color(0xFF1D1D1D),
+                                      color: tableTextColor,
                                       fontSize: 15.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   TextSpan(
-                                    text: ' ${controller.searchBsnsList.length}',
+                                    text: ' ${controller.ownerObstInfoDataSource.value.rows.length}',
                                     style: TextStyle(
                                       color: Colors.red,
                                       fontSize: 15.sp,
@@ -297,7 +298,7 @@ class OwnerWidget {
                                   TextSpan(
                                     text: '건',
                                     style: TextStyle(
-                                      color: Color(0xFF1D1D1D),
+                                      color: tableTextColor,
                                       fontSize: 15.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -380,7 +381,7 @@ class OwnerWidget {
                                       height: 58.h,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: CustomTextFiled(
+                                        child: CustomTextField(
                                           isReadOnly: true,
                                           hintText: '홍길동',
                                           onChanged: (value) {
@@ -440,7 +441,7 @@ class OwnerWidget {
                                       height: 58.h,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: CustomTextFiled(
+                                        child: CustomTextField(
                                           isReadOnly: true,
                                           hintText: '사유',
                                           onChanged: (value) {
@@ -500,7 +501,7 @@ class OwnerWidget {
                                       height: 58.h,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: CustomTextFiled(
+                                        child: CustomTextField(
                                           isReadOnly: true,
                                           hintText: '70092-1****',
                                           onChanged: (value) {
@@ -559,7 +560,7 @@ class OwnerWidget {
                                       height: 58.h,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: CustomTextFiled(
+                                        child: CustomTextField(
                                           hintText: '전화번호',
                                           onChanged: (value) {
                                             //controller.searchBsnsName(value);
@@ -609,7 +610,7 @@ class OwnerWidget {
                                       height: 58.h,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: CustomTextFiled(
+                                        child: CustomTextField(
                                           isReadOnly: true,
                                           hintText: '휴대폰번호',
                                           onChanged: (value) {
@@ -712,7 +713,7 @@ class OwnerWidget {
                                                 ),
                                                 SizedBox(height: 10.h),
                                                 Expanded(
-                                                  child: CustomTextFiled(
+                                                  child: CustomTextField(
                                                     hintText: '내용을 입력하세요',
                                                     onChanged: (value) {
                                                       //controller.searchBsnsName(value);

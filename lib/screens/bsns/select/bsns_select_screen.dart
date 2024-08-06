@@ -5,23 +5,24 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:stt_demo/screens/owner/lad/model/owner_lad_info_datasource_model.dart';
-import 'package:stt_demo/widget/bsns_widget.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../../components/base_header.dart';
-import '../../../utils/custom_textfiled.dart';
-import '../../../utils/dialog_util.dart';
+import '../../../utils/custom_textfield.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/custom_grid.dart';
 import '../../../widget/accdt_invstg_widget.dart';
+import '../../../widget/bsns_widget.dart';
 import '../../../widget/owner_widget.dart';
+import '../../../widget/sttus_widget.dart';
+import '../../owner/lad/model/owner_lad_info_datasource_model.dart';
 import '../bsns_controller.dart';
 import '../datasource/model/bsns_select_area_datasource_model.dart';
 
 /// [BsnsSelectScreen] 사업선택 화면
 class BsnsSelectScreen extends GetView<BsnsController> {
+
   const BsnsSelectScreen({super.key});
 
   @override
@@ -33,7 +34,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       body: SafeArea(
         child: Column(
           children: [
-            // BaseHeader(),
             Expanded(
               child: Row(
                 children: [
@@ -41,18 +41,16 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   Container(child: lnbWidget()),
                   // 메인 뷰
                   Expanded(
-                    child: FutureBuilder(
-                      future: controller.fetchBsnsList(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        return Obx(
-                          () => IndexedStack(
-                            index: controller.selectedIndex.value,
+                    flex: 5,
+                    child: Obx(() => PageView(
+                            physics: NeverScrollableScrollPhysics(),
+                            controller: controller.pageController,
+                            onPageChanged: (index) {
+                              controller.selectedIndex.value = index;
+                              controller.isBsnsZoneSelectFlag.value = false;
+                              controller.isBsnsSqncSelectFlag.value = false;
+                              controller.isBsnsSelectFlag.value = false;
+                            },
                             children: [
                               /// [사업선택] 화면
                               Column(
@@ -76,43 +74,56 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 ],
                               ),
                               /// [통계정보] 화면
-                              Center(child: Text('통계정보')),
+                              //Center(child: Text('통계정보 개발 준비중입니다 😃')),
+                              Column(
+                                children: [
+                                  BaseHeader(),
+                                  Expanded(child: SttusWidget.buildSttusView(controller)),
+                                ],
+                              ),
                               /// [고객카드] 화면
-                              Center(child: Text('고객카드')),
+                              Center(child: Text('고객카드 개발 준비중입니다 😃')),
                             ],
                           ),
-                        );
+                        ),
+                  ),
+
+                  // 오른쪽 뷰
+                  Obx(() {
+                    return Expanded(
+                      flex: controller.isBsnsSelectFlag == true ? 4 : 0,
+                      child: Column(
+                        children: [
+                          if (controller.selectedIndex.value == 0)
+
+                            // 사업구역
+                            controller.isBsnsSelectFlag == true
+                                ? BsnsWidget.buildBsnsSelectZoneContainer(controller)
+                                : Container(),
+
+                            // 조사차수
+                            controller.isBsnsZoneSelectFlag == true
+                                ? BsnsWidget.buildBsnsSelectSqncContainer(controller)
+                                : Container(),
+
+                        ],
+                      ),
+                    );
+                  }),
+
+                  /// 슬라이드 패널
+                  Builder(
+                    builder: (context) => InkWell(
+                      onTap: () {
+                        Scaffold.of(context).openEndDrawer();
                       },
+                      child: Center(
+                        child: SvgPicture.asset(
+                          'assets/images/btn_gis.svg',
+                        ),
+                      ),
                     ),
                   ),
-                  // 오른쪽 뷰
-                  Obx(
-                    () => controller.isRightSideExpanded.value
-                        ? InkWell(
-                            onTap: () {
-                              if (controller.isRightSideExpanded.value) {
-                                controller.isRightSideExpanded.toggle();
-                              }
-                            },
-                            child: // fade out effect
-                                // flutter animate slide
-                                AnimatedContainer(
-                              duration: const Duration(milliseconds: 5000),
-                              curve: Curves.easeInOut,
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text('지도영역'),
-                              ),
-                            ))
-                        : AnimatedContainer(
-                            duration: const Duration(milliseconds: 5000),
-                            curve: Curves.easeInOut,
-                            child: Container(
-                              width: 0,
-                            ),
-                          ),
-                  ),
-                  Image.asset('assets/images/btn_gis.png'),
                 ],
               ),
             ),
@@ -121,24 +132,18 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         ),
       ),
       endDrawer: Drawer(
-        width: Get.width * 0.85,
-        child: Container(
-          height: Get.height,
-          color: Colors.white,
-          child: Center(
-            child: NaverMap(
-              options: NaverMapViewOptions(
-                  initialCameraPosition: NCameraPosition(
-                      target: NLatLng(37.3595704, 127.105399),
-                      zoom: 20),
-                  indoorEnable: true,
-                  locationButtonEnable: false,
-                  consumeSymbolTapEvents: false),
-                  onMapReady: (controller) async {
-                  print('Map ready');
-              },
+        width: Get.width * 0.95,
+        child: NaverMap(
+          options: NaverMapViewOptions(
+            initialCameraPosition: NCameraPosition(
+              target: NLatLng(37.3595704, 127.105399),
+              zoom: 15,
             ),
+            mapType: NMapType.hybrid,
           ),
+          onMapReady: (controller) {
+            print("네이버 맵 로딩됨!");
+          },
         ),
       ),
     );
@@ -179,7 +184,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   return Obx(() {
                     return InkWell(
                       onTap: () {
-                        controller.selectedIndex.value = index;
+                        //controller.selectedIndex.value = index;
+                        controller.pageController.jumpToPage(index);
                       },
                       child: Container(
                         width: 120.w,
@@ -355,19 +361,29 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
+  /// [gridColumn] 데이터그리드 컬럼
+  GridColumn gridColumn(String columnName, String label, {bool? isVisble, double? width}) {
+    return GridColumn(
+        width: controller.columnWidths[columnName ?? ''] ?? 80,
+        // width: width ?? 80,
+        columnName: columnName,
+        visible: isVisble ?? true,
+        label: SizedBox(child: Center(child: Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tableTextColor)))));
+  }
+
   ///  사업선택 -> 사업구역 선택
   Widget buildBsnsSelectAreaListDataGrid() {
     return CustomGrid(
       dataSource: controller.bsnsListDataSource.value,
       controller: controller.bsnsListDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.fitByCellValue,
       columns: [
-        gridColumn('bsnsZoneNo', 'No.'),
-        gridColumn('bsnsZoneNm', '사업구역명'),
-        gridColumn('lotCnt', '필지수'),
-        gridColumn('bsnsAra', '면적(㎡)'),
-        gridColumn('bsnsReadngPblancDe', '열람공고일'),
+        gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false, width: 0),
+        gridColumn('bsnsZoneNm', '사업구역명', width: 260),
+        gridColumn('lotCnt', '필지수', width: 50),
+        gridColumn('bsnsAra', '면적(㎡)', width: 50),
+        gridColumn('bsnsReadngPblancDe', '열람공고일', width: 80),
       ],
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) async {
@@ -389,47 +405,16 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                 bsnsAra: bsnsAra,
                 bsnsReadngPblancDe: bsnsReadngPblancDe);
 
-        print(
-            '사업구역 선택: $bsnsZoneNo, $bsnsZoneNm, $lotCnt, $bsnsAra, $bsnsReadngPblancDe');
+        print('사업구역 선택: $bsnsZoneNo, $bsnsZoneNm, $lotCnt, $bsnsAra, $bsnsReadngPblancDe');
 
-        DialogUtil.showAlertDialog(
-          Get.context!,
-          '사업 구역 선택',
-          RichText(text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${controller.bsnsSelectAreaDataSource.value.bsnsZoneNm}',
-                style: TextStyle(
-                  color: Theme.of(Get.context!).colorScheme.primary,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              TextSpan(
-                text: ' 사업구역을 선택하시겠습니까?',
-                style: TextStyle(
-                  color: Color(0xFF1D1D1D),
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          )),
-          () {
-            controller.bsnsTabController.animateTo(2);
-            controller.handleSelectListTab(controller.bsnsSelectTabIsSelected, 2);
-            Get.back();
-          },
-          () {
-            Get.back();
-          },
-        );
+        controller.isBsnsZoneSelectFlag.value = true;
+        controller.isBsnsSqncSelectFlag.value = false;
+
       }),
     );
   }
 
   // 사업선택 -> 조사 차수
-  /// [buildBsnsSqncDataGrid] 데이터그리드
   Widget buildBsnsSqncDataGrid() {
     return CustomGrid(
       dataSource: controller.bsnsSqncDataSource.value,
@@ -445,15 +430,13 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   }
 
   /// 소유자관리 -> 소유자검색
-  /// [buildBsnsOwnerDataGrid] 데이터그리드
   Widget buildBsnsOwnerDataGrid() {
     return CustomGrid(
       dataSource: controller.bsnsOwnerDataSource.value,
       controller: controller.bsnsOwnerDataGridController,
       isSort: false,
       columnWidthMode: ColumnWidthMode.fill,
-      selectionEvent:
-          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         print('선택된 소유자: ${addedRows.first.getCells()[2].value}');
       }),
       columns: [
@@ -467,13 +450,14 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
-  /// [buildOwnerMngSearch] 소유자 관리 -> 토지정보 검색
+  /// 소유자관리 -> 소유자검색 -> 토지
   Widget buildOwnerLadInfoDataGrid() {
     return CustomGrid(
       dataSource: controller.ownerLadInfoDataSource.value,
       controller: controller.ownerLadInfoDataGridController,
       isSort: false,
-      freezeColumnCount: 0,
+      columnWidthMode: ColumnWidthMode.fitByCellValue,
+      freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
           StackedHeaderCell(
@@ -547,7 +531,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
-  /// [buildOwnerObstInfoDataGrid] 데이터그리드
+  /// 소유자관리 -> 소유자검색 -> 지장물
   Widget buildOwnerObstInfoDataGrid() {
     return CustomGrid(
       dataSource: controller.ownerObstInfoDataSource.value,
@@ -575,6 +559,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
+  /// 실태조사 -> 토지 -> 소유자
   Widget buildAccdtlnvstgOwnerDataGrid() {
     return CustomGrid(
       dataSource: controller.accdtlnvstgOwnerLadDataSource.value,
@@ -600,11 +585,13 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
+  /// 실태조사 -> 토지 -> 소유자/관계인 -> 소유자 현황
   Widget buildAccdtlnvstgLadOwnerStatusDataGrid() {
     return CustomGrid(
       dataSource: controller.accdtlnvstgLadOwnerDataSource.value,
       controller: controller.accdtlnvstgLadOwnerDataGridController,
       isSort: false,
+      columnWidthMode: ColumnWidthMode.fill,
       columns: [
         gridColumn('ownerNo', '소유자번호'),
         gridColumn('ladLdgrOwnerNm', '소유자명'),
@@ -616,12 +603,13 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
-  /// [buildAccdtlnvstgLadPartcpntStatusDataGrid] 데이터그리드
+  /// 실태조사 -> 토지 -> 소유자/관계인 -> 관계인 현황
   Widget buildAccdtlnvstgLadPartcpntStatusDataGrid() {
     return CustomGrid(
       dataSource: controller.accdtlnvstgLadPartcpntDataSource.value,
       controller: controller.accdtlnvstgLadPartcpntDataGridController,
       isSort: false,
+      columnWidthMode: ColumnWidthMode.fill,
       columns: [
         gridColumn('ownerNo', '소유자번호'),
         gridColumn('ownerName', '관계구분'),
@@ -679,22 +667,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         gridColumn('spcitm', '비고'),
       ],
     );
-  }
-
-  GridColumn gridColumn(String columnName, String label) {
-    return GridColumn(
-        //width: controller.columnWidths[columnName]!,
-        columnName: columnName,
-        visible: true,
-        label: Container(
-            height: 48.h,
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: Text(label,
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12.sp,
-                    color: Color(0xFF1D1D1D)))));
   }
 
   /// [buildBsnsSearch] 검색
@@ -802,7 +774,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               ),
               Expanded(
                 flex: 8,
-                child: CustomTextFiled(
+                child: CustomTextField(
                   controller: controller.ownerNameSearchController,
                   hintText: '소유자명을 입력하세요',
                   onChanged: (value) {
@@ -821,7 +793,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                             color: gray600)),
                     SizedBox(width: 10.w),
                     Expanded(
-                      child: CustomTextFiled(
+                      child: CustomTextField(
                         controller: controller.ownerRegisterNoSearchController,
                         hintText: '본번',
                         onChanged: (value) {
@@ -843,7 +815,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                             color: gray600)),
                     SizedBox(width: 10.w),
                     Expanded(
-                      child: CustomTextFiled(
+                      child: CustomTextField(
                         controller: controller.ownerRegisterNoSearchController,
                         hintText: '부번',
                         onChanged: (value) {
@@ -868,83 +840,71 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('사업구분',
-            style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500,
-                color: Color(0xff1D1D1D))),
-        SizedBox(width: 10.w),
-        SizedBox(
-          width: 24.w,
-          height: 24.h,
-          child: Radio(
-            value: 0,
-            groupValue: controller.radioValue.value,
-            onChanged: (value) {
-              controller.handleRadioValueChange(value ?? 0);
-            },
-          ),
-        ),
-        SizedBox(width: 5.w),
-        Text('댐',
-            style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff1D1D1D))),
-        SizedBox(width: 10.w),
-        SizedBox(
-          width: 24.w,
-          height: 24.h,
-          child: Radio(
-            value: 1,
-            groupValue: controller.radioValue.value,
-            onChanged: (value) {
-              controller.handleRadioValueChange(value ?? 0);
-            },
-          ),
-        ),
-        SizedBox(width: 8.w),
-        Text('수도용지',
-            style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff1D1D1D))),
-        SizedBox(width: 10.w),
-        SizedBox(
-          width: 24.w,
-          height: 24.h,
-          child: Radio(
-            value: 2,
-            groupValue: controller.radioValue.value,
-            onChanged: (value) {
-              controller.handleRadioValueChange(value ?? 0);
-            },
-          ),
-        ),
-        SizedBox(width: 5.w),
-        Text('택지개발',
-            style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff1D1D1D))),
-        SizedBox(width: 10.w),
-        SizedBox(
-          width: 24.w,
-          height: 24.h,
-          child: Radio(
-            value: 3,
-            groupValue: controller.radioValue.value,
-            onChanged: (value) {
-              controller.handleRadioValueChange(value ?? 0);
-            },
-          ),
-        ),
-        SizedBox(width: 5.w),
-        Text('기타',
-            style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff1D1D1D))),
+        SizedBox(width: 60.w, child: Text('사업구분', style: TextStyle(color: tableTextColor, fontSize: 16.sp, fontWeight: FontWeight.w500))),
+        SizedBox(width: 12.w),
+        Row(
+          children: [
+            SizedBox(
+              width: 24.w,
+              height: 24.h,
+              child: Radio(
+                value: 0,
+                groupValue: controller.radioValue.value,
+                onChanged: (value) {
+                  controller.handleRadioValueChange(value ?? 0);
+                },
+              ),
+            ),
+            SizedBox(width: 5.w),
+            Text('댐',
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 10.w),
+            SizedBox(
+              width: 24.w,
+              height: 24.h,
+              child: Radio(
+                value: 1,
+                groupValue: controller.radioValue.value,
+                onChanged: (value) {
+                  controller.handleRadioValueChange(value ?? 0);
+                },
+              ),
+            ),
+            SizedBox(width: 8.w),
+            Text('수도용지',
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 10.w),
+            SizedBox(
+              width: 24.w,
+              height: 24.h,
+              child: Radio(
+                value: 2,
+                groupValue: controller.radioValue.value,
+                onChanged: (value) {
+                  controller.handleRadioValueChange(value ?? 0);
+                },
+              ),
+            ),
+            SizedBox(width: 5.w),
+            Text('택지개발',
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 10.w),
+            SizedBox(
+              width: 24.w,
+              height: 24.h,
+              child: Radio(
+                value: 3,
+                groupValue: controller.radioValue.value,
+                onChanged: (value) {
+                  controller.handleRadioValueChange(value ?? 0);
+                },
+              ),
+            ),
+            SizedBox(width: 5.w),
+            Text('기타',
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+          ],
+        )
       ],
     );
   }
@@ -960,7 +920,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               style: TextStyle(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xff1D1D1D))),
+                  color: tableTextColor)),
           SizedBox(width: 10.w),
           Container(
             width: 24.w,
@@ -978,7 +938,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w400,
-                  color: Color(0xff1D1D1D))),
+                  color: tableTextColor)),
           SizedBox(width: 10.w),
           Container(
             width: 24.w,
@@ -996,7 +956,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w400,
-                  color: Color(0xff1D1D1D))),
+                  color: tableTextColor)),
         ],
       ),
     );

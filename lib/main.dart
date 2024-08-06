@@ -7,10 +7,15 @@ import 'package:get/get.dart';
 import 'package:stt_demo/routes/app_route.dart';
 import 'package:stt_demo/utils/colors.dart';
 
-Future<void> main() async {
+void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  await NaverMapSdk.instance.initialize(clientId: "i6tcrwjpxh");
+  await NaverMapSdk.instance.initialize(
+    clientId: 'ilm1l1ctqq',
+      onAuthFailed: (error) {
+        print('Auth failed: $error');
+      }
+  );
 
   runApp(const MyApp());
 }
@@ -60,9 +65,9 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Pretendard'
         ),
         darkTheme: ThemeData(
-          colorScheme: darkColorScheme,
+          colorScheme: lightColorScheme,
           useMaterial3: false,
-          //fontFamily: GoogleFonts.gothicA1().fontFamily,
+          scaffoldBackgroundColor: Colors.white,
           fontFamily: 'Pretendard'
         ),
         themeMode: ThemeMode.system,
