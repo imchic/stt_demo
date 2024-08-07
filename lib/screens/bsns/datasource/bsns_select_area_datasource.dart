@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:stt_demo/screens/bsns/datasource/model/bsns_select_area_datasource_model.dart';
-import 'package:stt_demo/utils/colors.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import 'model/bsns_select_area_datasource_model.dart';
 
 /// TD_LP10111 (LP_사업계획구역정보)
 ///

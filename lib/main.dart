@@ -4,8 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:stt_demo/routes/app_route.dart';
-import 'package:stt_demo/utils/colors.dart';
+import 'package:ldi/routes/app_route.dart';
+import 'package:ldi/utils/colors.dart';
 
 void main() async {
 

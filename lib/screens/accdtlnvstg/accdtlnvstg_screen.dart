@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stt_demo/screens/accdtlnvstg/accdtlnvstg_controller.dart';
+import 'accdtlnvstg_controller.dart';
 
 class AccdtlnvstgScreen extends GetView<AccdtlnvstgController> {
   @override

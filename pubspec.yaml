@@ -1,5 +1,5 @@
-name: stt_demo
-description: "stt demo"
+name: ldi
+description: "토지보상 현장모바일 시스템"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -72,6 +72,8 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/fonts/
+    - assets/icons/
 
   fonts:
 

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:stt_demo/screens/bsns/bsns_controller.dart';
-import 'package:stt_demo/screens/bsns/select/bsns_select_screen.dart';
-import 'package:stt_demo/utils/custom_bsns_badge.dart';
-import 'package:stt_demo/utils/custom_richtext.dart';
 
+import '../screens/bsns/bsns_controller.dart';
+import '../screens/bsns/select/bsns_select_screen.dart';
 import '../utils/colors.dart';
+import '../utils/custom_bsns_badge.dart';
+import '../utils/custom_richtext.dart';
 import '../utils/custom_textfield.dart';
 
 /// 사업선택 화면 위젯

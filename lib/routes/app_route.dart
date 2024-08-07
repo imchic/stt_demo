@@ -1,9 +1,9 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:stt_demo/screens/accdtlnvstg/accdtlnvstg_screen.dart';
-import 'package:stt_demo/screens/login/login_screen.dart';
 
+import '../screens/accdtlnvstg/accdtlnvstg_screen.dart';
 import '../screens/bsns/select/bsns_select_screen.dart';
 import '../screens/home/home_screen.dart';
+import '../screens/login/login_screen.dart';
 
 class AppRoute {
 

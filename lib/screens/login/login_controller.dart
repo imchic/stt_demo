@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stt_demo/routes/app_route.dart';
+
+import '../../routes/app_route.dart';
 
 class LoginController extends GetxController
     with GetTickerProviderStateMixin {

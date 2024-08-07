@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:stt_demo/routes/app_route.dart';
-import 'package:stt_demo/screens/bsns/bsns_controller.dart';
-import 'package:stt_demo/utils/colors.dart';
-import 'package:stt_demo/utils/custom_bsns_badge.dart';
-import 'package:stt_demo/utils/dialog_util.dart';
+
+import '../routes/app_route.dart';
+import '../screens/bsns/bsns_controller.dart';
+import '../utils/colors.dart';
+import '../utils/custom_bsns_badge.dart';
+import '../utils/dialog_util.dart';
 
 class BaseHeader extends StatefulWidget {
   const BaseHeader({super.key});
