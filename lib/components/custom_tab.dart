@@ -82,7 +82,7 @@ class CustomTab extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
-                      'assets/images/ic_tab_arrow.svg',
+                      'assets/icons/ic_tab_arrow.svg',
                       fit: BoxFit.fill,
                     ),
                   ],

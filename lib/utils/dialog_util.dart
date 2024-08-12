@@ -9,7 +9,11 @@ import 'colors.dart';
 class DialogUtil {
 
   /// [showAlertDialog] 알럿창을 띄워줍니다.
-  static void showAlertDialog(BuildContext context, String title, Widget textView, Function onOk, Function onCancel) {
+
+  // 파라미터 필수가 아닌경우
+  // required Null Function() onOk, required Null Function() onCancel, required Widget? child
+
+  static void showAlertDialog(BuildContext context, int? width, String title, {String? textOk, String? textCancel, required Null Function() onOk, required Null Function() onCancel, required Widget? child}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -20,7 +24,7 @@ class DialogUtil {
           alignment: Alignment.center,
           elevation: 0,
           child: Container(
-            width: 480.w,
+            width: width?.w == 0 ? 480.w : width?.w,
             padding: EdgeInsets.all(40.r),
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
@@ -60,7 +64,7 @@ class DialogUtil {
                           width: 24.w,
                           height: 24.h,
                           child: SvgPicture.asset(
-                            'assets/images/ic_close.svg',
+                            'assets/icons/ic_close.svg',
                             width: 24.w,
                             height: 24.h,
                           ),
@@ -80,11 +84,11 @@ class DialogUtil {
                     children: [
                       SizedBox(
                         width: double.infinity,
-                        child: textView,
+                        child: child,
                       ),
                       SizedBox(height: 24.h),
                       Container(
-                        width: 400.w,
+                        width: double.infinity,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -96,8 +100,8 @@ class DialogUtil {
                                 onCancel();
                               },
                               child: Container(
-                                width: 60.w,
-                                height: 40.h,
+                                width: 72.w,
+                                height: 36.h,
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 decoration: ShapeDecoration(
                                   color: Color(0xFF2C2C2C),
@@ -109,7 +113,8 @@ class DialogUtil {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '취소',
+                                      //'취소',
+                                      textCancel ?? '취소',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16.sp,
@@ -127,9 +132,9 @@ class DialogUtil {
                                 onOk();
                               },
                               child: Container(
-                                width: 60.w,
-                                height: 40.h,
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                width: 72.w,
+                                height: 36.h,
+                                padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 decoration: ShapeDecoration(
                                   color: Color(0xFF246AEA),
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -140,7 +145,7 @@ class DialogUtil {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '확인',
+                                      textOk ?? '확인',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16.sp,
@@ -214,7 +219,7 @@ class DialogUtil {
                         width: 24.w,
                         height: 24.h,
                         child: SvgPicture.asset(
-                          'assets/images/ic_close.svg',
+                          'assets/icons/ic_close.svg',
                           width: 24.w,
                           height: 24.h,
                         ),
@@ -241,58 +246,6 @@ class DialogUtil {
         content: Text(message),
         duration: const Duration(seconds: 2),
       ),
-    );
-  }
-
-  // 모달 팝업
-  static void showCustomDialog(BuildContext context, Widget child, Null Function() onOk, Null Function() onCancel) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          alignment: Alignment.center,
-          elevation: 0,
-          child: SizedBox(
-              width: Get.width * 0.5,
-              height: Get.height * 0.5,
-              child: Padding(
-                padding: EdgeInsets.all(16.r),
-                  child: Column(
-                    children: [
-                      Expanded(child: child),
-                      // button
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Get.back();
-                              if (onCancel != null) {
-                                onCancel();
-                              }
-                            },
-                            child: Text('취소'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Get.back();
-                              if (onOk != null) {
-                                onOk();
-                              }
-                            },
-                            child: Text('확인'),
-                          ),
-                    ],
-                  )
-                ],
-              )
-            )
-          ),
-        );
-      },
     );
   }
 

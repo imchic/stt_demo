@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../components/custom_richtext.dart';
+import '../components/custom_textfield.dart';
 import '../screens/bsns/bsns_controller.dart';
+import '../screens/bsns/select/bsns_select_screen.dart';
 import '../utils/colors.dart';
-import '../utils/custom_button.dart';
-import '../utils/custom_textfield.dart';
+import '../components/custom_button.dart';
+
 
 class SttusWidget {
   static buildSttusView(BsnsController controller) {
@@ -24,17 +27,12 @@ class SttusWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child:
-                    Expanded(
-                      child: TabBar(
-                          controller: controller.sttusTabController,
-                          labelColor: Colors.black,
-                          indicatorColor: Colors.black,
-                          isScrollable: true,
-                          tabs: controller.sttusTabItems),
-                    ),
-                  ),
+                  TabBar(
+                      controller: controller.sttusTabController,
+                      labelColor: Colors.black,
+                      indicatorColor: Colors.black,
+                      isScrollable: true,
+                      tabs: controller.sttusTabItems),
                 ],
               ),
             ),
@@ -197,7 +195,7 @@ class SttusWidget {
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   CustomButton(
-                                                    color: Color(0xFFD2D6DF),
+                                                    color: Color(0XFFE5E8ED),
                                                     text: '조회',
                                                   )
                                                 ],
@@ -398,7 +396,7 @@ class SttusWidget {
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   CustomButton(
-                                                    color: Color(0xFFD2D6DF),
+                                                    color: Color(0XFFE5E8ED),
                                                     text: '조회',
                                                   )
                                                 ],
@@ -457,7 +455,7 @@ class SttusWidget {
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   CustomButton(
-                                                    color: Color(0xFFD2D6DF),
+                                                    color: Color(0XFFE5E8ED),
                                                     text: '조회',
                                                   )
                                                 ],
@@ -566,7 +564,7 @@ class SttusWidget {
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   CustomButton(
-                                                    color: Color(0xFFD2D6DF),
+                                                    color: Color(0XFFE5E8ED),
                                                     text: '조회',
                                                   )
                                                 ],
@@ -732,10 +730,8 @@ class SttusWidget {
                                                 height: 24.h,
                                                 child: Row(
                                                   mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       '평가구분',
@@ -767,7 +763,7 @@ class SttusWidget {
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   CustomButton(
-                                                    color: Color(0xFFD2D6DF),
+                                                    color: Color(0XFFE5E8ED),
                                                     text: '조회',
                                                   )
                                                 ],
@@ -788,11 +784,160 @@ class SttusWidget {
                               ),
                             ),
                           ),
+                          SizedBox(height: 24.h),
+                          Container(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  width: Get.width,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      CustomRichText(length: 10),
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              controller.handleLadSttusInqireTabSelected(0);
+                                              if(controller.isLadSttusInqireGridTab1.value == true) {
+                                                controller.ladSttusInqireTabIsSelected[0] = false;
+                                                controller.isLadSttusInqireGridTab1.value = false;
+                                              } else {
+                                                controller.ladSttusInqireTabIsSelected[0] = true;
+                                                controller.isLadSttusInqireGridTab1.value = true;
+                                              }
+                                              controller.fetchLadSttusInqireDataSource();
+                                            },
+                                            child: Chip(label: Text('실태조사', style: TextStyle(color: Color(0XFF555555), fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                                              backgroundColor: controller.ladSttusInqireTabIsSelected[0] == true ? Color(0XFFE4E4E4) : Colors.white,
+                                              side: BorderSide(color: borderLine, width: 1),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          InkWell(
+                                            onTap: () {
+                                              controller.handleLadSttusInqireTabSelected(1);
+                                              if(controller.isLadSttusInqireGridTab2.value == true) {
+                                                controller.ladSttusInqireTabIsSelected[1] = false;
+                                                controller.isLadSttusInqireGridTab2.value = false;
+                                              } else {
+                                                controller.ladSttusInqireTabIsSelected[1] = true;
+                                                controller.isLadSttusInqireGridTab2.value = true;
+                                              }
+                                              controller.fetchLadSttusInqireDataSource();
+                                            },
+                                            child: Chip(label: Text('소유자정보', style: TextStyle(color: Color(0XFF555555), fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                                              backgroundColor: controller.ladSttusInqireTabIsSelected[1] == true ? Color(0XFFE4E4E4) : Colors.white,
+                                              side: BorderSide(color: borderLine, width: 1),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          InkWell(
+                                            onTap: () {
+                                              controller.handleLadSttusInqireTabSelected(2);
+                                              if(controller.isLadSttusInqireGridTab3.value == true) {
+                                                controller.ladSttusInqireTabIsSelected[2] = false;
+                                                controller.isLadSttusInqireGridTab3.value = false;
+                                              } else {
+                                                controller.ladSttusInqireTabIsSelected[2] = true;
+                                                controller.isLadSttusInqireGridTab3.value = true;
+                                              }
+                                              controller.fetchLadSttusInqireDataSource();
+                                            },
+                                            child: Chip(label: Text('감정평가', style: TextStyle(color: Color(0XFF555555), fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                                              backgroundColor: controller.ladSttusInqireTabIsSelected[2] == true ? Color(0XFFE4E4E4) : Colors.white,
+                                              side: BorderSide(color: borderLine, width: 1),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          InkWell(
+                                            onTap: () {
+                                              controller.handleLadSttusInqireTabSelected(3);
+                                              if(controller.isLadSttusInqireGridTab4.value == true) {
+                                                controller.ladSttusInqireTabIsSelected[3] = false;
+                                                controller.isLadSttusInqireGridTab4.value = false;
+                                              } else {
+                                                controller.ladSttusInqireTabIsSelected[3] = true;
+                                                controller.isLadSttusInqireGridTab4.value = true;
+                                              }
+                                              controller.fetchLadSttusInqireDataSource();
+                                            },
+                                            child: Chip(label: Text('보상비산정', style: TextStyle(color: Color(0XFF555555), fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                                              backgroundColor: controller.ladSttusInqireTabIsSelected[3] == true ? Color(0XFFE4E4E4) : Colors.white,
+                                              side: BorderSide(color: borderLine, width: 1),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          InkWell(
+                                            onTap: () {
+                                              controller.handleLadSttusInqireTabSelected(4);
+                                              if(controller.isLadSttusInqireGridTab5.value == true) {
+                                                controller.ladSttusInqireTabIsSelected[4] = false;
+                                                controller.isLadSttusInqireGridTab5.value = false;
+                                              } else {
+                                                controller.ladSttusInqireTabIsSelected[4] = true;
+                                                controller.isLadSttusInqireGridTab5.value = true;
+                                              }
+                                              controller.fetchLadSttusInqireDataSource();
+                                            },
+                                            child: Chip(label: Text('보상비지급', style: TextStyle(color: Color(0XFF555555), fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                                              backgroundColor: controller.ladSttusInqireTabIsSelected[4] == true ? Color(0XFFE4E4E4) : Colors.white,
+                                              side: BorderSide(color: borderLine, width: 1),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          InkWell(
+                                            onTap: () {
+                                              controller.handleLadSttusInqireTabSelected(5);
+                                              if(controller.isLadSttusInqireGridTab6.value == true) {
+                                                controller.ladSttusInqireTabIsSelected[5] = false;
+                                                controller.isLadSttusInqireGridTab6.value = false;
+                                              } else {
+                                                controller.ladSttusInqireTabIsSelected[5] = true;
+                                                controller.isLadSttusInqireGridTab6.value = true;
+                                              }
+                                              controller.fetchLadSttusInqireDataSource();
+                                            },
+                                            child: Chip(label: Text('수용재결', style: TextStyle(color: Color(0XFF555555), fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                                              backgroundColor: controller.ladSttusInqireTabIsSelected[5] == true ? Color(0XFFE4E4E4) : Colors.white,
+                                              side: BorderSide(color: borderLine, width: 1),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          InkWell(
+                                            onTap: () {
+                                              controller.handleLadSttusInqireTabSelected(6);
+                                              if(controller.isLadSttusInqireGridTab7.value == true) {
+                                                controller.ladSttusInqireTabIsSelected[6] = false;
+                                                controller.isLadSttusInqireGridTab7.value = false;
+                                              } else {
+                                                controller.ladSttusInqireTabIsSelected[6] = true;
+                                                controller.isLadSttusInqireGridTab7.value = true;
+                                              }
+                                              controller.fetchLadSttusInqireDataSource();
+                                            },
+                                            child: Chip(label: Text('이의재결', style: TextStyle(color: Color(0XFF555555), fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                                              backgroundColor: controller.ladSttusInqireTabIsSelected[6] == true ? Color(0XFFE4E4E4) : Colors.white,
+                                              side: BorderSide(color: borderLine, width: 1),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 10.h),
+                                Obx(() => BsnsSelectScreen().buildLadSttusInqireDataGrid(controller.ladSttusInqireColumns))
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),
                     // 지장물현황
-                    SingleChildScrollView(
+                    /*SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -938,7 +1083,7 @@ class SttusWidget {
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   CustomButton(
-                                                    color: Color(0xFFD2D6DF),
+                                                    color: Color(0XFFE5E8ED),
                                                     text: '조회',
                                                   )
                                                 ],
@@ -1139,7 +1284,7 @@ class SttusWidget {
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   CustomButton(
-                                                    color: Color(0xFFD2D6DF),
+                                                    color: Color(0XFFE5E8ED),
                                                     text: '조회',
                                                   )
                                                 ],
@@ -1250,7 +1395,7 @@ class SttusWidget {
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   CustomButton(
-                                                    color: Color(0xFFD2D6DF),
+                                                    color: Color(0XFFE5E8ED),
                                                     text: '조회',
                                                   )
                                                 ],
@@ -1451,7 +1596,7 @@ class SttusWidget {
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   CustomButton(
-                                                    color: Color(0xFFD2D6DF),
+                                                    color: Color(0XFFE5E8ED),
                                                     text: '조회',
                                                   )
                                                 ],
@@ -1469,7 +1614,9 @@ class SttusWidget {
                           SizedBox(height: 20.h),
                         ],
                       ),
-                    ),
+                    ),*/
+                    // Text('1'),
+                    Text('2')
                   ],
                 ))
           ],

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../components/custom_richtext.dart';
+import '../components/custom_textfield.dart';
 import '../screens/bsns/bsns_controller.dart';
 import '../screens/bsns/select/bsns_select_screen.dart';
 import '../utils/colors.dart';
-import '../utils/custom_bsns_badge.dart';
-import '../utils/custom_richtext.dart';
-import '../utils/custom_textfield.dart';
+import '../components/custom_bsns_badge.dart';
+
 
 /// 사업선택 화면 위젯
 class BsnsWidget {
@@ -19,7 +20,7 @@ class BsnsWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: Get.width,
+            width: double.infinity,
             padding: EdgeInsets.all(20.r),
             margin: EdgeInsets.only(top: 14.h),
             decoration: ShapeDecoration(
@@ -51,7 +52,7 @@ class BsnsWidget {
                                   '사업명',
                                   style: TextStyle(
                                     color: tableTextColor,
-                                    fontSize: 16.sp,
+                                    fontSize: 1.w > 1.h ? 16.sp : 22.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -93,7 +94,7 @@ class BsnsWidget {
                                 '사업번호',
                                 style: TextStyle(
                                   color: tableTextColor,
-                                  fontSize: 16.sp,
+                                  fontSize: 1.w > 1.h ? 16.sp : 22.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -123,7 +124,7 @@ class BsnsWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 20.h),
+                1.w > 1.h ? SizedBox(height: 20.h) : SizedBox(height: 0.h),
                 BsnsSelectScreen().buildBsnsRadio(),
               ],
             ),

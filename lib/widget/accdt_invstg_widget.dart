@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/utils/dialog_util.dart';
 
+import '../components/custom_button.dart';
+import '../components/custom_microphonewithpen_button.dart';
+import '../components/custom_textfield.dart';
 import '../screens/bsns/bsns_controller.dart';
 import '../screens/bsns/select/bsns_select_screen.dart';
 import '../utils/colors.dart';
-import '../utils/custom_textfield.dart';
 
 /// 실태조사 위젯
 class AccdtInvstgWidget {
@@ -509,13 +512,18 @@ class AccdtInvstgWidget {
                                                 side: BorderSide(color: borderLine)
                                             ),
                                           ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              SvgPicture.asset('assets/images/ic_add.svg'),
-                                            ],
+                                          child: InkWell(
+                                            onTap: () {
+                                              controller.addBsns();
+                                            },
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset('assets/icons/ic_add.svg'),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -919,7 +927,7 @@ class AccdtInvstgWidget {
                                                         child: Padding(
                                                           padding: const EdgeInsets.all(8.0),
                                                           child: SvgPicture.asset(
-                                                            'assets/images/ic_camera.svg',
+                                                            'assets/icons/ic_camera.svg',
                                                           ),
                                                         ),
                                                       ),
@@ -1440,10 +1448,6 @@ class AccdtInvstgWidget {
                                                     color: Color(0xFFD8D8D8),
                                                     width: 1,
                                                   ),
-                                                  bottom: BorderSide(
-                                                    color: Color(0xFFD8D8D8),
-                                                    width: 1,
-                                                  ),
                                                   right: BorderSide(
                                                     color: Color(0xFFD8D8D8),
                                                     width: 1,
@@ -1460,14 +1464,10 @@ class AccdtInvstgWidget {
                                               decoration: BoxDecoration(
                                                 color: Color(0xFFFFFFFF),
                                                 border: Border(
-                                                  top: BorderSide(
-                                                    color: Color(0xFFD8D8D8),
-                                                    width: 1,
-                                                  ),
-                                                  bottom: BorderSide(
-                                                    color: Color(0xFFD8D8D8),
-                                                    width: 1,
-                                                  ),
+                                                  // top: BorderSide(
+                                                  //   color: Color(0xFFD8D8D8),
+                                                  //   width: 1,
+                                                  // ),
                                                   right: BorderSide(
                                                     color: Color(0xFFD8D8D8),
                                                     width: 1,
@@ -1523,10 +1523,10 @@ class AccdtInvstgWidget {
                                               decoration: BoxDecoration(
                                                 color: Color(0xFFFFFFFF),
                                                 border: Border(
-                                                  bottom: BorderSide(
-                                                    color: Color(0xFFD8D8D8),
-                                                    width: 1,
-                                                  ),
+                                                  // bottom: BorderSide(
+                                                  //   color: Color(0xFFD8D8D8),
+                                                  //   width: 1,
+                                                  // ),
                                                   right: BorderSide(
                                                     color: Color(0xFFD8D8D8),
                                                     width: 1,
@@ -1866,43 +1866,7 @@ class AccdtInvstgWidget {
                                                       ),
                                                     ),
                                                     SizedBox(width: 10.w),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_microphone.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 10.w),
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_pen.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    CustomMicrophonewithpenButton(),
                                                   ],
                                                 ),
                                               ),
@@ -1970,43 +1934,7 @@ class AccdtInvstgWidget {
                                                       ),
                                                     ),
                                                     SizedBox(width: 10.w),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_microphone.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 10.w),
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_pen.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    CustomMicrophonewithpenButton(),
                                                   ],
                                                 ),
                                               ),
@@ -2074,43 +2002,7 @@ class AccdtInvstgWidget {
                                                       ),
                                                     ),
                                                     SizedBox(width: 10.w),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_microphone.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 10.w),
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_pen.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    CustomMicrophonewithpenButton(),
                                                   ],
                                                 ),
                                               ),
@@ -2178,43 +2070,7 @@ class AccdtInvstgWidget {
                                                       ),
                                                     ),
                                                     SizedBox(width: 10.w),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_microphone.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 10.w),
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_pen.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    CustomMicrophonewithpenButton(),
                                                   ],
                                                 ),
                                               ),
@@ -2282,43 +2138,7 @@ class AccdtInvstgWidget {
                                                       ),
                                                     ),
                                                     SizedBox(width: 10.w),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_microphone.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 10.w),
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_pen.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    CustomMicrophonewithpenButton(),
                                                   ],
                                                 ),
                                               ),
@@ -2387,43 +2207,7 @@ class AccdtInvstgWidget {
                                                       ),
                                                     ),
                                                     SizedBox(width: 10.w),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_microphone.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 10.w),
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_pen.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    CustomMicrophonewithpenButton(),
                                                   ],
                                                 ),
                                               ),
@@ -2484,43 +2268,7 @@ class AccdtInvstgWidget {
                                                       ),
                                                     ),
                                                     SizedBox(width: 10.w),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_microphone.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 10.w),
-                                                        Container(
-                                                          width: 44.w,
-                                                          height: 40.h,
-                                                          decoration: BoxDecoration(
-                                                              color: Color(0xFFFFFFFF),
-                                                              borderRadius: BorderRadius.circular(6.r),
-                                                              border: Border.all(color: borderLine)
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: SvgPicture.asset(
-                                                              'assets/images/ic_pen.svg',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    CustomMicrophonewithpenButton(),
                                                   ],
                                                 ),
                                               ),
@@ -2571,7 +2319,7 @@ class AccdtInvstgWidget {
                                                     child: Padding(
                                                       padding: const EdgeInsets.all(8.0),
                                                       child: SvgPicture.asset(
-                                                        'assets/images/ic_camera.svg',
+                                                        'assets/icons/ic_camera.svg',
                                                       ),
                                                     ),
                                                   ),
@@ -2653,7 +2401,560 @@ class AccdtInvstgWidget {
                                                         ),
                                                         child: Padding(
                                                           padding: EdgeInsets.symmetric(horizontal: 6.w),
-                                                          child: Text('추가', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w500)
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                              DialogUtil.showAlertDialog(Get.context!, 720, '지장물 소유자 추가',
+                                                              child: Container(
+                                                                width: double.infinity,
+                                                                child: Column(
+                                                                  mainAxisSize: MainAxisSize.min,
+                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: [
+                                                                    Container(
+                                                                      width: double.infinity,
+                                                                      height: 72.h,
+                                                                      decoration: BoxDecoration(
+                                                                          color: Colors.white,
+                                                                          border: Border.all(color: borderLine),
+                                                                          borderRadius: BorderRadius.circular(6.r)
+                                                                      ),
+                                                                      child: Container(
+                                                                        height: 36.h,
+                                                                        margin: EdgeInsets.only(left: 20.w, right: 20.w),
+                                                                        child: Row(
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Expanded(
+                                                                              child: Container(
+                                                                                width: double.infinity,
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    SizedBox(width: 60.w, child: Text('성명', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700))),
+                                                                                    Expanded(
+                                                                                      child: CustomTextField(hintText: '', onChanged: (value) {
+                                                                                        //controller.searchBsnsName(value);
+                                                                                      }),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(width: 40.w),
+                                                                            Expanded(
+                                                                              child: Container(
+                                                                                width: double.infinity,
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    SizedBox(width: 60.w, child: Text('등록번호', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w700))),
+                                                                                    Expanded(
+                                                                                      child: CustomTextField(hintText: '', onChanged: (value) {
+                                                                                        //controller.searchBsnsName(value);
+                                                                                      }),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      )
+                                                                    ),
+                                                                    SizedBox(height: 16.h),
+                                                                    SizedBox(
+                                                                      height: 200.h,
+                                                                      child: SingleChildScrollView(
+                                                                        child: BsnsSelectScreen().buildBsnsOwnerDataGrid(),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(height: 16.h),
+                                                                    SizedBox(
+                                                                      width: double.infinity,
+                                                                      height: 160.h,
+                                                                      child: Column(
+                                                                        children: [
+                                                                          Container(
+                                                                              height: 52.h,
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  Container(
+                                                                                    width: 88.w,
+                                                                                    height: 52.h,
+                                                                                    color: Color(0XFFE5E8ED),
+                                                                                    child: Center(
+                                                                                      child: Text(
+                                                                                        '소유자번호',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 16.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        border: Border.symmetric(
+                                                                                          horizontal: BorderSide(
+                                                                                            color: Color(0XFFE5E8ED),
+                                                                                            width: 1,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                height: 36.h,
+                                                                                                child: CustomTextField(
+                                                                                                  controller: controller.orderController,
+                                                                                                  hintText: '',
+                                                                                                  isPassword: false,
+                                                                                                  isReadOnly: false,
+                                                                                                  onChanged: (value) {
+                                                                                                    print('orderController : $value');
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    width: 88.w,
+                                                                                    height: 52.h,
+                                                                                    color: Color(0XFFE5E8ED),
+                                                                                    child: Center(
+                                                                                      child: Text(
+                                                                                        '소유자명',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 16.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        border: Border.symmetric(
+                                                                                          horizontal: BorderSide(
+                                                                                            color: Color(0XFFE5E8ED),
+                                                                                            width: 1,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                height: 36.h,
+                                                                                                child: CustomTextField(
+                                                                                                  controller: controller.orderController,
+                                                                                                  hintText: '',
+                                                                                                  isPassword: false,
+                                                                                                  isReadOnly: false,
+                                                                                                  onChanged: (value) {
+                                                                                                    print('orderController : $value');
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    width: 88.w,
+                                                                                    height: 52.h,
+                                                                                    color: Color(0XFFE5E8ED),
+                                                                                    child: Center(
+                                                                                      child: Text(
+                                                                                        '소유구분',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 16.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        border: Border.symmetric(
+                                                                                          horizontal: BorderSide(
+                                                                                            color: Color(0XFFE5E8ED),
+                                                                                            width: 1,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                height: 36.h,
+                                                                                                child: CustomTextField(
+                                                                                                  controller: controller.orderController,
+                                                                                                  hintText: '',
+                                                                                                  isPassword: false,
+                                                                                                  isReadOnly: false,
+                                                                                                  onChanged: (value) {
+                                                                                                    print('orderController : $value');
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            SizedBox(width: 6.w),
+                                                                                            CustomButton(
+                                                                                              color: Color(0xFFE5E8ED),
+                                                                                              text: '조회',
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              )
+                                                                          ),
+                                                                          SizedBox(height: 1.h),
+                                                                          Container(
+                                                                              height: 52.h,
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  Container(
+                                                                                    width: 88.w,
+                                                                                    height: 52.h,
+                                                                                    color: Color(0XFFE5E8ED),
+                                                                                    child: Center(
+                                                                                      child: Text(
+                                                                                        '소유자구분',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 15.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        border: Border.symmetric(
+                                                                                          horizontal: BorderSide(
+                                                                                            color: Color(0XFFE5E8ED),
+                                                                                            width: 1,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                height: 36.h,
+                                                                                                child: CustomTextField(
+                                                                                                  controller: controller.orderController,
+                                                                                                  hintText: '',
+                                                                                                  isPassword: false,
+                                                                                                  isReadOnly: false,
+                                                                                                  onChanged: (value) {
+                                                                                                    print('orderController : $value');
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            SizedBox(width: 6.w),
+                                                                                            CustomButton(
+                                                                                              color: Color(0xFFE5E8ED),
+                                                                                              text: '조회',
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    width: 88.w,
+                                                                                    height: 52.h,
+                                                                                    color: Color(0XFFE5E8ED),
+                                                                                    child: Center(
+                                                                                      child: Text(
+                                                                                        '등록번호',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 15.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        border: Border.symmetric(
+                                                                                          horizontal: BorderSide(
+                                                                                            color: Color(0XFFE5E8ED),
+                                                                                            width: 1,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                height: 36.h,
+                                                                                                child: CustomTextField(
+                                                                                                  controller: controller.orderController,
+                                                                                                  hintText: '',
+                                                                                                  isPassword: false,
+                                                                                                  isReadOnly: false,
+                                                                                                  onChanged: (value) {
+                                                                                                    print('orderController : $value');
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    width: 88.w,
+                                                                                    height: 52.h,
+                                                                                    color: Color(0XFFE5E8ED),
+                                                                                    child: Center(
+                                                                                      child: Text(
+                                                                                        '전화번호',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 15.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        border: Border.symmetric(
+                                                                                          horizontal: BorderSide(
+                                                                                            color: Color(0XFFE5E8ED),
+                                                                                            width: 1,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                height: 36.h,
+                                                                                                child: CustomTextField(
+                                                                                                  controller: controller.orderController,
+                                                                                                  hintText: '',
+                                                                                                  isPassword: false,
+                                                                                                  isReadOnly: false,
+                                                                                                  onChanged: (value) {
+                                                                                                    print('orderController : $value');
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              )
+                                                                          ),
+                                                                          SizedBox(height: 1.h),
+                                                                          Container(
+                                                                              height: 52.h,
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  Container(
+                                                                                    width: 88.w,
+                                                                                    height: 52.h,
+                                                                                    color: Color(0XFFE5E8ED),
+                                                                                    child: Center(
+                                                                                      child: Text(
+                                                                                        '핸드폰번호',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 15.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        border: Border.symmetric(
+                                                                                          horizontal: BorderSide(
+                                                                                            color: Color(0XFFE5E8ED),
+                                                                                            width: 1,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                height: 36.h,
+                                                                                                child: CustomTextField(
+                                                                                                  controller: controller.orderController,
+                                                                                                  hintText: '',
+                                                                                                  isPassword: false,
+                                                                                                  isReadOnly: false,
+                                                                                                  onChanged: (value) {
+                                                                                                    print('orderController : $value');
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    width: 88.w,
+                                                                                    height: 52.h,
+                                                                                    color: Color(0XFFE5E8ED),
+                                                                                    child: Center(
+                                                                                      child: Text(
+                                                                                        '지분분자',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 15.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        border: Border.symmetric(
+                                                                                          horizontal: BorderSide(
+                                                                                            color: Color(0XFFE5E8ED),
+                                                                                            width: 1,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                height: 36.h,
+                                                                                                child: CustomTextField(
+                                                                                                  controller: controller.orderController,
+                                                                                                  hintText: '',
+                                                                                                  isPassword: false,
+                                                                                                  isReadOnly: false,
+                                                                                                  onChanged: (value) {
+                                                                                                    print('orderController : $value');
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    width: 88.w,
+                                                                                    height: 52.h,
+                                                                                    color: Color(0XFFE5E8ED),
+                                                                                    child: Center(
+                                                                                      child: Text(
+                                                                                        '지분분모',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.black,
+                                                                                          fontSize: 15.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        border: Border.symmetric(
+                                                                                          horizontal: BorderSide(
+                                                                                            color: Color(0XFFE5E8ED),
+                                                                                            width: 1,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      child: Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            Expanded(
+                                                                                              child: Container(
+                                                                                                height: 36.h,
+                                                                                                child: CustomTextField(
+                                                                                                  controller: controller.orderController,
+                                                                                                  hintText: '',
+                                                                                                  isPassword: false,
+                                                                                                  isReadOnly: false,
+                                                                                                  onChanged: (value) {
+                                                                                                    print('orderController : $value');
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              )
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              textOk: '저장',
+                                                              onOk: () {
+                                                                print('추가');
+                                                              }, onCancel: () {
+                                                                print('취소');
+                                                              });
+                                                            },
+                                                            child: InkWell(
+                                                              child: Text('추가', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w500)
+                                                              ),
+                                                            ),
                                                           ),
                                                         )),
                                                     SizedBox(width: 10.w),
@@ -2667,7 +2968,16 @@ class AccdtInvstgWidget {
                                                         ),
                                                         child: Padding(
                                                           padding: EdgeInsets.symmetric(horizontal: 6.w),
-                                                          child: Text('수정', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w500)
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                              DialogUtil.showAlertDialog(Get.context!, 0, '지장물 소유자 수정', child: Container(), onOk: () {
+                                                                print('수정');
+                                                              }, onCancel: () {
+                                                                print('취소');
+                                                              });
+                                                            },
+                                                            child: Text('수정', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w500)
+                                                            ),
                                                           ),
                                                         )),
                                                     SizedBox(width: 10.w),
@@ -2681,7 +2991,18 @@ class AccdtInvstgWidget {
                                                         ),
                                                         child: Padding(
                                                           padding: EdgeInsets.symmetric(horizontal: 6.w),
-                                                          child: Text('토지소유자 불러오기', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w500)
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                              DialogUtil.showAlertDialog(Get.context!, 0, '토지 소유자 불러오기', child: Container(
+                                                                child: BsnsSelectScreen().buildBsnsOwnerDataGrid(),
+                                                              ), onOk: () {
+                                                                print('토지소유자 불러오기');
+                                                              }, onCancel: () {
+                                                                print('취소');
+                                                              });
+                                                            },
+                                                            child: Text('토지소유자 불러오기', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w500)
+                                                            ),
                                                           ),
                                                         )),
                                                   ],
@@ -2713,7 +3034,12 @@ class AccdtInvstgWidget {
                                                         ),
                                                         child: Padding(
                                                           padding: EdgeInsets.symmetric(horizontal: 6.w),
-                                                          child: Text('추가', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w500)
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                              print('추가');
+                                                            },
+                                                            child: Text('추가', style: TextStyle(color: tableTextColor, fontSize: 15.sp, fontWeight: FontWeight.w500)
+                                                            ),
                                                           ),
                                                         )),
                                                     SizedBox(width: 10.w),

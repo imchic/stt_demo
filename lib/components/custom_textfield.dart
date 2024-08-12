@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'colors.dart';
+import '../utils/colors.dart';
 
 /// [CustomTextField] is a custom text field widget
 class CustomTextField extends StatelessWidget {
@@ -48,15 +48,17 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: isDateTime ? 'YYYY-MM-DD' : hintText,
-          hintStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
+          hintStyle: TextStyle(fontSize: 1.w > 1.h ? 16.sp : 22.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
           isDense: true,
-          contentPadding: EdgeInsets.only(left: 4.w, right: 4.w, top: 4.h, bottom: 4.h),
+          //contentPadding: EdgeInsets.only(left: 4.w, right: 4.w, top: 4.h, bottom: 4.h),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           errorBorder: InputBorder.none,
           suffixIcon: isDateTime ? IconButton(
+            padding: EdgeInsets.zero,
             onPressed: () {},
-            icon: SvgPicture.asset('assets/images/ic_calendar.svg', width: 24.w, height: 24.h, color: Color(0xff8E8E8E)),
+            icon: SvgPicture.asset('assets/icons/ic_calendar.svg', color: Color(0xff1D1D1D)),
           ) : null,
         ),
         // contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 4.h),

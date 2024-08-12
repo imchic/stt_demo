@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../components/custom_textfield.dart';
 import '../screens/bsns/bsns_controller.dart';
 import '../screens/bsns/select/bsns_select_screen.dart';
 import '../utils/colors.dart';
-import '../utils/custom_textfield.dart';
 
 /// 소유자 위젯
 class OwnerWidget {
@@ -689,7 +689,7 @@ class OwnerWidget {
                                                       child: Padding(
                                                         padding: const EdgeInsets.all(8.0),
                                                         child: SvgPicture.asset(
-                                                          'assets/images/ic_microphone.svg',
+                                                          'assets/icons/ic_microphone.svg',
                                                         ),
                                                       ),
                                                     ),
@@ -705,7 +705,7 @@ class OwnerWidget {
                                                       child: Padding(
                                                         padding: const EdgeInsets.all(8.0),
                                                         child: SvgPicture.asset(
-                                                          'assets/images/ic_pen.svg',
+                                                          'assets/icons/ic_pen.svg',
                                                         ),
                                                       ),
                                                     ),

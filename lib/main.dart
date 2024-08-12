@@ -8,15 +8,7 @@ import 'package:ldi/routes/app_route.dart';
 import 'package:ldi/utils/colors.dart';
 
 void main() async {
-
-  WidgetsFlutterBinding.ensureInitialized();
-  await NaverMapSdk.instance.initialize(
-    clientId: 'ilm1l1ctqq',
-      onAuthFailed: (error) {
-        print('Auth failed: $error');
-      }
-  );
-
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -35,10 +27,10 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeLeft,
+    //   DeviceOrientation.landscapeRight,
+    // ]);
 
     return ScreenUtilInit(
       designSize: Size(1280, 800),
@@ -51,9 +43,9 @@ class MyApp extends StatelessWidget {
           colorScheme: lightColorScheme,
           // unselectedWidgetColor: Color(0xFFD8D8D8),
           radioTheme: RadioThemeData(
-            fillColor: MaterialStateProperty.resolveWith(
+            fillColor: WidgetStateProperty.resolveWith(
                   (states) {
-                if (states.contains(MaterialState.selected)) {
+                if (states.contains(WidgetState.selected)) {
                   return Theme.of(Get.context!).colorScheme.primary;
                 }
                 return Color(0xFFD8D8D8);
@@ -73,14 +65,14 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         initialRoute: AppRoute.login,
         getPages: AppRoute.routes,
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: [
-          const Locale('ko','KR'),
-        ],
+        // localizationsDelegates: const [
+        //   GlobalMaterialLocalizations.delegate,
+        //   GlobalWidgetsLocalizations.delegate,
+        //   GlobalCupertinoLocalizations.delegate,
+        // ],
+        // supportedLocales: [
+        //   const Locale('ko','KR'),
+        // ],
       ),
       // material 3 버전에서는 아래와 같이 사용
     );

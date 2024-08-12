@@ -9,9 +9,9 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../../components/base_header.dart';
-import '../../../utils/custom_textfield.dart';
+import '../../../components/custom_grid.dart';
+import '../../../components/custom_textfield.dart';
 import '../../../utils/colors.dart';
-import '../../../utils/custom_grid.dart';
 import '../../../widget/accdt_invstg_widget.dart';
 import '../../../widget/bsns_widget.dart';
 import '../../../widget/owner_widget.dart';
@@ -119,7 +119,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       },
                       child: Center(
                         child: SvgPicture.asset(
-                          'assets/images/btn_gis.svg',
+                          'assets/icons/ic_gis_open.svg',
                         ),
                       ),
                     ),
@@ -171,7 +171,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               child: Container(
                 margin: EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
                 child: SvgPicture.asset(
-                  'assets/images/ic_kwater_logo.svg',
+                  'assets/icons/ic_kwater_logo.svg',
                   width: 68.w,
                   height: 48.h,
                 ),
@@ -200,7 +200,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                                'assets/images/ic_menu_${index + 1}.svg',
+                                'assets/icons/ic_menu_${index + 1}.svg',
                                 width: 20.w,
                                 height: 20.h,
                                 color: Colors.white),
@@ -364,8 +364,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   /// [gridColumn] 데이터그리드 컬럼
   GridColumn gridColumn(String columnName, String label, {bool? isVisble, double? width}) {
     return GridColumn(
-        width: controller.columnWidths[columnName ?? ''] ?? 80,
-        // width: width ?? 80,
+        //width: controller.columnWidths[columnName ?? ''] ?? 80,
+        width: controller.columnWidths[columnName] ?? width ?? 80,
         columnName: columnName,
         visible: isVisble ?? true,
         label: SizedBox(child: Center(child: Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tableTextColor)))));
@@ -669,90 +669,137 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
-  /// [buildBsnsSearch] 검색
-  Widget buildBsnsSearch() {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Text('사업명',
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: gray600)),
-              ),
-              Expanded(
-                flex: 8,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: gray300),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: TextField(
-                    controller: controller.bsnsNameSearchController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '사업명을 입력하세요',
-                      hintStyle: TextStyle(fontSize: 12.sp, color: gray500),
-                      // contentPadding: EdgeInsets.zero,
-                      contentPadding: EdgeInsets.all(12.r),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          //controller.search();
-                        },
-                        icon: Icon(Icons.search, size: 20.sp, color: gray500),
-                      ),
-                    ),
-                    onChanged: (value) {
-                      controller.searchBsnsName(value);
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                flex: 1,
-                child: Text('사업번호',
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: gray600)),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                flex: 8,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: gray300),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: TextField(
-                    controller: controller.bsnsNoSearchController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '사업번호를 입력하세요',
-                      hintStyle: TextStyle(fontSize: 12.sp, color: gray500),
-                      contentPadding: EdgeInsets.all(12.r),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          //controller.search();
-                        },
-                        icon: Icon(Icons.search, size: 20.sp, color: gray500),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10.h),
-          buildBsnsRadio(),
-        ],
-      ),
+  /// [buildAccdtlnvstgObstDataGrid] 데이터그리드
+  /// [통계정보 > 토지현황조회]
+  Widget buildLadSttusInqireDataGrid(List<GridColumn> columns) {
+    return CustomGrid(
+      dataSource: controller.ladSttusInqireDataSource.value,
+      controller: controller.ladSttusInqireDataGridController,
+      columnWidthMode: ColumnWidthMode.fitByCellValue,
+      isSort: false,
+      freezeColumnCount: 4,
+      stackedHeaderRows: [
+        StackedHeaderRow(cells: [
+          StackedHeaderCell(
+              columnNames: ['addr', 'lcrtsNm', 'mlnoLtno', 'slnoLtno'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('토지기본정보',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['ofcbkLndcgrDivCd', 'sttusLndcgrDivCd'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('지목',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['ofcbkAra', 'incrprAra'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('면적(㎡)',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['cmpnstnInvstgAra', 'aceptncUseDivCd', 'accdtInvstgDe', 'accdtInvstgSqnc'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('실태조사',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['ownerNo', 'ownerDivCd', 'ownerNm', 'ownerRgsbukAddr', 'posesnShreNmrtrInfo', 'posesnShreDnmntrInfo'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('소유자정보',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['apasmtDivCd', 'apasmtSqnc', 'prceDt'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('감정평가',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['apasmtInsttNm1', 'apasmtInsttEvlUpc1', 'apasmtInsttEvlAmt1'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('a평가법인',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['apasmtInsttNm2', 'apasmtInsttEvlUpc2', 'apasmtInsttEvlAmt2'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('b평가법인',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['apasmtInsttNm3', 'apasmtInsttEvlUpc3', 'apasmtInsttEvlAmt3'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('c평가법인',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['cmpnstnCmptnUpc', 'cpsmnCmptnAmt'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('보상비산정',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['pymntRequstDt', 'cpsmnUpc', 'cpsmnPymamt', 'rgistDt'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('보상비지급',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['aceptncAdjdcUpc', 'aceptncAdjdcAmt', 'aceptncAdjdcDt', 'aceptncUseBeginDe', 'aceptncAdjdcPymntDe', 'aceptncRgistDt', 'cpsmnPymntLdgmntDivCd'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('수용재결',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+          StackedHeaderCell(
+              columnNames: ['objctnAdjdcUpc', 'objctnAdjdcAmt', 'objctnAdjdcDt', 'objctnPymntRequstDt', 'objctncpsmnPymntLdgmntDivCd'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text('이의재결',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                          color: gray700)))),
+        ]),
+      ],
+      columns: columns,
     );
   }
 
@@ -840,71 +887,67 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(width: 60.w, child: Text('사업구분', style: TextStyle(color: tableTextColor, fontSize: 16.sp, fontWeight: FontWeight.w500))),
-        SizedBox(width: 12.w),
-        Row(
-          children: [
-            SizedBox(
-              width: 24.w,
-              height: 24.h,
-              child: Radio(
-                value: 0,
-                groupValue: controller.radioValue.value,
-                onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 0);
-                },
-              ),
-            ),
-            SizedBox(width: 5.w),
-            Text('댐',
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 10.w),
-            SizedBox(
-              width: 24.w,
-              height: 24.h,
-              child: Radio(
-                value: 1,
-                groupValue: controller.radioValue.value,
-                onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 0);
-                },
-              ),
-            ),
-            SizedBox(width: 8.w),
-            Text('수도용지',
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 10.w),
-            SizedBox(
-              width: 24.w,
-              height: 24.h,
-              child: Radio(
-                value: 2,
-                groupValue: controller.radioValue.value,
-                onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 0);
-                },
-              ),
-            ),
-            SizedBox(width: 5.w),
-            Text('택지개발',
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 10.w),
-            SizedBox(
-              width: 24.w,
-              height: 24.h,
-              child: Radio(
-                value: 3,
-                groupValue: controller.radioValue.value,
-                onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 0);
-                },
-              ),
-            ),
-            SizedBox(width: 5.w),
-            Text('기타',
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-          ],
-        )
+        Text('사업구분', style: TextStyle(color: tableTextColor, fontSize: 1.w > 1.h ? 16.sp : 22.sp, fontWeight: FontWeight.w500)),
+        // SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+        // Row(
+        //   children: [
+        //     SizedBox(
+        //       width: 24.w,
+        //       height: 24.h,
+        //       child: Radio(
+        //         value: 0,
+        //         groupValue: controller.radioValue.value,
+        //         onChanged: (value) {
+        //           controller.handleRadioValueChange(value ?? 0);
+        //         },
+        //       ),
+        //     ),
+        //     SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
+        //     Text('댐', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+        //     SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+        //     SizedBox(
+        //       width: 1.w > 1.h ? 24.w : 28.w,
+        //       height: 24.h,
+        //       child: Radio(
+        //         value: 1,
+        //         groupValue: controller.radioValue.value,
+        //         onChanged: (value) {
+        //           controller.handleRadioValueChange(value ?? 0);
+        //         },
+        //       ),
+        //     ),
+        //     SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
+        //     Text('수도용지', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+        //     SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+        //     SizedBox(
+        //       width: 1.w > 1.h ? 24.w : 28.w,
+        //       height: 24.h,
+        //       child: Radio(
+        //         value: 2,
+        //         groupValue: controller.radioValue.value,
+        //         onChanged: (value) {
+        //           controller.handleRadioValueChange(value ?? 0);
+        //         },
+        //       ),
+        //     ),
+        //     SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
+        //     Text('택지개발', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+        //     SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+        //     SizedBox(
+        //       width: 1.w > 1.h ? 24.w : 28.w,
+        //       height: 24.h,
+        //       child: Radio(
+        //         value: 3,
+        //         groupValue: controller.radioValue.value,
+        //         onChanged: (value) {
+        //           controller.handleRadioValueChange(value ?? 0);
+        //         },
+        //       ),
+        //     ),
+        //     SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
+        //     Text('기타', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+        //   ],
+        // )
       ],
     );
   }

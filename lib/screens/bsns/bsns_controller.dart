@@ -4,13 +4,19 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/components/CustomGridColumn.dart';
+import 'package:ldi/components/custom_button.dart';
+import 'package:ldi/components/custom_grid.dart';
+import 'package:ldi/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
+import 'package:ldi/screens/sttus/datasource/model/lad_sttus_inqire_model.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dialog_util.dart';
-import '../../utils/custom_textfield.dart';
+import '../../components/custom_textfield.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_owner_datasource.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_partcpnt_datasource.dart';
@@ -80,6 +86,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgTabLadSelected = [true, false, false].obs;
   final accdtlnvstgTabObstSelected = [true, false].obs;
 
+  final ladSttusInqireTabIsSelected = [false, false, false, false, false, false, false, false, false, false].obs;
+
   // 소유자 관리 탭 아이템
   final bsnsOwnerTabItems = [
     Tab(text: '소유자검색'),
@@ -127,16 +135,16 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   late DataGridController accdtlnvstgObstDataGridController;
 
+  late DataGridController ladSttusInqireDataGridController;
+
   /// [BsnsSelectAreaDataSource] 는 [DataGridSource] 를 상속받아 구현한 데이터 소스 클래스이다.
   final bsnsListDataSource = BsnsSelectAreaDataSource(items: []).obs; // 사업구역선택
 
   final bsnsOwnerDataSource = OwnerDatasource(items: []).obs; // 소유자
   RxList<OwnerDataSourceModel> bsnsOwner = <OwnerDataSourceModel>[].obs;
 
-  final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: [])
-      .obs; // 소유자 및 관계인
-  final ownerObstInfoDataSource = OwnerObstInfoDatasource(items: [])
-      .obs; // 지장물정보
+  final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
+  final ownerObstInfoDataSource = OwnerObstInfoDatasource(items: []).obs; // 지장물정보
 
   final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
   RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
@@ -146,20 +154,19 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   // 실태조사 > 소유자/관계인 > 토지
   final accdtlnvstgOwnerLadDataSource = OwnerLadInfoDatasource(items: []).obs;
-  Rx<
-      OwnerLadInfoDatasourceModel> selectedOwnerLadInfoData = OwnerLadInfoDatasourceModel()
-      .obs;
+  Rx<OwnerLadInfoDatasourceModel> selectedOwnerLadInfoData = OwnerLadInfoDatasourceModel().obs;
 
   // 실태조사 > 소유자/관계인 > 소유자 현황
-  final accdtlnvstgLadOwnerDataSource = AccdtlnvstgLadOwnerDatasource(items: [])
-      .obs;
+  final accdtlnvstgLadOwnerDataSource = AccdtlnvstgLadOwnerDatasource(items: []).obs;
 
   // 실태조사 > 소유자/관계인 > 소유자별 관계인 현황
-  final accdtlnvstgLadPartcpntDataSource = AccdtlnvstgLadPartcpntDatasource(
-      items: []).obs;
+  final accdtlnvstgLadPartcpntDataSource = AccdtlnvstgLadPartcpntDatasource(items: []).obs;
 
   // 실태조사 > 지장물내역
   final accdtlnvstgObstDataSource = AccdtlnvstgObstDatasource(items: []).obs;
+
+  // 통계정보 > 토지현황
+  final ladSttusInqireDataSource = LadSttusInqireDatasource(items: []).obs;
 
   /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
   RxInt radioValue = 0.obs;
@@ -182,8 +189,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   Rx<BsnsSelectModel> bsns = BsnsSelectModel().obs;
   Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
 
-  Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource =
-      BsnsSelectAreaDataSourceModel().obs;
+  Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource = BsnsSelectAreaDataSourceModel().obs;
 
   //Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
 
@@ -196,6 +202,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   // RxDouble surveyDateWidth = 100.0.obs;
 
   RxMap<String, double> columnWidths = {
+    'addr' : 200.0,
     'bsnsZoneNo': double.nan,
     'bsnsZoneNm': double.nan,
     'lotCnt': double.nan,
@@ -285,6 +292,20 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     '일시사용'
   ].obs;
 
+  RxBool isLadSttusInqireGridTab1 = false.obs;
+  RxBool isLadSttusInqireGridTab2 = false.obs;
+  RxBool isLadSttusInqireGridTab3 = false.obs;
+  RxBool isLadSttusInqireGridTab4 = false.obs;
+  RxBool isLadSttusInqireGridTab5 = false.obs;
+  RxBool isLadSttusInqireGridTab6 = false.obs;
+  RxBool isLadSttusInqireGridTab7 = false.obs;
+  RxBool isLadSttusInqireGridTab8 = false.obs;
+  RxBool isLadSttusInqireGridTab9 = false.obs;
+  RxBool isLadSttusInqireGridTab10 =false.obs;
+
+  //late RxList<GridColumn> ladSttusInqireColumns;
+  RxList<GridColumn> ladSttusInqireColumns = <GridColumn>[].obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -306,18 +327,12 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     ownerSlnoLtnoSearchController = TextEditingController();
     ownerEtcController = TextEditingController();
 
-    accdtlnvstgTabController =
-        TabController(length: accdtlnvstgTabItems.length, vsync: this);
-    bsnsTabController =
-        TabController(length: bsnsSelectTabItems.length, vsync: this);
-    bsnsOwnerTabController =
-        TabController(length: bsnsOwnerTabItems.length, vsync: this);
-    accdtlnvstgLadTabController =
-        TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
-    accdtlnvstgObstTabController =
-        TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
-    sttusTabController =
-        TabController(length: sttusTabItems.length, vsync: this);
+    accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
+    bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
+    bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
+    accdtlnvstgLadTabController = TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
+    accdtlnvstgObstTabController = TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
+    sttusTabController = TabController(length: sttusTabItems.length, vsync: this);
 
     orderController = TextEditingController();
 
@@ -340,6 +355,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     // 실태조사 > 지장물
     accdtlnvstgObstDataGridController = DataGridController();
+
+    // 통계정보 > 토지현황
+    ladSttusInqireDataGridController = DataGridController();
 
     bsnsTabController.addListener(() {
       print('bsnsTabController.index : ${bsnsTabController.index}');
@@ -365,6 +383,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     // /// [사업목록] 조회
     // await fetchBsnsSelectAreaGridDataSource();
+    await fetchBsnsList();
 
     /// [소유자 및 관리인] 조회
     await fetchBsnsOwnerDataSource();
@@ -389,6 +408,20 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     /// [실태조사 > 지장물 정보] 조회
     await fetchAccdtlnvstgObstDataSource();
+
+    /// [통계정보 > 토지현황] 조회
+    await fetchLadSttusInqireDataSource();
+
+  }
+
+  /// [gridColumn] 데이터그리드 컬럼
+  GridColumn gridColumn(String columnName, String label, {bool? isVisble, double? width}) {
+    return GridColumn(
+      //width: controller.columnWidths[columnName ?? ''] ?? 80,
+        width: columnWidths[columnName] ?? width ?? 80,
+        columnName: columnName,
+        visible: isVisble ?? true,
+        label: SizedBox(child: Center(child: Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tableTextColor)))));
   }
 
   @override
@@ -426,18 +459,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     await Future.delayed(Duration(milliseconds: 500));
 
     var bsns = <BsnsSelectModel>[];
-    // for (var i = 0; i < 10; i++) {
-    //   bsns.add(BsnsSelectModel(
-    //       no: i.toString(),
-    //       areaNo: i.toString(),
-    //       title: '(5101102)대교천 재해예상사업(차수 : $i)',
-    //       bizName: '사업구역 $i',
-    //       bizArea: '장군면 도계리 34$i 연기면 세종리 금강합류점검',
-    //       isExpand: false,
-    //       isSelect: false,
-    //       bizDate: DateTime.now().toString()));
-    // }
-
     bsns.add(BsnsSelectModel(no: '1',
         areaNo: '1',
         title: '(T101) 대교천 재해예상사업',
@@ -651,6 +672,138 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     accdtlnvstgObstDataSource.value =
         AccdtlnvstgObstDatasource(items: accdtlnvstgObst);
+  }
+
+  /// [통계정보 > 토지현황] 조회
+  fetchLadSttusInqireDataSource() async {
+    var ladSttusInqire = <LadSttusInqireModel>[];
+    for (var i = 0; i < 10; i++) {
+      ladSttusInqire.add(LadSttusInqireModel(
+          addr : '대전광역시 유성구 봉명동',
+          lcrtsNm : '일반',
+          mlnoLtno : '12$i',
+          slnoLtno : '45$i',
+          ofcbkLndcgrDivCd : randomLndcgrDivCd(),
+          sttusLndcgrDivCd : randomLndcgrDivCd(),
+          prgsStepInfo : '구조규격정보',
+          acqsPrpDivCd : '보상수량면적값',
+          ofcbkAra : '보상물건단위구분코드',
+          incrprAra : '현황지목구분코드',
+          cmpnstnInvstgAra : '취득용도구분코드',
+          aceptncUseDivCd : '수용용도구분코드',
+          accdtInvstgDe : '2021-10-0$i',
+          accdtInvstgSqnc : '$i차',
+          ownerNo: '$i',
+          ownerNm: '홍길동',
+          posesnShreNmrtrInfo: '개인',
+          posesnShreDnmntrInfo: '개인',
+          apasmtDivCd: '조회',
+          apasmtSqnc: '$i',
+          prceDt: '2021-10-0$i',
+          apasmtInsttNm1: '변경',
+          apasmtInsttEvlUpc1: '기타',
+          apasmtInsttEvlAmt1: '기타',
+          apasmtInsttNm2: '기타',
+          apasmtInsttEvlUpc2: '기타',
+          apasmtInsttEvlAmt2: '기타',
+          apasmtInsttNm3: '기타',
+          apasmtInsttEvlUpc3: '기타',
+          apasmtInsttEvlAmt3: '기타',
+          cmpnstnCmptnUpc: '기타',
+          cpsmnCmptnAmt: '기타',
+          pymntRequstDt: '2021-10-0$i',
+          cpsmnUpc: '기타',
+          cpsmnPymamt: '기타',
+          rgistDt: '기타',
+          aceptncAdjdcUpc: '기타',
+          aceptncAdjdcAmt: '기타',
+          aceptncAdjdcDt: '2021-10-0$i',
+          aceptncUseBeginDe: '기타',
+          aceptncAdjdcPymntDe: '기타',
+          cpsmnPymntLdgmntDivCd: '기타',
+          objctnAdjdcUpc: '기타',
+          objctnAdjdcAmt: '기타',
+          objctnAdjdcDt: '기타',
+      ));
+    }
+
+    ladSttusInqireColumns.value = [];
+
+    ladSttusInqireColumns.value = [
+      gridColumn('addr', '소재지'),
+      gridColumn('lcrtsNm', '특지'),
+      gridColumn('mlnoLtno', '본번'),
+      gridColumn('slnoLtno', '부번'),
+
+      gridColumn('ofcbkLndcgrDivCd', '공부'),
+      gridColumn('sttusLndcgrDivCd', '현황'),
+
+      gridColumn('prgsStepInfo', '진행단계'),
+      gridColumn('acqsPrpDivCd', '취득용도'),
+
+      gridColumn('ofcbkAra', '공부'),
+      gridColumn('incrprAra', '편입'),
+
+      gridColumn('cmpnstnInvstgAra', '조사', isVisble: isLadSttusInqireGridTab1.value),
+      gridColumn('aceptncUseDivCd', '수용/사용',isVisble: isLadSttusInqireGridTab1.value),
+      gridColumn('accdtInvstgDe', '조사일', isVisble: isLadSttusInqireGridTab1.value),
+      gridColumn('accdtInvstgSqnc', '조사차수', isVisble: isLadSttusInqireGridTab1.value),
+
+      gridColumn('ownerNo', '소유자번호', isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('ownerDivCd', '구분', isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('ownerNm', '소유자명', isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('ownerRgsbukAddr', '등기부주소', isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('posesnShreNmrtrInfo', '분자', isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('posesnShreDnmntrInfo', '분모', isVisble: isLadSttusInqireGridTab2.value),
+
+      gridColumn('apasmtDivCd', '평가구분', isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('apasmtSqnc', '평가차수', isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('prceDt', '가격시점', isVisble: isLadSttusInqireGridTab3.value),
+
+      // a평가법인
+      gridColumn('apasmtInsttNm1', '법인명', isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('apasmtInsttEvlUpc1', '단가', isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('apasmtInsttEvlAmt1', '금액', isVisble: isLadSttusInqireGridTab3.value),
+
+      // b평가법인
+      gridColumn('apasmtInsttNm2', '법인명', isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('apasmtInsttEvlUpc2', '단가', isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('apasmtInsttEvlAmt2', '금액', isVisble: isLadSttusInqireGridTab3.value),
+
+      // c평가법인
+      gridColumn('apasmtInsttNm3', '법인명', isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('apasmtInsttEvlUpc3', '단가', isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('apasmtInsttEvlAmt3', '금액', isVisble: isLadSttusInqireGridTab3.value),
+
+      // 보상비산정
+      gridColumn('cmpnstnCmptnUpc', '산정단가', isVisble: isLadSttusInqireGridTab4.value),
+      gridColumn('cpsmnCmptnAmt', '산정금액', isVisble: isLadSttusInqireGridTab4.value),
+
+      // 보상비지급
+      gridColumn('pymntRequstDt', '지급요청일', isVisble: isLadSttusInqireGridTab5.value),
+      gridColumn('cpsmnUpc', '지급단가', isVisble: isLadSttusInqireGridTab5.value),
+      gridColumn('cpsmnPymamt', '지급금액', isVisble: isLadSttusInqireGridTab5.value),
+      gridColumn('rgistDt', '등기일자', isVisble: isLadSttusInqireGridTab5.value),
+
+      // 수용재결
+      gridColumn('aceptncAdjdcUpc', '재결단가', isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('aceptncAdjdcAmt', '재결금액', isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('aceptncAdjdcDt', '재결일자', isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('aceptncUseBeginDe', '수용/사용개시일', isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('aceptncAdjdcPymntDe', '지급요청일자', isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('aceptncRgistDt', '등기일자', isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('cpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isLadSttusInqireGridTab6.value),
+
+      // 이의재결
+      gridColumn('objctnAdjdcUpc', '재결단가', isVisble: isLadSttusInqireGridTab7.value),
+      gridColumn('objctnAdjdcAmt', '재결금액', isVisble: isLadSttusInqireGridTab7.value),
+      gridColumn('objctnAdjdcDt', '재결일자', isVisble: isLadSttusInqireGridTab7.value),
+      gridColumn('objctnPymntRequstDt', '지급요청일자', isVisble: isLadSttusInqireGridTab7.value),
+      gridColumn('objctncpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isLadSttusInqireGridTab7.value),
+    ];
+
+    ladSttusInqireDataSource.value =
+        LadSttusInqireDatasource(items: ladSttusInqire);
   }
 
   /// [차수] 선택
@@ -912,8 +1065,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
                 DialogUtil.showAlertDialog(
                   Get.context!,
+                  0,
                   '실태조사 시작',
-                  RichText(
+                  child: RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
@@ -944,7 +1098,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                      () {
+                  onOk: () {
                     print('실태조사 시작');
                     isBsnsSelectFlag.value = false;
                     isBsnsSqncSelectFlag.value = false;
@@ -952,7 +1106,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                     pageController.jumpToPage(2);
                     Get.back();
                   },
-                      () {
+                  onCancel: () {
                     Get.back();
                   },
                 );
@@ -1048,6 +1202,272 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       accdtlnvstgTabObstSelected[i] = false;
     }
     accdtlnvstgTabObstSelected[index] = true;
+  }
+
+  /// 통계정보 > 토지현황 > 토지검색
+  Future<void> handleLadSttusInqireTabSelected(int index) async {
+
+    ladSttusInqireTabIsSelected[index] = !ladSttusInqireTabIsSelected[index];
+    print('ladSttusInqireTabIsSelected : $ladSttusInqireTabIsSelected');
+
+  }
+
+  void addBsns() {
+    DialogUtil.showAlertDialog(Get.context!, 0, '토지 현실이용현황 조회 및 입력',
+    child: SizedBox(
+      width: 520.w,
+      height: 166.h,
+      child: Column(
+        children: [
+          Container(
+            height: 52.h,
+            child: Row(
+              children: [
+                Container(
+                  width: 100.w,
+                  height: 52.h,
+                  color: Color(0XFFE5E8ED),
+                  child: Center(
+                    child: Text(
+                      '지목선택',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.symmetric(
+                        horizontal: BorderSide(
+                          color: Color(0XFFE5E8ED),
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 5,
+                            child: Container(
+                              height: 36.h,
+                              child: CustomTextField(
+                                controller: orderController,
+                                hintText: '지목을 입력해주세요.',
+                                isPassword: false,
+                                isReadOnly: false,
+                                onChanged: (value) {
+                                  print('orderController : $value');
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 6.w),
+                          Expanded(
+                            child: CustomButton(
+                              color: Color(0XFFE5E8ED),
+                              text: '조회',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ),
+          SizedBox(height: 1.h),
+          Container(
+              height: 52.h,
+              child: Row(
+                children: [
+                  Container(
+                    width: 100.w,
+                    height: 52.h,
+                    color: Color(0XFFE5E8ED),
+                    child: Center(
+                      child: Text(
+                        '면적(㎡)',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        // border only bottom
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Color(0XFFE5E8ED),
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 36.h,
+                                child: CustomTextField(
+                                  controller: orderController,
+                                  hintText: '',
+                                  isPassword: false,
+                                  isReadOnly: false,
+                                  onChanged: (value) {
+                                    print('orderController : $value');
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+          ),
+          SizedBox(height: 1.h),
+          Container(
+              height: 52.h,
+              child: Row(
+                children: [
+                  Container(
+                    width: 100.w,
+                    height: 52.h,
+                    color: Color(0XFFE5E8ED),
+                    child: Center(
+                      child: Text(
+                        '용도지구 \n 및 지역',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Color(0XFFE5E8ED),
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                height: 36.h,
+                                child: CustomTextField(
+                                  controller: orderController,
+                                  hintText: '',
+                                  isPassword: false,
+                                  isReadOnly: false,
+                                  onChanged: (value) {
+                                    print('orderController : $value');
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 6.w),
+                            Expanded(
+                              child:
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      width: 38.w,
+                                      height: 38.w,
+                                      padding: EdgeInsets.all(4),
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                      ),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/ic_microphone.svg',
+                                      )
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  Container(
+                                    width: 38.w,
+                                    height: 38.w,
+                                    padding: EdgeInsets.all(4),
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                    ),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/ic_pen.svg',
+                                    )
+                                  ),
+                                  // Container(
+                                  //   width: 36.w,
+                                  //   height: 36.h,
+                                  //   decoration: BoxDecoration(
+                                  //       color: Color(0xFFFFFFFF),
+                                  //       borderRadius: BorderRadius.circular(6.r),
+                                  //       border: Border.all(color: borderLine)
+                                  //   ),
+                                  //   child: SvgPicture.asset(
+                                  //     width: 10.w,
+                                  //     height: 10.h,
+                                  //     'assets/icons/ic_pen.svg',
+                                  //     fit: BoxFit.contain,
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+          ),
+          SizedBox(height: 1.h),
+        ],
+      ),
+    ),
+    onOk: () {
+      print('토지 현실이용현황 조회 및 입력');
+      isBsnsSelectFlag.value = false;
+      isBsnsSqncSelectFlag.value = false;
+      isBsnsZoneSelectFlag.value = false;
+      pageController.jumpToPage(2);
+      Get.back();
+    }, onCancel: () {
+      Get.back();
+    });
   }
 
   randomName() {

@@ -37,19 +37,21 @@ class LoginScreen extends GetView<LoginController> {
                     children: [
                       SizedBox(
                         child: SvgPicture.asset(
-                          'assets/images/ic_kwater_logo.svg',
+                          'assets/icons/ic_kwater_logo.svg',
                         ),
                       ),
                       Text('현장조사 모바일',
                           style: TextStyle(
-                              fontSize: 24.sp,
+                              fontSize: 1.w > 1.h ? 24.sp : 28.sp,
                               fontWeight: FontWeight.w700,
                               color: Colors.white)),
                     ],
                   ),
                   SizedBox(height: 24.h),
                   Container(
-                    width: 408.w,
+                    //width: 408.w,
+                    // 가로모드일 경우
+                    width: 1.sw > 1.sh ? 408.w : Get.width * 0.75,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12.r),
@@ -93,11 +95,11 @@ class LoginScreen extends GetView<LoginController> {
             indicatorWeight: 0,
             unselectedLabelColor: Colors.white,
             labelStyle: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 1.w > 1.h ? 16.sp : 24.sp,
               fontWeight: FontWeight.w500,
             ),
             unselectedLabelStyle: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 1.w > 1.h ? 16.sp : 24.sp,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -108,18 +110,6 @@ class LoginScreen extends GetView<LoginController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // SizedBox(height: 10.h),
-              // _buildIdField(),
-              // SizedBox(height: 10.h),
-              // _buildPasswordField(),
-              // SizedBox(height: 10.h),
-              // _buildAutoLogin(),
-              // SizedBox(height: 10.h),
-              // _buildLoginButton(),
-              // SizedBox(height: 10.h),
-              // _buildFindIdPassword(),
-              // SizedBox(height: 10.h),
-              // _buildBiometricButton(),
               _buildIdField(),
               SizedBox(height: 10.h),
               _buildPasswordField(),
@@ -161,7 +151,7 @@ class LoginScreen extends GetView<LoginController> {
           SizedBox(width: 10.w),
           Text('아이디 저장',
               style: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: 1.w > 1.h ? 14.sp : 20.sp,
                   color: Theme.of(Get.context!).colorScheme.onSurface,
                   fontWeight: FontWeight.w400)),
         ],
@@ -171,14 +161,15 @@ class LoginScreen extends GetView<LoginController> {
 
   Widget _buildIdField() {
     return Container(
-      height: 48.h,
+      height: 1.w > 1.h ? 48.h : 30.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: TextField(
         decoration: InputDecoration(
           labelText: '아이디',
-          labelStyle: TextStyle(fontSize: 16.sp, color: Color(0xffC6C6C6)),
+          labelStyle: TextStyle(fontSize: 1.w > 1.h ? 16.sp : 24.sp,
+              color: Color(0xffC6C6C6)),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
             color: Color(0xffC6C6C6),
@@ -211,7 +202,7 @@ class LoginScreen extends GetView<LoginController> {
   /// 비밀번호 입력 필드
   Widget _buildPasswordField() {
     return Container(
-      height: 48.h,
+      height: 1.w > 1.h ? 48.h : 30.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
       ),
@@ -223,7 +214,8 @@ class LoginScreen extends GetView<LoginController> {
         autocorrect: false,
         decoration: InputDecoration(
           labelText: '비밀번호',
-          labelStyle: TextStyle(fontSize: 16.sp, color: Color(0xffC6C6C6)),
+          labelStyle: TextStyle(fontSize: 1.w > 1.h ? 16.sp : 24.sp,
+              color: Color(0xffC6C6C6)),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
             color: Color(0xffC6C6C6),
@@ -261,7 +253,7 @@ class LoginScreen extends GetView<LoginController> {
     // round shape button
     return SizedBox(
       width: double.infinity,
-      height: 50.h,
+      height: 1.w > 1.h ? 50.h : 30.h,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -274,7 +266,7 @@ class LoginScreen extends GetView<LoginController> {
           },
           child: Text('로그인',
               style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 1.w > 1.h ? 16.sp : 24.sp,
                   color: Colors.white,
                   fontWeight: FontWeight.w500))),
     );
@@ -284,7 +276,7 @@ class LoginScreen extends GetView<LoginController> {
   Widget _buildBiometricButton() {
     return SizedBox(
       width: double.infinity,
-      height: 50.h,
+      height: 1.w > 1.h ? 50.h : 30.h,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -297,7 +289,7 @@ class LoginScreen extends GetView<LoginController> {
           },
           child: Text('모바일 생체인증',
               style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 1.w > 1.h ? 16.sp : 24.sp,
                   color: gray600,
                   fontWeight: FontWeight.w500))),
     );
@@ -314,7 +306,7 @@ class LoginScreen extends GetView<LoginController> {
             onPressed: () {},
             child: Text('아이디 찾기',
                 style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 1.w > 1.h ? 14.sp : 20.sp,
                     fontWeight: FontWeight.w400,
                     color: Color(0xff555555))),
           ),
@@ -327,7 +319,7 @@ class LoginScreen extends GetView<LoginController> {
             onPressed: () {},
             child: Text('비밀번호 찾기',
                 style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 1.w > 1.h ? 14.sp : 20.sp,
                     fontWeight: FontWeight.w400,
                     color: Color(0xff555555))),
           ),
