@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import 'model/bsns_select_area_datasource_model.dart';
+import '../select/bsns_plan_select_area_model.dart';
 
 /// TD_LP10111 (LP_사업계획구역정보)
 ///
@@ -11,21 +11,19 @@ import 'model/bsns_select_area_datasource_model.dart';
 
 class BsnsSelectAreaDataSource extends DataGridSource {
   BsnsSelectAreaDataSource(
-      {required List<BsnsSelectAreaDataSourceModel> items}) {
+      {required List<BsnsPlanSelectAreaModel> items}) {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
               // 사업번호
-              DataGridCell<int>(columnName: 'bsnsZoneNo', value: e.bsnsZoneNo),
+              DataGridCell<num>(columnName: 'bsnsZoneNo', value: e.bsnsZoneNo),
               // 사업구역 명
               DataGridCell<String>(columnName: 'bsnsZoneNm', value: e.bsnsZoneNm),
               // 필지 수
-              DataGridCell<int>(columnName: 'lotCnt', value: e.lotCnt),
+              DataGridCell<num>(columnName: 'lotCnt', value: e.lotCnt),
               // 면적
-              DataGridCell<int>(columnName: 'bsnsAra', value: e.bsnsAra),
+              DataGridCell<String>(columnName: 'bsnsAra', value: e.bsnsAra),
               // 열람공고일
-              DataGridCell<String>(
-                  columnName: 'bsnsReadngPblancDe',
-                  value: e.bsnsReadngPblancDe),
+              DataGridCell<String>(columnName: 'bsnsReadngPblancDe', value: e.bsnsReadngPblancDe),
             ]))
         .toList();
   }

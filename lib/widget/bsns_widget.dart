@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/utils/common_util.dart';
+import 'package:ldi/utils/dialog_util.dart';
 
+import '../components/convert_datetime_text.dart';
 import '../components/custom_richtext.dart';
 import '../components/custom_textfield.dart';
 import '../screens/bsns/bsns_controller.dart';
@@ -136,266 +140,376 @@ class BsnsWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomRichText(length: controller.searchBsnsList.length),
+                CustomRichText(length: controller.bsnsPlanList.length),
                 SizedBox(height: 20.h),
                 Expanded(
                   child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: controller.searchBsnsList.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-
-                          /*DialogUtil.showAlertDialog(
-                              context,
-                              '사업구역 선택',
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '${controller.searchBsnsList[index].title}',
-                                      style: TextStyle(
-                                        color: Theme.of(context).colorScheme.primary,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: '\n사업을 선택하시겠습니까?',
-                                      style: TextStyle(
-                                        color: tableTextColor,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ), () {
-                            controller.selectedBsns.value = controller.searchBsnsList[index];
-                            /// [사업목록] 조회
-                            controller.fetchBsnsSelectAreaGridDataSource();
-                            controller.bsnsTabController.animateTo(1);
-                            Get.ba ck();
-                          }, () {
-                            Get.back();
-                          });*/
-
-                          controller.isBsnsSelectFlag.value = true;
-                          controller.isBsnsZoneSelectFlag.value = false;
-                          controller.selectedBsns.value = controller.searchBsnsList[index];
-                          controller.fetchBsnsSelectAreaGridDataSource();
-
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              width: Get.width,
-                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-                              decoration: ShapeDecoration(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(width: 0, color: borderLine),
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                          padding: EdgeInsets.zero,
+                          itemCount: controller.bsnsPlanList.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                // controller.isBsnsSelectFlag.value = true;
+                                // controller.isBsnsZoneSelectFlag.value = false;
+                                // controller.selectedBsns.value = controller.searchBsnsList[index];
+                                // controller.fetchBsnsSelectAreaGridDataSource();
+                                controller.isBsnsSelectFlag.value = true;
+                                controller.selectBsnsPlan.value = controller.bsnsPlanList[index];
+                                controller.fetchBsnsSelectAreaGridDataSource();
+                              },
+                              child: Column(
                                 children: [
-                                  Expanded(
-                                    child: Container(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: double.infinity,
-                                            child: Row(
+                                  Container(
+                                    width: Get.width,
+                                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(width: 0, color: borderLine),
+                                        borderRadius: BorderRadius.circular(8.r),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                CustomBsnsBadge(text: '댐', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
-                                                SizedBox(width: 6.w),
-                                                CustomBsnsBadge(text: '건설', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
-                                                SizedBox(width: 10.w),
-                                                Expanded(
-                                                  child: SizedBox(
-                                                    child: Text(controller.searchBsnsList[index].title ?? '',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(height: 10.w),
-                                          Text(
-                                            controller.searchBsnsList[index].bizArea ?? '',
-                                            style: TextStyle(
-                                              color: Color(0xFF555555),
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                          SizedBox(height: 10.w),
-                                          SizedBox(
-                                            width: double.infinity,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                                  decoration: ShapeDecoration(
-                                                    color: Color(0xFFF0F0F0),
-                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                                  ),
+                                                SizedBox(
+                                                  width: double.infinity,
                                                   child: Row(
                                                     mainAxisSize: MainAxisSize.min,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                     children: [
-                                                      Text(
-                                                        '주관부서',
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: Color(0xFF1D1D1D),
-                                                          fontSize: 14.sp,
-                                                          fontWeight: FontWeight.w400,
+                                                      CustomBsnsBadge(text: controller.bsnsPlanList[index].bsnsDivLclsCd, bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                                                      SizedBox(width: 6.w),
+                                                      CustomBsnsBadge(text: controller.bsnsPlanList[index].bsnsDivMclsCd, bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                                                      SizedBox(width: 10.w),
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          child: Text(controller.bsnsPlanList[index].bsnsNm ?? '',
+                                                            style: TextStyle(
+                                                              color: tableTextColor,
+                                                              fontSize: 16.sp,
+                                                              fontWeight: FontWeight.w700,
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(width: 12.w),
-                                                Expanded(
-                                                  child: SizedBox(
-                                                    height: 23.h,
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        Text('수도개발처', style: TextStyle(color: Color(0xFF555555), fontSize: 14.sp, fontWeight: FontWeight.w400,)),
-                                                        SizedBox(width: 8.w),
-                                                        Container(width: 1.w, height: 16.h, decoration: BoxDecoration(color: Color(0xFFC6C6C6)),),
-                                                        SizedBox(width: 8.w),
-                                                        Text('수도개발부', style: TextStyle(color: Color(0xFF555555), fontSize: 14.sp, fontWeight: FontWeight.w400,),),
-                                                        SizedBox(width: 8.w),
-                                                        Container(width: 1, height: 16, decoration: BoxDecoration(color: Color(0xFFC6C6C6)),),
-                                                        SizedBox(width: 8.w),
-                                                        Text('수도개발팀', style: TextStyle(color: Color(0xFF555555), fontSize: 14.sp, fontWeight: FontWeight.w400,),),
-                                                        SizedBox(width: 8.w),
-                                                        Text('홍길동', style: TextStyle(color: Color(0xFF555555), fontSize: 14.sp, fontWeight: FontWeight.w400,),),
-                                                      ],
-                                                    ),
+                                                SizedBox(height: 10.w),
+                                                Text(
+                                                  controller.bsnsPlanList[index].bsnsLcinfo ?? '',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF555555),
+                                                    fontSize: 14.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10.w),
+                                                SizedBox(
+                                                  width: double.infinity,
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      Container(
+                                                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                                        decoration: ShapeDecoration(
+                                                          color: Color(0xFFF0F0F0),
+                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Text(
+                                                              '주관부서',
+                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(
+                                                                color: Color(0xFF1D1D1D),
+                                                                fontSize: 14.sp,
+                                                                fontWeight: FontWeight.w400,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 12.w),
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 23.h,
+                                                          child: Row(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: [
+                                                              //Text('수도개발처', style: TextStyle(color: Color(0xFF555555), fontSize: 14.sp, fontWeight: FontWeight.w400,)),
+                                                              Text(controller.bsnsPlanList[index].mngdeptCd ?? '-', style: TextStyle(color: Color(0xFF555555), fontSize: 14.sp, fontWeight: FontWeight.w400,),),
+                                                              SizedBox(width: 8.w),
+                                                              Container(width: 1.w, height: 16.h, decoration: BoxDecoration(color: Color(0xFFC6C6C6)),),
+                                                              SizedBox(width: 8.w),
+                                                              Text('관련부서코드1', style: TextStyle(color: Color(0xFF555555), fontSize: 14.sp, fontWeight: FontWeight.w400,),),
+                                                              SizedBox(width: 8.w),
+                                                              Container(width: 1, height: 16, decoration: BoxDecoration(color: Color(0xFFC6C6C6)),),
+                                                              SizedBox(width: 8.w),
+                                                              Text('관련부서코드2', style: TextStyle(color: Color(0xFF555555), fontSize: 14.sp, fontWeight: FontWeight.w400,),),
+                                                              SizedBox(width: 8.w),
+                                                              Text('등록자', style: TextStyle(color: Color(0xFF555555), fontSize: 14.sp, fontWeight: FontWeight.w400,),),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 20.w),
-                                  InkWell(
-                                    onTap: () {
-                                      controller.isExpanded.value = !controller.isExpanded.value;
-                                    },
-                                    child: Container(
-                                      width: 80.w,
-                                      height: 36.h,
-                                      padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                                      decoration: ShapeDecoration(
-                                        color: Color(0xFF246AEA),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text('상세정보', style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500,),),
-                                        ],
-                                      ),
+                                        ),
+                                        SizedBox(width: 20.w),
+                                        InkWell(
+                                          onTap: () {
+                                            print('상세정보 클릭');
+                                            var data = controller.bsnsPlanList[index];
+                                            controller.selectBsnsPlan.value = data;
+                                            DialogUtil.showAlertDialog(Get.context!, 800, '상세정보',
+                                                isButtonVisible: false,
+                                                onOk: () {}, onCancel: () {},
+                                                widget: Column(
+                                                  children: [
+                                                    Container(
+                                                      width: 720.w,
+                                                      height: 72.h,
+                                                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                                                      decoration: ShapeDecoration(
+                                                        color: Color(0xFFF6F7FB),
+                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                Container(
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        '사업시작일',
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF1D1D1D),
+                                                                          fontSize: 15.sp,
+                                                                          fontWeight: FontWeight.w700,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 6.w),
+                                                                      ConvertDatetimeText(value: controller.bsnsPlanList[index].bsnsStrtDe,),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: 6.w),
+                                                                Text(
+                                                                  '~',
+                                                                  style: TextStyle(
+                                                                    color: Color(0xFF1D1D1D),
+                                                                    fontSize: 15.sp,
+                                                                    fontFamily: 'Pretendard',
+                                                                    fontWeight: FontWeight.w700,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: 6.w),
+                                                                Container(
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        '사업종료일',
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF1D1D1D),
+                                                                          fontSize: 15.sp,
+                                                                          fontWeight: FontWeight.w700,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 6.w),
+                                                                      ConvertDatetimeText(value: controller.bsnsPlanList[index].bsnsEndDe,),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 10.h),
+                                                          Container(
+                                                            child: Row(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                Container(
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        '승인일',
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF1D1D1D),
+                                                                          fontSize: 15.sp,
+                                                                          fontWeight: FontWeight.w700,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 6.w),
+                                                                      ConvertDatetimeText(value: controller.bsnsPlanList[index].aprvDe,),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: 16.w),
+                                                                Container(
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        '관보고시일',
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF1D1D1D),
+                                                                          fontSize: 15.sp,
+                                                                          fontFamily: 'Pretendard',
+                                                                          fontWeight: FontWeight.w700,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 6.w),
+                                                                      ConvertDatetimeText(value: controller.bsnsPlanList[index].gztNtfcDe,),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: 16.w),
+                                                                Container(
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        '준공일',
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF1D1D1D),
+                                                                          fontSize: 15.sp,
+                                                                          fontWeight: FontWeight.w700,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 6.w),
+                                                                      ConvertDatetimeText(value: controller.bsnsPlanList[index].competDe,),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 16.h),
+                                                    BsnsSelectScreen().buildTable(),
+                                                    SizedBox(height: 16.h),
+                                                    SizedBox(
+                                                      width: 720.w,
+                                                      height: 36.h,
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Container(
+                                                            height: 36.h,
+                                                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                                            decoration: ShapeDecoration(
+                                                              color: Colors.white,
+                                                              shape: RoundedRectangleBorder(
+                                                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                                                borderRadius: BorderRadius.circular(6),
+                                                              ),
+                                                            ),
+                                                            child: Row(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                Container(
+                                                                  width: 20.w,
+                                                                  height: 20.h,
+                                                                  clipBehavior: Clip.antiAlias,
+                                                                  decoration: BoxDecoration(),
+                                                                  child: SvgPicture.asset('assets/icons/ic_pdf.svg', width: 20.w, height: 20.h),
+                                                                ),
+                                                                SizedBox(width: 4.w),
+                                                                Text(
+                                                                  '1차 고시문',
+                                                                  style: TextStyle(
+                                                                    color: Color(0xFF555555),
+                                                                    fontSize: 15.sp,
+                                                                    fontFamily: 'Pretendard',
+                                                                    fontWeight: FontWeight.w400,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 80.w,
+                                            height: 36.h,
+                                            padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                                            decoration: ShapeDecoration(
+                                              color: Color(0xFF246AEA),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Text('상세정보', style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500,),),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            Obx(() {
-                              if (controller.isExpanded == true) {
-                                return Card(
-                                  color: const Color(0xfff8f8f8),
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(color: gray300, width: 1),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  // border line color
-                                  shadowColor: Colors.grey[200],
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(children: [
-                                            Text('사업시작일', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700)),
-                                            SizedBox(width: 10.w),
-                                            Text('2021-01-01', style: TextStyle(fontSize: 12.sp, color: gray600, fontWeight: FontWeight.w500)),
-                                            SizedBox(width: 10.w),
-                                            Row(
-                                              children: [
-                                                Text('사업종료일', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700)),
-                                                SizedBox(width: 10),
-                                                Text('2021-12-31', style: TextStyle(fontSize: 12.sp, color: gray600, fontWeight: FontWeight.w500)),
-                                                SizedBox(width: 10),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 10.h),
-                                        Row(
-                                          children: [
-                                            // 승인일
-                                            Text('승인일', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700)),
-                                            SizedBox(width: 10.w),
-                                            Text('2021-01-01', style: TextStyle(fontSize: 12.sp, color: gray600, fontWeight: FontWeight.w500)),
-                                            SizedBox(width: 10.w),
-                                            // 관보고시일
-                                            Text('관보고시일', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700)),
-                                            SizedBox(width: 10),
-                                            Text('2021-01-01', style: TextStyle(fontSize: 12.sp, color: gray600, fontWeight: FontWeight.w500)),
-                                            SizedBox(width: 10),
-                                            // 열람공고일
-                                            Text('준공일', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700)),
-                                            SizedBox(width: 10),
-                                            Text('2021-01-01', style: TextStyle(fontSize: 12.sp, color: gray600, fontWeight: FontWeight.w500)),
-                                          ],
-                                        ),
-                                        SizedBox(height: 10.h),
-                                        BsnsSelectScreen().buildTable()
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return const SizedBox();
-                              }
-                            }),
-                          ],
-                        ),
-                      );
+                            );
                     },
                   ),
                 ),
@@ -407,6 +521,7 @@ class BsnsWidget {
     );
   }
 
+  /// 사업목록 화면 위젯
   static Widget buildBsnsListView(BsnsController controller) {
     return Container(
       color: bsnsListViewBg,
@@ -502,6 +617,7 @@ class BsnsWidget {
                   InkWell(onTap: () {
                     controller.isBsnsZoneSelectFlag.value = false;
                     controller.isBsnsSelectFlag.value = true;
+                    controller.fetchBsnsSelectAreaGridDataSource();
                   },
                   child: Icon(Icons.arrow_back_ios, size: 20.sp, color: Color(0xff2d2d2d))),
                   Text('조사 차수', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: tableTextColor)),

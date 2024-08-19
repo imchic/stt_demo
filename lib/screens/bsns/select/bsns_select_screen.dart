@@ -5,6 +5,7 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/screens/bsns/select/bsns_plan_select_area_model.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -228,136 +229,214 @@ class BsnsSelectScreen extends GetView<BsnsController> {
 
   /// [buildTable] 테이블
   Widget buildTable() {
-    return Table(
-      columnWidths: const {
-        0: FlexColumnWidth(0.35),
-        1: FlexColumnWidth(2),
-      },
-      //defaultColumnWidth: const FlexColumnWidth(1),
-      border: TableBorder.all(color: gray300),
-      children: [
-        TableRow(
-          children: [
-            TableCell(
-              child: Container(
-                // height: 40,
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: AutoSizeText('관련고시번호',
-                        maxLines: 2,
+    return Container(
+      width: 720.w,
+      child: Table(
+        columnWidths: const {
+          0: FlexColumnWidth(0.35),
+          1: FlexColumnWidth(2),
+        },
+        //defaultColumnWidth: const FlexColumnWidth(1),
+        border: TableBorder.all(color: gray300),
+        children: [
+          TableRow(
+            children: [
+              TableCell(
+                child: Container(
+                  width: 100.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: gray300),
+                  ),
+                  child: Center(
+                      child: Text(
+                        '관련고시번호',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12.sp))),
+                          color: Color(0xFF1D1D1D),
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )),
+                ),
               ),
-            ),
-            TableCell(
-              child: Container(
-                // height: 40,
-                padding: const EdgeInsets.all(8.0),
-                color: Colors.white,
-                child: Center(
-                    child: Text('세종특별자치시 고시 2022호 2021-01-01',
-                        style: TextStyle(fontSize: 12.sp))),
+              TableCell(
+                child: Container(
+                  height: 40.h,
+                  padding: const EdgeInsets.all(8.0),
+                  color: Colors.white,
+                  child: Text(
+                    controller.selectBsnsPlan.value.gztNtfcNoDtls ?? '-',
+                    style: TextStyle(
+                      color: Color(0xFF555555),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Container(
-                // height: 40,
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: Text('시행방법',
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Container(
+                  width: 100.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: gray300),
+                  ),
+                  child: Center(
+                      child: Text(
+                        '시행방법',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12.sp))),
+                          color: Color(0xFF1D1D1D),
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )),
+                ),
               ),
-            ),
-            TableCell(
-              child: Container(
-                // height: 40,
-                padding: const EdgeInsets.all(8.0),
-                color: Colors.white,
-                child:
-                    Center(child: Text('-', style: TextStyle(fontSize: 12.sp))),
+              TableCell(
+                child: Container(
+                  height: 40.h,
+                  padding: const EdgeInsets.all(8.0),
+                  color: Colors.white,
+                  child: Text(
+                    controller.selectBsnsPlan.value.enfcMthDtls ?? '-',
+                    style: TextStyle(
+                      color: Color(0xFF555555),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Container(
-                // height: 120,
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: Text('사업목적',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12.sp),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2)),
-              ),
-            ),
-            TableCell(
-              child: Container(
-                // height: 120,
-                padding: const EdgeInsets.all(8.0),
-                color: Colors.white,
-                child: Center(
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Container(
+                  width: 100.w,
+                  height: 64.h,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: gray300),
+                  ),
+                  child: Center(
                     child: Text(
-                        '홍수 범람 및 피해 등 재해발생 위험성이 높은 하천(대교천)에 대하여 제방축조 및 호안정비 등 하천정비를 시행하여 재해를 사전에 예방하고자 함',
-                        style: TextStyle(fontSize: 12.sp))),
+                      '사업목적',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF1D1D1D),
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Container(
-                // height: 40,
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: Text('사업규모',
+              TableCell(
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  color: Colors.white,
+                  child: Text(
+                    controller.selectBsnsPlan.value.bsnsPurpsDtls ?? '-',
+                    style: TextStyle(
+                      color: Color(0xFF555555),
+                      fontSize: 16.sp,
+                      fontFamily: 'Pretendard',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Container(
+                  width: 100.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: gray300),
+                  ),
+                  child: Center(
+                      child: Text(
+                        '사업규모',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12.sp))),
+                          color: Color(0xFF1D1D1D),
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )),
+                ),
               ),
-            ),
-            TableCell(
-              child: Container(
-                // height: 40,
-                padding: const EdgeInsets.all(8.0),
-                color: Colors.white,
-                child:
-                    Center(child: Text('-', style: TextStyle(fontSize: 12.sp))),
+              TableCell(
+                child: Container(
+                  height: 40.h,
+                  padding: const EdgeInsets.all(8.0),
+                  color: Colors.white,
+                  child: Text(
+                    controller.selectBsnsPlan.value.bsnsScaleInfo ?? '-',
+                    style: TextStyle(
+                      color: Color(0xFF555555),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Container(
-                // height: 40,
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: Text('근거법령',
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Container(
+                  width: 100.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: gray300),
+                  ),
+                  child: Center(
+                      child: Text(
+                        '근거법령',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12.sp))),
+                          color: Color(0xFF1D1D1D),
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )),
+                ),
               ),
-            ),
-            TableCell(
-              child: Container(
-                // height: 40,
-                padding: const EdgeInsets.all(8.0),
-                color: Colors.white,
-                child:
-                    Center(child: Text('-', style: TextStyle(fontSize: 12.sp))),
+              TableCell(
+                child: Container(
+                  height: 40.h,
+                  padding: const EdgeInsets.all(8.0),
+                  color: Colors.white,
+                  child: Text(
+                    controller.selectBsnsPlan.value.bsnsBasisLawordInfo ?? '-',
+                    style: TextStyle(
+                      color: Color(0xFF555555),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -377,35 +456,43 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.bsnsListDataSource.value,
       controller: controller.bsnsListDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fitByCellValue,
+      //columnWidthMode: ColumnWidthMode.fill,
       columns: [
-        gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false, width: 0),
-        gridColumn('bsnsZoneNm', '사업구역명', width: 260),
-        gridColumn('lotCnt', '필지수', width: 50),
-        gridColumn('bsnsAra', '면적(㎡)', width: 50),
-        gridColumn('bsnsReadngPblancDe', '열람공고일', width: 80),
+        gridColumn('bsnsZoneNo', '사업구역번호'),
+        gridColumn('bsnsZoneNm', '사업구역명'),
+        gridColumn('lotCnt', '필지수'),
+        gridColumn('bsnsAra', '면적(㎡)'),
+        gridColumn('bsnsReadngPblancDe', '열람공고일'),
       ],
-      selectionEvent:
-          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) async {
-        final index =
-            controller.bsnsListDataSource.value.rows.indexOf(addedRows.first);
+      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) async {
+
+        if (addedRows.isEmpty) return;
+
+        final index = controller.bsnsListDataSource.value.rows.indexOf(addedRows.first);
         var getRow = controller.bsnsListDataSource.value.rows[index];
 
+        var bsnsNo = controller.selectBsnsPlan.value.bsnsNo;
         var bsnsZoneNo = getRow.getCells()[0].value;
         var bsnsZoneNm = getRow.getCells()[1].value;
         var lotCnt = getRow.getCells()[2].value;
         var bsnsAra = getRow.getCells()[3].value;
         var bsnsReadngPblancDe = getRow.getCells()[4].value;
 
-        controller.bsnsSelectAreaDataSource.value =
-            BsnsSelectAreaDataSourceModel(
-                bsnsZoneNo: bsnsZoneNo,
-                bsnsZoneNm: bsnsZoneNm,
-                lotCnt: lotCnt,
-                bsnsAra: bsnsAra,
-                bsnsReadngPblancDe: bsnsReadngPblancDe);
+        print('사업구역 선택: $bsnsNo, $bsnsZoneNo, $bsnsZoneNm, $lotCnt, $bsnsAra, $bsnsReadngPblancDe');
 
-        print('사업구역 선택: $bsnsZoneNo, $bsnsZoneNm, $lotCnt, $bsnsAra, $bsnsReadngPblancDe');
+        print('선택된 사업번호: ${controller.selectBsnsPlan.value.bsnsNo}');
+        print('선택된 사업구역번호: $bsnsZoneNo');
+
+        controller.selectedBsnsSelectArea.value = BsnsPlanSelectAreaModel(
+          bsnsNo: num.parse(bsnsNo.toString()),
+          bsnsZoneNo: bsnsZoneNo,
+          bsnsZoneNm: bsnsZoneNm,
+          lotCnt: num.parse(lotCnt.toString()),
+          bsnsAra: bsnsAra.toString(),
+          bsnsReadngPblancDe: bsnsReadngPblancDe,
+        );
+
+        await controller.autoSqnc();
 
         controller.isBsnsZoneSelectFlag.value = true;
         controller.isBsnsSqncSelectFlag.value = false;
@@ -417,14 +504,21 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   // 사업선택 -> 조사 차수
   Widget buildBsnsSqncDataGrid() {
     return CustomGrid(
-      dataSource: controller.bsnsSqncDataSource.value,
+      dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
       columnWidthMode: ColumnWidthMode.fill,
       isSort: false,
       columns: [
-        gridColumn('bsnsSqnc', '차수'),
-        gridColumn('bsnsStrtDe', '시작날짜'),
-        gridColumn('bsnsEndDe', '종료날짜'),
+        gridColumn('bsnsNo', '사업번호', isVisble: false),
+        gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
+        gridColumn('accdtInvstgSqnc', '조사차수'),
+        gridColumn('accdtInvstgNm', '조사명'),
+        gridColumn('delYn', '삭제여부', isVisble: false),
+        gridColumn('frstRgstrId', '최초등록자'),
+        gridColumn('frstRegistDt', '등록일'),
+        gridColumn('lastUpdusrId', '최종수정자'),
+        gridColumn('lastUpdtDt', '수정일'),
+        gridColumn('conectIp', '접속IP', isVisble: false),
       ],
     );
   }
@@ -888,66 +982,66 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text('사업구분', style: TextStyle(color: tableTextColor, fontSize: 1.w > 1.h ? 16.sp : 22.sp, fontWeight: FontWeight.w500)),
-        // SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
-        // Row(
-        //   children: [
-        //     SizedBox(
-        //       width: 24.w,
-        //       height: 24.h,
-        //       child: Radio(
-        //         value: 0,
-        //         groupValue: controller.radioValue.value,
-        //         onChanged: (value) {
-        //           controller.handleRadioValueChange(value ?? 0);
-        //         },
-        //       ),
-        //     ),
-        //     SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
-        //     Text('댐', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-        //     SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
-        //     SizedBox(
-        //       width: 1.w > 1.h ? 24.w : 28.w,
-        //       height: 24.h,
-        //       child: Radio(
-        //         value: 1,
-        //         groupValue: controller.radioValue.value,
-        //         onChanged: (value) {
-        //           controller.handleRadioValueChange(value ?? 0);
-        //         },
-        //       ),
-        //     ),
-        //     SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
-        //     Text('수도용지', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-        //     SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
-        //     SizedBox(
-        //       width: 1.w > 1.h ? 24.w : 28.w,
-        //       height: 24.h,
-        //       child: Radio(
-        //         value: 2,
-        //         groupValue: controller.radioValue.value,
-        //         onChanged: (value) {
-        //           controller.handleRadioValueChange(value ?? 0);
-        //         },
-        //       ),
-        //     ),
-        //     SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
-        //     Text('택지개발', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-        //     SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
-        //     SizedBox(
-        //       width: 1.w > 1.h ? 24.w : 28.w,
-        //       height: 24.h,
-        //       child: Radio(
-        //         value: 3,
-        //         groupValue: controller.radioValue.value,
-        //         onChanged: (value) {
-        //           controller.handleRadioValueChange(value ?? 0);
-        //         },
-        //       ),
-        //     ),
-        //     SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
-        //     Text('기타', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-        //   ],
-        // )
+        SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+        Row(
+          children: [
+            SizedBox(
+              width: 24.w,
+              height: 24.h,
+              child: Radio(
+                value: 0,
+                groupValue: controller.radioValue.value,
+                onChanged: (value) {
+                  controller.handleRadioValueChange(value ?? 0);
+                },
+              ),
+            ),
+            SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
+            Text('댐', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+            SizedBox(
+              width: 1.w > 1.h ? 24.w : 28.w,
+              height: 24.h,
+              child: Radio(
+                value: 1,
+                groupValue: controller.radioValue.value,
+                onChanged: (value) {
+                  controller.handleRadioValueChange(value ?? 0);
+                },
+              ),
+            ),
+            SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
+            Text('수도용지', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+            SizedBox(
+              width: 1.w > 1.h ? 24.w : 28.w,
+              height: 24.h,
+              child: Radio(
+                value: 2,
+                groupValue: controller.radioValue.value,
+                onChanged: (value) {
+                  controller.handleRadioValueChange(value ?? 0);
+                },
+              ),
+            ),
+            SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
+            Text('택지개발', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+            SizedBox(
+              width: 1.w > 1.h ? 24.w : 28.w,
+              height: 24.h,
+              child: Radio(
+                value: 3,
+                groupValue: controller.radioValue.value,
+                onChanged: (value) {
+                  controller.handleRadioValueChange(value ?? 0);
+                },
+              ),
+            ),
+            SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
+            Text('기타', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+          ],
+        )
       ],
     );
   }

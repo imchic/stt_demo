@@ -2404,7 +2404,7 @@ class AccdtInvstgWidget {
                                                           child: InkWell(
                                                             onTap: () {
                                                               DialogUtil.showAlertDialog(Get.context!, 720, '지장물 소유자 추가',
-                                                              child: Container(
+                                                              widget: Container(
                                                                 width: double.infinity,
                                                                 child: Column(
                                                                   mainAxisSize: MainAxisSize.min,
@@ -2970,7 +2970,7 @@ class AccdtInvstgWidget {
                                                           padding: EdgeInsets.symmetric(horizontal: 6.w),
                                                           child: InkWell(
                                                             onTap: () {
-                                                              DialogUtil.showAlertDialog(Get.context!, 0, '지장물 소유자 수정', child: Container(), onOk: () {
+                                                              DialogUtil.showAlertDialog(Get.context!, 0, '지장물 소유자 수정', widget: Container(), onOk: () {
                                                                 print('수정');
                                                               }, onCancel: () {
                                                                 print('취소');
@@ -2993,7 +2993,7 @@ class AccdtInvstgWidget {
                                                           padding: EdgeInsets.symmetric(horizontal: 6.w),
                                                           child: InkWell(
                                                             onTap: () {
-                                                              DialogUtil.showAlertDialog(Get.context!, 0, '토지 소유자 불러오기', child: Container(
+                                                              DialogUtil.showAlertDialog(Get.context!, 0, '토지 소유자 불러오기', widget: Container(
                                                                 child: BsnsSelectScreen().buildBsnsOwnerDataGrid(),
                                                               ), onOk: () {
                                                                 print('토지소유자 불러오기');

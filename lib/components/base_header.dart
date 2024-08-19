@@ -22,7 +22,6 @@ class _BaseHeaderState extends State<BaseHeader> {
     return Column(
       children: [
         SizedBox(
-          //height: 56.h,
           height: 1.w > 1.h ? 56.h : 36.h,
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -114,7 +113,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                     context,
                                     0,
                                     '로그아웃',
-                                    child: Text('로그아웃 하시겠습니까?'),
+                                    widget: Text('로그아웃 하시겠습니까?'),
                                     onOk: () {
                                       Get.back();
                                       Get.offAllNamed(AppRoute.login);
@@ -168,7 +167,8 @@ class _BaseHeaderState extends State<BaseHeader> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Obx(() =>
-          BsnsController.to.selectedBsns.value.title == null ?
+          //BsnsController.to.selectedBsns.value.title == null ?
+          BsnsController.to.selectBsnsPlan.value == null ?
           Container(
             margin: EdgeInsets.only(left: 24.w),
             child: Text(
@@ -206,16 +206,19 @@ class _BaseHeaderState extends State<BaseHeader> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                CustomBsnsBadge(text: '댐', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                                //CustomBsnsBadge(text: '댐', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                                CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivLclsCd ?? '', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
                                 SizedBox(width: 6.w),
-                                CustomBsnsBadge(text: '건설', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                                //CustomBsnsBadge(text: '건설', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                                CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivMclsCd ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
                               ],
                             ),
                             SizedBox(width: 10.w),
                             Expanded(
                               child: SizedBox(
                                 child: Text(
-                                  BsnsController.to.selectedBsns.value.title ?? '',
+                                  //BsnsController.to.selectedBsns.value.title ?? '',
+                                  BsnsController.to.selectBsnsPlan.value.bsnsNm ?? '',
                                   style: TextStyle(
                                     color: tableTextColor,
                                     fontSize: 16.sp,

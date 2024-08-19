@@ -13,7 +13,17 @@ class DialogUtil {
   // 파라미터 필수가 아닌경우
   // required Null Function() onOk, required Null Function() onCancel, required Widget? child
 
-  static void showAlertDialog(BuildContext context, int? width, String title, {String? textOk, String? textCancel, required Null Function() onOk, required Null Function() onCancel, required Widget? child}) {
+  /// [showAlertDialog] 알럿창을 띄워줍니다.
+  /// [context] 컨텍스트
+  /// [width] 다이얼로그 너비
+  /// [title] 다이얼로그 타이틀
+  /// [textOk] 확인 버튼 텍스트
+  /// [textCancel] 취소 버튼 텍스트
+  /// [onOk] 확인 버튼 클릭시 실행할 함수
+  /// [onCancel] 취소 버튼 클릭시 실행할 함수
+  /// [widget] 다이얼로그 내용
+  /// [isButtonVisible] 버튼 표시 여부
+  static void showAlertDialog(BuildContext context, int? width, String title, {String? textOk, String? textCancel, required Null Function() onOk, required Null Function() onCancel, required Widget? widget, bool? isButtonVisible}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -76,18 +86,18 @@ class DialogUtil {
                 SizedBox(height: 5.h),
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.only(top: 24.h),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      // 다이얼로그 위젯
                       SizedBox(
                         width: double.infinity,
-                        child: child,
+                        child: widget,
                       ),
                       SizedBox(height: 24.h),
-                      Container(
+                      isButtonVisible == false ? Container() : Container(
                         width: double.infinity,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -161,7 +171,7 @@ class DialogUtil {
                       )
                     ],
                   ),
-                ),
+                )
               ],
             ),
           )

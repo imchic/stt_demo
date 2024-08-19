@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,15 +7,18 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:ldi/components/CustomGridColumn.dart';
 import 'package:ldi/components/custom_button.dart';
-import 'package:ldi/components/custom_grid.dart';
+import 'package:ldi/screens/bsns/bsns_plan_model.dart';
+import 'package:ldi/screens/bsns/select/bsns_plan_select_area_model.dart';
+import 'package:ldi/screens/bsns/sqnc/bsns_accdtinvstg_sqnc_datasource.dart';
+import 'package:ldi/screens/bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
 import 'package:ldi/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
 import 'package:ldi/screens/sttus/datasource/model/lad_sttus_inqire_model.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../utils/colors.dart';
+import '../../utils/common_util.dart';
 import '../../utils/dialog_util.dart';
 import '../../components/custom_textfield.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
@@ -36,6 +40,8 @@ import 'datasource/model/bsns_select_area_datasource_model.dart';
 import 'select/bsns_select_model.dart';
 import 'sqnc/bsns_sqnc_datasource.dart';
 import 'sqnc/model/bsns_sqnc_datasource_model.dart';
+
+import 'package:http/http.dart' as http;
 
 class BsnsController extends GetxController with GetTickerProviderStateMixin {
   static BsnsController get to => Get.find();
@@ -125,6 +131,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   late DataGridController bsnsListDataGridController;
   late DataGridController bsnsOwnerDataGridController;
   late DataGridController bsnsOrderDataGridController;
+  late DataGridController bsnsAccdtinvstgSqncDataGridController;
 
   late DataGridController ownerLadInfoDataGridController;
   late DataGridController ownerObstInfoDataGridController;
@@ -148,6 +155,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
   RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
+
+  final bsnsAccdtinvstgSqncDataSource = BsnsAccdtinvstgSqncDatasource(items: []).obs; // 조사차수
 
   // 실태조사 > 토지내역
   final accdtlnvstgLadDataSource = AccdtlnvstgLadDatasource(items: []).obs;
@@ -190,8 +199,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
 
   Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource = BsnsSelectAreaDataSourceModel().obs;
-
-  //Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
+  Rx<BsnsPlanSelectAreaModel> selectedBsnsSelectArea = BsnsPlanSelectAreaModel().obs;
 
   RxList<String> leftNavItems = ['사업선택', '소유자관리', '실태조사', '통계정보', '고객카드'].obs;
   RxList businessList = [].obs;
@@ -306,6 +314,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   //late RxList<GridColumn> ladSttusInqireColumns;
   RxList<GridColumn> ladSttusInqireColumns = <GridColumn>[].obs;
 
+  RxList<BsnsPlanModel> bsnsPlanList = <BsnsPlanModel>[].obs;
+  Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -342,6 +353,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     bsnsListDataGridController = DataGridController();
     bsnsOwnerDataGridController = DataGridController();
     bsnsOrderDataGridController = DataGridController();
+    bsnsAccdtinvstgSqncDataGridController = DataGridController();
 
     // 소유자관리 > 토지정보
     ownerLadInfoDataGridController = DataGridController();
@@ -392,10 +404,10 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     await fetchAccdtlnvstgLadDataSource();
 
     /// [차수] 조회
-    await fetchBsnsSqncDataSource();
+    // await fetchBsnsSqncDataSource();
 
     /// [자동 차수] 조회
-    await autoSqnc();
+    //await autoSqnc();
 
     /// [소유자관리 > 토지정보] 조회
     await fetchOwnerLadInfoDataSource();
@@ -455,62 +467,107 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   }
 
   /// [사업목록] 조회
-  Future<List<BsnsSelectModel>> fetchBsnsList() async {
-    await Future.delayed(Duration(milliseconds: 500));
+  fetchBsnsList() async {
 
-    var bsns = <BsnsSelectModel>[];
-    bsns.add(BsnsSelectModel(no: '1',
-        areaNo: '1',
-        title: '(T101) 대교천 재해예상사업',
-        bizName: '대교천 재해예상사업(1구역)',
-        bizArea: '장군면 도계리 341 연기면 세종리 금강합류점검',
-        isExpand: false,
-        isSelect: false,
-        bizDate: DateTime.now().toString()));
-    bsns.add(BsnsSelectModel(no: '2',
-        areaNo: '2',
-        title: '(T201) 안동댐 치수능력증대사업',
-        bizName: '안동댐 치수능력증대사업(1구역)',
-        bizArea: '경상북도 안동시 상아동',
-        isExpand: false,
-        isSelect: false,
-        bizDate: DateTime.now().toString()));
-    bsns.add(BsnsSelectModel(no: '3',
-        areaNo: '3',
-        title: '(T301) 안동댐직하하천정비사업',
-        bizName: '안동댐직하하천정비사업(1구역)',
-        bizArea: '경상북도 안동시 성곡동',
-        isExpand: false,
-        isSelect: false,
-        bizDate: DateTime.now().toString()));
-    bsns.add(BsnsSelectModel(no: '4',
-        areaNo: '4',
-        title: '(T401) 안동댐_보상선2',
-        bizName: '안동댐_보상선2(1구역)',
-        bizArea: '경상북도 안동시 녹전면 구송리',
-        isExpand: false,
-        isSelect: false,
-        bizDate: DateTime.now().toString()));
+    var url = Uri.parse('http://222.107.22.159:18080/lp/stdrinfo/bsim/bpm/retrieveBsnsPlan.do');
+    var response = await http.post(url);
 
-    bsnsList.value = bsns;
-    searchBsnsList.value = bsns;
+    bsnsPlanList.clear();
 
-    return bsnsList;
+    if (response.statusCode == 200) {
+
+      var data = JsonDecoder().convert(response.body)['list'];
+      List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
+
+      dataList = data.map<BsnsPlanModel>((e) => BsnsPlanModel(
+          bsnsNo: e['bsnsNo'],
+          bsnsNm: e['bsnsNm'],
+          bsnsDivLclsCd: e['bsnsDivLclsCd'],
+          bsnsDivMclsCd: e['bsnsDivMclsCd'],
+          bsnsDivSclsCd: e['bsnsDivSclsCd'],
+          bsnsStrtDe: e['bsnsStrtDe'],
+          bsnsEndDe: e['bsnsEndDe'],
+          competDe: e['competDe'],
+          bsnsPlanAprvRqstDe: e['bsnsPlanAprvRqstDe'],
+          aprvDe: e['aprvDe'],
+          gztNtfcDe: e['gztNtfcDe'],
+          enfcMthDtls: e['enfcMthDtls'],
+          bsnsPurpsDtls: e['bsnsPurpsDtls'],
+          bsnsLcinfo: e['bsnsLcinfo'],
+          bsnsScaleInfo: e['bsnsScaleInfo'],
+          lotCnt: e['lotCnt'],
+          bsnsAra: e['bsnsAra'],
+          bsnsAmt: e['bsnsAmt'],
+          gztNtfcNoDtls: e['gztNtfcNoDtls'],
+          mngdeptCd: e['mngdeptCd'],
+          reltDeptCd1: e['reltDeptCd1'],
+          reltDeptCd2: e['reltDeptCd2'],
+          reltDeptCd3: e['reltDeptCd3'],
+          reltDeptCd4: e['reltDeptCd4'],
+          reltDeptCd5: e['reltDeptCd5'],
+          gisDtaYn: e['gisDtaYn'],
+          bsnsSqnc: e['bsnsSqnc'],
+          bsnsBasisLawordInfo: e['bsnsBasisLawordInfo'],
+          oldMngdeptCd: e['oldMngdeptCd'],
+          bsnsCnfmInsttNm: e['bsnsCnfmInsttNm'],
+          delYn: e['delYn'],
+          frstRgstrId: e['frstRgstrId'],
+          frstRegistDt: e['frstRegistDt'],
+          lastUpdusrId: e['lastUpdusrId'],
+          lastUpdtDt: e['lastUpdtDt'],
+          conectIp: e['conectIp'])).toList();
+
+      bsnsPlanList = dataList.obs;
+
+    } else {
+      print('Failed to load post');
+    }
+
+    return bsnsPlanList;
+
   }
 
   /// [사업구역선택] 조회
   fetchBsnsSelectAreaGridDataSource() async {
-    var bsns = <BsnsSelectAreaDataSourceModel>[];
-    for (var i = 0; i < 10; i++) {
-      bsns.add(BsnsSelectAreaDataSourceModel(
-          bsnsNo: i,
-          bsnsZoneNo: i,
-          bsnsZoneNm: '${BsnsController.to.selectedBsns.value.title ?? ''}($i구역)',
-          lotCnt: Random().nextInt(10),
-          bsnsAra: Random().nextInt(5000),
-          bsnsReadngPblancDe: '2021-10-0$i'));
+
+    var url = Uri.parse('http://222.107.22.159:18080/lp/stdrinfo/bsim/bpm/retrieveBsnsZone.do');
+
+    // param
+    var param = {
+      'bsnsNo': selectBsnsPlan.value.bsnsNo,
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      print('fetchBsnsSelectAreaGridDataSource > data : $data');
+
+      var bsnsPlanSelectAreaModel = <BsnsPlanSelectAreaModel>[];
+
+      for (var i = 0; i < data.length; i++) {
+
+        var bsnsZoneNo = data[i]['bsnsZoneNo'];
+        print('fetchBsnsSelectAreaGridDataSource > bsnsZoneNo : $bsnsZoneNo');
+
+        bsnsPlanSelectAreaModel.add(BsnsPlanSelectAreaModel(
+            bsnsNo: num.parse(data[i]['bsnsNo']),
+            bsnsZoneNo: data[i]['bsnsZoneNo'],
+            bsnsZoneNm: data[i]['bsnsZoneNm'],
+            lotCnt: data[i]['lotCnt'],
+            bsnsAra: CommonUtil.comma3(data[i]['bsnsAra']),
+            bsnsReadngPblancDe: data[i]['bsnsReadngPblancDe'] == null
+                ? '-'
+                : CommonUtil.convertToDateTime(data[i]['bsnsReadngPblancDe'])
+        ));
+      }
+
+      bsnsListDataSource.value = BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
+
+    } else {
+      print('Failed to load post');
     }
-    bsnsListDataSource.value = BsnsSelectAreaDataSource(items: bsns);
+
   }
 
   /// [소유자 및 관리인] 조회
@@ -531,15 +588,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [차수] 조회
   fetchBsnsSqncDataSource() async {
-    for (var i = 1; i < 3; i++) {
-      bsnsSqnc.add(BsnsSqncDatasourceModel(
-          no: i,
-          bsnsSqnc: i,
-          bsnsStrtDe: '2021-10-0$i',
-          bsnsEndDe: '2021-10-0$i'));
-    }
-
-    bsnsSqncDataSource.value = BsnsSqncDatasource(items: bsnsSqnc);
+    // for (var i = 1; i < 3; i++) {
+    //   bsnsSqnc.add(BsnsSqncDatasourceModel(
+    //       no: i,
+    //       bsnsSqnc: i,
+    //       bsnsStrtDe: '2021-10-0$i',
+    //       bsnsEndDe: '2021-10-0$i'));
+    // }
   }
 
   /// [소유자관리 > 토지정보] 조회
@@ -1067,7 +1122,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                   Get.context!,
                   0,
                   '실태조사 시작',
-                  child: RichText(
+                  widget: RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
@@ -1177,15 +1232,52 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   }
 
   /// [차수 자동 입력]
-  Future<void> autoSqnc() async {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      // 마지막 차수 가져오기
-      var lastSqnc = bsnsSqnc.last.bsnsSqnc;
-      print('lastOrder : $lastSqnc');
-      orderAutoController.text =
-          (int.parse(lastSqnc.toString()) + 1).toString();
+  autoSqnc() async {
+
+    var url = 'http://222.107.22.159:18080/lp/stdrinfo/bsim/bpm/retrieveAccdtInvstgSqnc.do';
+        //'?shBsnsNo=2101&shBsnsZoneNo=2';
+
+    print('shBsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
+    print('shBsnsZoneNo : ${selectedBsnsSelectArea.value.bsnsZoneNo}');
+
+    var response = await http.post(Uri.parse(url), body: {
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
     });
+    print('response : ${response.statusCode}');
+
+    var responseUrl = response.request!.url;
+    print('responseUrl : $responseUrl');
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      print('fetchBsnsSelectAreaGridDataSource > data : $data');
+
+      var bsnsAccdtinvstgSqncModel = <BsnsAccdtinvstgSqncModel>[];
+
+      for (var i = 0; i < data.length; i++) {
+        bsnsAccdtinvstgSqncModel.add(
+          BsnsAccdtinvstgSqncModel(
+            bsnsNo: data[i]['bsnsNo'],
+            bsnsZoneNo: data[i]['bsnsZoneNo'],
+            accdtInvstgSqnc: data[i]['accdtInvstgSqnc'],
+            accdtInvstgNm: data[i]['accdtInvstgNm'],
+            delYn: data[i]['delYn'],
+            frstRgstrId: data[i]['frstRgstrId'],
+            frstRegistDt: data[i]['frstRegistDt'],
+            lastUpdusrId: data[i]['lastUpdusrId'],
+            lastUpdtDt: data[i]['lastUpdtDt'],
+            conectIp: data[i]['conectIp'],
+          ),
+        );
+      }
+
+      bsnsAccdtinvstgSqncDataSource.value = BsnsAccdtinvstgSqncDatasource(items: bsnsAccdtinvstgSqncModel);
+
+    } else {
+      print('error');
+    }
+
   }
 
   /// 실태조사 -> 토지조사 -> 토지검색
@@ -1214,7 +1306,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   void addBsns() {
     DialogUtil.showAlertDialog(Get.context!, 0, '토지 현실이용현황 조회 및 입력',
-    child: SizedBox(
+    widget: SizedBox(
       width: 520.w,
       height: 166.h,
       child: Column(
@@ -1530,7 +1622,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     return names[Random().nextInt(names.length)];
   }
-
 
   randomTelNo() {
     var names = [

@@ -7,11 +7,11 @@ import 'package:ldi/utils/colors.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(const KwaterLdiApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class KwaterLdiApp extends StatelessWidget {
+  const KwaterLdiApp({super.key});
 
   // This widget is the root of your application.
   @override
