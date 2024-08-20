@@ -4,8 +4,6 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'model/bsns_sqnc_datasource_model.dart';
-
 class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
   BsnsAccdtinvstgSqncDatasource({required List<BsnsAccdtinvstgSqncModel> items}) {
     _items = items
@@ -35,17 +33,17 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
     return DataGridRowAdapter(color: Colors.white, cells: row.getCells().map<Widget>((dataGridCell) {
 
       // 차수에 스트링 더하기
-      if(dataGridCell.columnName == 'bsnsSqnc') {
+      if(dataGridCell.columnName == 'accdtInvstgSqnc') {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: Text('${dataGridCell.value.toString()}차', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.sp)),
+          child: Text('${dataGridCell.value.toString()}차', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
         );
       } else {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: Text(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.sp)),
+          child: Text(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
         );
       }
 

@@ -367,8 +367,8 @@ class BsnsWidget {
     return Expanded(
       child: Container(
           color: bsnsListViewBg,
-          margin: EdgeInsets.only(top: 56.h, right: 10.w, bottom: 10.h, left: 10.w),
-          padding: EdgeInsets.only(left: 10.w, top: 10.h),
+          margin: EdgeInsets.symmetric(horizontal: 10.w),
+          padding: EdgeInsets.all(24.r),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -379,8 +379,8 @@ class BsnsWidget {
                   InkWell(onTap: () {
                     controller.isBsnsSelectFlag.value = false;
                   },
-                  child: Icon(Icons.arrow_back_ios, size: 20.sp, color: Color(0xff2d2d2d))),
-                  Text('사업구역 선택', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: tableTextColor)),
+                  child: Icon(Icons.arrow_back_ios, size: 30.sp, color: Color(0xff2d2d2d))),
+                  Text('사업구역 선택', style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500, color: tableTextColor)),
                 ],
               ),
               SizedBox(height: 10.h),
@@ -397,8 +397,8 @@ class BsnsWidget {
     return Expanded(
       child: Container(
           color: bsnsListViewBg,
-          margin: EdgeInsets.only(top: 56.h, right: 10.w, bottom: 10.h, left: 10.w),
-          padding: EdgeInsets.only(left: 10.w, top: 10.h),
+          margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+          padding: EdgeInsets.all(24.r),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -411,8 +411,8 @@ class BsnsWidget {
                     controller.isBsnsSelectFlag.value = true;
                     controller.fetchBsnsSelectAreaGridDataSource();
                   },
-                  child: Icon(Icons.arrow_back_ios, size: 20.sp, color: Color(0xff2d2d2d))),
-                  Text('조사 차수', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500, color: tableTextColor)),
+                      child: Icon(Icons.arrow_back_ios, size: 30.sp, color: Color(0xff2d2d2d))),
+                  Text('조사차수', style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500, color: tableTextColor)),
                 ],
               ),
               SizedBox(height: 10.h),
@@ -436,7 +436,7 @@ class BsnsWidget {
                     ),
                     child: Text('차수등록',
                         style: TextStyle(
-                            fontSize: 12.sp,
+                            fontSize: 30.sp,
                             color: Colors.white,
                             fontWeight:
                             FontWeight.bold)),

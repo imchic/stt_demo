@@ -29,19 +29,19 @@ class DialogUtil {
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.r),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           alignment: Alignment.center,
           elevation: 0,
           child: Container(
             width: width?.w == 0 ? 480.w : width?.w,
-            padding: EdgeInsets.all(40.r),
+            padding: EdgeInsets.all(80.r),
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
-              color: Colors.white,
+              color: Colors.transparent,
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
-                borderRadius: BorderRadius.circular(12),
+                //side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                borderRadius: BorderRadius.circular(12.r),
               ),
             ),
             child: Column(
@@ -69,7 +69,7 @@ class DialogUtil {
                               title,
                               style: TextStyle(
                                 color: tableTextColor,
-                                fontSize: 18.sp,
+                                fontSize: 48.sp,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -79,12 +79,12 @@ class DialogUtil {
                                 Get.back();
                               },
                               child: SizedBox(
-                                width: 24.w,
-                                height: 24.h,
+                                width: 48.w,
+                                height: 48.h,
                                 child: SvgPicture.asset(
                                   'assets/icons/ic_close.svg',
-                                  width: 24.w,
-                                  height: 24.h,
+                                  width: 48.w,
+                                  height: 48.h,
                                 ),
                               ),
                             ),
@@ -110,12 +110,12 @@ class DialogUtil {
                                 onCancel();
                               },
                               child: Container(
-                                width: 60.w,
-                                height: 36.h,
+                                width: 144.w,
+                                height: 72.h,
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 decoration: ShapeDecoration(
                                   color: Color(0xFF2C2C2C),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -127,7 +127,7 @@ class DialogUtil {
                                       textCancel ?? '취소',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16.sp,
+                                        fontSize: 30.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -135,19 +135,19 @@ class DialogUtil {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 6),
+                            SizedBox(width: 12.w),
                             InkWell(
                               onTap: () {
                                 Get.back();
                                 onOk();
                               },
                               child: Container(
-                                width: 60.w,
-                                height: 36.h,
+                                width: 144.w,
+                                height: 72.h,
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 decoration: ShapeDecoration(
                                   color: Color(0xFF246AEA),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -158,7 +158,7 @@ class DialogUtil {
                                       textOk ?? '확인',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16.sp,
+                                        fontSize: 30.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -186,19 +186,19 @@ class DialogUtil {
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12.r),
-          topRight: Radius.circular(12.r),
+          topLeft: Radius.circular(24.r),
+          topRight: Radius.circular(24.r),
         ),
       ),
       constraints: BoxConstraints(
-        maxWidth: 440.w,
+        maxWidth: 1360.w,
         // maxHeight: 360.h
       ),
       builder: (BuildContext context) {
-        return Container(
-          margin: EdgeInsets.all(24.r),
+        return
+          Container(
           width: double.infinity,
-          padding: EdgeInsets.all(16.r),
+          padding: EdgeInsets.all(80.r),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -216,7 +216,7 @@ class DialogUtil {
                       title,
                       style: TextStyle(
                         color: tableTextColor,
-                        fontSize: 18.sp,
+                        fontSize: 48.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -226,12 +226,13 @@ class DialogUtil {
                         Get.back();
                       },
                       child: SizedBox(
-                        width: 24.w,
-                        height: 24.h,
+                        width: 48.w,
+                        height: 48.h,
                         child: SvgPicture.asset(
                           'assets/icons/ic_close.svg',
-                          width: 24.w,
-                          height: 24.h,
+                          width: 48.w,
+                          height: 48.h,
+                          fit: BoxFit.fitHeight,
                         ),
                       ),
                     ),

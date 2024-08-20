@@ -25,7 +25,7 @@ class CustomGrid extends StatefulWidget {
   bool isShowCheckbox = false;
   bool isSort = true;
   final DataGridController controller;
-  ColumnWidthMode columnWidthMode = ColumnWidthMode.none;
+  ColumnWidthMode columnWidthMode = ColumnWidthMode.fill;
   Function(List<DataGridRow> addedRows, List<DataGridRow> removedRows) selectionEvent = _selectionEvent;
   List<StackedHeaderRow> stackedHeaderRows = [];
   int freezeColumnCount = 0;
@@ -64,7 +64,7 @@ class _CustomGridState extends State<CustomGrid> {
       ),
       child: SizedBox(
         child: SfDataGrid(
-          rowHeight: 40.h,
+          // rowHeight: 40.h,
           allowPullToRefresh: true,
           frozenColumnsCount: widget.freezeColumnCount,
           highlightRowOnHover: true,
@@ -97,7 +97,7 @@ class _CustomGridState extends State<CustomGrid> {
             BsnsController.to.columnWidths[details.column.columnName] = details.width;
           },
           onQueryRowHeight: (RowHeightDetails details) {
-            return 40.h;
+            return 80.h;
           },
           columnResizeMode: ColumnResizeMode.onResizeEnd,
           showColumnHeaderIconOnHover: true,

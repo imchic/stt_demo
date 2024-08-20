@@ -41,7 +41,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   Container(child: lnbWidget()),
                   // 메인 뷰
                   Expanded(
-                    flex: 5,
                     child: Obx(() => PageView(
                             physics: NeverScrollableScrollPhysics(),
                             controller: controller.pageController,
@@ -56,7 +55,33 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                               Column(
                                 children: [
                                   BaseHeader(),
-                                  Expanded(child: BsnsWidget.buildBsnsListView(controller)),
+                                  Expanded(child: Row(
+                                    children: [
+                                      Expanded(child: BsnsWidget.buildBsnsListView(controller)),
+                                      // 오른쪽 뷰
+                                      Obx(() {
+                                        return Expanded(
+                                          flex: controller.isBsnsSelectFlag == true ? 1 : 0,
+                                          child: Column(
+                                            children: [
+                                              if (controller.selectedIndex.value == 0)
+
+                                              // 사업구역
+                                                controller.isBsnsSelectFlag == true
+                                                    ? BsnsWidget.buildBsnsSelectZoneContainer(controller)
+                                                    : Container(),
+
+                                              // 조사차수
+                                              controller.isBsnsZoneSelectFlag == true
+                                                  ? BsnsWidget.buildBsnsSelectSqncContainer(controller)
+                                                  : Container(),
+
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                    ],
+                                  )),
                                 ],
                               ),
                               /// [소유자관리] 화면
@@ -94,28 +119,28 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                         ),
                   ),
 
-                  // 오른쪽 뷰
-                  Obx(() {
-                    return Expanded(
-                      flex: controller.isBsnsSelectFlag == true ? 4 : 0,
-                      child: Column(
-                        children: [
-                          if (controller.selectedIndex.value == 0)
-
-                            // 사업구역
-                            controller.isBsnsSelectFlag == true
-                                ? BsnsWidget.buildBsnsSelectZoneContainer(controller)
-                                : Container(),
-
-                            // 조사차수
-                            controller.isBsnsZoneSelectFlag == true
-                                ? BsnsWidget.buildBsnsSelectSqncContainer(controller)
-                                : Container(),
-
-                        ],
-                      ),
-                    );
-                  }),
+                  // // 오른쪽 뷰
+                  // Obx(() {
+                  //   return Expanded(
+                  //     flex: controller.isBsnsSelectFlag == true ? 4 : 0,
+                  //     child: Column(
+                  //       children: [
+                  //         if (controller.selectedIndex.value == 0)
+                  //
+                  //           // 사업구역
+                  //           controller.isBsnsSelectFlag == true
+                  //               ? BsnsWidget.buildBsnsSelectZoneContainer(controller)
+                  //               : Container(),
+                  //
+                  //           // 조사차수
+                  //           controller.isBsnsZoneSelectFlag == true
+                  //               ? BsnsWidget.buildBsnsSelectSqncContainer(controller)
+                  //               : Container(),
+                  //
+                  //       ],
+                  //     ),
+                  //   );
+                  // }),
 
                   /// 슬라이드 패널
                   Builder(
@@ -496,7 +521,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         width: controller.columnWidths[columnName] ?? width ?? 80,
         columnName: columnName,
         visible: isVisble ?? true,
-        label: SizedBox(child: Center(child: Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tableTextColor)))));
+        label: SizedBox(child: Center(child: Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.sp, color: tableTextColor)))));
   }
 
   ///  사업선택 -> 사업구역 선택
@@ -555,7 +580,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.fitByCellValue,
       isSort: false,
       columns: [
         gridColumn('bsnsNo', '사업번호', isVisble: false),

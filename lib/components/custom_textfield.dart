@@ -39,7 +39,7 @@ class CustomTextField extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: backgroundColor ?? Colors.white,
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: borderLine, width: 1.w),
       ),
       child: TextField(
