@@ -49,55 +49,55 @@ class DialogUtil {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          color: tableTextColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Container(
-                          width: 24.w,
-                          height: 24.h,
-                          child: SvgPicture.asset(
-                            'assets/icons/ic_close.svg',
-                            width: 24.w,
-                            height: 24.h,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(height: 5.h),
-                Container(
+                SizedBox(
                   width: double.infinity,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                color: tableTextColor,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            InkWell(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: SizedBox(
+                                width: 24.w,
+                                height: 24.h,
+                                child: SvgPicture.asset(
+                                  'assets/icons/ic_close.svg',
+                                  width: 24.w,
+                                  height: 24.h,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       // 다이얼로그 위젯
                       SizedBox(
                         width: double.infinity,
                         child: widget,
                       ),
                       SizedBox(height: 24.h),
-                      isButtonVisible == false ? Container() : Container(
+                      isButtonVisible == false ? Container() : SizedBox(
                         width: double.infinity,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -110,7 +110,7 @@ class DialogUtil {
                                 onCancel();
                               },
                               child: Container(
-                                width: 72.w,
+                                width: 60.w,
                                 height: 36.h,
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 decoration: ShapeDecoration(
@@ -142,7 +142,7 @@ class DialogUtil {
                                 onOk();
                               },
                               child: Container(
-                                width: 72.w,
+                                width: 60.w,
                                 height: 36.h,
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 decoration: ShapeDecoration(
@@ -225,7 +225,7 @@ class DialogUtil {
                       onTap: () {
                         Get.back();
                       },
-                      child: Container(
+                      child: SizedBox(
                         width: 24.w,
                         height: 24.h,
                         child: SvgPicture.asset(

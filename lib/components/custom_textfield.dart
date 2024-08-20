@@ -35,7 +35,8 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+      height: 72.h,
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: backgroundColor ?? Colors.white,
         borderRadius: BorderRadius.circular(8.r),
@@ -48,18 +49,18 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: isDateTime ? 'YYYY-MM-DD' : hintText,
-          hintStyle: TextStyle(fontSize: 1.w > 1.h ? 16.sp : 22.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
+          hintStyle: TextStyle(fontSize: 1.w > 1.h ? 32.sp : 22.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
+          // isDense: true,
+          contentPadding: EdgeInsets.only(left: 16.w, right: 16.w),
+          // contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
           isDense: true,
-          //contentPadding: EdgeInsets.only(left: 4.w, right: 4.w, top: 4.h, bottom: 4.h),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           errorBorder: InputBorder.none,
           suffixIcon: isDateTime ? IconButton(
-            padding: EdgeInsets.zero,
             onPressed: () {},
             icon: SvgPicture.asset('assets/icons/ic_calendar.svg', color: Color(0xff1D1D1D)),
-          ) : null,
+          ) : SizedBox(),
         ),
         // contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 4.h),
         onChanged: (value) {

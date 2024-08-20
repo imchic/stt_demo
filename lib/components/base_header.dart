@@ -21,14 +21,18 @@ class _BaseHeaderState extends State<BaseHeader> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 1.w > 1.h ? 56.h : 36.h,
+        Container(
+          height: 1.w > 1.h ? 112.h : 36.h,
+          //color: Colors.red,
+          padding: EdgeInsets.symmetric(horizontal: 48.w),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // 사업분류 및 사업명 출력
               Expanded(child: buildSelectBsnsContainer()),
+              // 사용자 정보 및 설정
               Expanded(
                 child: Container(
                   height: double.infinity,
@@ -45,7 +49,8 @@ class _BaseHeaderState extends State<BaseHeader> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            padding: EdgeInsets.all(2.r),
+                            height: 64.h,
+                            padding: const EdgeInsets.all(4),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -57,10 +62,10 @@ class _BaseHeaderState extends State<BaseHeader> {
                                     fit: BoxFit.fitHeight,
                                   ),
                                 ),
-                                SizedBox(width: 6.h),
+                                SizedBox(width: 12.w),
                                 Container(
-                                  width: 1.w > 1.h ? 100.w : 130.w,
-                                  padding: EdgeInsets.all(2.r),
+                                  width: 1.w > 1.h ? 172.w : 80.w,
+                                  padding: EdgeInsets.all(4.r),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -69,9 +74,10 @@ class _BaseHeaderState extends State<BaseHeader> {
                                       Text(
                                         '홍길동 대리',
                                         style: TextStyle(
-                                          color: Color(0xFF2C2C2C),
-                                          fontSize: 1.w > 1.h ? 16.sp : 22.sp,
-                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFF1D1D1D),
+                                          fontSize: 30.sp,
+                                          fontFamily: 'Pretendard',
+                                          fontWeight: FontWeight.w400,
                                         ),
                                       ),
                                     ],
@@ -80,40 +86,33 @@ class _BaseHeaderState extends State<BaseHeader> {
                               ],
                             ),
                           ),
-                          SizedBox(width: 24.w),
+                          SizedBox(width: 32.w),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-                                decoration: BoxDecoration(
-                                  color: tableColor1,
-                                  borderRadius: BorderRadius.circular(6.r),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      child: SvgPicture.asset(
-                                        'assets/icons/ic_settings.svg',
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                    ),
-                                  ],
+                                width: 56.w,
+                                height: 56.h,
+                                child: Container(
+                                  margin: EdgeInsets.all(4.w),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/ic_settings.svg',
+                                    width: 48.w,
+                                    height: 48.h,
+                                    fit: BoxFit.fitHeight,
+                                  ),
                                 ),
                               ),
-                              SizedBox(width: 8.w),
+                              SizedBox(width: 32.w),
                               InkWell(
                                 onTap: () {
                                   DialogUtil.showAlertDialog(
                                     context,
                                     0,
                                     '로그아웃',
-                                    widget: Text('로그아웃 하시겠습니까?'),
+                                    widget: Text('로그아웃 하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 15.sp, fontWeight: FontWeight.w500)),
                                     onOk: () {
                                       Get.back();
                                       Get.offAllNamed(AppRoute.login);
@@ -124,23 +123,16 @@ class _BaseHeaderState extends State<BaseHeader> {
                                   );
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-                                  decoration: ShapeDecoration(
-                                    color: tableColor1,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        child: SvgPicture.asset(
-                                          'assets/icons/ic_logout.svg',
-                                          fit: BoxFit.fitHeight,
-                                        )
-                                      ),
-                                    ],
+                                  width: 56.w,
+                                  height: 56.h,
+                                  child: Container(
+                                    margin: EdgeInsets.all(4.w),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/ic_logout.svg',
+                                      width: 48.w,
+                                      height: 48.h,
+                                      fit: BoxFit.fitHeight,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -161,83 +153,67 @@ class _BaseHeaderState extends State<BaseHeader> {
 
   /// [buildSelectBsnsContainer] is a custom widget
   Widget buildSelectBsnsContainer() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Obx(() =>
-          //BsnsController.to.selectedBsns.value.title == null ?
-          BsnsController.to.selectBsnsPlan.value == null ?
-          Container(
-            margin: EdgeInsets.only(left: 24.w),
-            child: Text(
-              '선택된 사업명이 없습니다.',
-              style: TextStyle(
-                color: Color(0xFF555555),
-                fontSize: 1.w > 1.h ? 16.sp : 22.sp,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          )
-          :
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 24.w),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                //CustomBsnsBadge(text: '댐', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
-                                CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivLclsCd ?? '', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
-                                SizedBox(width: 6.w),
-                                //CustomBsnsBadge(text: '건설', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
-                                CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivMclsCd ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
-                              ],
-                            ),
-                            SizedBox(width: 10.w),
-                            Expanded(
-                              child: SizedBox(
-                                child: Text(
-                                  //BsnsController.to.selectedBsns.value.title ?? '',
-                                  BsnsController.to.selectBsnsPlan.value.bsnsNm ?? '',
-                                  style: TextStyle(
-                                    color: tableTextColor,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+    return Container(
+      height: 48.h,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Obx(() =>
+          BsnsController.to.selectBsnsPlan.value.bsnsNo == null?
+            Container(
+              margin: EdgeInsets.only(left: 24.w),
+              child: Text(
+                '선택된 사업명이 없습니다.',
+                style: TextStyle(
+                  color: Color(0xFF555555),
+                  fontSize: 1.w > 1.h ? 32.sp : 22.sp,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
-            ],
+            )
+            : Container(
+            width: Get.width,
+            height: 48.h,
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivLclsCd ?? '', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                    SizedBox(width: 6.w),
+                    CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivMclsCd ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                  ],
+                ),
+                SizedBox(width: 20.w),
+                Expanded(
+                  child: Text(
+                    BsnsController.to.selectBsnsPlan.value.bsnsNm ?? '',
+                    style: TextStyle(
+                      color: Color(0xFF1D1D1D),
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.w700,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 

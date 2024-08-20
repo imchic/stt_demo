@@ -469,7 +469,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [사업목록] 조회
   fetchBsnsList() async {
 
-    var url = Uri.parse('http://222.107.22.159:18080/lp/stdrinfo/bsim/bpm/retrieveBsnsPlan.do');
+    var url = Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsPlan.do');
     var response = await http.post(url);
 
     bsnsPlanList.clear();
@@ -530,7 +530,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [사업구역선택] 조회
   fetchBsnsSelectAreaGridDataSource() async {
 
-    var url = Uri.parse('http://222.107.22.159:18080/lp/stdrinfo/bsim/bpm/retrieveBsnsZone.do');
+    var url = Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsZone.do');
 
     // param
     var param = {
@@ -1234,7 +1234,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [차수 자동 입력]
   autoSqnc() async {
 
-    var url = 'http://222.107.22.159:18080/lp/stdrinfo/bsim/bpm/retrieveAccdtInvstgSqnc.do';
+    var url = 'http://222.107.22.159:18080/lp/bsns/selectAccdtInvstgSqnc.do';
         //'?shBsnsNo=2101&shBsnsZoneNo=2';
 
     print('shBsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
@@ -1324,7 +1324,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                       '지목선택',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 16.sp,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -1388,7 +1388,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                         '면적(㎡)',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 16.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -1445,7 +1445,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                         '용도지구 \n 및 지역',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 16.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

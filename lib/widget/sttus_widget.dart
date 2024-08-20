@@ -16,7 +16,8 @@ class SttusWidget {
       color: bsnsListViewBg,
       width: Get.width,
       height: Get.height,
-      child: Padding(
+      child:
+      Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0.h),
         child: Column(
           children: [
@@ -81,24 +82,12 @@ class SttusWidget {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '소재지',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '소재지',
+                                                style: TextStyle(
+                                                  color: tableTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
@@ -215,24 +204,12 @@ class SttusWidget {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '가격시점',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '가격시점',
+                                                style: TextStyle(
+                                                  color: tableTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
@@ -286,61 +263,47 @@ class SttusWidget {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '지급요청일',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '지급요청일',
+                                                style: TextStyle(
+                                                  color: tableTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(width: 12.w),
                                             Expanded(
                                               flex: 6,
-                                              child: Container(
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 4,
-                                                      child: CustomTextField(
-                                                        controller: controller.ownerLctnSearchController,
-                                                        hintText: '',
-                                                        isDateTime: true,
-                                                        onChanged: (value) {
-                                                          //controller.searchBsnsName(value);
-                                                        },
-                                                      ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Expanded(
+                                                    flex: 4,
+                                                    child: CustomTextField(
+                                                      controller: controller.ownerLctnSearchController,
+                                                      hintText: '',
+                                                      isDateTime: true,
+                                                      onChanged: (value) {
+                                                        //controller.searchBsnsName(value);
+                                                      },
                                                     ),
-                                                    SizedBox(width: 6.w),
-                                                    Text('~'),
-                                                    SizedBox(width: 6.w),
-                                                    Expanded(
-                                                      flex: 4,
-                                                      child: CustomTextField(
-                                                        controller: controller.ownerLctnSearchController,
-                                                        hintText: '',
-                                                        isDateTime: true,
-                                                        onChanged: (value) {
-                                                          //controller.searchBsnsName(value);
-                                                        },
-                                                      ),
+                                                  ),
+                                                  SizedBox(width: 6.w),
+                                                  Text('~'),
+                                                  SizedBox(width: 6.w),
+                                                  Expanded(
+                                                    flex: 4,
+                                                    child: CustomTextField(
+                                                      controller: controller.ownerLctnSearchController,
+                                                      hintText: '',
+                                                      isDateTime: true,
+                                                      onChanged: (value) {
+                                                        //controller.searchBsnsName(value);
+                                                      },
                                                     ),
-                                                  ],
-                                                )
+                                                  ),
+                                                ],
                                               )
                                             ),
                                           ],
@@ -357,24 +320,12 @@ class SttusWidget {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '진행단계',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '진행단계',
+                                                style: TextStyle(
+                                                  color: tableTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
@@ -479,24 +430,12 @@ class SttusWidget {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '소유자명',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '소유자명',
+                                                style: TextStyle(
+                                                  color: tableTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
@@ -525,24 +464,12 @@ class SttusWidget {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '조사차수',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '조사차수',
+                                                style: TextStyle(
+                                                  color: tableTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
@@ -584,24 +511,12 @@ class SttusWidget {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '실태조사일',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '실태조사일',
+                                                style: TextStyle(
+                                                  color: tableTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
@@ -655,24 +570,12 @@ class SttusWidget {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '수용재결일',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '수용재결일',
+                                                style: TextStyle(
+                                                  color: tableTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
@@ -726,22 +629,12 @@ class SttusWidget {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
-                                                height: 24.h,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '평가구분',
-                                                      style: TextStyle(
-                                                        color: tableTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              child: Text(
+                                                '평가구분',
+                                                style: TextStyle(
+                                                  color: tableTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),

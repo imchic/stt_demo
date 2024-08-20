@@ -1,5 +1,4 @@
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,11 +14,11 @@ import '../../../components/custom_textfield.dart';
 import '../../../utils/colors.dart';
 import '../../../widget/accdt_invstg_widget.dart';
 import '../../../widget/bsns_widget.dart';
+import '../../../widget/customercard_widget.dart';
 import '../../../widget/owner_widget.dart';
 import '../../../widget/sttus_widget.dart';
 import '../../owner/lad/model/owner_lad_info_datasource_model.dart';
 import '../bsns_controller.dart';
-import '../datasource/model/bsns_select_area_datasource_model.dart';
 
 /// [BsnsSelectScreen] 사업선택 화면
 class BsnsSelectScreen extends GetView<BsnsController> {
@@ -83,7 +82,13 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 ],
                               ),
                               /// [고객카드] 화면
-                              Center(child: Text('고객카드 개발 준비중입니다 😃')),
+                              //Center(child: Text('고객카드 개발 준비중입니다 😃')),
+                              Column(
+                                children: [
+                                  BaseHeader(),
+                                  Expanded(child: CustomerCardWidget.buildCustomerCard(controller))
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -154,28 +159,35 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   Widget lnbWidget() {
     return Obx(
       () => Container(
-        width: 104.w,
+        width: 210.w,
         decoration: BoxDecoration(
           color: lnbBg,
         ),
         child: Column(
           children: [
             Container(
-              width: 104.w,
-              height: 84.h,
+              width: 208.w,
+              height: 160.h,
               clipBehavior: Clip.antiAlias,
-              alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Color(0XFF667185),
-                borderRadius: BorderRadius.circular(0),
+                color: Color(0xFF667185),
+                // color: Colors.red,
               ),
-              child: Container(
-                margin: EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
-                child: SvgPicture.asset(
-                  'assets/icons/ic_kwater_logo.svg',
-                  width: 68.w,
-                  height: 48.h,
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    //color: Colors.green,
+                    child: SvgPicture.asset(
+                      'assets/icons/ic_kwater_logo.svg',
+                      width: 136.w,
+                      height: 64.h,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -188,34 +200,71 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                         //controller.selectedIndex.value = index;
                         controller.pageController.jumpToPage(index);
                       },
-                      child: Container(
-                        width: 120.w,
-                        height: 80.h,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child:
+                      /*Container(
+                        width: 208.w,
+                        height: 160.h,
+                        padding: EdgeInsets.symmetric(horizontal: 40.w),
                         decoration: BoxDecoration(
                           color: controller.selectedIndex.value == index
                               ? Color(0xFF2287EF)
                               : Colors.transparent,
                         ),
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                                 'assets/icons/ic_menu_${index + 1}.svg',
-                                width: 20.w,
-                                height: 20.h,
+                                width: 40.w,
+                                height: 40.h,
                                 color: Colors.white),
-                            SizedBox(height: 4.h),
+                            SizedBox(height: 8.h),
                             Text(controller.leftNavItems[index],
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 12.sp,
+                                    fontSize: 30.sp,
                                     fontWeight: FontWeight.w700),
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center),
                           ],
                         ),
-                      ),
+                      ),*/
+                      Container(
+                        width: 208.w,
+                        height: 160.h,
+                        padding: EdgeInsets.symmetric(horizontal: 40.w),
+                        decoration: BoxDecoration(
+                          color: controller.selectedIndex.value == index
+                              ? Color(0xFF2287EF)
+                              : Colors.transparent,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 40.w,
+                              height: 40.h,
+                              child: SvgPicture.asset(
+                                  'assets/icons/ic_menu_${index + 1}.svg',
+                                  width: 40.w,
+                                  height: 40.h,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text(controller.leftNavItems[index],
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w500),
+                                //overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center),
+                          ],
+                        ),
+                      )
                     );
                   });
                 },
@@ -769,7 +818,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.ladSttusInqireDataSource.value,
       controller: controller.ladSttusInqireDataGridController,
-      columnWidthMode: ColumnWidthMode.fitByCellValue,
+      columnWidthMode: ColumnWidthMode.fill,
       isSort: false,
       freezeColumnCount: 4,
       stackedHeaderRows: [
@@ -981,13 +1030,16 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('사업구분', style: TextStyle(color: tableTextColor, fontSize: 1.w > 1.h ? 16.sp : 22.sp, fontWeight: FontWeight.w500)),
-        SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+        SizedBox(
+            width: 120.w,
+            child: Text('사업구분', style: TextStyle(color: tableTextColor, fontSize: 1.w > 1.h ? 32.sp : 22.sp, fontWeight: FontWeight.w500))
+        ),
+        SizedBox(width: 1.w > 1.h ? 24.w : 15.w),
         Row(
           children: [
             SizedBox(
-              width: 24.w,
-              height: 24.h,
+              width: 40.w,
+              height: 40.h,
               child: Radio(
                 value: 0,
                 groupValue: controller.radioValue.value,
@@ -996,50 +1048,51 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                 },
               ),
             ),
-            SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
-            Text('댐', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+            SizedBox(width: 1.w > 1.h ? 16.w : 10.w),
+            Text('댐', style: TextStyle(fontSize: 1.w > 1.h ? 30.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 1.w > 1.h ? 40.w : 15.w),
             SizedBox(
-              width: 1.w > 1.h ? 24.w : 28.w,
-              height: 24.h,
+              width: 40.w,
+              height: 40.h,
               child: Radio(
                 value: 1,
                 groupValue: controller.radioValue.value,
                 onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 0);
+                  controller.handleRadioValueChange(value ?? 1);
                 },
               ),
             ),
-            SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
-            Text('수도용지', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+            SizedBox(width: 1.w > 1.h ? 16.w : 10.w),
+            Text('수도용지', style: TextStyle(fontSize: 1.w > 1.h ? 30.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 1.w > 1.h ? 40.w : 15.w),
             SizedBox(
-              width: 1.w > 1.h ? 24.w : 28.w,
-              height: 24.h,
+              width: 40.w,
+              height: 40.h,
               child: Radio(
                 value: 2,
                 groupValue: controller.radioValue.value,
                 onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 0);
+                  controller.handleRadioValueChange(value ?? 2);
                 },
               ),
             ),
-            SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
-            Text('택지개발', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 1.w > 1.h ? 10.w : 15.w),
+            SizedBox(width: 1.w > 1.h ? 16.w : 10.w),
+            Text('택지개발', style: TextStyle(fontSize: 1.w > 1.h ? 30.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 1.w > 1.h ? 40.w : 15.w),
             SizedBox(
-              width: 1.w > 1.h ? 24.w : 28.w,
-              height: 24.h,
+              width: 40.w,
+              height: 40.h,
               child: Radio(
                 value: 3,
                 groupValue: controller.radioValue.value,
                 onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 0);
+                  controller.handleRadioValueChange(value ?? 3);
                 },
               ),
             ),
-            SizedBox(width: 1.w > 1.h ? 5.w : 10.w),
-            Text('기타', style: TextStyle(fontSize: 1.w > 1.h ? 15.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 1.w > 1.h ? 16.w : 10.w),
+            Text('기타', style: TextStyle(fontSize: 1.w > 1.h ? 30.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
+            SizedBox(width: 1.w > 1.h ? 40.w : 15.w),
           ],
         )
       ],

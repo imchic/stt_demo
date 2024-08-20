@@ -18,7 +18,7 @@ class _CustomRichTextState extends State<CustomRichText> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 23.h,
+      height: 45.h,
       child: RichText(
         text: TextSpan(
           children: [
@@ -26,7 +26,7 @@ class _CustomRichTextState extends State<CustomRichText> {
               text: '전체',
               style: TextStyle(
                 color: tableTextColor,
-                fontSize: 15.sp,
+                fontSize: 30.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -34,7 +34,7 @@ class _CustomRichTextState extends State<CustomRichText> {
               text: ' ${widget.length}',
               style: TextStyle(
                 color: Colors.red,
-                fontSize: 15.sp,
+                fontSize: 30.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -42,7 +42,7 @@ class _CustomRichTextState extends State<CustomRichText> {
               text: '건',
               style: TextStyle(
                 color: tableTextColor,
-                fontSize: 15.sp,
+                fontSize: 30.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),

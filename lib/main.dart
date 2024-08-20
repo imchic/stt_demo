@@ -31,7 +31,8 @@ class KwaterLdiApp extends StatelessWidget {
     // ]);
 
     return ScreenUtilInit(
-      designSize: Size(1280, 800),
+      //designSize: Size(1280, 800),
+      designSize: Size(2560, 1600),
       minTextAdapt: true,
       splitScreenMode: true,
       child: GetMaterialApp(

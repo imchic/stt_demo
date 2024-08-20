@@ -202,8 +202,7 @@ class AccdtInvstgWidget {
                                                         children: [
                                                           Expanded(
                                                             child: CustomTextField(
-                                                              controller: controller
-                                                                  .ownerLctnSearchController,
+                                                              controller: controller.ownerLctnSearchController,
                                                               hintText: '소재지를 입력해주세요',
                                                               onChanged: (value) {
                                                                 //controller.searchBsnsName(value);
