@@ -573,7 +573,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [소유자 및 관리인] 조회
   fetchBsnsOwnerDataSource() async {
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 30; i++) {
       bsnsOwner.add(OwnerDataSourceModel(
           no: i,
           ownerNo: '10000${Random().nextInt(100)}'.toString(),
@@ -587,21 +587,10 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     bsnsOwnerDataSource.value = OwnerDatasource(items: bsnsOwner);
   }
 
-  /// [차수] 조회
-  fetchBsnsSqncDataSource() async {
-    // for (var i = 1; i < 3; i++) {
-    //   bsnsSqnc.add(BsnsSqncDatasourceModel(
-    //       no: i,
-    //       bsnsSqnc: i,
-    //       bsnsStrtDe: '2021-10-0$i',
-    //       bsnsEndDe: '2021-10-0$i'));
-    // }
-  }
-
   /// [소유자관리 > 토지정보] 조회
   fetchOwnerLadInfoDataSource() async {
     var ownerLadInfo = <OwnerLadInfoDatasourceModel>[];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 30; i++) {
       ownerLadInfo.add(OwnerLadInfoDatasourceModel(
           lgdongNm: '대전광역시 유성구 봉명동',
           lcrtsDivCd: '일반',
@@ -628,7 +617,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [소유자관리 > 지장물정보] 조회
   fetchOwnerObstInfoDataSource() async {
     var ownerObstInfo = <OwnerObstInfoDatasourceModel>[];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 30; i++) {
       ownerObstInfo.add(OwnerObstInfoDatasourceModel(
           lgdongNm: '대전광역시 유성구 봉명동',
           lcrtsDivCd: '공부지목',
@@ -867,7 +856,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     DialogUtil.showBottomSheet(
       Get.context!,
       '신규 조사 차수 등록',
-      // 차수 자동입력
       Container(
         width: double.infinity,
         padding: EdgeInsets.only(top: 24.h),
@@ -878,7 +866,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           children: [
             Container(
               width: double.infinity,
-              
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -889,27 +876,20 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 120.w,
-                        height: 48.h,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '차수등록',
-                              style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 32.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          '차수등록',
+                          style: TextStyle(
+                            color: tableTextColor,
+                            fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                       SizedBox(width: 32.w),
                       Expanded(
+                        flex: 9,
                         child: SizedBox(
                           child: CustomTextField(
                             controller: orderAutoController,
@@ -929,9 +909,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
               ),
             ),
             SizedBox(height: 20.h),
+            // 시작일
             Container(
               width: double.infinity,
-              
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -942,27 +922,20 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 120.w,
-                        height: 48.h,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '시작일',
-                              style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 32.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          '시작일',
+                          style: TextStyle(
+                            color: tableTextColor,
+                            fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                       SizedBox(width: 32.w),
                       Expanded(
+                        flex: 9,
                         child: SizedBox(
                           child: CustomTextField(
                             controller: orderStartDtController,
@@ -1008,6 +981,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
               ),
             ),
             SizedBox(height: 20.h),
+            // 종료일
             Container(
               width: double.infinity,
               child: Column(
@@ -1020,27 +994,20 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 120.w,
-                        height: 48.h,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '종료일',
-                              style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 32.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          '종료일',
+                          style: TextStyle(
+                            color: tableTextColor,
+                            fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                       SizedBox(width: 32.w),
                       Expanded(
+                        flex: 9,
                         child: SizedBox(
                           child: CustomTextField(
                             controller: orderEndDtController,
@@ -1064,7 +1031,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                 initialDatePickerMode:
                                 DatePickerMode.day,
                               ).then((value) {
-                                print('end dt : $value');
+                                print('start dt : $value');
                                 var year = value!.year;
                                 var month = value.month < 10
                                     ? '0${value.month}'
@@ -1077,7 +1044,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                 '$year-$month-$day';
                               });
                             },
-
                           ),
                         ),
                       ),
@@ -1100,7 +1066,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
                 DialogUtil.showAlertDialog(
                   Get.context!,
-                  960,
+                  1.w > 1.h ? 960 : 1800,
                   '선택이 완료되었습니다',
                   widget: Column(
                     children: [
@@ -1124,17 +1090,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Text(
-                                //   '(${selectBsnsPlan.value.bsnsNo}) ${selectBsnsPlan.value.bsnsNm}' ?? '',
-                                //   style: TextStyle(
-                                //     color: Color(0xFF1D1D1D),
-                                //     fontSize: 32.sp,
-                                //     fontFamily: 'Pretendard',
-                                //     fontWeight: FontWeight.w700,
-                                //     overflow: TextOverflow.ellipsis,
-                                //   ),
-                                //   maxLines: 1,
-                                // ),
                                 Row(
                                   children: [
                                     RichText(
@@ -1144,7 +1099,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                             text: '(${selectBsnsPlan.value.bsnsNo}) ',
                                             style: TextStyle(
                                               color: Color(0xFF1D1D1D),
-                                              fontSize: 32.sp,
+                                              fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                                               fontFamily: 'Pretendard',
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -1153,7 +1108,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                             text: selectBsnsPlan.value.bsnsNm ?? '',
                                             style: TextStyle(
                                               color: Theme.of(Get.context!).colorScheme.primary,
-                                              fontSize: 32.sp,
+                                              fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                                               fontFamily: 'Pretendard',
                                               fontWeight: FontWeight.w700,
                                               overflow: TextOverflow.ellipsis,
@@ -1176,7 +1131,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                             text: '${orderAutoController.text}',
                                             style: TextStyle(
                                               color: Colors.red,
-                                              fontSize: 32.sp,
+                                              fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                                               fontFamily: 'Pretendard',
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -1185,7 +1140,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                             text: '차조사',
                                             style: TextStyle(
                                               color: Color(0xFF1D1D1D),
-                                              fontSize: 32.sp,
+                                              fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                                               fontFamily: 'Pretendard',
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -1200,7 +1155,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                   selectBsnsPlan.value.bsnsLcinfo ?? '',
                                   style: TextStyle(
                                     color: tableTextColor,
-                                    fontSize: 32.sp,
+                                    fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w500,
                                     overflow: TextOverflow.ellipsis,
@@ -1208,22 +1163,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                   maxLines: 2,
                                 ),
                                 SizedBox(height: 10.h),
-                                // Text(
-                                //   '${orderAutoController.text}차조사',
-                                //   style: TextStyle(
-                                //     color: Color(0xFF1D1D1D),
-                                //     fontSize: 32.sp,
-                                //     fontFamily: 'Pretendard',
-                                //     fontWeight: FontWeight.w700,
-                                //   ),
-                                // ),
                                 // 시작일 ~ 종료일
                                 SizedBox(height: 10.h),
                                 Text(
                                   '사업기간: ${orderStartDtController.text} ~ ${orderEndDtController.text}',
                                   style: TextStyle(
                                     color: Color(0xFF1D1D1D),
-                                    fontSize: 32.sp,
+                                    fontSize: 1.w > 1.h ? 30.sp : 50.sp,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -1233,7 +1179,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                   '현장 실태조사를 시작하시겠습니까?',
                                   style: TextStyle(
                                     color: Color(0xFF1D1D1D),
-                                    fontSize: 36.sp,
+                                    fontSize: 1.w > 1.h ? 36.sp : 56.sp,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w400,
                                     // 행간
@@ -1245,37 +1191,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                           ),
                         ],
                       )
-                      /*RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text:
-                              '실태조사 ${orderAutoController.text}차수를 선택하셨습니다.\n',
-                              style: TextStyle(
-                                color: Theme
-                                    .of(Get.context!)
-                                    .colorScheme
-                                    .primary,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500,
-                                height: 1.5,
-                              ),
-                            ),
-                            TextSpan(
-                              text:
-                              '사업기간: ${orderStartDtController
-                                  .text} ~ ${orderEndDtController
-                                  .text}\n현장 실태조사를 시작하시겠습니까?',
-                              style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
-                                height: 1.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),*/
                     ],
                   ),
                   onOk: () {
@@ -1316,7 +1231,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                               '저장',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 30.sp,
+                                fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),

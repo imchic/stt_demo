@@ -1,14 +1,20 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatefulWidget {
 
   final Color? color;
   final String? text;
+  final Color? textColor;
+  Null Function()? onPressed;
 
   CustomButton({
     this.color,
     this.text,
+    this.textColor,
+    this.onPressed,
   });
 
   @override
@@ -18,33 +24,23 @@ class CustomButton extends StatefulWidget {
 class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50.w,
-      height: 36.h,
-      decoration: ShapeDecoration(
-        color: widget.color,
-        shape: RoundedRectangleBorder(
-          borderRadius:
-          BorderRadius.circular(6.r),
+    return TextButton(
+      onPressed: widget.onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(widget.color ?? Colors.blue),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
         ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment:
-        MainAxisAlignment.center,
-        crossAxisAlignment:
-        CrossAxisAlignment.center,
-        children: [
-          Text(
-            widget.text ?? '',
-            style: TextStyle(
-              color: Color(0xFF1D1D1D),
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-              // height: 0.09,
-            ),
-          ),
-        ],
+      child: AutoSizeText(
+        widget.text ?? 'Button',
+        style: TextStyle(
+          color: widget.textColor ?? Colors.white,
+          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

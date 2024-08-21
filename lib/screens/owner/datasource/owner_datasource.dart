@@ -37,14 +37,14 @@ class OwnerDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: Text(maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.sp)),
+          child: Text(maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w400)),
         );
       }
 
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: Text(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.sp)),
+        child: Text(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w400)),
       );
     }).toList());
   }

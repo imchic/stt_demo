@@ -26,7 +26,7 @@ class _CustomRichTextState extends State<CustomRichText> {
               text: '전체',
               style: TextStyle(
                 color: tableTextColor,
-                fontSize: 30.sp,
+                fontSize: 1.w > 1.h ? 30.sp : 42.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -34,7 +34,7 @@ class _CustomRichTextState extends State<CustomRichText> {
               text: ' ${widget.length}',
               style: TextStyle(
                 color: Colors.red,
-                fontSize: 30.sp,
+                fontSize: 1.w > 1.h ? 30.sp : 42.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -42,7 +42,7 @@ class _CustomRichTextState extends State<CustomRichText> {
               text: '건',
               style: TextStyle(
                 color: tableTextColor,
-                fontSize: 30.sp,
+                fontSize: 1.w > 1.h ? 30.sp : 42.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),

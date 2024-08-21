@@ -22,14 +22,14 @@ class _ConvertDatetimeTextState extends State<ConvertDatetimeText> {
         ? Text('-',
             style: TextStyle(
               color: Color(0xFF555555),
-              fontSize: 15.sp,
+              fontSize: 1.w > 1.h ? 30.sp : 50.sp,
               fontWeight: FontWeight.w400,
             ))
         : Text(
             CommonUtil.formatDate(DateTime.parse(widget.value!)),
             style: TextStyle(
               color: Color(0xFF555555),
-              fontSize: 15.sp,
+              fontSize: 1.w > 1.h ? 30.sp : 50.sp,
               fontWeight: FontWeight.w400,
             ),
           );

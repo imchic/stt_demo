@@ -35,6 +35,8 @@ class KwaterLdiApp extends StatelessWidget {
       designSize: Size(2560, 1600),
       minTextAdapt: true,
       splitScreenMode: true,
+      enableScaleText: () => true,
+      enableScaleWH: () => true,
       child: GetMaterialApp(
         title: 'Kwater',
         debugShowCheckedModeBanner: false,

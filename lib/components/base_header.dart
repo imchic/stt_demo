@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../routes/app_route.dart';
 import '../screens/bsns/bsns_controller.dart';
-import '../utils/colors.dart';
 import 'custom_bsns_badge.dart';
 import '../utils/dialog_util.dart';
 
@@ -22,8 +21,8 @@ class _BaseHeaderState extends State<BaseHeader> {
     return Column(
       children: [
         Container(
-          height: 1.w > 1.h ? 112.h : 36.h,
           //color: Colors.red,
+          height: 1.w > 1.h ? 112.h : 92.h,
           padding: EdgeInsets.symmetric(horizontal: 48.w),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -64,7 +63,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                 ),
                                 SizedBox(width: 12.w),
                                 Container(
-                                  width: 1.w > 1.h ? 172.w : 80.w,
+                                  //width: 1.w > 1.h ? 172.w : 202.w,
                                   padding: EdgeInsets.all(4.r),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -75,7 +74,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                         '홍길동 대리',
                                         style: TextStyle(
                                           color: Color(0xFF1D1D1D),
-                                          fontSize: 30.sp,
+                                          fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                                           fontFamily: 'Pretendard',
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -93,14 +92,14 @@ class _BaseHeaderState extends State<BaseHeader> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                width: 56.w,
-                                height: 56.h,
+                                //width: 1.w > 1.h ? 56.w : 48.w,
+                                //height: 1.w > 1.h ? 56.h : 48.h,
                                 child: Container(
                                   margin: EdgeInsets.all(4.w),
                                   child: SvgPicture.asset(
                                     'assets/icons/ic_settings.svg',
-                                    width: 48.w,
-                                    height: 48.h,
+                                    // width: 1.w > 1.h ? 48.w : 40.w,
+                                    // height: 1.w > 1.h ? 48.h : 40.h,
                                     fit: BoxFit.fitHeight,
                                   ),
                                 ),
@@ -112,7 +111,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                     context,
                                     0,
                                     '로그아웃',
-                                    widget: Text('로그아웃 하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                                    widget: Text('로그아웃 하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 1.w > 1.h ? 32.sp : 52.sp, fontWeight: FontWeight.w500)),
                                     onOk: () {
                                       Get.back();
                                       Get.offAllNamed(AppRoute.login);
@@ -123,14 +122,14 @@ class _BaseHeaderState extends State<BaseHeader> {
                                   );
                                 },
                                 child: Container(
-                                  width: 56.w,
-                                  height: 56.h,
+                                  // width: 56.w,
+                                  // height: 56.h,
                                   child: Container(
                                     margin: EdgeInsets.all(4.w),
                                     child: SvgPicture.asset(
                                       'assets/icons/ic_logout.svg',
-                                      width: 48.w,
-                                      height: 48.h,
+                                      // width: 1.w > 1.h ? 48.w : 48.w,
+                                      // height: 1.w > 1.h ? 48.h : 48.h,
                                       fit: BoxFit.fitHeight,
                                     ),
                                   ),
@@ -157,18 +156,19 @@ class _BaseHeaderState extends State<BaseHeader> {
       height: 48.h,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Obx(() =>
           BsnsController.to.selectBsnsPlan.value.bsnsNo == null?
             Container(
+              width: Get.width,
               margin: EdgeInsets.only(left: 24.w),
               child: Text(
                 '선택된 사업명이 없습니다.',
                 style: TextStyle(
                   color: Color(0xFF555555),
-                  fontSize: 1.w > 1.h ? 32.sp : 22.sp,
+                  fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -202,7 +202,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                     BsnsController.to.selectBsnsPlan.value.bsnsNm ?? '',
                     style: TextStyle(
                       color: Color(0xFF1D1D1D),
-                      fontSize: 32.sp,
+                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                       fontWeight: FontWeight.w700,
                       overflow: TextOverflow.ellipsis,
                     ),

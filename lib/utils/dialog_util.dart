@@ -36,143 +36,144 @@ class DialogUtil {
           child: Container(
             width: width?.w == 0 ? 480.w : width?.w,
             padding: EdgeInsets.all(80.r),
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                //side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
-                borderRadius: BorderRadius.circular(12.r),
+            // decoration: ShapeDecoration(
+            //   color: Colors.transparent,
+            //   shape: RoundedRectangleBorder(
+            //     //side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+            //     borderRadius: BorderRadius.circular(12.r),
+            //   ),
+            // ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 5.h),
+                  SizedBox(
+                    //width: double.infinity,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                title,
+                                style: TextStyle(
+                                  color: tableTextColor,
+                                  fontSize: 1.w > 1.h ? 48.sp : 68.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              InkWell(
+                                onTap: () {
+                                  Get.back();
+                                },
+                                child: SizedBox(
+                                  width: 1.w > 1.h ? 48.w : 68.h,
+                                  height: 1.w > 1.h ? 48.h : 68.w,
+                                  child: SvgPicture.asset(
+                                    'assets/icons/ic_close.svg',
+                                    width: 48.w,
+                                    height: 48.h,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // 다이얼로그 위젯
+                        SizedBox(
+                          width: double.infinity,
+                          child: widget,
+                        ),
+                        SizedBox(height: 24.h),
+                        isButtonVisible == false ? Container() : SizedBox(
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Get.back();
+                                  onCancel();
+                                },
+                                child: Container(
+                                  width: 144.w,
+                                  height: 1.w > 1.h ? 72.h : 52.h,
+                                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFF2C2C2C),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        //'취소',
+                                        textCancel ?? '취소',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 12.w),
+                              InkWell(
+                                onTap: () {
+                                  Get.back();
+                                  onOk();
+                                },
+                                child: Container(
+                                  width: 144.w,
+                                  height: 1.w > 1.h ? 72.h : 52.h,
+                                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFF246AEA),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        textOk ?? '확인',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 5.h),
-                SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              title,
-                              style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 48.sp,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            InkWell(
-                              onTap: () {
-                                Get.back();
-                              },
-                              child: SizedBox(
-                                width: 48.w,
-                                height: 48.h,
-                                child: SvgPicture.asset(
-                                  'assets/icons/ic_close.svg',
-                                  width: 48.w,
-                                  height: 48.h,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // 다이얼로그 위젯
-                      SizedBox(
-                        width: double.infinity,
-                        child: widget,
-                      ),
-                      SizedBox(height: 24.h),
-                      isButtonVisible == false ? Container() : SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Get.back();
-                                onCancel();
-                              },
-                              child: Container(
-                                width: 144.w,
-                                height: 72.h,
-                                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF2C2C2C),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      //'취소',
-                                      textCancel ?? '취소',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 30.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 12.w),
-                            InkWell(
-                              onTap: () {
-                                Get.back();
-                                onOk();
-                              },
-                              child: Container(
-                                width: 144.w,
-                                height: 72.h,
-                                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF246AEA),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      textOk ?? '확인',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 30.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
             ),
           )
         );
@@ -216,7 +217,7 @@ class DialogUtil {
                       title,
                       style: TextStyle(
                         color: tableTextColor,
-                        fontSize: 48.sp,
+                        fontSize: 1.w > 1.h ? 48.sp : 68.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

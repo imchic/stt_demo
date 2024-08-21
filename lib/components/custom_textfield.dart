@@ -35,7 +35,8 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 72.h,
+      //height: 72.h,
+      height:  1.w > 1.h ? 72.h : 52.h,
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: backgroundColor ?? Colors.white,
@@ -49,7 +50,7 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: isDateTime ? 'YYYY-MM-DD' : hintText,
-          hintStyle: TextStyle(fontSize: 1.w > 1.h ? 32.sp : 22.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
+          hintStyle: TextStyle(fontSize: 1.w > 1.h ? 32.sp : 40.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
           // isDense: true,
           contentPadding: EdgeInsets.only(left: 16.w, right: 16.w),
           // contentPadding: EdgeInsets.symmetric(horizontal: 16.w),

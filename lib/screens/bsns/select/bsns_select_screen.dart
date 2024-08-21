@@ -1,4 +1,5 @@
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +11,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../../components/base_header.dart';
 import '../../../components/custom_grid.dart';
+import '../../../components/custom_radio.dart';
 import '../../../components/custom_textfield.dart';
 import '../../../utils/colors.dart';
 import '../../../widget/accdt_invstg_widget.dart';
@@ -57,7 +59,10 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                   BaseHeader(),
                                   Expanded(child: Row(
                                     children: [
-                                      Expanded(child: BsnsWidget.buildBsnsListView(controller)),
+                                      Expanded(
+                                          flex: 1,
+                                          child: BsnsWidget.buildBsnsListView(controller)
+                                      ),
                                       // 오른쪽 뷰
                                       Obx(() {
                                         return Expanded(
@@ -99,7 +104,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 ],
                               ),
                               /// [통계정보] 화면
-                              //Center(child: Text('통계정보 개발 준비중입니다 😃')),
+                              //Center(child: AutoSizeText('통계정보 개발 준비중입니다 😃')),
                               Column(
                                 children: [
                                   BaseHeader(),
@@ -107,7 +112,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 ],
                               ),
                               /// [고객카드] 화면
-                              //Center(child: Text('고객카드 개발 준비중입니다 😃')),
+                              //Center(child: AutoSizeText('고객카드 개발 준비중입니다 😃')),
                               Column(
                                 children: [
                                   BaseHeader(),
@@ -184,14 +189,15 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   Widget lnbWidget() {
     return Obx(
       () => Container(
-        width: 210.w,
+        width: 1.w > 1.h ? 208.w : 308.w,
         decoration: BoxDecoration(
           color: lnbBg,
         ),
         child: Column(
           children: [
             Container(
-              width: 208.w,
+              //width: 208.w,
+              width: 1.w > 1.h ? 208.w : 308.w,
               height: 160.h,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
@@ -225,39 +231,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                         //controller.selectedIndex.value = index;
                         controller.pageController.jumpToPage(index);
                       },
-                      child:
-                      /*Container(
-                        width: 208.w,
-                        height: 160.h,
-                        padding: EdgeInsets.symmetric(horizontal: 40.w),
-                        decoration: BoxDecoration(
-                          color: controller.selectedIndex.value == index
-                              ? Color(0xFF2287EF)
-                              : Colors.transparent,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                                'assets/icons/ic_menu_${index + 1}.svg',
-                                width: 40.w,
-                                height: 40.h,
-                                color: Colors.white),
-                            SizedBox(height: 8.h),
-                            Text(controller.leftNavItems[index],
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.w700),
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center),
-                          ],
-                        ),
-                      ),*/
-                      Container(
-                        width: 208.w,
+                      child: Container(
+                        width: 1.w > 1.h ? 208.w : 308.w,
                         height: 160.h,
                         padding: EdgeInsets.symmetric(horizontal: 40.w),
                         decoration: BoxDecoration(
@@ -271,19 +246,19 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              width: 40.w,
-                              height: 40.h,
+                              width: 1.w > 1.h ? 40.w : 60.w,
+                              height: 1.w > 1.h ? 40.h : 60.h,
                               child: SvgPicture.asset(
                                   'assets/icons/ic_menu_${index + 1}.svg',
-                                  width: 40.w,
-                                  height: 40.h,
+                                  width: 1.w > 1.h ? 40.w : 60.w,
+                                  height: 1.w > 1.h ? 40.h : 60.h,
                                   color: Colors.white),
                             ),
                             SizedBox(height: 8.h),
-                            Text(controller.leftNavItems[index],
+                            AutoSizeText(controller.leftNavItems[index],
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 30.sp,
+                                    fontSize: 1.w > 1.h ? 30.sp : 42.sp,
                                     fontWeight: FontWeight.w500),
                                 //overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center),
@@ -304,7 +279,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   /// [buildTable] 테이블
   Widget buildTable() {
     return Container(
-      width: 720.w,
+      width: double.infinity,
       child: Table(
         columnWidths: const {
           0: FlexColumnWidth(0.35),
@@ -317,19 +292,19 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             children: [
               TableCell(
                 child: Container(
-                  width: 100.w,
-                  height: 40.h,
+                  width: 200.w,
+                  height: 80.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
                   ),
                   child: Center(
-                      child: Text(
+                      child: AutoSizeText(
                         '관련고시번호',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
-                          fontSize: 15.sp,
+                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
                           fontWeight: FontWeight.w700,
                         ),
                       )),
@@ -340,11 +315,11 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   height: 40.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
-                  child: Text(
+                  child: AutoSizeText(
                     controller.selectBsnsPlan.value.gztNtfcNoDtls ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 16.sp,
+                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -356,19 +331,19 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             children: [
               TableCell(
                 child: Container(
-                  width: 100.w,
-                  height: 40.h,
+                  width: 200.w,
+                  height: 80.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
                   ),
                   child: Center(
-                      child: Text(
+                      child: AutoSizeText(
                         '시행방법',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
-                          fontSize: 15.sp,
+                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
                           fontWeight: FontWeight.w700,
                         ),
                       )),
@@ -379,11 +354,11 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   height: 40.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
-                  child: Text(
+                  child: AutoSizeText(
                     controller.selectBsnsPlan.value.enfcMthDtls ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 16.sp,
+                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -395,19 +370,19 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             children: [
               TableCell(
                 child: Container(
-                  width: 100.w,
-                  height: 64.h,
+                  width: 200.w,
+                  height: 128.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
                   ),
                   child: Center(
-                    child: Text(
+                    child: AutoSizeText(
                       '사업목적',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFF1D1D1D),
-                        fontSize: 15.sp,
+                        fontSize: 1.w > 1.h ? 30.sp : 50.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -416,13 +391,14 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               ),
               TableCell(
                 child: Container(
+                  // height: 80.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
-                  child: Text(
+                  child: AutoSizeText(
                     controller.selectBsnsPlan.value.bsnsPurpsDtls ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 16.sp,
+                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                       fontFamily: 'Pretendard',
                       fontWeight: FontWeight.w400,
                     ),
@@ -435,19 +411,19 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             children: [
               TableCell(
                 child: Container(
-                  width: 100.w,
-                  height: 40.h,
+                  width: 200.w,
+                  height: 80.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
                   ),
                   child: Center(
-                      child: Text(
+                      child: AutoSizeText(
                         '사업규모',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
-                          fontSize: 15.sp,
+                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
                           fontWeight: FontWeight.w700,
                         ),
                       )),
@@ -458,11 +434,11 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   height: 40.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
-                  child: Text(
+                  child: AutoSizeText(
                     controller.selectBsnsPlan.value.bsnsScaleInfo ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 16.sp,
+                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -474,19 +450,19 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             children: [
               TableCell(
                 child: Container(
-                  width: 100.w,
-                  height: 40.h,
+                  width: 200.w,
+                  height: 80.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
                   ),
                   child: Center(
-                      child: Text(
+                      child: AutoSizeText(
                         '근거법령',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
-                          fontSize: 15.sp,
+                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
                           fontWeight: FontWeight.w700,
                         ),
                       )),
@@ -497,11 +473,11 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   height: 40.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
-                  child: Text(
+                  child: AutoSizeText(
                     controller.selectBsnsPlan.value.bsnsBasisLawordInfo ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 16.sp,
+                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -521,7 +497,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         width: controller.columnWidths[columnName] ?? width ?? 80,
         columnName: columnName,
         visible: isVisble ?? true,
-        label: SizedBox(child: Center(child: Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.sp, color: tableTextColor)))));
+        label: SizedBox(child: Center(child: AutoSizeText(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.sp, color: tableTextColor)))));
   }
 
   ///  사업선택 -> 사업구역 선택
@@ -580,7 +556,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
-      columnWidthMode: ColumnWidthMode.fitByCellValue,
+      columnWidthMode: ColumnWidthMode.fill,
       isSort: false,
       columns: [
         gridColumn('bsnsNo', '사업번호', isVisble: false),
@@ -624,7 +600,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.ownerLadInfoDataSource.value,
       controller: controller.ownerLadInfoDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fitByCellValue,
+      columnWidthMode: ColumnWidthMode.fill,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
@@ -632,20 +608,20 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['ofcbkLndcgrDivCd', 'sttusLndcgrDivCd'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('지목',
+                  child: AutoSizeText('지목',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 12.sp,
-                          color: gray700)))),
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D))))),
           StackedHeaderCell(
               columnNames: ['ofcbkAra', 'incrprAra', 'cmpnstnInvstgAra'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('면적(㎡)',
+                  child: AutoSizeText('면적(㎡)',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 12.sp,
-                          color: gray700)))),
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D))))),
         ]),
       ],
       selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
@@ -704,6 +680,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.ownerObstInfoDataSource.value,
       controller: controller.ownerObstInfoDataGridController,
+      columnWidthMode: ColumnWidthMode.fitByColumnName,
+      freezeColumnCount: 4,
       isSort: false,
       columns: [
         gridColumn('lgdongNm', '소재지'),
@@ -802,7 +780,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['invstrEmpNo', 'invstrJgrdNm', 'invstrNm'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('조사자',
+                  child: AutoSizeText('조사자',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -811,7 +789,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['obsrverNm', 'accdtInvstgObsrverAddr'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('입회자',
+                  child: AutoSizeText('입회자',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -852,7 +830,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['addr', 'lcrtsNm', 'mlnoLtno', 'slnoLtno'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('토지기본정보',
+                  child: AutoSizeText('토지기본정보',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -861,7 +839,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['ofcbkLndcgrDivCd', 'sttusLndcgrDivCd'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('지목',
+                  child: AutoSizeText('지목',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -870,7 +848,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['ofcbkAra', 'incrprAra'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('면적(㎡)',
+                  child: AutoSizeText('면적(㎡)',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -879,7 +857,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['cmpnstnInvstgAra', 'aceptncUseDivCd', 'accdtInvstgDe', 'accdtInvstgSqnc'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('실태조사',
+                  child: AutoSizeText('실태조사',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -888,7 +866,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['ownerNo', 'ownerDivCd', 'ownerNm', 'ownerRgsbukAddr', 'posesnShreNmrtrInfo', 'posesnShreDnmntrInfo'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('소유자정보',
+                  child: AutoSizeText('소유자정보',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -897,7 +875,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['apasmtDivCd', 'apasmtSqnc', 'prceDt'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('감정평가',
+                  child: AutoSizeText('감정평가',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -906,7 +884,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['apasmtInsttNm1', 'apasmtInsttEvlUpc1', 'apasmtInsttEvlAmt1'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('a평가법인',
+                  child: AutoSizeText('a평가법인',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -915,7 +893,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['apasmtInsttNm2', 'apasmtInsttEvlUpc2', 'apasmtInsttEvlAmt2'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('b평가법인',
+                  child: AutoSizeText('b평가법인',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -924,7 +902,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['apasmtInsttNm3', 'apasmtInsttEvlUpc3', 'apasmtInsttEvlAmt3'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('c평가법인',
+                  child: AutoSizeText('c평가법인',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -933,7 +911,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['cmpnstnCmptnUpc', 'cpsmnCmptnAmt'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('보상비산정',
+                  child: AutoSizeText('보상비산정',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -942,7 +920,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['pymntRequstDt', 'cpsmnUpc', 'cpsmnPymamt', 'rgistDt'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('보상비지급',
+                  child: AutoSizeText('보상비지급',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -951,7 +929,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['aceptncAdjdcUpc', 'aceptncAdjdcAmt', 'aceptncAdjdcDt', 'aceptncUseBeginDe', 'aceptncAdjdcPymntDe', 'aceptncRgistDt', 'cpsmnPymntLdgmntDivCd'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('수용재결',
+                  child: AutoSizeText('수용재결',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -960,7 +938,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               columnNames: ['objctnAdjdcUpc', 'objctnAdjdcAmt', 'objctnAdjdcDt', 'objctnPymntRequstDt', 'objctncpsmnPymntLdgmntDivCd'],
               child: Container(
                   alignment: Alignment.center,
-                  child: Text('이의재결',
+                  child: AutoSizeText('이의재결',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
@@ -981,7 +959,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             children: [
               Expanded(
                 flex: 1,
-                child: Text('소재지',
+                child: AutoSizeText('소재지',
                     style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
@@ -1001,7 +979,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               Expanded(
                 child: Row(
                   children: [
-                    Text('본번',
+                    AutoSizeText('본번',
                         style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
@@ -1023,7 +1001,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               Expanded(
                 child: Row(
                   children: [
-                    Text('부번',
+                    AutoSizeText('부번',
                         style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
@@ -1052,124 +1030,99 @@ class BsnsSelectScreen extends GetView<BsnsController> {
 
   /// [buildBsnsRadio] 라디오 버튼
   Widget buildBsnsRadio() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-            width: 120.w,
-            child: Text('사업구분', style: TextStyle(color: tableTextColor, fontSize: 1.w > 1.h ? 32.sp : 22.sp, fontWeight: FontWeight.w500))
-        ),
-        SizedBox(width: 1.w > 1.h ? 24.w : 15.w),
-        Row(
+    return Container(
+      //color: Colors.green,
+      width: double.infinity,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.topLeft,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 40.w,
-              height: 40.h,
-              child: Radio(
-                value: 0,
-                groupValue: controller.radioValue.value,
-                onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 0);
-                },
-              ),
+            SizedBox(width: 120.w, child: AutoSizeText('사업구분', style: TextStyle(color: tableTextColor, fontSize: 1.w > 1.h ? 32.sp : 22.sp, fontWeight: FontWeight.w500))),
+            SizedBox(width: 40.w),
+            CustomRadio(
+              value: 0,
+              groupValue: controller.radioValue.value,
+              onChanged: (value) {
+                controller.handleRadioValueChange(value ?? 0);
+              },
+              label: '댐',
             ),
-            SizedBox(width: 1.w > 1.h ? 16.w : 10.w),
-            Text('댐', style: TextStyle(fontSize: 1.w > 1.h ? 30.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 1.w > 1.h ? 40.w : 15.w),
-            SizedBox(
-              width: 40.w,
-              height: 40.h,
-              child: Radio(
-                value: 1,
-                groupValue: controller.radioValue.value,
-                onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 1);
-                },
-              ),
+            SizedBox(width: 40.w),
+            CustomRadio(
+              value: 1,
+              groupValue: controller.radioValue.value,
+              onChanged: (value) {
+                controller.handleRadioValueChange(value ?? 1);
+              },
+              label: '수도용지',
             ),
-            SizedBox(width: 1.w > 1.h ? 16.w : 10.w),
-            Text('수도용지', style: TextStyle(fontSize: 1.w > 1.h ? 30.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 1.w > 1.h ? 40.w : 15.w),
-            SizedBox(
-              width: 40.w,
-              height: 40.h,
-              child: Radio(
-                value: 2,
-                groupValue: controller.radioValue.value,
-                onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 2);
-                },
-              ),
+            SizedBox(width: 40.w),
+            CustomRadio(
+              value: 2,
+              groupValue: controller.radioValue.value,
+              onChanged: (value) {
+                controller.handleRadioValueChange(value ?? 2);
+              },
+              label: '택지개발',
             ),
-            SizedBox(width: 1.w > 1.h ? 16.w : 10.w),
-            Text('택지개발', style: TextStyle(fontSize: 1.w > 1.h ? 30.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 1.w > 1.h ? 40.w : 15.w),
-            SizedBox(
-              width: 40.w,
-              height: 40.h,
-              child: Radio(
-                value: 3,
-                groupValue: controller.radioValue.value,
-                onChanged: (value) {
-                  controller.handleRadioValueChange(value ?? 3);
-                },
-              ),
+            SizedBox(width: 40.w),
+            CustomRadio(
+              value: 3,
+              groupValue: controller.radioValue.value,
+              onChanged: (value) {
+                controller.handleRadioValueChange(value ?? 3);
+              },
+              label: '기타',
             ),
-            SizedBox(width: 1.w > 1.h ? 16.w : 10.w),
-            Text('기타', style: TextStyle(fontSize: 1.w > 1.h ? 30.sp : 22.sp, fontWeight: FontWeight.w400, color: tableTextColor)),
-            SizedBox(width: 1.w > 1.h ? 40.w : 15.w),
           ],
-        )
-      ],
+        ),
+      ),
     );
   }
 
   /// [buildOwnerMngRadio] 라디오 버튼
   Widget buildOwnerMngRadio() {
     return Container(
-      margin: EdgeInsets.only(top: 10.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('소유자구분',
-              style: TextStyle(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                  color: tableTextColor)),
-          SizedBox(width: 10.w),
           Container(
-            width: 24.w,
-            height: 24.h,
+            width: 40.w,
+            height: 40.h,
             child: Radio(
               value: 0,
               groupValue: controller.radioValue.value,
               onChanged: (value) {
-                //controller.changeRadioValue(value);
+                controller.handleRadioValueChange(value ?? 0);
               },
             ),
           ),
-          SizedBox(width: 5.w),
-          Text('소유자',
+          SizedBox(width: 16.w),
+          AutoSizeText('소유자',
               style: TextStyle(
-                  fontSize: 13.sp,
+                  fontSize: 30.sp,
                   fontWeight: FontWeight.w400,
                   color: tableTextColor)),
-          SizedBox(width: 10.w),
+          SizedBox(width: 40.w),
           Container(
-            width: 24.w,
-            height: 24.h,
+            width: 40.w,
+            height: 40.h,
             child: Radio(
               value: 1,
               groupValue: controller.radioValue.value,
               onChanged: (value) {
-                //controller.changeRadioValue(value);
+                controller.handleRadioValueChange(value ?? 1);
               },
             ),
           ),
-          SizedBox(width: 8.w),
-          Text('관계인',
+          SizedBox(width: 16.w),
+          AutoSizeText('관계인',
               style: TextStyle(
-                  fontSize: 13.sp,
+                  fontSize: 30.sp,
                   fontWeight: FontWeight.w400,
                   color: tableTextColor)),
         ],
