@@ -590,7 +590,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [소유자관리 > 토지정보] 조회
   fetchOwnerLadInfoDataSource() async {
     var ownerLadInfo = <OwnerLadInfoDatasourceModel>[];
-    for (var i = 0; i < 30; i++) {
+    for (var i = 0; i < 3; i++) {
       ownerLadInfo.add(OwnerLadInfoDatasourceModel(
           lgdongNm: '대전광역시 유성구 봉명동',
           lcrtsDivCd: '일반',

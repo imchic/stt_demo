@@ -33,8 +33,7 @@ class AccdtInvstgWidget {
               physics: NeverScrollableScrollPhysics(),
               children: [
                 Container(
-                  // color: Colors.blue,
-                  margin: EdgeInsets.all(48.r),
+                  padding: EdgeInsets.all(40.r),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -71,7 +70,6 @@ class AccdtInvstgWidget {
                           height: 256.h,
                           padding: EdgeInsets.all(40.r),
                           decoration: ShapeDecoration(
-                            color: Colors.white,
                             shape: RoundedRectangleBorder(
                               side: BorderSide(width: 0, color: borderLine),
                               borderRadius: BorderRadius.all(Radius.circular(8.r)),
@@ -222,38 +220,79 @@ class AccdtInvstgWidget {
                                     ],
                                   ),
                                 ),
-                                // // 소유자/관계인 탭
-                                // Visibility(
-                                //   visible: controller.accdtlnvstgTabLadSelected[1] == true,
-                                //   child: SizedBox(
-                                //       height: Get.height * 0.15,
-                                //       child: BsnsSelectScreen().buildAccdtlnvstgOwnerDataGrid()
-                                //   ),
-                                // ),
-                                // // 조사내용 탭
-                                // Visibility(
-                                //   visible: controller.accdtlnvstgTabLadSelected[2] == true,
-                                //   child: SizedBox(
-                                //       height: Get.height * 0.15,
-                                //       child: BsnsSelectScreen().buildAccdtlnvstgOwnerDataGrid()
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 48.h),
-                      CustomRichText(length: 3),
                       SizedBox(height: 20.h),
                       Visibility(
                           visible: controller.accdtlnvstgTabLadSelected[0] == true,
-                          child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()
+                          child: Container(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomRichText(length: 3),
+                                SizedBox(height: 20.h),
+                                BsnsSelectScreen().buildOwnerLadInfoDataGrid(),
+                              ],
+                            ),
+                          )
                       ),
+                      // 소유자 / 관계인
                       Visibility(
                           visible: controller.accdtlnvstgTabLadSelected[1] == true,
-                          child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()
-                      ),
+                          child: Expanded(
+                            child: Container(
+                                // color: Colors.red,
+                                width: double.infinity,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('소유자 현황', style: TextStyle(color: tableTextColor,
+                                      fontSize: 1.w > 1.h ? 36.sp : 56.sp,
+                                      fontWeight: FontWeight.w700,)),
+                                    SizedBox(height: 20.h),
+                                    Expanded(child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()),
+                                    SizedBox(height: 20.h),
+                                    Text('소유자별 관계인 현황', style: TextStyle(color: tableTextColor,
+                                      fontSize: 1.w > 1.h ? 36.sp : 56.sp,
+                                      fontWeight: FontWeight.w700,)),
+                                    SizedBox(height: 20.h),
+                                    Expanded(
+                                        child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()
+                                    ),
+                                  ],
+                                )
+                            ),
+                          )),
+                            // Column(
+                            //   mainAxisSize: MainAxisSize.min,
+                            //   mainAxisAlignment: MainAxisAlignment.start,
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     Text('소유자 현황', style: TextStyle(color: tableTextColor,
+                            //       fontSize: 1.w > 1.h ? 36.sp : 56.sp,
+                            //       fontWeight: FontWeight.w700,)),
+                            //     SizedBox(height: 20.h),
+                            //     BsnsSelectScreen().buildOwnerLadInfoDataGrid(),
+                            //     SizedBox(height: 40.h),
+                            //     Text('소유자별 관계인 현황', style: TextStyle(color: tableTextColor,
+                            //       fontSize: 1.w > 1.h ? 36.sp : 56.sp,
+                            //       fontWeight: FontWeight.w700,)),
+                            //     SizedBox(height: 20.h),
+                            //     SizedBox(
+                            //         //height: 500.h,
+                            //         child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()
+                            //     ),
+                            //   ],
+                            // ),
+                      // ),
+                      // 조사내용
                       Visibility(
                           visible: controller.accdtlnvstgTabLadSelected[2] == true,
                           child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()

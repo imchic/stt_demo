@@ -62,48 +62,46 @@ class _CustomGridState extends State<CustomGrid> {
         indentColumnWidth: 0,
         headerHoverColor: Color(0xFFE5E8ED),
       ),
-      child: SizedBox(
-        child: SfDataGrid(
-          // rowHeight: 40.h,
-          allowPullToRefresh: true,
-          frozenColumnsCount: widget.freezeColumnCount,
-          highlightRowOnHover: true,
-          headerGridLinesVisibility: GridLinesVisibility.both,
-          gridLinesVisibility: GridLinesVisibility.both,
-          showCheckboxColumn: widget.isShowCheckbox,
-          source: widget.dataSource,
-          controller: widget.controller,
-          columns: widget.columns,
-          stackedHeaderRows: widget.stackedHeaderRows,
-          navigationMode: GridNavigationMode.row,
-          columnWidthMode: widget.columnWidthMode,
-          columnSizer: ColumnSizer(),
-          showHorizontalScrollbar: false,
-          showVerticalScrollbar: false,
-          showSortNumbers: true,
-          allowSorting: widget.isSort,
-          allowColumnsResizing: true,
-          // allowFiltering: true,
-          onColumnResizeStart: (ColumnResizeStartDetails details) {
-            return true;
-          },
-          onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
-            setState(() {
-              BsnsController.to.columnWidths[details.column.columnName] = details.width;
-            });
-            return true;
-          },
-          onColumnResizeEnd: (ColumnResizeEndDetails details) {
+      child: SfDataGrid(
+        source: widget.dataSource,
+        controller: widget.controller,
+        columns: widget.columns,
+        //allowPullToRefresh: true,
+        frozenColumnsCount: widget.freezeColumnCount,
+        highlightRowOnHover: true,
+        headerGridLinesVisibility: GridLinesVisibility.both,
+        gridLinesVisibility: GridLinesVisibility.both,
+        showCheckboxColumn: widget.isShowCheckbox,
+        stackedHeaderRows: widget.stackedHeaderRows,
+        navigationMode: GridNavigationMode.row,
+        columnWidthMode: widget.columnWidthMode,
+        columnSizer: ColumnSizer(),
+        // showHorizontalScrollbar: false,
+        // showVerticalScrollbar: false,
+        showSortNumbers: true,
+        allowSorting: widget.isSort,
+        allowColumnsResizing: true,
+        // allowFiltering: true,
+        onColumnResizeStart: (ColumnResizeStartDetails details) {
+          return true;
+        },
+        onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
+          setState(() {
             BsnsController.to.columnWidths[details.column.columnName] = details.width;
-          },
-          onQueryRowHeight: (RowHeightDetails details) {
-            return 80.h;
-          },
-          columnResizeMode: ColumnResizeMode.onResizeEnd,
-          showColumnHeaderIconOnHover: true,
-          selectionMode: SelectionMode.singleDeselect,
-          onSelectionChanged: widget.selectionEvent,
-        ),
+          });
+          return true;
+        },
+        onColumnResizeEnd: (ColumnResizeEndDetails details) {
+          BsnsController.to.columnWidths[details.column.columnName] = details.width;
+        },
+        onQueryRowHeight: (RowHeightDetails details) {
+          return 80.h;
+        },
+        columnResizeMode: ColumnResizeMode.onResizeEnd,
+        showColumnHeaderIconOnHover: true,
+        selectionMode: SelectionMode.singleDeselect,
+        onSelectionChanged: widget.selectionEvent,
+        footerHeight: 0,
       ),
     );
   }
