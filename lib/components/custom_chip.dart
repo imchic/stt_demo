@@ -19,19 +19,22 @@ class _CustomChipState extends State<CustomChip> {
   Widget build(BuildContext context) {
     return Container(
         height: 72.h,
-        child: Chip(
-          label: Text(
-            widget.title ?? '',
-            style: TextStyle(
-              color: Color(0xFF555555),
-              fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-              fontFamily: 'Pretendard',
-              fontWeight: FontWeight.w500,
+        child: InkWell(
+          onTap: widget.onTap,
+          child: Chip(
+            label: Text(
+              widget.title ?? '',
+              style: TextStyle(
+                color: Color(0xFF555555),
+                fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                fontFamily: 'Pretendard',
+                fontWeight: FontWeight.w500,
+              ),
             ),
+            backgroundColor: widget.isSelected == true ? Color(0XFFE4E4E4) : Colors.white,
+            labelStyle: TextStyle(color: Colors.white),
+            side: BorderSide(width: 1.w, color: borderLine),
           ),
-          backgroundColor: widget.isSelected == true ? Color(0XFFE4E4E4) : Colors.white,
-          labelStyle: TextStyle(color: Colors.white),
-          side: BorderSide(width: 1.w, color: borderLine),
         ));
   }
 }
