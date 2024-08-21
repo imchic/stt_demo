@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../components/base_tabbar.dart';
 import '../components/custom_richtext.dart';
 import '../components/custom_textfield.dart';
 import '../screens/bsns/bsns_controller.dart';
@@ -16,31 +17,13 @@ class SttusWidget {
       color: bsnsListViewBg,
       width: Get.width,
       height: Get.height,
-      child:
-      Padding(
+      child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0.h),
         child: Column(
           children: [
-            SizedBox(
-              width: double.infinity,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TabBar(
-                      controller: controller.sttusTabController,
-                      labelColor: Colors.black,
-                      indicatorColor: Colors.black,
-                      isScrollable: true,
-                      tabs: controller.sttusTabItems),
-                ],
-              ),
-            ),
-            Divider(
-              height: 1,
-              thickness: 1,
-              color: tabBarDivider,
+            BaseTabBar(
+              controller: controller.sttusTabController,
+              tabItems: controller.sttusTabItems,
             ),
             Expanded(
                 child: TabBarView(

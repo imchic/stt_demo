@@ -20,6 +20,9 @@ import '../components/custom_bsns_badge.dart';
 class BsnsWidget {
   static buildBsnsListItem(BsnsController controller) {
     return Container(
+      color: bsnsListViewBg,
+      width: Get.width,
+      height: Get.height,
       padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
