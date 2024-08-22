@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ldi/screens/bsns/select/bsns_plan_select_area_model.dart';
+import 'package:ldi/utils/dialog_util.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -51,6 +52,19 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                               controller.isBsnsZoneSelectFlag.value = false;
                               controller.isBsnsSqncSelectFlag.value = false;
                               controller.isBsnsSelectFlag.value = false;
+
+                              // 사업구역 선택이 안됐을 경우
+                              if(controller.selectedBsnsSelectArea.value.bsnsNo == null && controller.selectedBsnsSelectArea.value.bsnsZoneNo == null){
+                                DialogUtil.showSnackBar(context, '사업구역을 선택해주세요.');
+                                controller.pageController.jumpToPage(0);
+                                return;
+                              }
+
+                              if(index == 1){
+                                /// [소유자 및 관리인] 조회
+                                controller.fetchBsnsOwnerDataSource();
+                              }
+
                             },
                             children: [
                               /// [사업선택] 화면
@@ -494,7 +508,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   GridColumn gridColumn(String columnName, String label, {bool? isVisble, double? width}) {
     return GridColumn(
         //width: controller.columnWidths[columnName ?? ''] ?? 80,
-        width: controller.columnWidths[columnName] ?? width ?? 80,
+        //width: controller.columnWidths[columnName] ?? width ?? 80,
         columnName: columnName,
         visible: isVisble ?? true,
         label: SizedBox(child: Center(child: AutoSizeText(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.sp, color: tableTextColor)))));
@@ -579,17 +593,39 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.bsnsOwnerDataSource.value,
       controller: controller.bsnsOwnerDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.lastColumnFill,
       selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         print('선택된 소유자: ${addedRows.first.getCells()[2].value}');
       }),
       columns: [
         gridColumn('ownerNo', '소유자번호'),
-        gridColumn('ladLdgrOwnerNm', '소유자명'),
-        gridColumn('ladLdgrPosesnDivCd', '소유자구분'),
-        gridColumn('ownerRegisterNo', '등록번호'),
-        gridColumn('ownerTelNo', '전화번호'),
-        gridColumn('ownerPhoneNo', '핸드폰번호'),
+        gridColumn('ownerNm', '소유자명'),
+        gridColumn('posesnDivCd', '소유자구분'),
+        // gridColumn('bsnsNo', '사업번호', isVisble: false),
+        // gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
+        gridColumn('ownerRrnEnc', '주민등록번호'),
+        // gridColumn('oldRegno', '구주민등록번호', isVisble: false),
+        gridColumn('ownerTelno', '전화번호'),
+        gridColumn('ownerMbtlnum', '휴대폰번호'),
+        // gridColumn('rgsbukZip', '등기부번지', isVisble: false),
+        // gridColumn('delvyZip', '전송부번지', isVisble: false),
+        // gridColumn('moisZip', '모임부번지', isVisble: false),
+        // gridColumn('ownerRgsbukAddr', '등기부주소', isVisble: false),
+        // gridColumn('ownerDelvyAddr', '전송부주소', isVisble: false),
+        // gridColumn('ownerMoisAddr', '모임부주소', isVisble: false),
+        // gridColumn('accdtInvstgRm', '조사실', isVisble: false),
+        // gridColumn('frstRgstrId', '최초등록자', isVisble: false),
+        // gridColumn('frstRegistDt', '등록일', isVisble: false),
+        // gridColumn('lastUpdusrId', '최종수정자', isVisble: false),
+        // gridColumn('lastUpdtDt', '수정일', isVisble: false),
+        // gridColumn('conectIp', '접속IP', isVisble: false),
+        // gridColumn('thingCnt', '물건수', isVisble: false),
+        // gridColumn('bsnsCnt', '사업수', isVisble: false),
+        // gridColumn('realOwnerNo', '실소유자번호', isVisble: false),
+        // gridColumn('ownerDivCd', '소유자구분', isVisble: false),
+        // gridColumn('ownerRgsbukAddrFull', '등기부주소전체', isVisble: false),
+        // gridColumn('ownerDelvyAddrFull', '전송부주소전체', isVisble: false),
+        // gridColumn('ownerMoisAddrFull', '모임부주소전체', isVisble: false),
       ],
     );
   }
@@ -600,7 +636,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.ownerLadInfoDataSource.value,
       controller: controller.ownerLadInfoDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.none,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
@@ -705,6 +741,67 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     );
   }
 
+  // 실태조사 -> 토지 -> 토지보상 대상 기준 정보
+  Widget buildAccdtlnvstgDataGrid() {
+    return CustomGrid(
+      dataSource: controller.accdtlnvstgLadDataSource.value,
+      controller: controller.accdtlnvstgLadDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.fitByColumnName,
+      freezeColumnCount: 6,
+      stackedHeaderRows: [
+        StackedHeaderRow(cells: [
+          StackedHeaderCell(
+              columnNames: ['col1', 'col2', 'col3', 'col4', 'col5', 'col6'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('토지보상 대상 기준 정보',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['col7', 'col8'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('지목',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['col9', 'col10'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('면적(㎡)',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D),)))),
+        ]),
+      ],
+      columns: [
+        gridColumn('col1', '건축물대장\n내용확인'),
+        gridColumn('col2', '건축물개수'),
+        gridColumn('col3', '소재지'),
+        gridColumn('col4', '특지'),
+        gridColumn('col5', '본번'),
+        gridColumn('col6', '부번'),
+        gridColumn('col7', '공부'),
+        gridColumn('col8', '현황'),
+        gridColumn('col9', '공부'),
+        gridColumn('col10', '편입'),
+        gridColumn('col11', '조사'),
+        gridColumn('col12', '취득용도'),
+        gridColumn('col13', '수용/사용'),
+        gridColumn('col14', '조사차수'),
+        gridColumn('col15', '조사일'),
+        gridColumn('col16', '보상진행단계'),
+        gridColumn('col17', '비고'),
+      ],
+    );
+  }
+
   /// 실태조사 -> 토지 -> 소유자
   Widget buildAccdtlnvstgOwnerDataGrid() {
     return CustomGrid(
@@ -784,7 +881,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['obsrverNm', 'accdtInvstgObsrverAddr'],
               child: Container(
@@ -793,7 +890,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
         ]),
       ],
       columns: [
@@ -834,7 +931,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['ofcbkLndcgrDivCd', 'sttusLndcgrDivCd'],
               child: Container(
@@ -843,7 +940,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['ofcbkAra', 'incrprAra'],
               child: Container(
@@ -852,7 +949,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['cmpnstnInvstgAra', 'aceptncUseDivCd', 'accdtInvstgDe', 'accdtInvstgSqnc'],
               child: Container(
@@ -861,7 +958,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['ownerNo', 'ownerDivCd', 'ownerNm', 'ownerRgsbukAddr', 'posesnShreNmrtrInfo', 'posesnShreDnmntrInfo'],
               child: Container(
@@ -870,7 +967,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['apasmtDivCd', 'apasmtSqnc', 'prceDt'],
               child: Container(
@@ -879,7 +976,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['apasmtInsttNm1', 'apasmtInsttEvlUpc1', 'apasmtInsttEvlAmt1'],
               child: Container(
@@ -888,7 +985,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['apasmtInsttNm2', 'apasmtInsttEvlUpc2', 'apasmtInsttEvlAmt2'],
               child: Container(
@@ -897,7 +994,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['apasmtInsttNm3', 'apasmtInsttEvlUpc3', 'apasmtInsttEvlAmt3'],
               child: Container(
@@ -906,7 +1003,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['cmpnstnCmptnUpc', 'cpsmnCmptnAmt'],
               child: Container(
@@ -915,7 +1012,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['pymntRequstDt', 'cpsmnUpc', 'cpsmnPymamt', 'rgistDt'],
               child: Container(
@@ -924,7 +1021,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['aceptncAdjdcUpc', 'aceptncAdjdcAmt', 'aceptncAdjdcDt', 'aceptncUseBeginDe', 'aceptncAdjdcPymntDe', 'aceptncRgistDt', 'cpsmnPymntLdgmntDivCd'],
               child: Container(
@@ -933,7 +1030,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
               columnNames: ['objctnAdjdcUpc', 'objctnAdjdcAmt', 'objctnAdjdcDt', 'objctnPymntRequstDt', 'objctncpsmnPymntLdgmntDivCd'],
               child: Container(
@@ -942,7 +1039,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12.sp,
-                          color: gray700)))),
+                          color: Color(0xFF1D1D1D),)))),
         ]),
       ],
       columns: columns,

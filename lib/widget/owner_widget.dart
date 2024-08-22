@@ -43,19 +43,22 @@ class OwnerWidget {
           ),
           Expanded(
               child: TabBarView(
-                controller: controller.bsnsOwnerTabController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  /// [소유자관리 -> 소유자정보]
-                  buildOwnerSearchContainer(controller),
-                  /// [소유자관리 -> 토지정보]
-                  buildOwnerLandInfoContainer(controller),
-                  /// [소유자관리 -> 지장물정보]
-                  buildOwnerObstInfoContainer(controller),
-                  /// [소유자관리 -> 정보변경]
-                  buildOwnerInfoChangeContainer(controller),
-                ],
-              ))
+            controller: controller.bsnsOwnerTabController,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              /// [소유자관리 -> 소유자정보]
+              buildOwnerSearchContainer(controller),
+
+              /// [소유자관리 -> 토지정보]
+              buildOwnerLandInfoContainer(controller),
+
+              /// [소유자관리 -> 지장물정보]
+              buildOwnerObstInfoContainer(controller),
+
+              /// [소유자관리 -> 정보변경]
+              buildOwnerInfoChangeContainer(controller),
+            ],
+          ))
         ],
       ),
     );
@@ -79,147 +82,30 @@ class OwnerWidget {
                 borderRadius: BorderRadius.circular(12.r),
               ),
             ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 120.w,
-                            child: AutoSizeText(
-                              '소재지',
-                              style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 1.w > 1.h ? 32.sp : 22.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 24.w),
-                          Expanded(
-                            flex: 7,
-                            child: CustomTextField(
-                              controller: controller.bsnsNameSearchController,
-                              hintText: '사업명을 입력해주세요',
-                              onChanged: (value) {
-                                controller.searchBsnsName(value);
-                              },
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: SizedBox(
-                              child: CustomTextField(
-                                controller: controller.bsnsNoSearchController,
-                                hintText: '본번',
-                                onChanged: (value) {
-                                  controller.searchBsnsName(value);
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: SizedBox(
-                              child: CustomTextField(
-                                controller: controller.bsnsNoSearchController,
-                                hintText: '부번',
-                                onChanged: (value) {
-                                  controller.searchBsnsName(value);
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    /*Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 120.w,
-                            child: AutoSizeAutoSizeText(
-                              '사업번호',
-                              style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 1.w > 1.h ? 32.sp : 22.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: CustomTextField(
-                                    controller: controller.bsnsNoSearchController,
-                                    hintText: '사업번호를 입력해주세요',
-                                    onChanged: (value) {
-                                      controller.searchBsnsName(value);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),*/
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                Row(
-                  children: [
-                    BsnsSelectScreen().buildOwnerMngRadio(),
-                    SizedBox(width: 32.w),
-                    Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: CustomTextField(
-                              controller: controller.bsnsNameSearchController,
-                              hintText: '소유자명을 입력해주세요',
-                              onChanged: (value) {
-                                controller.searchBsnsName(value);
-                              },
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: SizedBox(
-                              child: CustomTextField(
-                                controller: controller.bsnsNoSearchController,
-                                hintText: '등록번호',
-                                onChanged: (value) {
-                                  controller.searchBsnsName(value);
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            child: Column(children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('소재지'),
+                  SizedBox(width: 24.w),
+                  CustomTextField(hintText: '읍면동', onChanged: (value) {}),
+                  SizedBox(width: 12.w),
+                  CustomTextField(hintText: '본번', onChanged: (value) {}),
+                  SizedBox(width: 12.w),
+                  CustomTextField(hintText: '부번', onChanged: (value) {}),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Row(
+                children: [
+                  BsnsSelectScreen().buildOwnerMngRadio(),
+                  SizedBox(width: 32.w),
+                  CustomTextField(hintText: '소유자명을 입력해주세요', onChanged: (value) {}),
+                  SizedBox(width: 12.w),
+                  CustomTextField(hintText: '등록번호', onChanged: (value) {}),
+                ],
+              )
+            ]),
           ),
           Expanded(
             child: Container(
@@ -233,10 +119,10 @@ class OwnerWidget {
                   children: [
                     CustomRichText(length: 3),
                     SizedBox(height: 20.h),
-                    Expanded(child: BsnsSelectScreen().buildBsnsOwnerDataGrid()),
+                    Expanded(
+                        child: BsnsSelectScreen().buildBsnsOwnerDataGrid()),
                   ],
-                )
-            ),
+                )),
           ),
         ],
       ),
@@ -281,7 +167,7 @@ class OwnerWidget {
 
   /// 소유자관리 -> 정보변경
   static buildOwnerInfoChangeContainer(BsnsController controller) {
-    return  Container(
+    return Container(
       width: Get.width,
       padding: EdgeInsets.all(40.r),
       child: Column(
@@ -309,7 +195,12 @@ class OwnerWidget {
                         ),
                         height: 80.h,
                         alignment: Alignment.center,
-                        child: AutoSizeText('소유자명', style: TextStyle(color: tableTextColor, fontSize: 30.sp, fontWeight: FontWeight.w700)),
+                        child: Center(
+                            child: AutoSizeText('소유자명',
+                                style: TextStyle(
+                                    color: tableTextColor,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w700))),
                       ),
                     ),
                     Expanded(
@@ -319,7 +210,12 @@ class OwnerWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
-                        child: AutoSizeText('홍길동', style: TextStyle(color: Color(0xFF555555), fontSize: 32.sp, fontWeight: FontWeight.w400)),
+                        child: Center(
+                            child: AutoSizeText('홍길동',
+                                style: TextStyle(
+                                    color: Color(0xFF555555),
+                                    fontSize: 32.sp,
+                                    fontWeight: FontWeight.w400))),
                       ),
                     ),
                     SizedBox(height: 20.h),
@@ -330,7 +226,12 @@ class OwnerWidget {
                         ),
                         height: 80.h,
                         alignment: Alignment.center,
-                        child: AutoSizeText('소유자구분', style: TextStyle(color: tableTextColor, fontSize: 30.sp, fontWeight: FontWeight.w700)),
+                        child: Center(
+                            child: AutoSizeText('소유자구분',
+                                style: TextStyle(
+                                    color: tableTextColor,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w700))),
                       ),
                     ),
                     Expanded(
@@ -340,7 +241,12 @@ class OwnerWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
-                        child: AutoSizeText('내용', style: TextStyle(color: Color(0xFF555555), fontSize: 32.sp, fontWeight: FontWeight.w400)),
+                        child: Center(
+                            child: AutoSizeText('내용',
+                                style: TextStyle(
+                                    color: Color(0xFF555555),
+                                    fontSize: 32.sp,
+                                    fontWeight: FontWeight.w400))),
                       ),
                     ),
                   ],
@@ -364,7 +270,12 @@ class OwnerWidget {
                         ),
                         height: 80.h,
                         alignment: Alignment.center,
-                        child: AutoSizeText('등록번호', style: TextStyle(color: tableTextColor, fontSize: 30.sp, fontWeight: FontWeight.w700)),
+                        child: Center(
+                            child: AutoSizeText('등록번호',
+                                style: TextStyle(
+                                    color: tableTextColor,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w700))),
                       ),
                     ),
                     Expanded(
@@ -375,7 +286,12 @@ class OwnerWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
-                        child: AutoSizeText('123456-1******', style: TextStyle(color: Color(0xFF555555), fontSize: 32.sp, fontWeight: FontWeight.w400)),
+                        child: Center(
+                            child: AutoSizeText('123456-1******',
+                                style: TextStyle(
+                                    color: Color(0xFF555555),
+                                    fontSize: 32.sp,
+                                    fontWeight: FontWeight.w400))),
                       ),
                     ),
                   ],
@@ -398,19 +314,25 @@ class OwnerWidget {
                         decoration: BoxDecoration(
                           color: tableColor1,
                         ),
-                        height: 104.h,
                         alignment: Alignment.center,
-                        child: AutoSizeText('전화번호', style: TextStyle(color: tableTextColor, fontSize: 30.sp, fontWeight: FontWeight.w700)),
+                        child: AutoSizeText('전화번호',
+                            style: TextStyle(
+                                color: tableTextColor,
+                                fontSize: 30.sp,
+                                fontWeight: FontWeight.w700)),
                       ),
                     ),
                     Expanded(
                       child: Container(
+                        height: 104.h,
                         padding: EdgeInsets.all(20.r),
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
                         //child: AutoSizeAutoSizeText('02-1234-5678', style: TextStyle(color: tableTextColor, fontSize: 32.sp, fontWeight: FontWeight.w400)),
-                        child: CustomTextField(hintText: '전화번호', onChanged: (value) {}),
+                        child: Center(
+                            child: CustomTextField(
+                                hintText: '전화번호', onChanged: (value) {})),
                       ),
                     ),
                     SizedBox(height: 20.h),
@@ -421,16 +343,23 @@ class OwnerWidget {
                         ),
                         height: 104.h,
                         alignment: Alignment.center,
-                        child: AutoSizeText('휴대폰번호', style: TextStyle(color: tableTextColor, fontSize: 30.sp, fontWeight: FontWeight.w700)),
+                        child: AutoSizeText('휴대폰번호',
+                            style: TextStyle(
+                                color: tableTextColor,
+                                fontSize: 30.sp,
+                                fontWeight: FontWeight.w700)),
                       ),
                     ),
                     Expanded(
                       child: Container(
+                        height: 104.h,
                         padding: EdgeInsets.all(20.r),
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
-                        child: CustomTextField(hintText: '전화번호', onChanged: (value) {}),
+                        child: Center(
+                            child: CustomTextField(
+                                hintText: '전화번호', onChanged: (value) {})),
                         //child: AutoSizeAutoSizeText('010-1234-5678', style: TextStyle(color: tableTextColor, fontSize: 32.sp, fontWeight: FontWeight.w400)),
                       ),
                     ),
@@ -455,7 +384,11 @@ class OwnerWidget {
                         ),
                         height: 200.h,
                         alignment: Alignment.center,
-                        child: AutoSizeText('특이사항', style: TextStyle(color: tableTextColor, fontSize: 30.sp, fontWeight: FontWeight.w700)),
+                        child: AutoSizeText('특이사항',
+                            style: TextStyle(
+                                color: tableTextColor,
+                                fontSize: 30.sp,
+                                fontWeight: FontWeight.w700)),
                       ),
                     ),
                     Expanded(
@@ -468,7 +401,8 @@ class OwnerWidget {
                             decoration: BoxDecoration(
                               color: Colors.white,
                             ),
-                            child: CustomTextField(hintText: '내용을 입력하세요', onChanged: (value) {}),
+                            child: CustomTextField(
+                                hintText: '내용을 입력하세요', onChanged: (value) {}),
                           ),
                         ],
                       ),
@@ -482,12 +416,13 @@ class OwnerWidget {
                   Get.back();
                 },
                 child: Container(
-                  width: 144.w,
-                  height: 72.h,
+                  width: 1.w > 1.h ? 144.w : 14.h,
+                  height: 1.w > 1.h ? 72.h : 92.w,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: ShapeDecoration(
                     color: Color(0xFF2287EF),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -512,6 +447,4 @@ class OwnerWidget {
       ),
     );
   }
-
-
 }

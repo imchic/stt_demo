@@ -71,6 +71,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController ownerNameSearchController;
   late TextEditingController ownerRegisterNoSearchController;
 
+  // 실태조사
+  late TextEditingController accdtlnvstgAcqstnPrpsController;
+
   late PageController pageController; // 페이지 컨트롤러
   late ScrollController bsnsListScrollController;
 
@@ -137,7 +140,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   late DataGridController ownerLadInfoDataGridController;
   late DataGridController ownerObstInfoDataGridController;
 
-  late DataGridController accdtlnvstgLadSelectDataGridController;
+  late DataGridController accdtlnvstgLadDataGridController;
   late DataGridController accdtlnvstgLadOwnerDataGridController;
   late DataGridController accdtlnvstgLadPartcpntDataGridController;
 
@@ -149,7 +152,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   final bsnsListDataSource = BsnsSelectAreaDataSource(items: []).obs; // 사업구역선택
 
   final bsnsOwnerDataSource = OwnerDatasource(items: []).obs; // 소유자
-  RxList<OwnerDataSourceModel> bsnsOwner = <OwnerDataSourceModel>[].obs;
 
   final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
   final ownerObstInfoDataSource = OwnerObstInfoDatasource(items: []).obs; // 지장물정보
@@ -208,10 +210,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   // select order
   RxInt selectOrder = 0.obs;
 
-  // RxDouble surveyDateWidth = 100.0.obs;
-
   RxMap<String, double> columnWidths = {
-    'addr' : 200.0,
+    'addr' : double.nan,
     'bsnsZoneNo': double.nan,
     'bsnsZoneNm': double.nan,
     'lotCnt': double.nan,
@@ -286,7 +286,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   RxString selectedPurpose = '단지구역'.obs;
 
   // purpose list
-  RxList<String> purposeList = [
+  RxList<String> accdtlnvstgAcqstnPrpsList = [
     '단지구역',
     '토취장',
     '진입도로',
@@ -339,6 +339,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     ownerSlnoLtnoSearchController = TextEditingController();
     ownerEtcController = TextEditingController();
 
+    accdtlnvstgAcqstnPrpsController = TextEditingController();
+
     accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
     bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
     bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
@@ -362,7 +364,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     ownerObstInfoDataGridController = DataGridController();
 
     // 실태조사 > 토지
-    accdtlnvstgLadSelectDataGridController = DataGridController();
+    accdtlnvstgLadDataGridController = DataGridController();
+
+    // 실태조사 > 소유자/관계인
     accdtlnvstgLadOwnerDataGridController = DataGridController();
     accdtlnvstgLadPartcpntDataGridController = DataGridController();
 
@@ -399,9 +403,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     await fetchBsnsList();
 
     /// [소유자 및 관리인] 조회
-    await fetchBsnsOwnerDataSource();
-
-    /// [소유자 및 관리인] 조회
     await fetchAccdtlnvstgLadDataSource();
 
     /// [차수] 조회
@@ -430,8 +431,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [gridColumn] 데이터그리드 컬럼
   GridColumn gridColumn(String columnName, String label, {bool? isVisble, double? width}) {
     return GridColumn(
-      //width: controller.columnWidths[columnName ?? ''] ?? 80,
-        width: columnWidths[columnName] ?? width ?? 80,
+        //width: controller.columnWidths[columnName ?? ''] ?? 80,
+        //width: columnWidths[columnName] ?? width ?? 80,
         columnName: columnName,
         visible: isVisble ?? true,
         label: SizedBox(child: Center(child: Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp, color: tableTextColor)))));
@@ -573,19 +574,61 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [소유자 및 관리인] 조회
   fetchBsnsOwnerDataSource() async {
-    for (var i = 0; i < 30; i++) {
-      bsnsOwner.add(OwnerDataSourceModel(
-          no: i,
-          ownerNo: '10000${Random().nextInt(100)}'.toString(),
-          ladLdgrOwnerNm: randomName(),
-          ladLdgrPosesnDivCd: randomLdgrPosesnDivCd(),
-          ownerRegisterNo: '${randomBirth()}-1000000',
-          ownerTelNo: '${randomTelNo()}',
-          ownerPhoneNo: '${randomPhoneNo()}'));
-    }
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/owner/selectOwnList.do');
 
-    bsnsOwnerDataSource.value = OwnerDatasource(items: bsnsOwner);
+    var param = {
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    print('fetchBsnsOwnerDataSource > param : $param');
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+
+      var data = JsonDecoder().convert(response.body)['list'];
+      print('fetchBsnsOwnerDataSource > data : $data');
+
+      var bsnsOwner = <OwnerDataSourceModel>[];
+
+      for(var i = 0; i < data.length; i++) {
+        bsnsOwner.add(OwnerDataSourceModel(
+          ownerNo: data[i]['ownerNo'],
+          ownerNm: data[i]['ownerNm'],
+          posesnDivCd: data[i]['posesnDivCd'],
+          bsnsNo: data[i]['bsnsNo'],
+          bsnsZoneNo: data[i]['bsnsZoneNo'],
+          ownerRrnEnc: data[i]['ownerRrnEnc'],
+          oldRegno: data[i]['oldRegno'],
+          ownerTelno: data[i]['ownerTelno'],
+          ownerMbtlnum: data[i]['ownerMbtlnum'],
+          rgsbukZip: data[i]['rgsbukZip'],
+          delvyZip: data[i]['delvyZip'],
+          moisZip: data[i]['moisZip'],
+          ownerRgsbukAddr: data[i]['ownerRgsbukAddr'],
+          ownerDelvyAddr: data[i]['ownerDelvyAddr'],
+          ownerMoisAddr: data[i]['ownerMoisAddr'],
+          accdtInvstgRm: data[i]['accdtInvstgRm'],
+          frstRgstrId: data[i]['frstRgstrId'],
+          frstRegistDt: data[i]['frstRegistDt'],
+          lastUpdusrId: data[i]['lastUpdusrId'],
+          lastUpdtDt: data[i]['lastUpdtDt'],
+          conectIp: data[i]['conectIp'],
+          thingCnt: data[i]['thingCnt'],
+          bsnsCnt: data[i]['bsnsCnt'],
+          realOwnerNo: data[i]['realOwnerNo'],
+          ownerDivCd: data[i]['ownerDivCd'],
+          ownerRgsbukAddrFull: data[i]['ownerRgsbukAddrFull'],
+          ownerDelvyAddrFull: data[i]['ownerDelvyAddrFull'],
+          ownerMoisAddrFull: data[i]['ownerMoisAddrFull'],
+        ));
+      }
+      bsnsOwnerDataSource.value = OwnerDatasource(items: bsnsOwner);
+    }
   }
+
 
   /// [소유자관리 > 토지정보] 조회
   fetchOwnerLadInfoDataSource() async {
@@ -646,13 +689,27 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   fetchAccdtlnvstgLadDataSource() async {
     var accdtlnvstgLad = <AccdtlnvstgLadModel>[];
     for (var i = 0; i < 10; i++) {
-      accdtlnvstgLad.add(AccdtlnvstgLadModel(
-          surveyDate: '2021-10-0$i',
-          surveyOrder: '$i차',
-          location: '대전광역시 유성구 봉명동',
-          mainNumber: '12$i',
-          subNumber: '45$i',
-          publicLandType: '공부지목'));
+      accdtlnvstgLad.add(
+        AccdtlnvstgLadModel(
+          col1: '건축물대장내용확인',
+          col2: '0',
+          col3: '소재지',
+          col4: '특지',
+          col5: '본번',
+          col6: '부번',
+          col7: '공부',
+          col8: '현황',
+          col9: '공부',
+          col10: '편입',
+          col11: '조사',
+          col12: '취득용도',
+          col13: '수용/사용',
+          col14: '조사차수',
+          col15: '조사일자',
+          col16: '보상단계',
+          col17: '비고',
+        )
+      );
     }
 
     accdtlnvstgLadDataSource.value =

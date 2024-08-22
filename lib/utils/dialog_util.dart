@@ -196,53 +196,54 @@ class DialogUtil {
         // maxHeight: 360.h
       ),
       builder: (BuildContext context) {
-        return
-          Container(
+        return Container(
           width: double.infinity,
           padding: EdgeInsets.all(80.r),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.only(bottom: 15),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: tableTextColor,
-                        fontSize: 1.w > 1.h ? 48.sp : 68.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: SizedBox(
-                        width: 48.w,
-                        height: 48.h,
-                        child: SvgPicture.asset(
-                          'assets/icons/ic_close.svg',
-                          width: 48.w,
-                          height: 48.h,
-                          fit: BoxFit.fitHeight,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: tableTextColor,
+                          fontSize: 1.w > 1.h ? 48.sp : 68.sp,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: SizedBox(
+                          width: 48.w,
+                          height: 48.h,
+                          child: SvgPicture.asset(
+                            'assets/icons/ic_close.svg',
+                            width: 48.w,
+                            height: 48.h,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 5.h),
-              child,
-            ],
+                SizedBox(height: 5.h),
+                child,
+              ],
+            ),
           ),
         );
       },
