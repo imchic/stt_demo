@@ -29,6 +29,7 @@ class CustomGrid extends StatefulWidget {
   Function(List<DataGridRow> addedRows, List<DataGridRow> removedRows) selectionEvent = _selectionEvent;
   List<StackedHeaderRow> stackedHeaderRows = [];
   int freezeColumnCount = 0;
+  bool isSelect = true;
 
   CustomGrid({
     required this.dataSource,
@@ -40,10 +41,11 @@ class CustomGrid extends StatefulWidget {
     this.selectionEvent = _selectionEvent,
     this.stackedHeaderRows = const [],
     this.freezeColumnCount = 0,
+    this.isSelect = true
   });
 
   static void _selectionEvent(List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
-    print('addedRows: $addedRows');
+    debugPrint('addedRows: $addedRows');
   }
 
   @override
@@ -99,7 +101,7 @@ class _CustomGridState extends State<CustomGrid> {
         },
         columnResizeMode: ColumnResizeMode.onResizeEnd,
         showColumnHeaderIconOnHover: true,
-        selectionMode: SelectionMode.singleDeselect,
+        selectionMode: widget.isSelect ? SelectionMode.single : SelectionMode.none,
         onSelectionChanged: widget.selectionEvent,
         footerHeight: 0,
       ),

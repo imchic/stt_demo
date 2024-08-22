@@ -191,7 +191,7 @@ class LoginScreen extends GetView<LoginController> {
             icon: Icon(Icons.clear, color: Color(0xffC6C6C6)),
             onPressed: () {
               // clear text
-              print('clear text');
+              debugPrint('clear text');
             },
           ),
         ),
@@ -237,7 +237,7 @@ class LoginScreen extends GetView<LoginController> {
             icon: Icon(Icons.remove_red_eye, color: Color(0xffC6C6C6)),
             onPressed: () {
               // show password
-              print('show password');
+              debugPrint('show password');
               // toggle icon
               // setState(() {
               //   _isObscure = !_isObscure;

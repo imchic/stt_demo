@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ldi/screens/bsns/bsns_controller.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../utils/colors.dart';
 
 class CustomGridColumn {
   static List<GridColumn> getColumns(List<String> columns) {

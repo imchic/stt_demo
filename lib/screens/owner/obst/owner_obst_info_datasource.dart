@@ -13,23 +13,21 @@ class OwnerObstInfoDatasource extends DataGridSource {
     _items = items
         .map<DataGridRow>((e) =>
         DataGridRow(cells: [
-          DataGridCell<String>(columnName: 'lgdongNm', value: e.lgdongNm),
-          DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivCd),
-          DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno),
-          DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno),
-          DataGridCell<String>(columnName: 'obstSeq', value: e.obstSeq),
-          DataGridCell<String>(columnName: 'obstDivCd', value: e.obstDivCd),
-          DataGridCell<String>(columnName: 'cmpnstnThingKndDtls', value: e.cmpnstnThingKndDtls),
-          DataGridCell<String>(columnName: 'obstStrctStndrdInfo', value: e.obstStrctStndrdInfo),
-          DataGridCell<String>(columnName: 'cmpnstnQtyAraVu', value: e.cmpnstnQtyAraVu),
-          DataGridCell<String>(columnName: 'cmpnstnThingUnitDivCd', value: e.cmpnstnThingUnitDivCd),
-          DataGridCell<String>(columnName: 'sttusLndcgrDivCd', value: e.sttusLndcgrDivCd),
-          DataGridCell<String>(columnName: 'acqsPrpDivCd', value: e.acqsPrpDivCd),
-          DataGridCell<String>(columnName: 'aceptncUseDivCd', value: e.aceptncUseDivCd),
-          DataGridCell<int>(columnName: 'accdtInvstgSqnc', value: e.accdtInvstgSqnc),
-          DataGridCell<String>(columnName: 'invstgDt', value: e.invstgDt),
-          DataGridCell<String>(columnName: 'cmpnstnStepDivCd', value: e.cmpnstnStepDivCd),
-          DataGridCell<String>(columnName: 'spcitm', value: e.spcitm),
+          DataGridCell<String>(columnName: 'lgdongNm', value: e.lgdongNm), //소재지
+          DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivCd), // 특지
+          DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno), // 본번
+          DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno), // 부번
+          DataGridCell<String>(columnName: 'cmpnstnObstNo', value: e.cmpnstnObstNo.toString()), // 지장물순번
+          DataGridCell<String>(columnName: 'obstDivCd', value: e.obstDivCd), // 지장물구분
+          DataGridCell<String>(columnName: 'cmpnstnThingKndDtls', value: e.cmpnstnThingKndDtls), // 물건의종류
+          DataGridCell<String>(columnName: 'obstStrctStndrdInfo', value: e.obstStrctStndrdInfo), // 구조 및 규격
+          DataGridCell<String>(columnName: 'cmpnstnQtyAraVu', value: e.cmpnstnQtyAraVu.toString()), // 수량면적
+          DataGridCell<String>(columnName: 'cmpnstnThingUnitDivCd', value: e.cmpnstnThingUnitDivCd), // 물건단위구분
+          DataGridCell<String>(columnName: 'acqsPrpDivCd', value: e.acqsPrpDivCd), // 취득용도
+          DataGridCell<String>(columnName: 'accdtInvstgSqnc', value: e.accdtInvstgSqnc.toString()), // 조사차수
+          DataGridCell<String>(columnName: 'invstgDt', value: e.invstgDt), // 조사일자
+          DataGridCell<String>(columnName: 'cmpnstnStepDivCd', value: e.cmpnstnStepDivCd), // 보상진행단계
+          DataGridCell<String>(columnName: 'spcitm', value: e.spcitm), // 특이사항
         ]))
         .toList();
   }

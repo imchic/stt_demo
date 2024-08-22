@@ -13,6 +13,7 @@ import 'package:ldi/screens/bsns/bsns_plan_model.dart';
 import 'package:ldi/screens/bsns/select/bsns_plan_select_area_model.dart';
 import 'package:ldi/screens/bsns/sqnc/bsns_accdtinvstg_sqnc_datasource.dart';
 import 'package:ldi/screens/bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
+import 'package:ldi/screens/owner/datasource/model/owner_info_model.dart';
 import 'package:ldi/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
 import 'package:ldi/screens/sttus/datasource/model/lad_sttus_inqire_model.dart';
 
@@ -183,8 +184,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
   RxInt radioValue = 0.obs;
 
-  RxBool isExpanded = false.obs;
-
   // 사업선택 화면에서 사업선택 여부
   RxBool isBsnsSelectFlag = false.obs;
   // 사업구역 선택 화면에서 사업구역 선택 여부
@@ -195,11 +194,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   RxInt selectedIndex = 0.obs;
   RxBool isNavOpen = false.obs;
 
-  // RxList<BsnsSelectModel> bsnsList = <BsnsSelectModel>[].obs;
-  // RxList<BsnsSelectModel> searchBsnsList = <BsnsSelectModel>[].obs;
-
   // 사업선택
   Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
+  Rx<OwnerInfoModel> selectedOwner = OwnerInfoModel().obs;
 
   Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource = BsnsSelectAreaDataSourceModel().obs;
   Rx<BsnsPlanSelectAreaModel> selectedBsnsSelectArea = BsnsPlanSelectAreaModel().obs;
@@ -211,7 +208,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   RxInt selectOrder = 0.obs;
 
   RxMap<String, double> columnWidths = {
-    'addr' : double.nan,
     'bsnsZoneNo': double.nan,
     'bsnsZoneNm': double.nan,
     'lotCnt': double.nan,
@@ -379,7 +375,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     ladSttusInqireDataGridController = DataGridController();
 
     bsnsTabController.addListener(() {
-      print('bsnsTabController.index : ${bsnsTabController.index}');
+      debugPrint('bsnsTabController.index : ${bsnsTabController.index}');
       // 해당위치로 이동
 
       // 사업구역 없이는 탭 1번, 2번 이동 불가능
@@ -396,7 +392,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     });
 
     bsnsListScrollController.addListener(() {
-      print('bsnsListScrollController.offset : ${bsnsListScrollController
+      debugPrint('bsnsListScrollController.offset : ${bsnsListScrollController
           .offset}');
     });
 
@@ -409,12 +405,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     /// [소유자 검색] 조회
     await fetchAccdtlnvstgSearchDataSource();
-
-    /// [소유자관리 > 토지정보] 조회
-    await fetchOwnerLadInfoDataSource();
-
-    /// [소유자관리 > 지장물정보] 조회
-    await fetchOwnerObstInfoDataSource();
 
     /**
      * 실태조사
@@ -530,7 +520,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       searchBsnsPlanList = dataList.obs;
 
     } else {
-      print('Failed to load post');
+      debugPrint('Failed to load post');
     }
 
     return bsnsPlanList;
@@ -551,14 +541,14 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['list'];
-      print('fetchBsnsSelectAreaGridDataSource > data : $data');
+      debugPrint('fetchBsnsSelectAreaGridDataSource > data : $data');
 
       var bsnsPlanSelectAreaModel = <BsnsPlanSelectAreaModel>[];
 
       for (var i = 0; i < data.length; i++) {
 
         var bsnsZoneNo = data[i]['bsnsZoneNo'];
-        print('fetchBsnsSelectAreaGridDataSource > bsnsZoneNo : $bsnsZoneNo');
+        debugPrint('fetchBsnsSelectAreaGridDataSource > bsnsZoneNo : $bsnsZoneNo');
 
         bsnsPlanSelectAreaModel.add(BsnsPlanSelectAreaModel(
             bsnsNo: num.parse(data[i]['bsnsNo']),
@@ -575,7 +565,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       bsnsListDataSource.value = BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
 
     } else {
-      print('Failed to load post');
+      debugPrint('Failed to load post');
     }
 
   }
@@ -590,108 +580,196 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
     };
 
-    print('fetchBsnsOwnerDataSource > param : $param');
+    debugPrint('fetchBsnsOwnerDataSource > param : $param');
 
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
 
       var data = JsonDecoder().convert(response.body)['list'];
-      print('fetchBsnsOwnerDataSource > data : $data');
+      debugPrint('fetchBsnsOwnerDataSource > data : $data');
 
-      var bsnsOwner = <OwnerDataSourceModel>[];
+      var res = <OwnerDataSourceModel>[];
 
       for(var i = 0; i < data.length; i++) {
-        bsnsOwner.add(OwnerDataSourceModel(
-          ownerNo: data[i]['ownerNo'],
-          ownerNm: data[i]['ownerNm'],
-          posesnDivCd: data[i]['posesnDivCd'],
-          bsnsNo: data[i]['bsnsNo'],
-          bsnsZoneNo: data[i]['bsnsZoneNo'],
-          ownerRrnEnc: data[i]['ownerRrnEnc'],
-          oldRegno: data[i]['oldRegno'],
-          ownerTelno: data[i]['ownerTelno'],
-          ownerMbtlnum: data[i]['ownerMbtlnum'],
-          rgsbukZip: data[i]['rgsbukZip'],
-          delvyZip: data[i]['delvyZip'],
-          moisZip: data[i]['moisZip'],
-          ownerRgsbukAddr: data[i]['ownerRgsbukAddr'],
-          ownerDelvyAddr: data[i]['ownerDelvyAddr'],
-          ownerMoisAddr: data[i]['ownerMoisAddr'],
-          accdtInvstgRm: data[i]['accdtInvstgRm'],
-          frstRgstrId: data[i]['frstRgstrId'],
-          frstRegistDt: data[i]['frstRegistDt'],
-          lastUpdusrId: data[i]['lastUpdusrId'],
-          lastUpdtDt: data[i]['lastUpdtDt'],
-          conectIp: data[i]['conectIp'],
-          thingCnt: data[i]['thingCnt'],
-          bsnsCnt: data[i]['bsnsCnt'],
-          realOwnerNo: data[i]['realOwnerNo'],
-          ownerDivCd: data[i]['ownerDivCd'],
-          ownerRgsbukAddrFull: data[i]['ownerRgsbukAddrFull'],
-          ownerDelvyAddrFull: data[i]['ownerDelvyAddrFull'],
-          ownerMoisAddrFull: data[i]['ownerMoisAddrFull'],
+        res.add(OwnerDataSourceModel(
+          ownerNo: data[i]['ownerNo'] ?? '',
+          ownerNm: data[i]['ownerNm'] ?? '',
+          posesnDivCd: data[i]['posesnDivCd'] ?? '',
+          bsnsNo: data[i]['bsnsNo'] ?? '',
+          bsnsZoneNo: data[i]['bsnsZoneNo'] ?? '',
+          ownerRrnEnc: data[i]['ownerRrnEnc'] ?? '',
+          oldRegno: data[i]['oldRegno'] ?? '',
+          ownerTelno: data[i]['ownerTelno'] ?? '',
+          ownerMbtlnum: data[i]['ownerMbtlnum'] ?? '',
+          rgsbukZip: data[i]['rgsbukZip'] ?? '',
+          delvyZip: data[i]['delvyZip'] ?? '',
+          moisZip: data[i]['moisZip'] ?? '',
+          ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
+          ownerDelvyAddr: data[i]['ownerDelvyAddr'] ?? '',
+          ownerMoisAddr: data[i]['ownerMoisAddr'] ?? '',
+          accdtInvstgRm: data[i]['accdtInvstgRm'] ?? '',
+          frstRgstrId: data[i]['frstRgstrId'] ?? '',
+          frstRegistDt: data[i]['frstRegistDt'] ?? '',
+          lastUpdusrId: data[i]['lastUpdusrId'] ?? '',
+          lastUpdtDt: data[i]['lastUpdtDt'] ?? '',
+          conectIp: data[i]['conectIp'] ?? '',
+          thingCnt: data[i]['thingCnt'] ?? '',
+          bsnsCnt: data[i]['bsnsCnt'] ?? '',
+          realOwnerNo: data[i]['realOwnerNo'] ?? '',
+          ownerDivCd: data[i]['ownerDivCd'] ?? '',
+          ownerRgsbukAddrFull: data[i]['ownerRgsbukAddrFull'] ?? '',
+          ownerDelvyAddrFull: data[i]['ownerDelvyAddrFull'] ?? '',
+          ownerMoisAddrFull: data[i]['ownerMoisAddrFull'] ?? '',
         ));
       }
-      bsnsOwnerDataSource.value = OwnerDatasource(items: bsnsOwner);
+      bsnsOwnerDataSource.value = OwnerDatasource(items: res);
     }
   }
 
 
   /// [소유자관리 > 토지정보] 조회
-  fetchOwnerLadInfoDataSource() async {
-    var ownerLadInfo = <OwnerLadInfoDatasourceModel>[];
-    for (var i = 0; i < 3; i++) {
-      ownerLadInfo.add(OwnerLadInfoDatasourceModel(
-          lgdongNm: '대전광역시 유성구 봉명동',
-          lcrtsDivCd: '일반',
-          mlnoLtno: '12$i',
-          slnoLtno: '45$i',
-          ofcbkLndcgrDivCd: randomLndcgrDivCd(),
-          sttusLndcgrDivCd: randomLndcgrDivCd(),
-          ofcbkAra: Random().nextInt(1000),
-          incrprAra: Random().nextInt(1000),
-          cmpnstnInvstgAra: Random().nextInt(1000),
-          acqsPrpDivCd: '기타',
-          aceptncPrpDivCd: '취득',
-          accdtInvstgSqnc: i,
-          accdtInvstgDe: '2021-10-0$i',
-          invstgDt: '2021-10-0$i',
-          cmpnstnDtaChnStatDivCd: '변경',
-          etc: '기타'));
+  fetchOwnerLadInfoDataSource(ownerNum) async {
 
-      ownerLadInfoDataSource.value =
-          OwnerLadInfoDatasource(items: ownerLadInfo);
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/owner/selectLandList.do');
+
+    var param = {
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+      'shOwnerNo' : ownerNum ?? '',
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+
+      var data = JsonDecoder().convert(response.body)['list'];
+      debugPrint('fetchOwnerLadInfoDataSource > data : $data');
+
+      var res = <OwnerLadInfoDatasourceModel>[];
+
+      for(var i = 0; i < data.length; i++) {
+        res.add(OwnerLadInfoDatasourceModel(
+          lgdongNm: data[i]['lgdongNm'],
+          lcrtsDivCd: data[i]['lcrtsDivCd'],
+          mlnoLtno: data[i]['mlnoLtno'],
+          slnoLtno: data[i]['slnoLtno'],
+          ofcbkLndcgrDivCd: data[i]['ofcbkLndcgrDivCd'],
+          sttusLndcgrDivCd: data[i]['sttusLndcgrDivCd'],
+          ofcbkAra: data[i]['ofcbkAra'],
+          incrprAra: data[i]['incrprAra'],
+          cmpnstnInvstgAra: data[i]['cmpnstnInvstgAra'],
+          acqsPrpDivCd: data[i]['acqsPrpDivCd'],
+          aceptncUseDivCd: data[i]['aceptncUseDivCd'],
+          accdtInvstgSqnc: data[i]['accdtInvstgSqnc'],
+          invstgDt: data[i]['invstgDt'],
+          cmpnstnStepDivCd: data[i]['cmpnstnStepDivCd'],
+          accdtInvstgRm: data[i]['accdtInvstgRm'],
+        ));
+      }
+      ownerLadInfoDataSource.value = OwnerLadInfoDatasource(items: res);
     }
   }
 
   /// [소유자관리 > 지장물정보] 조회
-  fetchOwnerObstInfoDataSource() async {
-    var ownerObstInfo = <OwnerObstInfoDatasourceModel>[];
-    for (var i = 0; i < 30; i++) {
-      ownerObstInfo.add(OwnerObstInfoDatasourceModel(
-          lgdongNm: '대전광역시 유성구 봉명동',
-          lcrtsDivCd: '공부지목',
-          mlnoLtno: '12$i',
-          slnoLtno: '45$i',
-          obstSeq: '$i',
-          obstDivCd: '지장물구분코드',
-          cmpnstnThingKndDtls: '물건의종류',
-          obstStrctStndrdInfo: '구조규격정보',
-          cmpnstnQtyAraVu: '보상수량면적값',
-          cmpnstnThingUnitDivCd: '보상물건단위구분코드',
-          sttusLndcgrDivCd: '현황지목구분코드',
-          acqsPrpDivCd: '취득용도구분코드',
-          aceptncUseDivCd: '수용용도구분코드',
-          accdtInvstgSqnc: i,
-          invstgDt: '2021-10-0$i',
-          cmpnstnStepDivCd: '보상단계구분코드',
-          spcitm: '특이사항'));
+  fetchOwnerObstInfoDataSource(ownerNum) async {
 
-      ownerObstInfoDataSource.value =
-          OwnerObstInfoDatasource(items: ownerObstInfo);
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/owner/selecObstList.do');
+
+    var param = {
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+      'shOwnerNo' : ownerNum,
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+
+      var data = JsonDecoder().convert(response.body)['list'];
+      debugPrint('fetchOwnerObstInfoDataSource > data : $data');
+
+      var res = <OwnerObstInfoDatasourceModel>[];
+
+      for(var i = 0; i < data.length; i++) {
+        res.add(OwnerObstInfoDatasourceModel(
+          lgdongNm: data[i]['lgdongNm'] ?? '',
+          lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
+          mlnoLtno: data[i]['mlnoLtno'] ?? '',
+          slnoLtno: data[i]['slnoLtno'] ?? '',
+          cmpnstnObstNo: data[i]['cmpnstnObstNo'] ?? '',
+          obstDivCd: data[i]['obstDivCd'] ?? '',
+          cmpnstnThingKndDtls: data[i]['cmpnstnThingKndDtls'] ?? '',
+          obstStrctStndrdInfo: data[i]['obstStrctStndrdInfo'] ?? '',
+          cmpnstnQtyAraVu: data[i]['cmpnstnQtyAraVu'] ?? '',
+          cmpnstnThingUnitDivCd: data[i]['cmpnstnThingUnitDivCd'] ?? '',
+          acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
+          accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? '',
+          invstgDt: data[i]['invstgDt'] ?? '',
+          cmpnstnStepDivCd: data[i]['cmpnstnStepDivCd'] ?? '',
+          accdtInvstgRm: data[i]['accdtInvstgRm'] ?? '',
+        ));
+      }
+      ownerObstInfoDataSource.value = OwnerObstInfoDatasource(items: res);
     }
+
   }
+
+  /// [소유자관리 > 정보변경] 조회
+  /// @deprecated 선택한 소유자에대한 소유자정보를 조회한다.
+  fetchOwnerInfo(ownerNum) async {
+
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/owner/selecOwnInfo.do');
+
+    var param = {
+      'shOwnerNo' : ownerNum,
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      debugPrint('fetchOwnerInfo > data : $data');
+
+      var res = <OwnerInfoModel>[];
+      for(var i = 0; i < data.length; i++) {
+        res.add(OwnerInfoModel(
+          ownerNo: data[i]['ownerNo'] ?? '',
+          ownerRrnEnc: data[i]['ownerRrnEnc'] ?? '',
+          ownerNm: data[i]['ownerNm'] ?? '',
+          ownerTelno: data[i]['ownerTelno'] ?? '',
+          ownerMbtlnum: data[i]['ownerMbtlnum'] ?? '',
+          rgsbukZip: data[i]['rgsbukZip'] ?? '',
+          delvyZip: data[i]['delvyZip'] ?? '',
+          moisZip: data[i]['moisZip'] ?? '',
+          ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
+          ownerDelvyAddr: data[i]['ownerDelvyAddr'] ?? '',
+          ownerMoisAddr: data[i]['ownerMoisAddr'] ?? '',
+          accdtInvstgRm: data[i]['accdtInvstgRm'] ?? '',
+          posesnDivCd: data[i]['posesnDivCd'] ?? '',
+          ownerDivCd: data[i]['ownerDivCd'] ?? '',
+          chnSqnc: data[i]['chnSqnc'] ?? '',
+          cmpnstnDtaCreatId: data[i]['cmpnstnDtaCreatId'] ?? '',
+          bcncNo: data[i]['bcncNo'] ?? '',
+          delYn: data[i]['delYn'] ?? '',
+          frstRgstrId: data[i]['frstRgstrId'] ?? '',
+          frstRegistDt: data[i]['frstRegistDt'] ?? '',
+          lastUpdusrId: data[i]['lastUpdusrId'] ?? '',
+          lastUpdtDt: data[i]['lastUpdtDt'] ?? '',
+          conectIp: data[i]['conectIp'] ?? '',
+        ));
+      }
+
+      debugPrint('fetchOwnerInfo > res : $res');
+      selectedOwner.value = res[0];
+
+    }
+
+  }
+
 
   /// [실태조사 > 토지내역] 조회
   fetchAccdtlnvstgSearchDataSource() async {
@@ -963,7 +1041,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                             isReadOnly: true,
                             textColor: tableTextColor,
                             onChanged: (value) {
-                              print('orderAutoController : $value');
+                              debugPrint('orderAutoController : $value');
                             },
                           ),
                         ),
@@ -1009,7 +1087,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                             isReadOnly: true,
                             textColor: tableTextColor,
                             onChanged: (value) {
-                              print('orderAutoController : $value');
+                              debugPrint('orderAutoController : $value');
                             },
                             onTap: () {
                               showDatePicker(
@@ -1024,7 +1102,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                 initialDatePickerMode:
                                 DatePickerMode.day,
                               ).then((value) {
-                                print('start dt : $value');
+                                debugPrint('start dt : $value');
                                 var year = value!.year;
                                 var month = value.month < 10
                                     ? '0${value.month}'
@@ -1081,7 +1159,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                             isReadOnly: true,
                             textColor: tableTextColor,
                             onChanged: (value) {
-                              print('orderAutoController : $value');
+                              debugPrint('orderAutoController : $value');
                             },
                             onTap: () {
                               showDatePicker(
@@ -1096,7 +1174,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                 initialDatePickerMode:
                                 DatePickerMode.day,
                               ).then((value) {
-                                print('start dt : $value');
+                                debugPrint('start dt : $value');
                                 var year = value!.year;
                                 var month = value.month < 10
                                     ? '0${value.month}'
@@ -1259,7 +1337,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                     ],
                   ),
                   onOk: () {
-                    print('실태조사 시작');
+                    debugPrint('실태조사 시작');
                     isBsnsSelectFlag.value = false;
                     isBsnsSqncSelectFlag.value = false;
                     isBsnsZoneSelectFlag.value = false;
@@ -1316,14 +1394,14 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [사업명] 검색
   Future<void> searchBsnsName(String value) async {
-    print('searchBsnsName : $value');
+    debugPrint('searchBsnsName : $value');
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 200), () async {
       if (value.isEmpty) {
         searchBsnsPlanList.value = bsnsPlanList;
       } else {
         searchBsnsPlanList.value = bsnsPlanList.where((element) => element.bsnsNm?.contains(value) ?? false).toList();
-        print('serachBsnsPlanList : $searchBsnsPlanList');
+        debugPrint('serachBsnsPlanList : $searchBsnsPlanList');
 
       }
     });
@@ -1335,21 +1413,21 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     var url = 'http://222.107.22.159:18080/lp/bsns/selectAccdtInvstgSqnc.do';
         //'?shBsnsNo=2101&shBsnsZoneNo=2';
 
-    print('shBsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
-    print('shBsnsZoneNo : ${selectedBsnsSelectArea.value.bsnsZoneNo}');
+    debugPrint('shBsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
+    debugPrint('shBsnsZoneNo : ${selectedBsnsSelectArea.value.bsnsZoneNo}');
 
     var response = await http.post(Uri.parse(url), body: {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
       'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
     });
-    print('response : ${response.statusCode}');
+    debugPrint('response : ${response.statusCode}');
 
     var responseUrl = response.request!.url;
-    print('responseUrl : $responseUrl');
+    debugPrint('responseUrl : $responseUrl');
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['list'];
-      print('fetchBsnsSelectAreaGridDataSource > data : $data');
+      debugPrint('fetchBsnsSelectAreaGridDataSource > data : $data');
 
       var bsnsAccdtinvstgSqncModel = <BsnsAccdtinvstgSqncModel>[];
 
@@ -1372,14 +1450,16 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
       // 마지막 차수 + 1
       num lastSqnc = bsnsAccdtinvstgSqncModel.first.accdtInvstgSqnc ?? 0 + 1;
-      num last = lastSqnc ?? 0 + 1;
+      debugPrint('lastSqnc : $lastSqnc');
+
+      num last = lastSqnc == 0 ? 1 : lastSqnc + 1;
 
       orderAutoController.text = last.toString();
 
       bsnsAccdtinvstgSqncDataSource.value = BsnsAccdtinvstgSqncDatasource(items: bsnsAccdtinvstgSqncModel);
 
     } else {
-      print('error');
+      debugPrint('error');
     }
 
   }
@@ -1404,7 +1484,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   Future<void> handleLadSttusInqireTabSelected(int index) async {
 
     ladSttusInqireTabIsSelected[index] = !ladSttusInqireTabIsSelected[index];
-    print('ladSttusInqireTabIsSelected : $ladSttusInqireTabIsSelected');
+    debugPrint('ladSttusInqireTabIsSelected : $ladSttusInqireTabIsSelected');
 
   }
 
@@ -1458,7 +1538,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                 isPassword: false,
                                 isReadOnly: false,
                                 onChanged: (value) {
-                                  print('orderController : $value');
+                                  debugPrint('orderController : $value');
                                 },
                               ),
                             ),
@@ -1522,7 +1602,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                   isPassword: false,
                                   isReadOnly: false,
                                   onChanged: (value) {
-                                    print('orderController : $value');
+                                    debugPrint('orderController : $value');
                                   },
                                 ),
                               ),
@@ -1579,7 +1659,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                   isPassword: false,
                                   isReadOnly: false,
                                   onChanged: (value) {
-                                    print('orderController : $value');
+                                    debugPrint('orderController : $value');
                                   },
                                 ),
                               ),
@@ -1655,7 +1735,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       ),
     ),
     onOk: () {
-      print('토지 현실이용현황 조회 및 입력');
+      debugPrint('토지 현실이용현황 조회 및 입력');
       isBsnsSelectFlag.value = false;
       isBsnsSqncSelectFlag.value = false;
       isBsnsZoneSelectFlag.value = false;

@@ -18,7 +18,6 @@ class _CustomRichTextState extends State<CustomRichText> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45.h,
       child: RichText(
         text: TextSpan(
           children: [

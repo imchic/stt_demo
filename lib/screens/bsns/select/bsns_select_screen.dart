@@ -192,7 +192,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             mapType: NMapType.hybrid,
           ),
           onMapReady: (controller) {
-            print("네이버 맵 로딩됨!");
+            debugPrint("네이버 맵 로딩됨!");
           },
         ),
       ),
@@ -508,6 +508,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return GridColumn(
         //width: controller.columnWidths[columnName ?? ''] ?? 80,
         //width: controller.columnWidths[columnName] ?? width ?? 80,
+        width: width ?? double.nan,
         columnName: columnName,
         visible: isVisble ?? true,
         label: SizedBox(child: Center(child: AutoSizeText(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.sp, color: tableTextColor)))));
@@ -521,10 +522,10 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       isSort: false,
       //columnWidthMode: ColumnWidthMode.fill,
       columns: [
-        gridColumn('bsnsZoneNo', '사업구역번호'),
-        gridColumn('bsnsZoneNm', '사업구역명'),
-        gridColumn('lotCnt', '필지수'),
-        gridColumn('bsnsAra', '면적(㎡)'),
+        gridColumn('bsnsZoneNo', '사업구역\n번호', width: 60),
+        gridColumn('bsnsZoneNm', '사업구역명', width: 200),
+        gridColumn('lotCnt', '필지수', width: 60),
+        gridColumn('bsnsAra', '면적(㎡)', width: 80),
         gridColumn('bsnsReadngPblancDe', '열람공고일'),
       ],
       selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) async {
@@ -541,10 +542,10 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         var bsnsAra = getRow.getCells()[3].value;
         var bsnsReadngPblancDe = getRow.getCells()[4].value;
 
-        print('사업구역 선택: $bsnsNo, $bsnsZoneNo, $bsnsZoneNm, $lotCnt, $bsnsAra, $bsnsReadngPblancDe');
+        debugPrint('사업구역 선택: $bsnsNo, $bsnsZoneNo, $bsnsZoneNm, $lotCnt, $bsnsAra, $bsnsReadngPblancDe');
 
-        print('선택된 사업번호: ${controller.selectBsnsPlan.value.bsnsNo}');
-        print('선택된 사업구역번호: $bsnsZoneNo');
+        debugPrint('선택된 사업번호: ${controller.selectBsnsPlan.value.bsnsNo}');
+        debugPrint('선택된 사업구역번호: $bsnsZoneNo');
 
         controller.selectedBsnsSelectArea.value = BsnsPlanSelectAreaModel(
           bsnsNo: num.parse(bsnsNo.toString()),
@@ -569,13 +570,14 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.none,
+      isSelect: false,
       isSort: false,
       columns: [
         gridColumn('bsnsNo', '사업번호', isVisble: false),
         gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
-        gridColumn('accdtInvstgSqnc', '조사차수'),
-        gridColumn('accdtInvstgNm', '조사명'),
+        gridColumn('accdtInvstgSqnc', '조사차수', width: 60),
+        gridColumn('accdtInvstgNm', '조사명', width: 200),
         gridColumn('delYn', '삭제여부', isVisble: false),
         gridColumn('frstRgstrId', '최초등록자'),
         gridColumn('frstRegistDt', '등록일'),
@@ -592,9 +594,16 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.bsnsOwnerDataSource.value,
       controller: controller.bsnsOwnerDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.lastColumnFill,
+      columnWidthMode: ColumnWidthMode.fill,
       selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
-        print('선택된 소유자: ${addedRows.first.getCells()[2].value}');
+        debugPrint('buildBsnsOwnerDataGrid> 선택된 소유자번호 > ${addedRows.first.getCells()[0].value}');
+        var ownerNum = addedRows.first.getCells()[0].value;
+
+        controller.fetchOwnerLadInfoDataSource(ownerNum);
+        controller.fetchOwnerObstInfoDataSource(ownerNum);
+        controller.fetchOwnerInfo(ownerNum);
+
+        controller.bsnsOwnerTabController.animateTo(1);
       }),
       columns: [
         gridColumn('ownerNo', '소유자번호'),
@@ -635,7 +644,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.ownerLadInfoDataSource.value,
       controller: controller.ownerLadInfoDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.fitByColumnName,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
@@ -675,37 +684,36 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           incrprAra: getRow.getCells()[7].value,
           cmpnstnInvstgAra: getRow.getCells()[8].value,
           acqsPrpDivCd: getRow.getCells()[9].value,
-          aceptncPrpDivCd: getRow.getCells()[10].value,
+          aceptncUseDivCd: getRow.getCells()[10].value,
           accdtInvstgSqnc: getRow.getCells()[11].value,
           invstgDt: getRow.getCells()[12].value,
+          cmpnstnStepDivCd: getRow.getCells()[13].value,
           cmpnstnDtaChnStatDivCd: getRow.getCells()[13].value,
-          etc: getRow.getCells()[14].value,
+          accdtInvstgRm: getRow.getCells()[14].value,
         );
 
-        print('선택된 소유자: ${data.toString()}');
-
-        controller.selectedOwnerLadInfoData.value = data;
-        controller.fetchAccdtlnvstgOwnerDataSource();
-
-        controller.handleAccdtlnvstgLadTabSelected(1);
+        // var num = data.accdtInvstgSqnc;
+        // controller.selectedOwnerLadInfoData.value = data;
+        // controller.fetchAccdtlnvstgOwnerDataSource();
+        // controller.handleAccdtlnvstgLadTabSelected(1);
 
       }),
       columns: [
-        gridColumn('lgdongNm', '소재지'),
-        gridColumn('lcrtsDivCd', '특지'),
-        gridColumn('mlnoLtno', '본번'),
-        gridColumn('slnoLtno', '부번'),
-        gridColumn('ofcbkLndcgrDivCd', '공부'),
-        gridColumn('sttusLndcgrDivCd', '현황'),
-        gridColumn('ofcbkAra', '공부'),
-        gridColumn('incrprAra', '편입'),
-        gridColumn('cmpnstnInvstgAra', '조사'),
-        gridColumn('acqsPrpDivCd', '취득용도'),
-        gridColumn('aceptncPrpDivCd', '수용/사용'),
-        gridColumn('accdtInvstgSqnc', '조사차수'),
-        gridColumn('invstgDt', '조사일'),
-        gridColumn('cmpnstnDtaChnStatDivCd', '보상진행단계'),
-        gridColumn('etc', '비고'),
+        gridColumn('lgdongNm', '소재지', width: 200),
+        gridColumn('lcrtsDivCd', '특지', width: 60),
+        gridColumn('mlnoLtno', '본번', width: 60),
+        gridColumn('slnoLtno', '부번', width: 60),
+        gridColumn('ofcbkLndcgrDivCd', '공부', width: 80),
+        gridColumn('sttusLndcgrDivCd', '현황', width: 80),
+        gridColumn('ofcbkAra', '공부', width: 80),
+        gridColumn('incrprAra', '편입', width: 80),
+        gridColumn('cmpnstnInvstgAra', '조사', width: 80),
+        gridColumn('acqsPrpDivCd', '취득용도', width: 80),
+        gridColumn('aceptncPrpDivCd', '수용/사용', width: 60),
+        gridColumn('accdtInvstgSqnc', '조사차수', width: 60),
+        gridColumn('invstgDt', '조사일', width: 80),
+        gridColumn('cmpnstnDtaChnStatDivCd', '보상진행단계', width: 80),
+        gridColumn('etc', '비고', width: 80),
       ],
     );
   }
@@ -719,23 +727,21 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       freezeColumnCount: 4,
       isSort: false,
       columns: [
-        gridColumn('lgdongNm', '소재지'),
-        gridColumn('lcrtsDivCd', '특지'),
-        gridColumn('mlnoLtno', '본번'),
-        gridColumn('slnoLtno', '부번'),
-        gridColumn('obstSeq', '지장물순번'),
-        gridColumn('obstDivCd', '지장물구분'),
-        gridColumn('cmpnstnThingKndDtls', '물건의종류'),
-        gridColumn('obstStrctStndrdInfo', '구조 및 규격'),
-        gridColumn('cmpnstnQtyAraVu', '수량(면적)'),
-        gridColumn('cmpnstnThingUnitDivCd', '단위'),
-        gridColumn('sttusLndcgrDivCd', '현황지목'),
-        gridColumn('acqsPrpDivCd', '취득용도'),
-        gridColumn('aceptncUseDivCd', '수용용도'),
-        gridColumn('accdtInvstgSqnc', '조사차수'),
-        gridColumn('invstgDt', '조사일'),
-        gridColumn('cmpnstnStepDivCd', '보상진행단계'),
-        gridColumn('spcitm', '특이사항'),
+        gridColumn('lgdongNm', '소재지', width: 200),
+        gridColumn('lcrtsDivCd', '특지', width: 60),
+        gridColumn('mlnoLtno', '본번', width: 60),
+        gridColumn('slnoLtno', '부번', width: 60),
+        gridColumn('cmpnstnObstNo', '지장물순번', width: 80),
+        gridColumn('obstDivCd', '지장물구분', width: 80),
+        gridColumn('cmpnstnThingKndDtls', '물건의종류', width: 80),
+        gridColumn('obstStrctStndrdInfo', '구조 및 규격', width: 80),
+        gridColumn('cmpnstnQtyAraVu', '수량(면적)', width: 80),
+        gridColumn('cmpnstnThingUnitDivCd', '단위', width: 60),
+        gridColumn('acqsPrpDivCd', '취득용도', width: 80),
+        gridColumn('accdtInvstgSqnc', '조사차수', width: 60),
+        gridColumn('invstgDt', '조사일', width: 80),
+        gridColumn('cmpnstnStepDivCd', '보상진행단계', width: 80),
+        gridColumn('spcitm', '특이사항', width: 80),
       ],
     );
   }

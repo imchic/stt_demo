@@ -134,7 +134,7 @@ class OwnerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomRichText(length: 3),
+                    CustomRichText(length: controller.bsnsOwnerDataSource.value.rows.length),
                     SizedBox(height: 20.h),
                     Expanded(
                         child: BsnsSelectScreen().buildBsnsOwnerDataGrid()),
@@ -156,8 +156,23 @@ class OwnerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomRichText(length: 3),
+          CustomRichText(length: controller.ownerLadInfoDataSource.value.rows.length),
           SizedBox(height: 20.h),
+          controller.ownerLadInfoDataSource.value.rows.isEmpty ? Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Center(
+                child: AutoSizeText('데이터가 없습니니다.',
+                    style: TextStyle(
+                        color: Color(0xFF555555),
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w400)),
+              ),
+            ),
+          ) :
           Expanded(child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()),
         ],
       ),
@@ -174,8 +189,23 @@ class OwnerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomRichText(length: 3),
+          CustomRichText(length: controller.ownerObstInfoDataSource.value.rows.length),
           SizedBox(height: 20.h),
+          controller.ownerObstInfoDataSource.value.rows.isEmpty ? Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Center(
+                child: AutoSizeText('데이터가 없습니다.',
+                    style: TextStyle(
+                        color: Color(0xFF555555),
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w400)),
+              ),
+            ),
+          ) :
           Expanded(child: BsnsSelectScreen().buildOwnerObstInfoDataGrid()),
         ],
       ),
@@ -228,7 +258,7 @@ class OwnerWidget {
                           color: Colors.white,
                         ),
                         child: Center(
-                            child: AutoSizeText('홍길동',
+                            child: AutoSizeText(controller.selectedOwner.value.ownerNm ?? '',
                                 style: TextStyle(
                                     color: Color(0xFF555555),
                                     fontSize: 32.sp,
@@ -259,7 +289,7 @@ class OwnerWidget {
                           color: Colors.white,
                         ),
                         child: Center(
-                            child: AutoSizeText('내용',
+                            child: AutoSizeText(controller.selectedOwner.value.ownerDivCd ?? '',
                                 style: TextStyle(
                                     color: Color(0xFF555555),
                                     fontSize: 32.sp,
@@ -304,7 +334,7 @@ class OwnerWidget {
                           color: Colors.white,
                         ),
                         child: Center(
-                            child: AutoSizeText('123456-1******',
+                            child: AutoSizeText(controller.selectedOwner.value.ownerRrnEnc ?? '',
                                 style: TextStyle(
                                     color: Color(0xFF555555),
                                     fontSize: 32.sp,
@@ -349,7 +379,9 @@ class OwnerWidget {
                         //child: AutoSizeAutoSizeText('02-1234-5678', style: TextStyle(color: tableTextColor, fontSize: 32.sp, fontWeight: FontWeight.w400)),
                         child: Center(
                             child: CustomTextField(
-                                hintText: '전화번호', onChanged: (value) {})),
+                                controller: TextEditingController(text: controller.selectedOwner.value.ownerTelno ?? ''),
+                                hintText: '전화번호', onChanged: (value) {})
+                        ),
                       ),
                     ),
                     SizedBox(height: 20.h),
@@ -376,6 +408,7 @@ class OwnerWidget {
                         ),
                         child: Center(
                             child: CustomTextField(
+                              controller: TextEditingController(text: controller.selectedOwner.value.ownerMbtlnum ?? ''),
                                 hintText: '전화번호', onChanged: (value) {})),
                         //child: AutoSizeAutoSizeText('010-1234-5678', style: TextStyle(color: tableTextColor, fontSize: 32.sp, fontWeight: FontWeight.w400)),
                       ),
@@ -419,6 +452,7 @@ class OwnerWidget {
                               color: Colors.white,
                             ),
                             child: CustomTextField(
+                                controller: TextEditingController(text: controller.selectedOwner.value.accdtInvstgRm ?? ''),
                                 hintText: '내용을 입력하세요', onChanged: (value) {}),
                           ),
                         ],

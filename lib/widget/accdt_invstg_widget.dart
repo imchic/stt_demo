@@ -202,7 +202,7 @@ class AccdtInvstgWidget {
                                                           hintText:
                                                               '취득용도를 입력해주세요',
                                                           onChanged: (value) {
-                                                            print(value);
+                                                            debugPrint(value);
                                                           },
                                                         ),
                                                       ),

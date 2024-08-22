@@ -7,7 +7,6 @@ class CommonUtil {
 
   static String convertToDateTime(String date) {
     var length = date.length;
-    print("length: $length");
     if (length == 8) {
       return "${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}";
     } else if (length == 6) {

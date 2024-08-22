@@ -9,27 +9,30 @@ import 'model/owner_lad_info_datasource_model.dart';
 ///
 /// LP_실태조사토지정보 그리드 데이터소스
 
-
 class OwnerLadInfoDatasource extends DataGridSource {
   OwnerLadInfoDatasource({required List<OwnerLadInfoDatasourceModel> items}) {
     _items = items
         .map<DataGridRow>((e) =>
         DataGridRow(cells: [
-          DataGridCell<String>(columnName: 'lgdongNm', value: e.lgdongNm),
-          DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivCd),
-          DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno),
-          DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno),
-          DataGridCell<String>(columnName: 'ofcbkLndcgrDivCd', value: e.ofcbkLndcgrDivCd),
-          DataGridCell<String>(columnName: 'sttusLndcgrDivCd', value: e.sttusLndcgrDivCd),
-          DataGridCell<int>(columnName: 'ofcbkAra', value: e.ofcbkAra),
-          DataGridCell<int>(columnName: 'incrprAra', value: e.incrprAra),
-          DataGridCell<int>(columnName: 'cmpnstnInvstgAra', value: e.cmpnstnInvstgAra),
-          DataGridCell<String>(columnName: 'acqsPrpDivCd', value: e.acqsPrpDivCd),
-          DataGridCell<String>(columnName: 'aceptncPrpDivCd', value: e.aceptncPrpDivCd),
-          DataGridCell<int>(columnName: 'accdtInvstgSqnc', value: e.accdtInvstgSqnc),
-          DataGridCell<String>(columnName: 'invstgDt', value: e.invstgDt),
-          DataGridCell<String>(columnName: 'cmpnstnDtaChnStatDivCd', value: e.cmpnstnDtaChnStatDivCd),
-          DataGridCell<String>(columnName: 'etc', value: e.etc),
+          DataGridCell<String>(columnName: 'lgdongNm', value: e.lgdongNm), // 법정동
+          DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivCd), // 특지
+          DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno), // 본번
+          DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno), // 부번
+          // 지목
+          DataGridCell<String>(columnName: 'ofcbkLndcgrDivCd', value: e.ofcbkLndcgrDivCd), // 공부지목
+          DataGridCell<String>(columnName: 'sttusLndcgrDivCd', value: e.sttusLndcgrDivCd), // 현황지
+          // 면적
+          DataGridCell<String>(columnName: 'ofcbkAra', value: e.ofcbkAra.toString()), // 공부
+          DataGridCell<String>(columnName: 'incrprAra', value: e.incrprAra.toString()), // 편입
+          DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: e.cmpnstnInvstgAra.toString()), // 보상
+          // 취득용도
+          DataGridCell<String>(columnName: 'acqsPrpDivCd', value: e.acqsPrpDivCd), // 취득용도
+          DataGridCell<String>(columnName: 'aceptncUseDivCd', value: e.aceptncUseDivCd), // 수용사용
+          DataGridCell<String>(columnName: 'accdtInvstgSqnc', value: e.accdtInvstgSqnc.toString()), // 조사차수
+          DataGridCell<String>(columnName: 'invstgDt', value: e.invstgDt.toString()), // 조사차수
+          DataGridCell<String>(columnName: 'cmpnstnStepDivCd', value: e.cmpnstnStepDivCd), // 보상진행단계
+          DataGridCell<String>(columnName: 'accdtInvstgRm', value: e.accdtInvstgRm), // 실태조사비고
+
         ]))
         .toList();
   }

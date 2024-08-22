@@ -28,7 +28,7 @@ class _CustomDropDownWidgetState extends State<CustomDropDownWidget> {
         SizedBox(height: 10),
         GestureDetector(
           onTap: () {
-            print('show dropdown');
+            debugPrint('show dropdown');
             // expand dropdown
             setState(() {
               widget.onSelected(widget.selectedIndex);

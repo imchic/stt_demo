@@ -65,7 +65,7 @@ class CustomTextField extends StatelessWidget {
           ),
           // contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 4.h),
           onChanged: (value) {
-            //print(value);
+            //debugPrint(value);
             onChanged(value);
           },
           onTap: () {
