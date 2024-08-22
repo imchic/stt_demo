@@ -50,7 +50,7 @@ class BsnsWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            //width: 120.w,
+                            width: 120.w,
                             child: AutoSizeText(
                               '사업명',
                               style: TextStyle(
@@ -127,18 +127,18 @@ class BsnsWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomRichText(length: controller.bsnsPlanList.length),
+                CustomRichText(length: controller.searchBsnsPlanList.length),
                 1.w > 1.h ? SizedBox(height: 32.h) : SizedBox(height: 0.h),
                 Expanded(
                   child: ListView.separated(
                           separatorBuilder: (context, index) => SizedBox(height: 20.h),
                           padding: EdgeInsets.zero,
-                          itemCount: controller.bsnsPlanList.length,
+                          itemCount: controller.searchBsnsPlanList.length,
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
                                 controller.isBsnsSelectFlag.value = true;
-                                controller.selectBsnsPlan.value = controller.bsnsPlanList[index];
+                                controller.selectBsnsPlan.value = controller.searchBsnsPlanList[index];
                                 controller.fetchBsnsSelectAreaGridDataSource();
                               },
                               child: Column(
@@ -168,9 +168,9 @@ class BsnsWidget {
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: [
-                                                  CustomBsnsBadge(text: controller.bsnsPlanList[index].bsnsDivLclsCd, bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                                                  CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivLclsCd, bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
                                                   SizedBox(width: 12.w),
-                                                  CustomBsnsBadge(text: controller.bsnsPlanList[index].bsnsDivMclsCd, bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                                                  CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivMclsCd, bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
                                                   SizedBox(width: 20.w),
                                                 ],
                                               ),
@@ -179,7 +179,7 @@ class BsnsWidget {
                                             Expanded(
                                               child: SizedBox(
                                                 child: AutoSizeText(
-                                                  controller.bsnsPlanList[index].bsnsNm ?? '',
+                                                  controller.searchBsnsPlanList[index].bsnsNm ?? '',
                                                   style: TextStyle(
                                                     color: Color(0xFF1D1D1D),
                                                     fontSize: 1.w > 1.h ? 32.sp : 52.sp,
@@ -201,7 +201,7 @@ class BsnsWidget {
                                               Expanded(
                                                 child: SizedBox(
                                                   child: AutoSizeText(
-                                                    controller.bsnsPlanList[index].bsnsLcinfo ?? '-',
+                                                    controller.searchBsnsPlanList[index].bsnsLcinfo ?? '-',
                                                     style: TextStyle(
                                                       color: Color(0xFF555555),
                                                       fontSize: 1.w > 1.h ? 32.sp : 52.sp,
@@ -218,7 +218,7 @@ class BsnsWidget {
                                                 color: Color(0xFF2287EF),
                                                 textColor: Colors.white,
                                                 onPressed: () {
-                                                  var data = controller.bsnsPlanList[index];
+                                                  var data = controller.searchBsnsPlanList[index];
                                                   controller.selectBsnsPlan.value = data;
 
                                                   DialogUtil.showAlertDialog(
@@ -257,7 +257,7 @@ class BsnsWidget {
                                                                         children: [
                                                                           AutoSizeText('사업시작일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
                                                                           SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.bsnsPlanList[index].bsnsStrtDe,),
+                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsStrtDe,),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -272,7 +272,7 @@ class BsnsWidget {
                                                                         children: [
                                                                           AutoSizeText('사업종료일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
                                                                           SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.bsnsPlanList[index].bsnsEndDe,),
+                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsEndDe,),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -294,7 +294,7 @@ class BsnsWidget {
                                                                         children: [
                                                                           AutoSizeText('승인일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
                                                                           SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.bsnsPlanList[index].aprvDe,),
+                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].aprvDe,),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -307,7 +307,7 @@ class BsnsWidget {
                                                                         children: [
                                                                           AutoSizeText('관보고시일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
                                                                           SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.bsnsPlanList[index].gztNtfcDe,),
+                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].gztNtfcDe,),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -320,7 +320,7 @@ class BsnsWidget {
                                                                         children: [
                                                                           AutoSizeText('준공일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
                                                                           SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.bsnsPlanList[index].competDe,),
+                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].competDe,),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -443,7 +443,7 @@ class BsnsWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: [
                                                     AutoSizeText(
-                                                      controller.bsnsPlanList[index].mngdeptCd ?? '-',
+                                                      controller.searchBsnsPlanList[index].mngdeptCd ?? '-',
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(
                                                         color: Color(0xFF1D1D1D),

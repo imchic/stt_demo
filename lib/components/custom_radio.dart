@@ -28,20 +28,8 @@ class _CustomRadioState extends State<CustomRadio> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          widget.label,
-          style: TextStyle(
-            color: Color(0xFF1D1D1D),
-            fontSize: 1.w > 1.h ? 32.sp : 42.sp,
-            fontFamily: 'Pretendard',
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(
-          width: 16.w,
-        ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 10.w, bottom: 10.w),
           child: Container(
             width: 48.w,
             height: 48.w,
@@ -52,6 +40,15 @@ class _CustomRadioState extends State<CustomRadio> {
                 widget.onChanged(value);
               },
             ),
+          ),
+        ),
+        Text(
+          widget.label,
+          style: TextStyle(
+            color: Color(0xFF1D1D1D),
+            fontSize: 1.w > 1.h ? 32.sp : 42.sp,
+            fontFamily: 'Pretendard',
+            fontWeight: FontWeight.w400,
           ),
         ),
       ],

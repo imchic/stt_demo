@@ -251,15 +251,20 @@ class DialogUtil {
   }
 
   // 스낵바
-  static void showSnackBar(BuildContext context, String message) {
-    // hideCurrentSnackBar
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+  static void showSnackBar(BuildContext context, String title, String message) {
+    if(Get.isSnackbarOpen == false) {
+      Get.snackbar(
+        title,
+        message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.black.withOpacity(0.5),
+        colorText: Colors.white,
+        icon: Icon(Icons.info_outline, color: Colors.white),
+        borderRadius: 0,
+        duration: Duration(seconds: 2),
+
+      );
+    }
   }
 
 }

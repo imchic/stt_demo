@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/components/custom_button.dart';
 
 import '../components/base_tabbar.dart';
 import '../components/custom_richtext.dart';
@@ -104,7 +106,22 @@ class OwnerWidget {
                   SizedBox(width: 12.w),
                   CustomTextField(hintText: '등록번호', onChanged: (value) {}),
                 ],
-              )
+              ),
+              SizedBox(height: 32.h),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomButton(
+                    text: '조회',
+                    color: Color(0xFF1D1D1D),
+                    prefixIcon: SvgPicture.asset('assets/icons/ic_search.svg', width: 32.w, height: 32.h),
+                    onPressed: () {},
+                  ),
+                  SizedBox(width: 12.w),
+                  CustomButton().refreshButton()
+                ],
+              ),
             ]),
           ),
           Expanded(

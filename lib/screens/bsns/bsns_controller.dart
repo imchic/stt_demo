@@ -195,10 +195,10 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   RxInt selectedIndex = 0.obs;
   RxBool isNavOpen = false.obs;
 
-  RxList<BsnsSelectModel> bsnsList = <BsnsSelectModel>[].obs;
-  RxList<BsnsSelectModel> searchBsnsList = <BsnsSelectModel>[].obs;
+  // RxList<BsnsSelectModel> bsnsList = <BsnsSelectModel>[].obs;
+  // RxList<BsnsSelectModel> searchBsnsList = <BsnsSelectModel>[].obs;
 
-  Rx<BsnsSelectModel> bsns = BsnsSelectModel().obs;
+  // 사업선택
   Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
 
   Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource = BsnsSelectAreaDataSourceModel().obs;
@@ -316,6 +316,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   RxList<GridColumn> ladSttusInqireColumns = <GridColumn>[].obs;
 
   RxList<BsnsPlanModel> bsnsPlanList = <BsnsPlanModel>[].obs;
+  RxList<BsnsPlanModel> searchBsnsPlanList = <BsnsPlanModel>[].obs;
+
   Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
 
   @override
@@ -383,7 +385,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       // 사업구역 없이는 탭 1번, 2번 이동 불가능
       if (selectedBsns.value.title == null && bsnsTabController.index > 0) {
         bsnsTabController.index = 0;
-        DialogUtil.showSnackBar(Get.context!, '사업을 선택해주세요.');
+        DialogUtil.showSnackBar(Get.context!, '사업구역', '사업을 선택해주세요.');
         return;
       }
 
@@ -398,18 +400,15 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           .offset}');
     });
 
-    // /// [사업목록] 조회
-    // await fetchBsnsSelectAreaGridDataSource();
+    /// [사업목록] 조회
     await fetchBsnsList();
 
-    /// [소유자 및 관리인] 조회
-    await fetchAccdtlnvstgLadDataSource();
+    /**
+     * 소유자
+     */
 
-    /// [차수] 조회
-    // await fetchBsnsSqncDataSource();
-
-    /// [자동 차수] 조회
-    //await autoSqnc();
+    /// [소유자 검색] 조회
+    await fetchAccdtlnvstgSearchDataSource();
 
     /// [소유자관리 > 토지정보] 조회
     await fetchOwnerLadInfoDataSource();
@@ -417,11 +416,19 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     /// [소유자관리 > 지장물정보] 조회
     await fetchOwnerObstInfoDataSource();
 
+    /**
+     * 실태조사
+     */
+
     // [실태조사 > 토지 정보] 조회
     // await fetchAccdtlnvstgOwnerDataSource();
 
     /// [실태조사 > 지장물 정보] 조회
     await fetchAccdtlnvstgObstDataSource();
+
+    /**
+     * 통계
+     */
 
     /// [통계정보 > 토지현황] 조회
     await fetchLadSttusInqireDataSource();
@@ -520,6 +527,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           conectIp: e['conectIp'])).toList();
 
       bsnsPlanList = dataList.obs;
+      searchBsnsPlanList = dataList.obs;
 
     } else {
       print('Failed to load post');
@@ -686,7 +694,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   }
 
   /// [실태조사 > 토지내역] 조회
-  fetchAccdtlnvstgLadDataSource() async {
+  fetchAccdtlnvstgSearchDataSource() async {
     var accdtlnvstgLad = <AccdtlnvstgLadModel>[];
     for (var i = 0; i < 10; i++) {
       accdtlnvstgLad.add(
@@ -1114,11 +1122,11 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
               onTap: () {
                 Get.back();
                 if (orderStartDtController.text == "") {
-                  return DialogUtil.showSnackBar(Get.context!, '시작일을 입력해주세요.');
+                  return DialogUtil.showSnackBar(Get.context!, '실태조사', '시작일을 입력해주세요.');
                 }
 
                 if (orderEndDtController.text == "") {
-                  return DialogUtil.showSnackBar(Get.context!, '종료일을 입력해주세요.');
+                  return DialogUtil.showSnackBar(Get.context!, '실태조사', '종료일을 입력해주세요.');
                 }
 
                 DialogUtil.showAlertDialog(
@@ -1312,18 +1320,11 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 200), () async {
       if (value.isEmpty) {
-        searchBsnsList.value = bsnsList;
+        searchBsnsPlanList.value = bsnsPlanList;
       } else {
-        // 검색결과가 없을 경우
-        //searchBsnsList.value = bsnsList.where((element) => element.title?.contains(value) ?? false).toList();
-        bsnsList.where((element) => element.title?.contains(value) ?? false) !=
-            null
-            ? searchBsnsList.value = bsnsList
-            .where((element) => element.title?.contains(value) ?? false)
-            .toList()
-            : searchBsnsList.value = [];
+        searchBsnsPlanList.value = bsnsPlanList.where((element) => element.bsnsNm?.contains(value) ?? false).toList();
+        print('serachBsnsPlanList : $searchBsnsPlanList');
 
-        print('searchBsnsList : ${searchBsnsList}');
       }
     });
   }

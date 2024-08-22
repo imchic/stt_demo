@@ -55,7 +55,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
 
                               // 사업구역 선택이 안됐을 경우
                               if(controller.selectedBsnsSelectArea.value.bsnsNo == null && controller.selectedBsnsSelectArea.value.bsnsZoneNo == null){
-                                DialogUtil.showSnackBar(context, '사업구역을 선택해주세요.');
+                                DialogUtil.showSnackBar(context, '사업구역', '사업구역을 선택해주세요.');
                                 controller.pageController.jumpToPage(0);
                                 return;
                               }
@@ -326,7 +326,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               ),
               TableCell(
                 child: Container(
-                  height: 40.h,
+                  height: 80.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
                   child: AutoSizeText(
@@ -365,7 +365,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               ),
               TableCell(
                 child: Container(
-                  height: 40.h,
+                  height: 80.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
                   child: AutoSizeText(
@@ -426,7 +426,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               TableCell(
                 child: Container(
                   width: 200.w,
-                  height: 80.h,
+                  height: Get.height * 0.1,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
@@ -445,7 +445,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               ),
               TableCell(
                 child: Container(
-                  height: 40.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
                   child: AutoSizeText(
@@ -484,7 +483,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               ),
               TableCell(
                 child: Container(
-                  height: 40.h,
+                  height: 80.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
                   child: AutoSizeText(
@@ -636,7 +635,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.ownerLadInfoDataSource.value,
       controller: controller.ownerLadInfoDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.none,
+      columnWidthMode: ColumnWidthMode.fill,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
@@ -716,7 +715,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.ownerObstInfoDataSource.value,
       controller: controller.ownerObstInfoDataGridController,
-      columnWidthMode: ColumnWidthMode.fitByColumnName,
+      columnWidthMode: ColumnWidthMode.fill,
       freezeColumnCount: 4,
       isSort: false,
       columns: [
@@ -1139,7 +1138,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(width: 120.w, child: AutoSizeText('사업구분', style: TextStyle(color: tableTextColor, fontSize: 1.w > 1.h ? 32.sp : 22.sp, fontWeight: FontWeight.w500))),
-            SizedBox(width: 40.w),
+            SizedBox(width: 20.w),
             CustomRadio(
               value: 0,
               groupValue: controller.radioValue.value,
@@ -1148,7 +1147,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               },
               label: '댐',
             ),
-            SizedBox(width: 40.w),
             CustomRadio(
               value: 1,
               groupValue: controller.radioValue.value,
@@ -1157,7 +1155,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               },
               label: '수도용지',
             ),
-            SizedBox(width: 40.w),
             CustomRadio(
               value: 2,
               groupValue: controller.radioValue.value,
@@ -1166,7 +1163,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               },
               label: '택지개발',
             ),
-            SizedBox(width: 40.w),
             CustomRadio(
               value: 3,
               groupValue: controller.radioValue.value,
