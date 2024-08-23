@@ -513,7 +513,18 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           frstRegistDt: e['frstRegistDt'],
           lastUpdusrId: e['lastUpdusrId'],
           lastUpdtDt: e['lastUpdtDt'],
-          conectIp: e['conectIp'])).toList();
+          conectIp: e['conectIp'],
+          bsnsDivLclsNm: e['bsnsDivLclsNm'],
+          bsnsDivMclsNm: e['bsnsDivMclsNm'],
+          bsnsDivSclsNm: e['bsnsDivSclsNm'],
+          head: e['head'],
+          dept: e['dept'],
+          team: e['team'],
+          bgroup: e['bgroup'],
+          affcd: e['affcd'],
+          plans: e['plans'],
+          korname: e['korname']
+      )).toList();
 
       bsnsPlanList = dataList.obs;
       searchBsnsPlanList = dataList.obs;

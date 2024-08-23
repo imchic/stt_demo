@@ -170,9 +170,9 @@ class BsnsWidget {
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: [
-                                                  CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivLclsCd, bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                                                  CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivLclsNm, bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
                                                   SizedBox(width: 12.w),
-                                                  CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivMclsCd, bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                                                  CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivMclsNm, bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
                                                   SizedBox(width: 20.w),
                                                 ],
                                               ),

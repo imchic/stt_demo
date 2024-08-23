@@ -31,14 +31,23 @@ import 'dart:convert';
 /// bsnsCnfmInsttNm : "환경부"
 /// delYn : "N"
 /// frstRgstrId : "60004049"
-/// frstRegistDt : 1652800725000
+/// frstRegistDt : 1652753925000
 /// lastUpdusrId : "19921538"
-/// lastUpdtDt : 1652802344000
+/// lastUpdtDt : 1652755544000
 /// conectIp : "172.20.215.212"
+/// bsnsDivLclsNm : "댐"
+/// bsnsDivMclsNm : "건설"
+/// bsnsDivSclsNm : null
+/// head : null
+/// dept : null
+/// team : null
+/// bgroup : null
+/// affcd : null
+/// plans : null
+/// korname : null
 
 BsnsPlanModel bsnsPlanModelFromJson(String str) => BsnsPlanModel.fromJson(json.decode(str));
 String bsnsPlanModelToJson(BsnsPlanModel data) => json.encode(data.toJson());
-
 class BsnsPlanModel {
   BsnsPlanModel({
       this.bsnsNo, 
@@ -76,7 +85,17 @@ class BsnsPlanModel {
       this.frstRegistDt, 
       this.lastUpdusrId, 
       this.lastUpdtDt, 
-      this.conectIp,});
+      this.conectIp, 
+      this.bsnsDivLclsNm, 
+      this.bsnsDivMclsNm, 
+      this.bsnsDivSclsNm, 
+      this.head, 
+      this.dept, 
+      this.team, 
+      this.bgroup, 
+      this.affcd, 
+      this.plans, 
+      this.korname,});
 
   BsnsPlanModel.fromJson(dynamic json) {
     bsnsNo = json['bsnsNo'];
@@ -115,6 +134,17 @@ class BsnsPlanModel {
     lastUpdusrId = json['lastUpdusrId'];
     lastUpdtDt = json['lastUpdtDt'];
     conectIp = json['conectIp'];
+
+    bsnsDivLclsNm = json['bsnsDivLclsNm'];
+    bsnsDivMclsNm = json['bsnsDivMclsNm'];
+    bsnsDivSclsNm = json['bsnsDivSclsNm'];
+    head = json['head'];
+    dept = json['dept'];
+    team = json['team'];
+    bgroup = json['bgroup'];
+    affcd = json['affcd'];
+    plans = json['plans'];
+    korname = json['korname'];
   }
   String? bsnsNo;
   String? bsnsNm;
@@ -152,6 +182,16 @@ class BsnsPlanModel {
   String? lastUpdusrId;
   num? lastUpdtDt;
   String? conectIp;
+  String? bsnsDivLclsNm;
+  String? bsnsDivMclsNm;
+  dynamic bsnsDivSclsNm;
+  dynamic head;
+  dynamic dept;
+  dynamic team;
+  dynamic bgroup;
+  dynamic affcd;
+  dynamic plans;
+  dynamic korname;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -191,6 +231,16 @@ class BsnsPlanModel {
     map['lastUpdusrId'] = lastUpdusrId;
     map['lastUpdtDt'] = lastUpdtDt;
     map['conectIp'] = conectIp;
+    map['bsnsDivLclsNm'] = bsnsDivLclsNm;
+    map['bsnsDivMclsNm'] = bsnsDivMclsNm;
+    map['bsnsDivSclsNm'] = bsnsDivSclsNm;
+    map['head'] = head;
+    map['dept'] = dept;
+    map['team'] = team;
+    map['bgroup'] = bgroup;
+    map['affcd'] = affcd;
+    map['plans'] = plans;
+    map['korname'] = korname;
     return map;
   }
 

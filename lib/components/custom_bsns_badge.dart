@@ -17,8 +17,8 @@ class _CustomBsnsBadgeState extends State<CustomBsnsBadge> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //height: 48.h,
-      width: 1.w > 1.h ? 100.h : 80.h,
+      // height: 48.h,
+      // width: 1.w > 1.h ? 120.h : 80.h,
       height: 1.w > 1.h ? 48.h : 32.h,
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 24.w),
