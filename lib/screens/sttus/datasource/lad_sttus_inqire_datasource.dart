@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ldi/screens/sttus/datasource/model/lad_sttus_inqire_model.dart';
@@ -87,29 +88,9 @@ class LadSttusInqireDatasource extends DataGridSource {
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: Text(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.sp)),
+        child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
       );
     }).toList());
-  }
-
-  // 컬럼 만들기
-  static List<GridColumn> getColumns(List<String> items) {
-    return items
-        .map((e) => GridColumn(
-              columnName: e,
-              label: Container(
-                padding: EdgeInsets.all(8),
-                alignment: Alignment.center,
-                child: Text(
-                  e,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.sp,
-                  ),
-                ),
-              ),
-            ))
-        .toList();
   }
 
 }

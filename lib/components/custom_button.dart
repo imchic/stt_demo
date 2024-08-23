@@ -23,7 +23,7 @@ class CustomButton extends StatefulWidget {
 
   refreshButton() {
     return Container(
-      height: 82.h,
+      height: 1.w > 1.h ? 72.h : 52.h,
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       decoration: ShapeDecoration(
         color: Colors.white,
@@ -54,41 +54,45 @@ class CustomButton extends StatefulWidget {
 class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: widget.onPressed,
-      style: ButtonStyle(
-        backgroundColor:
-            MaterialStateProperty.all<Color>(widget.color ?? Colors.blue),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.r),
+    return SizedBox(
+
+      height: 1.w > 1.h ? 72.h : 52.h,
+      child: TextButton(
+        onPressed: widget.onPressed,
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(widget.color ?? Colors.blue),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
           ),
         ),
-      ),
-      child: widget.prefixIcon != null
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                widget.prefixIcon!,
-                SizedBox(width: 8.w),
-                AutoSizeText(
-                  widget.text ?? 'Button',
-                  style: TextStyle(
-                    color: widget.textColor ?? Colors.white,
-                    fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                    fontWeight: FontWeight.w500,
+        child: widget.prefixIcon != null
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  widget.prefixIcon!,
+                  SizedBox(width: 8.w),
+                  AutoSizeText(
+                    widget.text ?? 'Button',
+                    style: TextStyle(
+                      color: widget.textColor ?? Colors.white,
+                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
-            )
-          :
-      AutoSizeText(
-        widget.text ?? 'Button',
-        style: TextStyle(
-          color: widget.textColor ?? Colors.white,
-          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-          fontWeight: FontWeight.w500,
+                ],
+              )
+            :
+        AutoSizeText(
+          widget.text ?? 'Button',
+          style: TextStyle(
+            color: widget.textColor ?? Colors.white,
+            fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

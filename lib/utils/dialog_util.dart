@@ -260,8 +260,8 @@ class DialogUtil {
         backgroundColor: Colors.black.withOpacity(0.5),
         colorText: Colors.white,
         icon: Icon(Icons.info_outline, color: Colors.white),
-        borderRadius: 0,
-        duration: Duration(seconds: 2),
+        borderRadius: 12.r,
+        duration: Duration(milliseconds: 1500),
 
       );
     }

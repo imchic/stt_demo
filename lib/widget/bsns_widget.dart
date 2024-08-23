@@ -117,6 +117,21 @@ class BsnsWidget {
                 ),
                 1.w > 1.h ? SizedBox(height: 32.h) : SizedBox(height: 0.h),
                 BsnsSelectScreen().buildBsnsRadio(),
+                SizedBox(height: 32.h),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomButton(
+                      text: '조회',
+                      color: Color(0xFF1D1D1D),
+                      prefixIcon: SvgPicture.asset('assets/icons/ic_search.svg', width: 32.w, height: 32.h),
+                      onPressed: () {},
+                    ),
+                    SizedBox(width: 12.w),
+                    CustomButton().refreshButton()
+                  ],
+                ),
               ],
             ),
           ),

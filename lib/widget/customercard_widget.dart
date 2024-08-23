@@ -1,7 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:ldi/components/custom_button.dart';
 import 'package:ldi/components/custom_textfield.dart';
 import 'package:ldi/screens/bsns/select/bsns_select_screen.dart';
@@ -18,13 +18,13 @@ class CustomerCardWidget {
       width: Get.width,
       height: Get.height,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0.h),
+        padding: EdgeInsets.all(40.r),
         child: Column(
           children: [
             Container(
               width: Get.width,
               margin: EdgeInsets.only(top: 24.h),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(40.r),
               decoration: ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -40,7 +40,7 @@ class CustomerCardWidget {
                   // 사업구역명, 소유자명
                   Container(
                     width: double.infinity,
-                    height: 40.h,
+                    height: 80.h,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -52,22 +52,15 @@ class CustomerCardWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                width: 70.w,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '사업구역명',
-                                      style: TextStyle(
-                                        color: Color(0xFF1D1D1D),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
+                              SizedBox(
+                                width: 140.w,
+                                child: AutoSizeText(
+                                  '사업구역명',
+                                  style: TextStyle(
+                                    color: Color(0xFF1D1D1D),
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 16.w),
@@ -81,17 +74,10 @@ class CustomerCardWidget {
                                       child: CustomTextField(hintText: '내용',  onChanged: (value) {}),
                                     ),
                                     SizedBox(width: 6.w),
-                                    Container(
-                                      width: 52.w,
-                                      padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                      decoration: ShapeDecoration(
-                                        color: Color(0xFFE5E8ED),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                                      ),
-                                      child: CustomButton(
-                                        color: Color(0xFFE5E8ED),
-                                        text: '조회',
-                                      )
+                                    CustomButton(
+                                      color: Color(0xFFE5E8ED),
+                                      text: '조회',
+                                      textColor: Color(0xFF1D1D1D),
                                     ),
                                   ],
                                 ),
@@ -106,21 +92,12 @@ class CustomerCardWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '소유자명',
-                                      style: TextStyle(
-                                        color: Color(0xFF1D1D1D),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
+                              AutoSizeText(
+                                '소유자명',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               SizedBox(width: 16.w),
@@ -128,17 +105,10 @@ class CustomerCardWidget {
                                 child: CustomTextField(hintText: '내용',  onChanged: (value) {}),
                               ),
                               SizedBox(width: 6.w),
-                              Container(
-                                  width: 52.w,
-                                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFFE5E8ED),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                                  ),
-                                  child: CustomButton(
-                                    color: Color(0xFFE5E8ED),
-                                    text: '조회',
-                                  )
+                              CustomButton(
+                                color: Color(0xFFE5E8ED),
+                                text: '조회',
+                                textColor: Color(0xFF1D1D1D),
                               ),
                             ],
                           ),
@@ -150,65 +120,49 @@ class CustomerCardWidget {
                   // 등록번호
                   Container(
                     width: double.infinity,
-                    height: 40.h,
+                    height: 80.h,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Container(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 70.w,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '등록번호',
-                                        style: TextStyle(
-                                          color: Color(0xFF1D1D1D),
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 140.w,
+                                child: AutoSizeText(
+                                  '등록번호',
+                                  style: TextStyle(
+                                    color: Color(0xFF1D1D1D),
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                SizedBox(width: 16.w),
-                                Expanded(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: CustomTextField(hintText: '내용',  onChanged: (value) {}),
-                                      ),
-                                      SizedBox(width: 6.w),
-                                      Container(
-                                          width: 52.w,
-                                          padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                          decoration: ShapeDecoration(
-                                            color: Color(0xFFE5E8ED),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                                          ),
-                                          child: CustomButton(
-                                            color: Color(0xFFE5E8ED),
-                                            text: '조회',
-                                          )
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              SizedBox(width: 16.w),
+                              Expanded(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: CustomTextField(hintText: '내용',  onChanged: (value) {}),
+                                    ),
+                                    SizedBox(width: 6.w),
+                                    CustomButton(
+                                      color: Color(0xFFE5E8ED),
+                                      text: '조회',
+                                      textColor: Color(0xFF1D1D1D),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(width: 40.w),
@@ -222,11 +176,11 @@ class CustomerCardWidget {
             SizedBox(height: 32.h),
             SizedBox(
               width: Get.width,
-              child: Text(
+              child: AutoSizeText(
                 '소유자 정보',
                 style: TextStyle(
                   color: Color(0xFF1D1D1D),
-                  fontSize: 16.sp,
+                  fontSize: 30.sp,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -272,7 +226,7 @@ class CustomerCardWidget {
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      height: 40.h,
+                                      height: 80.h,
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: Color(0xFFE5E8ED),
@@ -284,12 +238,12 @@ class CustomerCardWidget {
                                         children: [
                                           Expanded(
                                             child: SizedBox(
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 '성명',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Color(0xFF1D1D1D),
-                                                  fontSize: 15.sp,
+                                                  fontSize: 30.sp,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -303,7 +257,7 @@ class CustomerCardWidget {
                                   SizedBox(width: 1.w),
                                   Expanded(
                                     child: Container(
-                                      height: 40.h,
+                                      height: 80.h,
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: Color(0xFFE5E8ED),
@@ -316,12 +270,12 @@ class CustomerCardWidget {
                                         children: [
                                           Expanded(
                                             child: SizedBox(
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 '연락처',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Color(0xFF1D1D1D),
-                                                  fontSize: 15.sp,
+                                                  fontSize: 30.sp,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -335,7 +289,7 @@ class CustomerCardWidget {
                                   SizedBox(width: 1.w),
                                   Expanded(
                                     child: Container(
-                                      height: 40.h,
+                                      height: 80.h,
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: Color(0xFFE5E8ED),
@@ -348,12 +302,12 @@ class CustomerCardWidget {
                                         children: [
                                           Expanded(
                                             child: SizedBox(
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 '등기주소',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Color(0xFF1D1D1D),
-                                                  fontSize: 15.sp,
+                                                  fontSize: 30.sp,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -367,7 +321,7 @@ class CustomerCardWidget {
                                   SizedBox(width: 1.w),
                                   Expanded(
                                     child: Container(
-                                      height: 40.h,
+                                      height: 80.h,
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: Color(0xFFE5E8ED),
@@ -379,12 +333,12 @@ class CustomerCardWidget {
                                         children: [
                                           Expanded(
                                             child: SizedBox(
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 '송달주소',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Color(0xFF1D1D1D),
-                                                  fontSize: 15.sp,
+                                                  fontSize: 30.sp,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -415,7 +369,7 @@ class CustomerCardWidget {
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      height: 40.h,
+                                      height: 80.h,
                                       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
@@ -427,12 +381,12 @@ class CustomerCardWidget {
                                         children: [
                                           Expanded(
                                             child: SizedBox(
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 '내용',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Color(0xFF555555),
-                                                  fontSize: 15.sp,
+                                                  fontSize: 30.sp,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
                                                 ),
@@ -445,7 +399,7 @@ class CustomerCardWidget {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      height: 40.h,
+                                      height: 80.h,
                                       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
@@ -457,12 +411,12 @@ class CustomerCardWidget {
                                         children: [
                                           Expanded(
                                             child: SizedBox(
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 '내용',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Color(0xFF555555),
-                                                  fontSize: 15.sp,
+                                                  fontSize: 30.sp,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
                                                 ),
@@ -475,7 +429,7 @@ class CustomerCardWidget {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      height: 40.h,
+                                      height: 80.h,
                                       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
@@ -487,12 +441,12 @@ class CustomerCardWidget {
                                         children: [
                                           Expanded(
                                             child: SizedBox(
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 '내용',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Color(0xFF555555),
-                                                  fontSize: 15.sp,
+                                                  fontSize: 30.sp,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
                                                 ),
@@ -505,7 +459,7 @@ class CustomerCardWidget {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      height: 40.h,
+                                      height: 80.h,
                                       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
@@ -517,12 +471,12 @@ class CustomerCardWidget {
                                         children: [
                                           Expanded(
                                             child: SizedBox(
-                                              child: Text(
+                                              child: AutoSizeText(
                                                 '내용',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Color(0xFF555555),
-                                                  fontSize: 15.sp,
+                                                  fontSize: 30.sp,
                                                   fontFamily: 'Pretendard',
                                                   fontWeight: FontWeight.w400,
                                                 ),
@@ -544,10 +498,10 @@ class CustomerCardWidget {
                                     controller.handleAccdtlnvstgLadTabSelected(0);
                                   },
                                   child: Chip(
-                                    label: Text('토지검색',
+                                    label: AutoSizeText('토지검색',
                                         style: TextStyle(
                                             color: Color(0XFF555555),
-                                            fontSize: 15.sp,
+                                            fontSize: 30.sp,
                                             fontWeight: FontWeight.w500)),
                                     backgroundColor:
                                     controller.accdtlnvstgTabLadSelected[0] == true
@@ -566,10 +520,10 @@ class CustomerCardWidget {
                                   },
                                   child: Container(
                                     child: Chip(
-                                      label: Text('소유자/관계인',
+                                      label: AutoSizeText('소유자/관계인',
                                           style: TextStyle(
                                               color: Color(0XFF555555),
-                                              fontSize: 15.sp,
+                                              fontSize: 30.sp,
                                               fontWeight: FontWeight.w500)),
                                       backgroundColor:
                                       controller.accdtlnvstgTabLadSelected[1] == true
@@ -590,10 +544,10 @@ class CustomerCardWidget {
                                   },
                                   child: Container(
                                     child: Chip(
-                                      label: Text('조사내용',
+                                      label: AutoSizeText('조사내용',
                                           style: TextStyle(
                                               color: Color(0XFF555555),
-                                              fontSize: 15.sp,
+                                              fontSize: 30.sp,
                                               fontWeight: FontWeight.w500)),
                                       backgroundColor:
                                       controller.accdtlnvstgTabLadSelected[
@@ -622,7 +576,7 @@ class CustomerCardWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                  children: [
-                                   Text('토지내역', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 16.sp, fontWeight: FontWeight.w700)),
+                                   AutoSizeText('토지내역', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 30.sp, fontWeight: FontWeight.w700)),
                                    SizedBox(height: 10.h),
                                    BsnsSelectScreen().buildOwnerLadInfoDataGrid(),
                                  ],
@@ -634,7 +588,7 @@ class CustomerCardWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                   Text('지장물내역', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 16.sp, fontWeight: FontWeight.w700)),
+                                   AutoSizeText('지장물내역', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 30.sp, fontWeight: FontWeight.w700)),
                                    SizedBox(height: 10.h),
                                    BsnsSelectScreen().buildOwnerLadInfoDataGrid(),
                                  ],

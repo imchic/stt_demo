@@ -161,9 +161,6 @@ class OwnerWidget {
           controller.ownerLadInfoDataSource.value.rows.isEmpty ? Expanded(
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
               child: Center(
                 child: AutoSizeText('데이터가 없습니니다.',
                     style: TextStyle(
@@ -194,9 +191,6 @@ class OwnerWidget {
           controller.ownerObstInfoDataSource.value.rows.isEmpty ? Expanded(
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
               child: Center(
                 child: AutoSizeText('데이터가 없습니다.',
                     style: TextStyle(
@@ -344,10 +338,9 @@ class OwnerWidget {
                   ],
                 ),
               ),
-              // 전화번호, 휴대폰번호
+              // 전화번호
               Container(
                 width: double.infinity,
-                height: 104.h,
                 decoration: BoxDecoration(
                   color: Colors.black,
                 ),
@@ -361,56 +354,59 @@ class OwnerWidget {
                         decoration: BoxDecoration(
                           color: tableColor1,
                         ),
+                        height: 80.h,
                         alignment: Alignment.center,
-                        child: AutoSizeText('전화번호',
-                            style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.w700)),
+                        child: Center(
+                            child: AutoSizeText('전화번호',
+                                style: TextStyle(
+                                    color: tableTextColor,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w700))),
                       ),
                     ),
                     Expanded(
                       child: Container(
-                        height: 104.h,
+                        height: 80.h,
                         padding: EdgeInsets.all(20.r),
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
-                        //child: AutoSizeAutoSizeText('02-1234-5678', style: TextStyle(color: tableTextColor, fontSize: 32.sp, fontWeight: FontWeight.w400)),
                         child: Center(
-                            child: CustomTextField(
-                                controller: TextEditingController(text: controller.selectedOwner.value.ownerTelno ?? ''),
-                                hintText: '전화번호', onChanged: (value) {})
-                        ),
+                            child: AutoSizeText(controller.selectedOwner.value.ownerTelno ?? '',
+                                style: TextStyle(
+                                    color: Color(0xFF555555),
+                                    fontSize: 32.sp,
+                                    fontWeight: FontWeight.w400))),
                       ),
                     ),
-                    SizedBox(height: 20.h),
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
                           color: tableColor1,
                         ),
-                        height: 104.h,
+                        height: 80.h,
                         alignment: Alignment.center,
-                        child: AutoSizeText('휴대폰번호',
-                            style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.w700)),
+                        child: Center(
+                            child: AutoSizeText('휴대폰번호',
+                                style: TextStyle(
+                                    color: tableTextColor,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w700))),
                       ),
                     ),
                     Expanded(
                       child: Container(
-                        height: 104.h,
+                        height: 80.h,
                         padding: EdgeInsets.all(20.r),
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
                         child: Center(
-                            child: CustomTextField(
-                              controller: TextEditingController(text: controller.selectedOwner.value.ownerMbtlnum ?? ''),
-                                hintText: '전화번호', onChanged: (value) {})),
-                        //child: AutoSizeAutoSizeText('010-1234-5678', style: TextStyle(color: tableTextColor, fontSize: 32.sp, fontWeight: FontWeight.w400)),
+                            child: AutoSizeText(controller.selectedOwner.value.ownerMbtlnum?? '',
+                                style: TextStyle(
+                                    color: Color(0xFF555555),
+                                    fontSize: 32.sp,
+                                    fontWeight: FontWeight.w400))),
                       ),
                     ),
                   ],
@@ -429,33 +425,33 @@ class OwnerWidget {
                   children: [
                     Expanded(
                       child: Container(
+                        height: 256.h,
                         decoration: BoxDecoration(
                           color: tableColor1,
                         ),
-                        height: 200.h,
                         alignment: Alignment.center,
-                        child: AutoSizeText('특이사항',
-                            style: TextStyle(
-                                color: tableTextColor,
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.w700)),
+                        child: Center(
+                            child: AutoSizeText('특이사항',
+                                style: TextStyle(
+                                    color: tableTextColor,
+                                    fontSize: 30.sp,
+                                    fontWeight: FontWeight.w700))),
                       ),
                     ),
                     Expanded(
                       flex: 3,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 200.h,
-                            padding: EdgeInsets.all(20.r),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                            ),
-                            child: CustomTextField(
-                                controller: TextEditingController(text: controller.selectedOwner.value.accdtInvstgRm ?? ''),
-                                hintText: '내용을 입력하세요', onChanged: (value) {}),
-                          ),
-                        ],
+                      child: Container(
+                        height: 256.h,
+                        padding: EdgeInsets.all(20.r),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: Center(
+                            child: AutoSizeText(controller.selectedOwner.value.accdtInvstgRm ?? '',
+                                style: TextStyle(
+                                    color: Color(0xFF555555),
+                                    fontSize: 32.sp,
+                                    fontWeight: FontWeight.w400))),
                       ),
                     ),
                   ],

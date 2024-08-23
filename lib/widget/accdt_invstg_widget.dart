@@ -21,12 +21,18 @@ class AccdtInvstgWidget {
       width: Get.width,
       height: Get.height,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0.h),
+        padding: EdgeInsets.symmetric(horizontal: 40.w),
         child: Column(
           children: [
             BaseTabBar(
               controller: controller.accdtlnvstgTabController,
               tabItems: controller.accdtlnvstgTabItems,
+              labelColor: Colors.black,
+              indicatorColor: Colors.black,
+              isScrollable: true,
+              activeColor: Colors.black,
+              unActiveTextColor: Color(0xFF555555),
+              activeTextColor: Colors.black,
             ),
             Container(
               width: double.infinity,
@@ -315,10 +321,9 @@ class AccdtInvstgWidget {
                                   SizedBox(height: 20.h),
                                   Container(
                                     height: 300.h,
-                                    child: BsnsSelectScreen()
-                                        .buildAccdtlnvstgDataGrid(),
+                                    child: BsnsSelectScreen().buildAccdtlnvstgDataGrid(),
                                   ),
-                                  SizedBox(height: 20.h),
+                                  SizedBox(height: 40.h),
                                   Text('소유자 현황',
                                       style: TextStyle(
                                         color: tableTextColor,
@@ -331,7 +336,7 @@ class AccdtInvstgWidget {
                                     child: BsnsSelectScreen()
                                         .buildOwnerLadInfoDataGrid(),
                                   ),
-                                  SizedBox(height: 20.h),
+                                  SizedBox(height: 40.h),
                                   Text('소유자별 관계인 현황',
                                       style: TextStyle(
                                         color: tableTextColor,
