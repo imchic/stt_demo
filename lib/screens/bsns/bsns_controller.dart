@@ -197,6 +197,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   // 사업선택
   Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
   Rx<OwnerInfoModel> selectedOwner = OwnerInfoModel().obs;
+  RxList<LadSttusInqireModel> ladSttusInqireList = <LadSttusInqireModel>[].obs;
 
   Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource = BsnsSelectAreaDataSourceModel().obs;
   Rx<BsnsPlanSelectAreaModel> selectedBsnsSelectArea = BsnsPlanSelectAreaModel().obs;
@@ -419,9 +420,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     /**
      * 통계
      */
-
-    /// [통계정보 > 토지현황] 조회
-    await fetchLadSttusInqireDataSource();
 
   }
 
@@ -771,7 +769,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   }
 
-
   /// [실태조사 > 토지내역] 조회
   fetchAccdtlnvstgSearchDataSource() async {
     var accdtlnvstgLad = <AccdtlnvstgLadModel>[];
@@ -865,89 +862,115 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [통계정보 > 토지현황] 조회
   fetchLadSttusInqireDataSource() async {
-    var ladSttusInqire = <LadSttusInqireModel>[];
-    for (var i = 0; i < 10; i++) {
-      ladSttusInqire.add(LadSttusInqireModel(
-          addr : '대전광역시 유성구 봉명동',
-          lcrtsNm : '일반',
-          mlnoLtno : '12$i',
-          slnoLtno : '45$i',
-          ofcbkLndcgrDivCd : randomLndcgrDivCd(),
-          sttusLndcgrDivCd : randomLndcgrDivCd(),
-          prgsStepInfo : '구조규격정보',
-          acqsPrpDivCd : '보상수량면적값',
-          ofcbkAra : '보상물건단위구분코드',
-          incrprAra : '현황지목구분코드',
-          cmpnstnInvstgAra : '취득용도구분코드',
-          aceptncUseDivCd : '수용용도구분코드',
-          accdtInvstgDe : '2021-10-0$i',
-          accdtInvstgSqnc : '$i차',
-          ownerNo: '$i',
-          ownerNm: '홍길동',
-          posesnShreNmrtrInfo: '개인',
-          posesnShreDnmntrInfo: '개인',
-          apasmtDivCd: '조회',
-          apasmtSqnc: '$i',
-          prceDt: '2021-10-0$i',
-          apasmtInsttNm1: '변경',
-          apasmtInsttEvlUpc1: '기타',
-          apasmtInsttEvlAmt1: '기타',
-          apasmtInsttNm2: '기타',
-          apasmtInsttEvlUpc2: '기타',
-          apasmtInsttEvlAmt2: '기타',
-          apasmtInsttNm3: '기타',
-          apasmtInsttEvlUpc3: '기타',
-          apasmtInsttEvlAmt3: '기타',
-          cmpnstnCmptnUpc: '기타',
-          cpsmnCmptnAmt: '기타',
-          pymntRequstDt: '2021-10-0$i',
-          cpsmnUpc: '기타',
-          cpsmnPymamt: '기타',
-          rgistDt: '기타',
-          aceptncAdjdcUpc: '기타',
-          aceptncAdjdcAmt: '기타',
-          aceptncAdjdcDt: '2021-10-0$i',
-          aceptncUseBeginDe: '기타',
-          aceptncAdjdcPymntDe: '기타',
-          cpsmnPymntLdgmntDivCd: '기타',
-          objctnAdjdcUpc: '기타',
-          objctnAdjdcAmt: '기타',
-          objctnAdjdcDt: '기타',
-      ));
+
+    print('fetchLadSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
+
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectSttusLadInfo.do');
+
+    var param = {
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      debugPrint('fetchLadSttusInqireDataSource > data : $data');
+
+      var res = <LadSttusInqireModel>[];
+      for(var i = 0; i < data.length; i++) {
+        res.add(LadSttusInqireModel(
+          lgdongNm: data[i]['lgdongNm'] ?? '',
+          lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
+          mlnoLtno: data[i]['mlnoLtno'] ?? '',
+          slnoLtno: data[i]['slnoLtno'] ?? '',
+          ofcbkLndcgrDivCd: data[i]['ofcbkLndcgrDivCd'] ?? '',
+          sttusLndcgrDivCd: data[i]['sttusLndcgrDivCd'] ?? '',
+          cmpnstnStepDivCd: data[i]['cmpnstnStepDivCd'] ?? '',
+          acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
+          ofcbkAra: data[i]['ofcbkAra'] ?? '',
+          incrprAra: data[i]['incrprAra'] ?? '',
+          rqestNo: data[i]['rqestNo'] ?? '',
+          aceptncUseDivCd: data[i]['aceptncUseDivCd'] ?? '',
+          invstgDt: data[i]['invstgDt'] ?? '',
+          accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? '',
+          ownerNo: data[i]['ownerNo'] ?? '',
+          posesnDivCd: data[i]['posesnDivCd'] ?? '',
+          ownerNm: data[i]['ownerNm'] ?? '',
+          ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
+          posesnShreNmrtrInfo: data[i]['posesnShreNmrtrInfo'] ?? '',
+          posesnShreDnmntrInfo: data[i]['posesnShreDnmntrInfo'] ?? '',
+          apasmtReqestDivCd: data[i]['apasmtReqestDivCd'] ?? '',
+          apasmtSqnc: data[i]['apasmtSqnc'] ?? 0,
+          prcPnttmDe: data[i]['prcPnttmDe'] ?? '',
+          apasmtInsttNm1: data[i]['apasmtInsttNm1'] ?? '',
+          apasmtInsttEvlUpc1: data[i]['apasmtInsttEvlUpc1'] ?? '',
+          apasmtInsttEvamt1: data[i]['apasmtInsttEvamt1'] ?? '',
+          apasmtInsttNm2: data[i]['apasmtInsttNm2'] ?? '',
+          apasmtInsttEvlUpc2: data[i]['apasmtInsttEvlUpc2'] ?? '',
+          apasmtInsttEvamt2: data[i]['apasmtInsttEvamt2'] ?? '',
+          apasmtInsttNm3: data[i]['apasmtInsttNm3'] ?? '',
+          apasmtInsttEvlUpc3: data[i]['apasmtInsttEvlUpc3'] ?? '',
+          apasmtInsttEvamt3: data[i]['apasmtInsttEvamt3'] ?? '',
+          cmpnstnCmptnUpc: data[i]['cmpnstnCmptnUpc'] ?? '',
+          cpsmnCmptnAmt: data[i]['cpsmnCmptnAmt'] ?? '',
+          caPymntRequstDe: data[i]['caPymntRequstDe'] ?? '',
+          cmpnstnDscssUpc: data[i]['cmpnstnDscssUpc'] ?? '',
+          cmpnstnDscssTotAmt: data[i]['cmpnstnDscssTotAmt'] ?? '',
+          caRgistDt: data[i]['caRgistDt'] ?? '',
+          aceptncAdjdcUpc: data[i]['aceptncAdjdcUpc'] ?? '',
+          aceptncAdjdcAmt: data[i]['aceptncAdjdcAmt'] ?? '',
+          aceptncAdjdcDt: data[i]['aceptncAdjdcDt'] ?? '',
+          aceptncUseBeginDe: data[i]['aceptncUseBeginDe'] ?? '',
+          ldPymntRequstDe: data[i]['ldPymntRequstDe'] ?? '',
+          ldRgistDt: data[i]['ldRgistDt'] ?? '',
+          ldCpsmnPymntLdgmntDivCd: data[i]['ldCpsmnPymntLdgmntDivCd'] ?? '',
+          obadUpc: data[i]['obadUpc'] ?? '',
+          objcRstAmt: data[i]['objcRstAmt'] ?? '',
+          objcAdjdcDt: data[i]['objcAdjdcDt'] ?? '',
+          proPymntRequstDe: data[i]['proPymntRequstDe'] ?? '',
+          proCpsmnPymntLdgmntDivCd: data[i]['proCpsmnPymntLdgmntDivCd'] ?? '',
+        ));
+      }
+
+      ladSttusInqireDataSource.value = LadSttusInqireDatasource(items: res);
+
     }
+
 
     ladSttusInqireColumns.value = [];
 
     ladSttusInqireColumns.value = [
-      gridColumn('addr', '소재지', width: 250),
-      gridColumn('lcrtsNm', '특지', width: 60),
+      gridColumn('lgdongNm', '소재지', width: 250),
+      gridColumn('lcrtsDivCd', '특지', width: 60),
       gridColumn('mlnoLtno', '본번', width: 60),
       gridColumn('slnoLtno', '부번', width: 60),
 
       gridColumn('ofcbkLndcgrDivCd', '공부', width: 60),
       gridColumn('sttusLndcgrDivCd', '현황', width: 60),
 
-      gridColumn('prgsStepInfo', '진행단계', width: 100),
+      gridColumn('cmpnstnStepDivCd', '진행단계', width: 100),
       gridColumn('acqsPrpDivCd', '취득용도', width: 100),
 
       gridColumn('ofcbkAra', '공부', width: 60),
       gridColumn('incrprAra', '편입', width: 60),
 
-      gridColumn('cmpnstnInvstgAra', '조사', isVisble: isLadSttusInqireGridTab1.value, width: 80),
       gridColumn('aceptncUseDivCd', '수용/사용',isVisble: isLadSttusInqireGridTab1.value, width: 80),
-      gridColumn('accdtInvstgDe', '조사일', isVisble: isLadSttusInqireGridTab1.value, width: 80),
+      gridColumn('invstgDt', '조사일', isVisble: isLadSttusInqireGridTab1.value, width: 80),
       gridColumn('accdtInvstgSqnc', '조사차수', isVisble: isLadSttusInqireGridTab1.value, width: 80),
 
       gridColumn('ownerNo', '소유자번호', isVisble: isLadSttusInqireGridTab2.value, width: 80),
-      gridColumn('ownerDivCd', '구분', isVisble: isLadSttusInqireGridTab2.value, width: 80),
+      gridColumn('posesnDivCd', '구분', isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('ownerNm', '소유자명', isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('ownerRgsbukAddr', '등기부주소', isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('posesnShreNmrtrInfo', '분자', isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('posesnShreDnmntrInfo', '분모', isVisble: isLadSttusInqireGridTab2.value, width: 80),
 
-      gridColumn('apasmtDivCd', '평가구분', isVisble: isLadSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtReqestDivCd', '평가구분', isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtSqnc', '평가차수', isVisble: isLadSttusInqireGridTab3.value, width: 80),
-      gridColumn('prceDt', '가격시점', isVisble: isLadSttusInqireGridTab3.value, width: 80),
+      gridColumn('prcPnttmDe', '가격시점', isVisble: isLadSttusInqireGridTab3.value, width: 80),
 
       // a평가법인
       gridColumn('apasmtInsttNm1', '법인명', isVisble: isLadSttusInqireGridTab3.value, width: 80),
@@ -969,30 +992,28 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       gridColumn('cpsmnCmptnAmt', '산정금액', isVisble: isLadSttusInqireGridTab4.value, width: 80),
 
       // 보상비지급
-      gridColumn('pymntRequstDt', '지급요청일', isVisble: isLadSttusInqireGridTab5.value, width: 80),
-      gridColumn('cpsmnUpc', '지급단가', isVisble: isLadSttusInqireGridTab5.value, width: 80),
-      gridColumn('cpsmnPymamt', '지급금액', isVisble: isLadSttusInqireGridTab5.value, width: 80),
-      gridColumn('rgistDt', '등기일자', isVisble: isLadSttusInqireGridTab5.value, width: 80),
+      gridColumn('caPymntRequstDe', '지급요청일', isVisble: isLadSttusInqireGridTab5.value, width: 80),
+      gridColumn('cmpnstnDscssUpc', '지급단가', isVisble: isLadSttusInqireGridTab5.value, width: 80),
+      gridColumn('cmpnstnDscssTotAmt', '지급금액', isVisble: isLadSttusInqireGridTab5.value, width: 80),
+      gridColumn('caRgistDt', '등기일자', isVisble: isLadSttusInqireGridTab5.value, width: 80),
 
       // 수용재결
       gridColumn('aceptncAdjdcUpc', '재결단가', isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('aceptncAdjdcAmt', '재결금액', isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('aceptncAdjdcDt', '재결일자', isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('aceptncUseBeginDe', '수용/사용개시일', isVisble: isLadSttusInqireGridTab6.value, width: 80),
-      gridColumn('aceptncAdjdcPymntDe', '지급요청일자', isVisble: isLadSttusInqireGridTab6.value, width: 80),
-      gridColumn('aceptncRgistDt', '등기일자', isVisble: isLadSttusInqireGridTab6.value, width: 80),
-      gridColumn('cpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isLadSttusInqireGridTab6.value, width: 80),
+      gridColumn('ldPymntRequstDe', '지급요청일자', isVisble: isLadSttusInqireGridTab6.value, width: 80),
+      gridColumn('ldRgistDt', '등기일자', isVisble: isLadSttusInqireGridTab6.value, width: 80),
+      gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isLadSttusInqireGridTab6.value, width: 80),
 
       // 이의재결
-      gridColumn('objctnAdjdcUpc', '재결단가', isVisble: isLadSttusInqireGridTab7.value, width: 80),
-      gridColumn('objctnAdjdcAmt', '재결금액', isVisble: isLadSttusInqireGridTab7.value, width: 80),
-      gridColumn('objctnAdjdcDt', '재결일자', isVisble: isLadSttusInqireGridTab7.value, width: 80),
-      gridColumn('objctnPymntRequstDt', '지급요청일자', isVisble: isLadSttusInqireGridTab7.value, width: 80),
-      gridColumn('objctncpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isLadSttusInqireGridTab7.value, width: 80),
+      gridColumn('obadUpc', '재결단가', isVisble: isLadSttusInqireGridTab7.value, width: 80),
+      gridColumn('objcRstAmt', '재결금액', isVisble: isLadSttusInqireGridTab7.value, width: 80),
+      gridColumn('objcAdjdcDt', '재결일자', isVisble: isLadSttusInqireGridTab7.value, width: 80),
+      gridColumn('proPymntRequstDe', '지급요청일자', isVisble: isLadSttusInqireGridTab7.value, width: 80),
+      gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isLadSttusInqireGridTab7.value, width: 80),
     ];
 
-    ladSttusInqireDataSource.value =
-        LadSttusInqireDatasource(items: ladSttusInqire);
   }
 
   /// [차수] 선택
