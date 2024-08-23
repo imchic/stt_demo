@@ -61,14 +61,12 @@ class BsnsWidget {
                             ),
                           ),
                           SizedBox(width: 24.w),
-                          Expanded(
-                            child: CustomTextField(
-                              controller: controller.bsnsNameSearchController,
-                              hintText: '사업명을 입력해주세요',
-                              onChanged: (value) {
-                                controller.searchBsnsName(value);
-                              },
-                            ),
+                          CustomTextField(
+                            controller: controller.bsnsNameSearchController,
+                            hintText: '사업명을 입력해주세요',
+                            onChanged: (value) {
+                              controller.searchBsnsName(value);
+                            },
                           ),
                         ],
                       ),
@@ -92,23 +90,12 @@ class BsnsWidget {
                             ),
                           ),
                           SizedBox(width: 12.w),
-                          Expanded(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: CustomTextField(
-                                    controller: controller.bsnsNoSearchController,
-                                    hintText: '사업번호를 입력해주세요',
-                                    onChanged: (value) {
-                                      controller.searchBsnsName(value);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
+                          CustomTextField(
+                            controller: controller.bsnsNoSearchController,
+                            hintText: '사업번호를 입력해주세요',
+                            onChanged: (value) {
+                              controller.searchBsnsName(value);
+                            },
                           ),
                         ],
                       ),

@@ -65,12 +65,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 controller.fetchBsnsOwnerDataSource();
                               }
 
-                              if(index == 2){
-                                /// [실태조사] 조회
-                                //controller.fetchBsnsAccdtInvstgDataSource();
-                              }
-                              print('index: $index');
-
                               if(index == 3){
                                 /// [통계정보] 조회
                                 controller.fetchLadSttusInqireDataSource();
@@ -214,7 +208,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   Widget lnbWidget() {
     return Obx(
       () => Container(
-        width: 1.w > 1.h ? 208.w : 308.w,
+        width: 1.w > 1.h ? 210.w : 308.w,
         decoration: BoxDecoration(
           color: lnbBg,
         ),
@@ -1060,85 +1054,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         ]),
       ],
       columns: columns,
-    );
-  }
-
-  /// [buildOwnerMngSearch] 소유자관리 검색
-  Widget buildOwnerMngSearch() {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: AutoSizeText('소재지',
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: gray600)),
-              ),
-              Expanded(
-                flex: 8,
-                child: CustomTextField(
-                  controller: controller.ownerNameSearchController,
-                  hintText: '소유자명을 입력하세요',
-                  onChanged: (value) {
-                    //controller.searchOwnerName(value);
-                  },
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: Row(
-                  children: [
-                    AutoSizeText('본번',
-                        style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                            color: gray600)),
-                    SizedBox(width: 10.w),
-                    Expanded(
-                      child: CustomTextField(
-                        controller: controller.ownerRegisterNoSearchController,
-                        hintText: '본번',
-                        onChanged: (value) {
-                          //controller.searchOwnerName(value);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: Row(
-                  children: [
-                    AutoSizeText('부번',
-                        style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                            color: gray600)),
-                    SizedBox(width: 10.w),
-                    Expanded(
-                      child: CustomTextField(
-                        controller: controller.ownerRegisterNoSearchController,
-                        hintText: '부번',
-                        onChanged: (value) {
-                          //controller.searchOwnerName(value);
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10.h),
-          buildOwnerMngRadio(),
-        ],
-      ),
     );
   }
 
