@@ -132,408 +132,412 @@ class BsnsWidget {
                 CustomRichText(length: controller.searchBsnsPlanList.length),
                 1.w > 1.h ? SizedBox(height: 32.h) : SizedBox(height: 0.h),
                 Expanded(
-                  child: ListView.separated(
-                          separatorBuilder: (context, index) => SizedBox(height: 20.h),
-                          padding: EdgeInsets.zero,
-                          itemCount: controller.searchBsnsPlanList.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                controller.isBsnsSelectFlag.value = true;
-                                controller.selectBsnsPlan.value = controller.searchBsnsPlanList[index];
-                                controller.fetchBsnsSelectAreaGridDataSource();
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(40.r),
-                                    decoration: ShapeDecoration(
-                                      color: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(width: 1.w, color: borderLine),
-                                        borderRadius: BorderRadius.circular(12.r),
+                  child: Obx(() =>
+                    ListView.separated(
+                            separatorBuilder: (context, index) => SizedBox(height: 20.h),
+                            padding: EdgeInsets.zero,
+                            itemCount: controller.searchBsnsPlanList.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  controller.isBsnsSelectFlag.value = true;
+                                  controller.selectBsnsPlan.value = controller.searchBsnsPlanList[index];
+                                  controller.fetchBsnsSelectAreaGridDataSource();
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(40.r),
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(width: 1.w, color: borderLine),
+                                          borderRadius: BorderRadius.circular(12.r),
+                                        ),
                                       ),
-                                    ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivLclsNm, bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
-                                                  SizedBox(width: 12.w),
-                                                  CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivMclsNm, bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
-                                                  SizedBox(width: 20.w),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(width: 20.w),
-                                            Expanded(
-                                              child: SizedBox(
-                                                child: AutoSizeText(
-                                                  controller.searchBsnsPlanList[index].bsnsNm ?? '',
-                                                  style: TextStyle(
-                                                    color: Color(0xFF1D1D1D),
-                                                    fontSize: 1.w > 1.h ? 32.sp : 52.sp,
-                                                    fontFamily: 'Pretendard',
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 20.h),
-                                        SizedBox(
-                                          width: double.infinity,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: SizedBox(
-                                                  child: AutoSizeText(
-                                                    controller.searchBsnsPlanList[index].bsnsLcinfo ?? '-',
-                                                    style: TextStyle(
-                                                      color: Color(0xFF555555),
-                                                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
-                                                      fontFamily: 'Pretendard',
-                                                      fontWeight: FontWeight.w400,
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                    maxLines: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              CustomButton(
-                                                text: '상세정보',
-                                                color: Color(0xFF2287EF),
-                                                textColor: Colors.white,
-                                                onPressed: () {
-                                                  var data = controller.searchBsnsPlanList[index];
-                                                  controller.selectBsnsPlan.value = data;
-
-                                                  DialogUtil.showAlertDialog(
-                                                    Get.context!,
-                                                    1440,
-                                                    '상세정보',
-                                                    isButtonVisible: false,
-                                                    onOk: () {},
-                                                    onCancel: () {},
-                                                    widget: Column(
-                                                      children: [
-                                                        Container(
-                                                          width: double.infinity,
-                                                          padding: EdgeInsets.only(left: 32.w, right: 32.w, top: 20.h, bottom: 20.h),
-                                                          decoration: ShapeDecoration(
-                                                            color: Color(0xFFF6F7FB),
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(12.r)),
-                                                          ),
-                                                          child: Column(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Container(
-                                                                child: Row(
-                                                                  mainAxisSize: MainAxisSize.min,
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  children: [
-                                                                    Container(
-                                                                      child: Row(
-                                                                        mainAxisSize: MainAxisSize.min,
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          AutoSizeText('사업시작일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
-                                                                          SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsStrtDe,),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(width: 6.w),
-                                                                    AutoSizeText('~', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
-                                                                    SizedBox(width: 6.w),
-                                                                    Container(
-                                                                      child: Row(
-                                                                        mainAxisSize: MainAxisSize.min,
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          AutoSizeText('사업종료일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
-                                                                          SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsEndDe,),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(height: 32.h),
-                                                              Container(
-                                                                child: Row(
-                                                                  mainAxisSize: MainAxisSize.min,
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  children: [
-                                                                    Container(
-                                                                      child: Row(
-                                                                        mainAxisSize: MainAxisSize.min,
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          AutoSizeText('승인일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
-                                                                          SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].aprvDe,),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(width: 16.w),
-                                                                    Container(
-                                                                      child: Row(
-                                                                        mainAxisSize: MainAxisSize.min,
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          AutoSizeText('관보고시일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
-                                                                          SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].gztNtfcDe,),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(width: 16.w),
-                                                                    Container(
-                                                                      child: Row(
-                                                                        mainAxisSize: MainAxisSize.min,
-                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          AutoSizeText('준공일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
-                                                                          SizedBox(width: 6.w),
-                                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].competDe,),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        SizedBox(height: 16.h),
-                                                        BsnsSelectScreen().buildTable(),
-                                                        SizedBox(height: 32.h),
-                                                        SizedBox(
-                                                          width: double.infinity,
-                                                          child: Row(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Container(
-                                                                height: 72.h,
-                                                                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                                                                decoration: ShapeDecoration(
-                                                                  color: Colors.white,
-                                                                  shape: RoundedRectangleBorder(
-                                                                    side: BorderSide(width: 2.r, color: Color(0xFFD8D8D8)),
-                                                                    borderRadius: BorderRadius.circular(12.r),
-                                                                  ),
-                                                                ),
-                                                                child: Row(
-                                                                  mainAxisSize: MainAxisSize.min,
-                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  children: [
-                                                                    Container(
-                                                                      width: 40.w,
-                                                                      height: 40.h,
-                                                                      clipBehavior: Clip.antiAlias,
-                                                                      decoration: BoxDecoration(),
-                                                                      child: SvgPicture.asset('assets/icons/ic_pdf.svg', width: 20.w, height: 20.h),
-                                                                    ),
-                                                                    const SizedBox(width: 8),
-                                                                    AutoSizeText(
-                                                                      '1차 고시문',
-                                                                      style: TextStyle(
-                                                                        color: Color(0xFF555555),
-                                                                        fontSize: 30.sp,
-                                                                        fontFamily: 'Pretendard',
-                                                                        fontWeight: FontWeight.w400,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(width: 20.w),
-                                                              Container(
-                                                                height: 72.h,
-                                                                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                                                                decoration: ShapeDecoration(
-                                                                  color: Colors.white,
-                                                                  shape: RoundedRectangleBorder(
-                                                                    side: BorderSide(width: 2.r, color: Color(0xFFD8D8D8)),
-                                                                    borderRadius: BorderRadius.circular(12.r),
-                                                                  ),
-                                                                ),
-                                                                child: Row(
-                                                                  mainAxisSize: MainAxisSize.min,
-                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  children: [
-                                                                    Container(
-                                                                      width: 40.w,
-                                                                      height: 40.h,
-                                                                      clipBehavior: Clip.antiAlias,
-                                                                      decoration: BoxDecoration(),
-                                                                      child: SvgPicture.asset('assets/icons/ic_pdf.svg', width: 20.w, height: 20.h),
-                                                                    ),
-                                                                    const SizedBox(width: 8),
-                                                                    AutoSizeText(
-                                                                      '2차 고시문',
-                                                                      style: TextStyle(
-                                                                        color: Color(0xFF555555),
-                                                                        fontSize: 30.sp,
-                                                                        fontFamily: 'Pretendard',
-                                                                        fontWeight: FontWeight.w400,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  );
-
-                                                }
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 20.h),
-                                        Container(
-                                          width: double.infinity,
-                                          child: Row(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
                                             mainAxisSize: MainAxisSize.min,
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               Container(
-                                                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                                                decoration: ShapeDecoration(
-                                                  color: Color(0xFFE5E8ED),
-                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                                ),
                                                 child: Row(
                                                   mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: [
-                                                    AutoSizeText(
-                                                      controller.searchBsnsPlanList[index].head ?? '-',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                        color: Color(0xFF1D1D1D),
-                                                        fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                                                        fontFamily: 'Pretendard',
-                                                        fontWeight: FontWeight.w400,
-                                                      ),
-                                                    ),
+                                                    CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivLclsNm, bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                                                    SizedBox(width: 12.w),
+                                                    CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivMclsNm, bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                                                    SizedBox(width: 20.w),
+                                                    controller.searchBsnsPlanList[index].bsnsDivSclsNm == '' ? Container() : CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivSclsNm, bgColor: Color(0xffE5F8EE), textColor: Color(0xff2D9D64)),
+                                                    //CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivSclsNm, bgColor: Color(0xffE5F8EE), textColor: Color(0xff2D9D64)),
                                                   ],
                                                 ),
                                               ),
-                                              SizedBox(width: 24.w),
+                                              SizedBox(width: 20.w),
                                               Expanded(
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  child: FittedBox(
-                                                    fit: BoxFit.scaleDown,
-                                                    alignment: Alignment.topLeft,
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        AutoSizeText(
-                                                          controller.searchBsnsPlanList[index].dept ?? '-',
-                                                          style: TextStyle(
-                                                            color: Color(0xFF555555),
-                                                            fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                                                            fontFamily: 'Pretendard',
-                                                            fontWeight: FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 16.w),
-                                                        Container(
-                                                          width: 2.w,
-                                                          height: 32.h,
-                                                          decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
-                                                        ),
-                                                        SizedBox(width: 16.w),
-                                                        AutoSizeText(
-                                                          controller.searchBsnsPlanList[index].team ?? '-',
-                                                          style: TextStyle(
-                                                            color: Color(0xFF555555),
-                                                            fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                                                            fontWeight: FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 16.w),
-                                                        Container(
-                                                          width: 2.w,
-                                                          height: 32.h,
-                                                          decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
-                                                        ),
-                                                        SizedBox(width: 16.w),
-                                                        AutoSizeText(
-                                                          controller.searchBsnsPlanList[index].plans ?? '-',
-                                                          style: TextStyle(
-                                                            color: Color(0xFF555555),
-                                                            fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                                                            fontFamily: 'Pretendard',
-                                                            fontWeight: FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 16.w),
-                                                        AutoSizeText(
-                                                          controller.searchBsnsPlanList[index].korname ?? '-',
-                                                          style: TextStyle(
-                                                            color: Color(0xFF555555),
-                                                            fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                                                            fontFamily: 'Pretendard',
-                                                            fontWeight: FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                child: SizedBox(
+                                                  child: AutoSizeText(
+                                                    controller.searchBsnsPlanList[index].bsnsNm ?? '',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF1D1D1D),
+                                                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                                      fontFamily: 'Pretendard',
+                                                      fontWeight: FontWeight.w700,
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                    },
+                                          SizedBox(height: 20.h),
+                                          SizedBox(
+                                            width: double.infinity,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    child: AutoSizeText(
+                                                      controller.searchBsnsPlanList[index].bsnsLcinfo ?? '-',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF555555),
+                                                        fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                                        fontFamily: 'Pretendard',
+                                                        fontWeight: FontWeight.w400,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                      maxLines: 1,
+                                                    ),
+                                                  ),
+                                                ),
+                                                CustomButton(
+                                                  text: '상세정보',
+                                                  color: Color(0xFF2287EF),
+                                                  textColor: Colors.white,
+                                                  onPressed: () {
+                                                    var data = controller.searchBsnsPlanList[index];
+                                                    controller.selectBsnsPlan.value = data;
+
+                                                    DialogUtil.showAlertDialog(
+                                                      Get.context!,
+                                                      1440,
+                                                      '상세정보',
+                                                      isButtonVisible: false,
+                                                      onOk: () {},
+                                                      onCancel: () {},
+                                                      widget: Column(
+                                                        children: [
+                                                          Container(
+                                                            width: double.infinity,
+                                                            padding: EdgeInsets.only(left: 32.w, right: 32.w, top: 20.h, bottom: 20.h),
+                                                            decoration: ShapeDecoration(
+                                                              color: Color(0xFFF6F7FB),
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(12.r)),
+                                                            ),
+                                                            child: Column(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Container(
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    children: [
+                                                                      Container(
+                                                                        child: Row(
+                                                                          mainAxisSize: MainAxisSize.min,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            AutoSizeText('사업시작일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
+                                                                            SizedBox(width: 6.w),
+                                                                            ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsStrtDe,),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 6.w),
+                                                                      AutoSizeText('~', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
+                                                                      SizedBox(width: 6.w),
+                                                                      Container(
+                                                                        child: Row(
+                                                                          mainAxisSize: MainAxisSize.min,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            AutoSizeText('사업종료일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
+                                                                            SizedBox(width: 6.w),
+                                                                            ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsEndDe,),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(height: 32.h),
+                                                                Container(
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    children: [
+                                                                      Container(
+                                                                        child: Row(
+                                                                          mainAxisSize: MainAxisSize.min,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            AutoSizeText('승인일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
+                                                                            SizedBox(width: 6.w),
+                                                                            ConvertDatetimeText(value: controller.searchBsnsPlanList[index].aprvDe,),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 16.w),
+                                                                      Container(
+                                                                        child: Row(
+                                                                          mainAxisSize: MainAxisSize.min,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            AutoSizeText('관보고시일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
+                                                                            SizedBox(width: 6.w),
+                                                                            ConvertDatetimeText(value: controller.searchBsnsPlanList[index].gztNtfcDe,),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 16.w),
+                                                                      Container(
+                                                                        child: Row(
+                                                                          mainAxisSize: MainAxisSize.min,
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            AutoSizeText('준공일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
+                                                                            SizedBox(width: 6.w),
+                                                                            ConvertDatetimeText(value: controller.searchBsnsPlanList[index].competDe,),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 16.h),
+                                                          BsnsSelectScreen().buildTable(),
+                                                          SizedBox(height: 32.h),
+                                                          SizedBox(
+                                                            width: double.infinity,
+                                                            child: Row(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Container(
+                                                                  height: 72.h,
+                                                                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                                                                  decoration: ShapeDecoration(
+                                                                    color: Colors.white,
+                                                                    shape: RoundedRectangleBorder(
+                                                                      side: BorderSide(width: 2.r, color: Color(0xFFD8D8D8)),
+                                                                      borderRadius: BorderRadius.circular(12.r),
+                                                                    ),
+                                                                  ),
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    children: [
+                                                                      Container(
+                                                                        width: 40.w,
+                                                                        height: 40.h,
+                                                                        clipBehavior: Clip.antiAlias,
+                                                                        decoration: BoxDecoration(),
+                                                                        child: SvgPicture.asset('assets/icons/ic_pdf.svg', width: 20.w, height: 20.h),
+                                                                      ),
+                                                                      const SizedBox(width: 8),
+                                                                      AutoSizeText(
+                                                                        '1차 고시문',
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF555555),
+                                                                          fontSize: 30.sp,
+                                                                          fontFamily: 'Pretendard',
+                                                                          fontWeight: FontWeight.w400,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: 20.w),
+                                                                Container(
+                                                                  height: 72.h,
+                                                                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                                                                  decoration: ShapeDecoration(
+                                                                    color: Colors.white,
+                                                                    shape: RoundedRectangleBorder(
+                                                                      side: BorderSide(width: 2.r, color: Color(0xFFD8D8D8)),
+                                                                      borderRadius: BorderRadius.circular(12.r),
+                                                                    ),
+                                                                  ),
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    children: [
+                                                                      Container(
+                                                                        width: 40.w,
+                                                                        height: 40.h,
+                                                                        clipBehavior: Clip.antiAlias,
+                                                                        decoration: BoxDecoration(),
+                                                                        child: SvgPicture.asset('assets/icons/ic_pdf.svg', width: 20.w, height: 20.h),
+                                                                      ),
+                                                                      const SizedBox(width: 8),
+                                                                      AutoSizeText(
+                                                                        '2차 고시문',
+                                                                        style: TextStyle(
+                                                                          color: Color(0xFF555555),
+                                                                          fontSize: 30.sp,
+                                                                          fontFamily: 'Pretendard',
+                                                                          fontWeight: FontWeight.w400,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+
+                                                  }
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 20.h),
+                                          Container(
+                                            width: double.infinity,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                                                  decoration: ShapeDecoration(
+                                                    color: Color(0xFFE5E8ED),
+                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      AutoSizeText(
+                                                        controller.searchBsnsPlanList[index].head ?? '-',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                          color: Color(0xFF1D1D1D),
+                                                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                                                          fontFamily: 'Pretendard',
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(width: 24.w),
+                                                Expanded(
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    child: FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      alignment: Alignment.topLeft,
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        children: [
+                                                          AutoSizeText(
+                                                            controller.searchBsnsPlanList[index].dept ?? '-',
+                                                            style: TextStyle(
+                                                              color: Color(0xFF555555),
+                                                              fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                                                              fontFamily: 'Pretendard',
+                                                              fontWeight: FontWeight.w400,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 16.w),
+                                                          Container(
+                                                            width: 2.w,
+                                                            height: 32.h,
+                                                            decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
+                                                          ),
+                                                          SizedBox(width: 16.w),
+                                                          AutoSizeText(
+                                                            controller.searchBsnsPlanList[index].team ?? '-',
+                                                            style: TextStyle(
+                                                              color: Color(0xFF555555),
+                                                              fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                                                              fontWeight: FontWeight.w400,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 16.w),
+                                                          Container(
+                                                            width: 2.w,
+                                                            height: 32.h,
+                                                            decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
+                                                          ),
+                                                          SizedBox(width: 16.w),
+                                                          AutoSizeText(
+                                                            controller.searchBsnsPlanList[index].plans ?? '-',
+                                                            style: TextStyle(
+                                                              color: Color(0xFF555555),
+                                                              fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                                                              fontFamily: 'Pretendard',
+                                                              fontWeight: FontWeight.w400,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 16.w),
+                                                          AutoSizeText(
+                                                            controller.searchBsnsPlanList[index].korname ?? '-',
+                                                            style: TextStyle(
+                                                              color: Color(0xFF555555),
+                                                              fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                                                              fontFamily: 'Pretendard',
+                                                              fontWeight: FontWeight.w400,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                      },
+                    ),
                   ),
                 ),
               ],

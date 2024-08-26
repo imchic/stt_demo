@@ -8,6 +8,15 @@ import 'colors.dart';
 /// [DialogUtil] 다이얼로그 관련 유틸리티 클래스
 class DialogUtil {
 
+  static void showLoading(BuildContext context) {
+    Get.dialog(CircularProgressIndicator(), barrierDismissible: false).then((value) {
+      print('DialogUtil.showLoading() value: $value');
+    })
+    .then((value) {
+      print('DialogUtil.showLoading() value: $value');
+    });
+  }
+
   /// [showAlertDialog] 알럿창을 띄워줍니다.
 
   // 파라미터 필수가 아닌경우

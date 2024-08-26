@@ -463,6 +463,18 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [사업선택] 라디오버튼
   void handleRadioValueChange(int value) {
     radioValue.value = value;
+    print('radioValue : $radioValue');
+
+    // filter
+    if(radioValue == 0){
+      searchBsnsPlanList = bsnsPlanList.where((element) => element.bsnsDivLclsNm == '댐').toList().obs;
+    } else if(radioValue == 1){
+      searchBsnsPlanList = bsnsPlanList.where((element) => element.bsnsDivLclsNm == '수도').toList().obs;
+    } else if(radioValue == 2){
+      searchBsnsPlanList = bsnsPlanList.where((element) => element.bsnsDivLclsNm == '단지').toList().obs;
+    } else {
+      searchBsnsPlanList.value = bsnsPlanList;
+    }
   }
 
   void handleSelectListTab(RxList<bool> tabSelected, int index) {
@@ -524,9 +536,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           lastUpdusrId: e['lastUpdusrId'],
           lastUpdtDt: e['lastUpdtDt'],
           conectIp: e['conectIp'],
-          bsnsDivLclsNm: e['bsnsDivLclsNm'],
-          bsnsDivMclsNm: e['bsnsDivMclsNm'],
-          bsnsDivSclsNm: e['bsnsDivSclsNm'],
+          bsnsDivLclsNm: e['bsnsDivLclsNm'] ?? '',
+          bsnsDivMclsNm: e['bsnsDivMclsNm'] ?? '',
+          bsnsDivSclsNm: e['bsnsDivSclsNm'] ?? '',
           head: e['head'],
           dept: e['dept'],
           team: e['team'],
@@ -885,6 +897,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [통계정보 > 토지현황] 조회
   fetchLadSttusInqireDataSource() async {
 
+    // loading bar
+    DialogUtil.showLoading(Get.context!);
+
     print('fetchLadSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
 
     var url = Uri.parse(
@@ -958,6 +973,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       }
 
       ladSttusInqireDataSource.value = LadSttusInqireDatasource(items: res);
+
+      // close loading bar
+      //Get.back();
 
     }
 
