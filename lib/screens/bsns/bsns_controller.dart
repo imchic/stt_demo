@@ -65,6 +65,12 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   // 소유자관리 정보변경 특이사항
   late TextEditingController ownerEtcController;
 
+  // 통계정보 > 토지현황 > 취득용도
+  late TextEditingController sttusInqireAcqstnPrpsController;
+
+  // 통계정보 > 토지현황 > 조사차수
+  late TextEditingController sttusInqireBsnsSqncController;
+
   late TextEditingController orderAutoController;
   late TextEditingController orderStartDtController;
   late TextEditingController orderEndDtController;
@@ -345,6 +351,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     ownerEtcController = TextEditingController();
 
     accdtlnvstgAcqstnPrpsController = TextEditingController();
+
+    sttusInqireAcqstnPrpsController = TextEditingController();
+    sttusInqireBsnsSqncController = TextEditingController();
 
     accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
     bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
@@ -975,7 +984,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       ladSttusInqireDataSource.value = LadSttusInqireDatasource(items: res);
 
       // close loading bar
-      //Get.back();
+      Get.back();
 
     }
 
@@ -1206,6 +1215,71 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isSttusInqireGridTab7.value, width: 80),
     ];
 
+
+  }
+
+  // [통계정보 > 취득용도] 조회
+  fetchAcqsPrpDivCdDataSource() async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectAcqsPrp.do');
+
+    var response = await http.post(url);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      debugPrint('fetchAcqsPrpDivCdDataSource > data : $data');
+
+      DialogUtil.showBottomSheet(Get.context!, '취득용도', Container(
+        height: 500.h,
+        child: ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(data[index]['cmmnCdNm']),
+              onTap: () {
+                sttusInqireAcqstnPrpsController.text = data[index]['cmmnCdNm'];
+                Get.back();
+              },
+            );
+          },
+        ),
+      ));
+    }
+  }
+
+  // [ 통계정보 > 토지현황 > 조사 차수] 조회
+  fetchLadSttusInqireSqncDataSource() async {
+
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectLandAccdtInvstgSqnc.do');
+
+    var param = {
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      debugPrint('fetchLadSttusInqireSqncDataSource > data : $data');
+
+      DialogUtil.showBottomSheet(Get.context!, '조사 차수', Container(
+        height: 500.h,
+        child: ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              //title: Text(data[index]['accdtInvstgSqnc']),
+              title: Text('${data[index]['accdtInvstgSqnc']}차'),
+              onTap: () {
+                sttusInqireBsnsSqncController.text = data[index]['accdtInvstgSqnc'].toString();
+                Get.back();
+              },
+            );
+          },
+        ),
+      ));
+    }
 
   }
 

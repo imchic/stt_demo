@@ -9,7 +9,7 @@ import 'colors.dart';
 class DialogUtil {
 
   static void showLoading(BuildContext context) {
-    Get.dialog(CircularProgressIndicator(), barrierDismissible: false).then((value) {
+    Get.dialog(Center(child: CircularProgressIndicator()), barrierDismissible: false).then((value) {
       print('DialogUtil.showLoading() value: $value');
     })
     .then((value) {
