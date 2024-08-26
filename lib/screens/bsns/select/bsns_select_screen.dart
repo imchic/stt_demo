@@ -68,6 +68,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                               if(index == 3){
                                 /// [통계정보] 조회
                                 controller.fetchLadSttusInqireDataSource();
+                                controller.fetchObstSttusInqireDataSource();
                               }
 
                             },
@@ -1059,7 +1060,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   /// [통계정보 > 지장물현황조회]
   Widget buildObstSttusInqireDataGrid(List<GridColumn> columns) {
     return CustomGrid(
-      dataSource: controller.ladSttusInqireDataSource.value,
+      dataSource: controller.obstSttusInqireDataSource.value,
       controller: controller.ladSttusInqireDataGridController,
       columnWidthMode: ColumnWidthMode.fill,
       isSort: false,

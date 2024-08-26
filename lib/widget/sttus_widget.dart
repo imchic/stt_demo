@@ -34,37 +34,948 @@ class SttusWidget {
               //unActiveColor: Colors.transparent,
             ),
             Expanded(
-                child: TabBarView(
-              controller: controller.sttusTabController,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                // 토지
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 20.h),
-                  child: SingleChildScrollView(
+              child: TabBarView(
+                controller: controller.sttusTabController,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  // 토지
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 40.w, vertical: 20.h),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: Get.width,
+                            margin: EdgeInsets.only(top: 24.h),
+                            padding: EdgeInsets.all(40.r),
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 0, color: borderLine),
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(8.r)),
+                              ),
+                            ),
+                            child: SizedBox(
+                              width: Get.width,
+                              child: Row(
+                                children: [
+                                  // 소재지, 소유자명, 조사차수, 실태조사일, 수용재결일, 평가구분
+                                  Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '소재지',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize
+                                                        .min,
+                                                    children: [
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '읍면동',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '본번',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '부번',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 취득용도
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    //height: 24.h,
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize
+                                                          .min,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        AutoSizeText(
+                                                          '취득용도',
+                                                          style: TextStyle(
+                                                            color: tableTextColor,
+                                                            fontSize: 30.sp,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+
+                                                /// 취득용도
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize
+                                                        .min,
+                                                    children: [
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      CustomButton(
+                                                        color: Color(
+                                                            0XFFE5E8ED),
+                                                        text: '조회',
+                                                        textColor: Color(
+                                                            0xFF1D1D1D),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 가격시점
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '가격시점',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                Expanded(
+                                                    flex: 6,
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize
+                                                          .min,
+                                                      children: [
+                                                        CustomTextField(
+                                                          controller: controller
+                                                              .ownerLctnSearchController,
+                                                          hintText: '',
+                                                          isDateTime: true,
+                                                          onChanged: (value) {
+                                                            //controller.searchBsnsName(value);
+                                                          },
+                                                        ),
+                                                        SizedBox(width: 6.w),
+                                                        Text('~'),
+                                                        SizedBox(width: 6.w),
+                                                        CustomTextField(
+                                                          controller: controller
+                                                              .ownerLctnSearchController,
+                                                          hintText: '',
+                                                          isDateTime: true,
+                                                          onChanged: (value) {
+                                                            //controller.searchBsnsName(value);
+                                                          },
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 지급요청일
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '지급요청일',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                Expanded(
+                                                    flex: 6,
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize
+                                                          .min,
+                                                      children: [
+                                                        CustomTextField(
+                                                          controller: controller
+                                                              .ownerLctnSearchController,
+                                                          hintText: '',
+                                                          isDateTime: true,
+                                                          onChanged: (value) {
+                                                            //controller.searchBsnsName(value);
+                                                          },
+                                                        ),
+                                                        SizedBox(width: 6.w),
+                                                        Text('~'),
+                                                        SizedBox(width: 6.w),
+                                                        CustomTextField(
+                                                          controller: controller
+                                                              .ownerLctnSearchController,
+                                                          hintText: '',
+                                                          isDateTime: true,
+                                                          onChanged: (value) {
+                                                            //controller.searchBsnsName(value);
+                                                          },
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 취득용도
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '진행단계',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize
+                                                        .min,
+                                                    children: [
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      CustomButton(
+                                                        color: Color(
+                                                            0XFFE5E8ED),
+                                                        text: '조회',
+                                                        textColor: Color(
+                                                            0xFF1D1D1D),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 평가차수
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    //height: 24.h,
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize
+                                                          .min,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          '평가차수',
+                                                          style: TextStyle(
+                                                            color: tableTextColor,
+                                                            fontSize: 30.sp,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize
+                                                        .min,
+                                                    children: [
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      CustomButton(
+                                                        color: Color(
+                                                            0XFFE5E8ED),
+                                                        text: '조회',
+                                                        textColor: Color(
+                                                            0xFF1D1D1D),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  SizedBox(width: 40.w),
+                                  // 소유자명, 조사차수, 실태조사일, 수용재결일, 평가구분
+                                  Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '소유자명',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                CustomTextField(
+                                                  controller: controller
+                                                      .ownerLctnSearchController,
+                                                  hintText: '읍면동',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 조사차수
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '조사차수',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize
+                                                        .min,
+                                                    children: [
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      CustomButton(
+                                                        color: Color(
+                                                            0XFFE5E8ED),
+                                                        text: '조회',
+                                                        textColor: Color(
+                                                            0xFF1D1D1D),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 실태조사일
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '실태조사일',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                Expanded(
+                                                    flex: 6,
+                                                    child: Container(
+                                                        child: Row(
+                                                          mainAxisSize: MainAxisSize
+                                                              .min,
+                                                          children: [
+                                                            CustomTextField(
+                                                              controller: controller
+                                                                  .ownerLctnSearchController,
+                                                              hintText: '',
+                                                              isDateTime: true,
+                                                              onChanged: (
+                                                                  value) {
+                                                                //controller.searchBsnsName(value);
+                                                              },
+                                                            ),
+                                                            SizedBox(
+                                                                width: 6.w),
+                                                            Text('~'),
+                                                            SizedBox(
+                                                                width: 6.w),
+                                                            CustomTextField(
+                                                              controller: controller
+                                                                  .ownerLctnSearchController,
+                                                              hintText: '',
+                                                              isDateTime: true,
+                                                              onChanged: (
+                                                                  value) {
+                                                                //controller.searchBsnsName(value);
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ))),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 수용재결일
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '수용재결일',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                Expanded(
+                                                    flex: 6,
+                                                    child: Container(
+                                                        child: Row(
+                                                          mainAxisSize: MainAxisSize
+                                                              .min,
+                                                          children: [
+                                                            CustomTextField(
+                                                              controller: controller
+                                                                  .ownerLctnSearchController,
+                                                              hintText: '',
+                                                              isDateTime: true,
+                                                              onChanged: (
+                                                                  value) {
+                                                                //controller.searchBsnsName(value);
+                                                              },
+                                                            ),
+                                                            SizedBox(
+                                                                width: 6.w),
+                                                            Text('~'),
+                                                            SizedBox(
+                                                                width: 6.w),
+                                                            CustomTextField(
+                                                              controller: controller
+                                                                  .ownerLctnSearchController,
+                                                              hintText: '',
+                                                              isDateTime: true,
+                                                              onChanged: (
+                                                                  value) {
+                                                                //controller.searchBsnsName(value);
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ))),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 평가구분
+                                          SizedBox(
+                                            height: 80.h,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '평가구분',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 12.w),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize
+                                                        .min,
+                                                    children: [
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '',
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      CustomButton(
+                                                        color: Color(
+                                                            0XFFE5E8ED),
+                                                        text: '조회',
+                                                        textColor: Color(
+                                                            0xFF1D1D1D),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10.h),
+
+                                          /// 평가구분
+                                          SizedBox(
+                                              height: 80.h, child: Container()),
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 24.h),
+                          Container(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  width: Get.width,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .center,
+                                    children: [
+                                      CustomRichText(length: 10),
+                                      Row(
+                                        children: [
+                                          CustomChip(
+                                            title: '실태조사',
+                                            isSelected: controller
+                                                .sttusInqireTabIsSelected[0],
+                                            onTap: () {
+                                              controller
+                                                  .handleSttusInqireTabSelected(
+                                                  0);
+                                              if (controller
+                                                  .isSttusInqireGridTab1
+                                                  .value ==
+                                                  true) {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                0] = false;
+                                                controller
+                                                    .isSttusInqireGridTab1
+                                                    .value = false;
+                                              } else {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                0] = true;
+                                                controller
+                                                    .isSttusInqireGridTab1
+                                                    .value = true;
+                                              }
+                                              controller
+                                                  .fetchLadSttusInqireDataSource();
+                                            },
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          CustomChip(
+                                            title: '소유자정보',
+                                            isSelected: controller
+                                                .sttusInqireTabIsSelected[1],
+                                            onTap: () {
+                                              controller
+                                                  .handleSttusInqireTabSelected(
+                                                  1);
+                                              if (controller
+                                                  .isSttusInqireGridTab2
+                                                  .value ==
+                                                  true) {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                1] = false;
+                                                controller
+                                                    .isSttusInqireGridTab2
+                                                    .value = false;
+                                              } else {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                1] = true;
+                                                controller
+                                                    .isSttusInqireGridTab2
+                                                    .value = true;
+                                              }
+                                              controller
+                                                  .fetchLadSttusInqireDataSource();
+                                            },
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          CustomChip(
+                                            title: '감정평가',
+                                            isSelected: controller
+                                                .sttusInqireTabIsSelected[2],
+                                            onTap: () {
+                                              controller
+                                                  .handleSttusInqireTabSelected(
+                                                  2);
+                                              if (controller
+                                                  .isSttusInqireGridTab3
+                                                  .value ==
+                                                  true) {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                2] = false;
+                                                controller
+                                                    .isSttusInqireGridTab3
+                                                    .value = false;
+                                              } else {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                2] = true;
+                                                controller
+                                                    .isSttusInqireGridTab3
+                                                    .value = true;
+                                              }
+                                              controller
+                                                  .fetchLadSttusInqireDataSource();
+                                            },
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          CustomChip(
+                                            title: '보상비산정',
+                                            isSelected: controller
+                                                .sttusInqireTabIsSelected[3],
+                                            onTap: () {
+                                              controller
+                                                  .handleSttusInqireTabSelected(
+                                                  3);
+                                              if (controller
+                                                  .isSttusInqireGridTab4
+                                                  .value ==
+                                                  true) {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                3] = false;
+                                                controller
+                                                    .isSttusInqireGridTab4
+                                                    .value = false;
+                                              } else {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                3] = true;
+                                                controller
+                                                    .isSttusInqireGridTab4
+                                                    .value = true;
+                                              }
+                                              controller
+                                                  .fetchLadSttusInqireDataSource();
+                                            },
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          CustomChip(
+                                            title: '보상비지급',
+                                            isSelected: controller
+                                                .sttusInqireTabIsSelected[4],
+                                            onTap: () {
+                                              controller
+                                                  .handleSttusInqireTabSelected(
+                                                  4);
+                                              if (controller
+                                                  .isSttusInqireGridTab5
+                                                  .value ==
+                                                  true) {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                4] = false;
+                                                controller
+                                                    .isSttusInqireGridTab5
+                                                    .value = false;
+                                              } else {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                4] = true;
+                                                controller
+                                                    .isSttusInqireGridTab5
+                                                    .value = true;
+                                              }
+                                              controller
+                                                  .fetchLadSttusInqireDataSource();
+                                            },
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          CustomChip(
+                                            title: '수용재결',
+                                            isSelected: controller
+                                                .sttusInqireTabIsSelected[5],
+                                            onTap: () {
+                                              controller
+                                                  .handleSttusInqireTabSelected(
+                                                  5);
+                                              if (controller
+                                                  .isSttusInqireGridTab6
+                                                  .value ==
+                                                  true) {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                5] = false;
+                                                controller
+                                                    .isSttusInqireGridTab6
+                                                    .value = false;
+                                              } else {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                5] = true;
+                                                controller
+                                                    .isSttusInqireGridTab6
+                                                    .value = true;
+                                              }
+                                              controller
+                                                  .fetchLadSttusInqireDataSource();
+                                            },
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          CustomChip(
+                                            title: '이의재결',
+                                            isSelected: controller
+                                                .sttusInqireTabIsSelected[6],
+                                            onTap: () {
+                                              controller
+                                                  .handleSttusInqireTabSelected(
+                                                  6);
+                                              if (controller
+                                                  .isSttusInqireGridTab7
+                                                  .value ==
+                                                  true) {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                6] = false;
+                                                controller
+                                                    .isSttusInqireGridTab7
+                                                    .value = false;
+                                              } else {
+                                                controller
+                                                    .sttusInqireTabIsSelected[
+                                                6] = true;
+                                                controller
+                                                    .isSttusInqireGridTab7
+                                                    .value = true;
+                                              }
+                                              controller
+                                                  .fetchLadSttusInqireDataSource();
+                                            },
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 10.h),
+                                Obx(() =>
+                                    BsnsSelectScreen()
+                                        .buildLadSttusInqireDataGrid(
+                                        controller.ladSttusInqireColumns))
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  // 지장물현황
+                  SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: Get.width,
-                          margin: EdgeInsets.only(top: 24.h),
-                          padding: EdgeInsets.all(40.r),
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(width: 0, color: borderLine),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.r)),
-                            ),
-                          ),
-                          child: SizedBox(
-                            width: Get.width,
-                            child: Row(
-                              children: [
-                                // 소재지, 소유자명, 조사차수, 실태조사일, 수용재결일, 평가구분
-                                Expanded(
-                                    child: Column(
+                      Container(
+                      width: Get.width,
+                      margin: EdgeInsets.only(top: 24.h),
+                      padding: EdgeInsets.all(20.r),
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 0, color: borderLine),
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(8.r)),
+                        ),
+                      ),
+                      child: SizedBox(
+                        width: Get.width,
+                        child: Row(
+                          children: [
+                            // 소재지, 소유자명, 조사차수, 실태조사일, 수용재결일, 평가구분
+                            Expanded(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -73,17 +984,30 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              '소재지',
-                                              style: TextStyle(
-                                                color: tableTextColor,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
+                                            child: SizedBox(
+                                              //height: 24.h,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '소재지',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -93,38 +1017,31 @@ class SttusWidget {
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '읍면동',
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
+                                                CustomTextField(
+                                                  controller: controller
+                                                      .ownerLctnSearchController,
+                                                  hintText: '읍면동',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
                                                 ),
                                                 SizedBox(width: 6.w),
-                                                Expanded(
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '본번',
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
+                                                CustomTextField(
+                                                  controller: controller
+                                                      .ownerLctnSearchController,
+                                                  hintText: '본번',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
                                                 ),
                                                 SizedBox(width: 6.w),
-                                                Expanded(
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '부번',
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
+                                                CustomTextField(
+                                                  controller: controller
+                                                      .ownerLctnSearchController,
+                                                  hintText: '부번',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
                                                 ),
                                               ],
                                             ),
@@ -140,9 +1057,9 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
                                             child: SizedBox(
@@ -150,16 +1067,17 @@ class SttusWidget {
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
-                                                  AutoSizeText(
-                                                    '취득용도',
+                                                  Text(
+                                                    '지장물구분',
                                                     style: TextStyle(
                                                       color: tableTextColor,
                                                       fontSize: 30.sp,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight: FontWeight
+                                                          .w500,
                                                     ),
                                                   ),
                                                 ],
@@ -174,16 +1092,13 @@ class SttusWidget {
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
+                                                CustomTextField(
+                                                  controller: controller
+                                                      .ownerLctnSearchController,
+                                                  hintText: '',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
                                                 ),
                                                 SizedBox(width: 6.w),
                                                 CustomButton(
@@ -205,56 +1120,63 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              '가격시점',
-                                              style: TextStyle(
-                                                color: tableTextColor,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
+                                            child: SizedBox(
+                                              //height: 24.h,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '가격시점',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
                                           SizedBox(width: 12.w),
                                           Expanded(
                                               flex: 6,
-                                              child: Container(
-                                                  child: Row(
-                                                mainAxisSize: MainAxisSize.min,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize
+                                                    .min,
                                                 children: [
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: CustomTextField(
-                                                      controller: controller
-                                                          .ownerLctnSearchController,
-                                                      hintText: '',
-                                                      isDateTime: true,
-                                                      onChanged: (value) {
-                                                        //controller.searchBsnsName(value);
-                                                      },
-                                                    ),
+                                                  CustomTextField(
+                                                    controller: controller
+                                                        .ownerLctnSearchController,
+                                                    hintText: '',
+                                                    isDateTime: true,
+                                                    onChanged: (value) {
+                                                      //controller.searchBsnsName(value);
+                                                    },
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   Text('~'),
                                                   SizedBox(width: 6.w),
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: CustomTextField(
-                                                      controller: controller
-                                                          .ownerLctnSearchController,
-                                                      hintText: '',
-                                                      isDateTime: true,
-                                                      onChanged: (value) {
-                                                        //controller.searchBsnsName(value);
-                                                      },
-                                                    ),
+                                                  CustomTextField(
+                                                    controller: controller
+                                                        .ownerLctnSearchController,
+                                                    hintText: '',
+                                                    isDateTime: true,
+                                                    onChanged: (value) {
+                                                      //controller.searchBsnsName(value);
+                                                    },
                                                   ),
                                                 ],
-                                              ))),
+                                              )),
                                         ],
                                       ),
                                     ),
@@ -266,17 +1188,30 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              '지급요청일',
-                                              style: TextStyle(
-                                                color: tableTextColor,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
+                                            child: SizedBox(
+                                              //height: 24.h,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '지급요청일',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -284,34 +1219,29 @@ class SttusWidget {
                                           Expanded(
                                               flex: 6,
                                               child: Row(
-                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisSize: MainAxisSize
+                                                    .min,
                                                 children: [
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: CustomTextField(
-                                                      controller: controller
-                                                          .ownerLctnSearchController,
-                                                      hintText: '',
-                                                      isDateTime: true,
-                                                      onChanged: (value) {
-                                                        //controller.searchBsnsName(value);
-                                                      },
-                                                    ),
+                                                  CustomTextField(
+                                                    controller: controller
+                                                        .ownerLctnSearchController,
+                                                    hintText: '',
+                                                    isDateTime: true,
+                                                    onChanged: (value) {
+                                                      //controller.searchBsnsName(value);
+                                                    },
                                                   ),
                                                   SizedBox(width: 6.w),
                                                   Text('~'),
                                                   SizedBox(width: 6.w),
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: CustomTextField(
-                                                      controller: controller
-                                                          .ownerLctnSearchController,
-                                                      hintText: '',
-                                                      isDateTime: true,
-                                                      onChanged: (value) {
-                                                        //controller.searchBsnsName(value);
-                                                      },
-                                                    ),
+                                                  CustomTextField(
+                                                    controller: controller
+                                                        .ownerLctnSearchController,
+                                                    hintText: '',
+                                                    isDateTime: true,
+                                                    onChanged: (value) {
+                                                      //controller.searchBsnsName(value);
+                                                    },
                                                   ),
                                                 ],
                                               )),
@@ -326,17 +1256,30 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              '진행단계',
-                                              style: TextStyle(
-                                                color: tableTextColor,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
+                                            child: SizedBox(
+                                              //height: 24.h,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '진행단계',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -346,16 +1289,13 @@ class SttusWidget {
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
+                                                CustomTextField(
+                                                  controller: controller
+                                                      .ownerLctnSearchController,
+                                                  hintText: '',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
                                                 ),
                                                 SizedBox(width: 6.w),
                                                 CustomButton(
@@ -377,9 +1317,9 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
                                             child: SizedBox(
@@ -387,16 +1327,17 @@ class SttusWidget {
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     '평가차수',
                                                     style: TextStyle(
                                                       color: tableTextColor,
                                                       fontSize: 30.sp,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight: FontWeight
+                                                          .w500,
                                                     ),
                                                   ),
                                                 ],
@@ -409,16 +1350,13 @@ class SttusWidget {
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
+                                                CustomTextField(
+                                                  controller: controller
+                                                      .ownerLctnSearchController,
+                                                  hintText: '',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
                                                 ),
                                                 SizedBox(width: 6.w),
                                                 CustomButton(
@@ -434,10 +1372,10 @@ class SttusWidget {
                                     ),
                                   ],
                                 )),
-                                SizedBox(width: 40.w),
-                                // 소유자명, 조사차수, 실태조사일, 수용재결일, 평가구분
-                                Expanded(
-                                    child: Column(
+                            SizedBox(width: 40.w),
+                            // 소유자명, 조사차수, 실태조사일, 수용재결일, 평가구분
+                            Expanded(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -447,26 +1385,36 @@ class SttusWidget {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              '소유자명',
-                                              style: TextStyle(
-                                                color: tableTextColor,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
+                                            child: SizedBox(
+                                              //height: 24.h,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '소유자명',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
                                           SizedBox(width: 12.w),
-                                          Expanded(
-                                            flex: 6,
-                                            child: CustomTextField(
-                                              controller: controller
-                                                  .ownerLctnSearchController,
-                                              hintText: '읍면동',
-                                              onChanged: (value) {
-                                                //controller.searchBsnsName(value);
-                                              },
-                                            ),
+                                          CustomTextField(
+                                            controller: controller
+                                                .ownerLctnSearchController,
+                                            hintText: '읍면동',
+                                            onChanged: (value) {
+                                              //controller.searchBsnsName(value);
+                                            },
                                           ),
                                         ],
                                       ),
@@ -479,17 +1427,30 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              '조사차수',
-                                              style: TextStyle(
-                                                color: tableTextColor,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
+                                            child: SizedBox(
+                                              //height: 24.h,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '조사차수',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -499,16 +1460,13 @@ class SttusWidget {
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
+                                                CustomTextField(
+                                                  controller: controller
+                                                      .ownerLctnSearchController,
+                                                  hintText: '',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
                                                 ),
                                                 SizedBox(width: 6.w),
                                                 CustomButton(
@@ -530,17 +1488,30 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              '실태조사일',
-                                              style: TextStyle(
-                                                color: tableTextColor,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
+                                            child: SizedBox(
+                                              //height: 24.h,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '실태조사일',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -549,37 +1520,32 @@ class SttusWidget {
                                               flex: 6,
                                               child: Container(
                                                   child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: CustomTextField(
-                                                      controller: controller
-                                                          .ownerLctnSearchController,
-                                                      hintText: '',
-                                                      isDateTime: true,
-                                                      onChanged: (value) {
-                                                        //controller.searchBsnsName(value);
-                                                      },
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 6.w),
-                                                  Text('~'),
-                                                  SizedBox(width: 6.w),
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: CustomTextField(
-                                                      controller: controller
-                                                          .ownerLctnSearchController,
-                                                      hintText: '',
-                                                      isDateTime: true,
-                                                      onChanged: (value) {
-                                                        //controller.searchBsnsName(value);
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
-                                              ))),
+                                                    mainAxisSize: MainAxisSize
+                                                        .min,
+                                                    children: [
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '',
+                                                        isDateTime: true,
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      Text('~'),
+                                                      SizedBox(width: 6.w),
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '',
+                                                        isDateTime: true,
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ))),
                                         ],
                                       ),
                                     ),
@@ -591,17 +1557,30 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              '수용재결일',
-                                              style: TextStyle(
-                                                color: tableTextColor,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
+                                            child: SizedBox(
+                                              //height: 24.h,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '수용재결일',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -610,37 +1589,32 @@ class SttusWidget {
                                               flex: 6,
                                               child: Container(
                                                   child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: CustomTextField(
-                                                      controller: controller
-                                                          .ownerLctnSearchController,
-                                                      hintText: '',
-                                                      isDateTime: true,
-                                                      onChanged: (value) {
-                                                        //controller.searchBsnsName(value);
-                                                      },
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 6.w),
-                                                  Text('~'),
-                                                  SizedBox(width: 6.w),
-                                                  Expanded(
-                                                    flex: 4,
-                                                    child: CustomTextField(
-                                                      controller: controller
-                                                          .ownerLctnSearchController,
-                                                      hintText: '',
-                                                      isDateTime: true,
-                                                      onChanged: (value) {
-                                                        //controller.searchBsnsName(value);
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
-                                              ))),
+                                                    mainAxisSize: MainAxisSize
+                                                        .min,
+                                                    children: [
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '',
+                                                        isDateTime: true,
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                      SizedBox(width: 6.w),
+                                                      Text('~'),
+                                                      SizedBox(width: 6.w),
+                                                      CustomTextField(
+                                                        controller: controller
+                                                            .ownerLctnSearchController,
+                                                        hintText: '',
+                                                        isDateTime: true,
+                                                        onChanged: (value) {
+                                                          //controller.searchBsnsName(value);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ))),
                                         ],
                                       ),
                                     ),
@@ -652,17 +1626,30 @@ class SttusWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              '평가구분',
-                                              style: TextStyle(
-                                                color: tableTextColor,
-                                                fontSize: 30.sp,
-                                                fontWeight: FontWeight.w500,
+                                            child: SizedBox(
+                                              //height: 24.h,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '평가구분',
+                                                    style: TextStyle(
+                                                      color: tableTextColor,
+                                                      fontSize: 30.sp,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -672,16 +1659,13 @@ class SttusWidget {
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
+                                                CustomTextField(
+                                                  controller: controller
+                                                      .ownerLctnSearchController,
+                                                  hintText: '',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
                                                 ),
                                                 SizedBox(width: 6.w),
                                                 CustomButton(
@@ -701,1020 +1685,20 @@ class SttusWidget {
                                     SizedBox(height: 80.h, child: Container()),
                                   ],
                                 )),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 24.h),
-                        Container(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: Get.width,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    CustomRichText(length: 10),
-                                    Row(
-                                      children: [
-                                        CustomChip(
-                                         title: '실태조사',
-                                          isSelected: controller.ladSttusInqireTabIsSelected[0],
-                                          onTap: () {
-                                            controller
-                                                .handleLadSttusInqireTabSelected(
-                                                    0);
-                                            if (controller
-                                                    .isLadSttusInqireGridTab1
-                                                    .value ==
-                                                true) {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  0] = false;
-                                              controller.isLadSttusInqireGridTab1
-                                                  .value = false;
-                                            } else {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  0] = true;
-                                              controller.isLadSttusInqireGridTab1
-                                                  .value = true;
-                                            }
-                                            controller
-                                                .fetchLadSttusInqireDataSource();
-                                          },
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        CustomChip(
-                                          title: '소유자정보',
-                                          isSelected: controller.ladSttusInqireTabIsSelected[1],
-                                          onTap: () {
-                                            controller
-                                                .handleLadSttusInqireTabSelected(
-                                                    1);
-                                            if (controller
-                                                    .isLadSttusInqireGridTab2
-                                                    .value ==
-                                                true) {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  1] = false;
-                                              controller.isLadSttusInqireGridTab2
-                                                  .value = false;
-                                            } else {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  1] = true;
-                                              controller.isLadSttusInqireGridTab2
-                                                  .value = true;
-                                            }
-                                            controller
-                                                .fetchLadSttusInqireDataSource();
-                                          },
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        CustomChip(
-                                          title: '감정평가',
-                                          isSelected: controller.ladSttusInqireTabIsSelected[2],
-                                          onTap: () {
-                                            controller
-                                                .handleLadSttusInqireTabSelected(
-                                                    2);
-                                            if (controller
-                                                    .isLadSttusInqireGridTab3
-                                                    .value ==
-                                                true) {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  2] = false;
-                                              controller.isLadSttusInqireGridTab3
-                                                  .value = false;
-                                            } else {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  2] = true;
-                                              controller.isLadSttusInqireGridTab3
-                                                  .value = true;
-                                            }
-                                            controller
-                                                .fetchLadSttusInqireDataSource();
-                                          },
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        CustomChip(
-                                          title: '보상비산정',
-                                          isSelected: controller.ladSttusInqireTabIsSelected[3],
-                                          onTap: () {
-                                            controller
-                                                .handleLadSttusInqireTabSelected(
-                                                    3);
-                                            if (controller
-                                                    .isLadSttusInqireGridTab4
-                                                    .value ==
-                                                true) {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  3] = false;
-                                              controller.isLadSttusInqireGridTab4
-                                                  .value = false;
-                                            } else {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  3] = true;
-                                              controller.isLadSttusInqireGridTab4
-                                                  .value = true;
-                                            }
-                                            controller
-                                                .fetchLadSttusInqireDataSource();
-                                          },
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        CustomChip(
-                                          title: '보상비지급',
-                                          isSelected: controller.ladSttusInqireTabIsSelected[4],
-                                          onTap: () {
-                                            controller
-                                                .handleLadSttusInqireTabSelected(
-                                                    4);
-                                            if (controller
-                                                    .isLadSttusInqireGridTab5
-                                                    .value ==
-                                                true) {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  4] = false;
-                                              controller.isLadSttusInqireGridTab5
-                                                  .value = false;
-                                            } else {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  4] = true;
-                                              controller.isLadSttusInqireGridTab5
-                                                  .value = true;
-                                            }
-                                            controller
-                                                .fetchLadSttusInqireDataSource();
-                                          },
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        CustomChip(
-                                          title: '수용재결',
-                                          isSelected: controller.ladSttusInqireTabIsSelected[5],
-                                          onTap: () {
-                                            controller
-                                                .handleLadSttusInqireTabSelected(
-                                                    5);
-                                            if (controller
-                                                    .isLadSttusInqireGridTab6
-                                                    .value ==
-                                                true) {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  5] = false;
-                                              controller.isLadSttusInqireGridTab6
-                                                  .value = false;
-                                            } else {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  5] = true;
-                                              controller.isLadSttusInqireGridTab6
-                                                  .value = true;
-                                            }
-                                            controller
-                                                .fetchLadSttusInqireDataSource();
-                                          },
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        CustomChip(
-                                          title: '이의재결',
-                                          isSelected: controller.ladSttusInqireTabIsSelected[6],
-                                          onTap: () {
-                                            controller
-                                                .handleLadSttusInqireTabSelected(
-                                                    6);
-                                            if (controller
-                                                    .isLadSttusInqireGridTab7
-                                                    .value ==
-                                                true) {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  6] = false;
-                                              controller.isLadSttusInqireGridTab7
-                                                  .value = false;
-                                            } else {
-                                              controller
-                                                      .ladSttusInqireTabIsSelected[
-                                                  6] = true;
-                                              controller.isLadSttusInqireGridTab7
-                                                  .value = true;
-                                            }
-                                            controller
-                                                .fetchLadSttusInqireDataSource();
-                                          },
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
-                              Obx(() => BsnsSelectScreen()
-                                  .buildLadSttusInqireDataGrid(
-                                      controller.ladSttusInqireColumns))
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                // 지장물현황
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: Get.width,
-                        margin: EdgeInsets.only(top: 24.h),
-                        padding: EdgeInsets.all(20.r),
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 0, color: borderLine),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.r)),
-                          ),
-                        ),
-                        child: SizedBox(
-                          width: Get.width,
-                          child: Row(
-                            children: [
-                              // 소재지, 소유자명, 조사차수, 실태조사일, 수용재결일, 평가구분
-                              Expanded(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '소재지',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                          flex: 6,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Expanded(
-                                                flex: 4,
-                                                child: CustomTextField(
-                                                  controller: controller
-                                                      .ownerLctnSearchController,
-                                                  hintText: '읍면동',
-                                                  onChanged: (value) {
-                                                    //controller.searchBsnsName(value);
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(width: 6.w),
-                                              Expanded(
-                                                child: CustomTextField(
-                                                  controller: controller
-                                                      .ownerLctnSearchController,
-                                                  hintText: '본번',
-                                                  onChanged: (value) {
-                                                    //controller.searchBsnsName(value);
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(width: 6.w),
-                                              Expanded(
-                                                child: CustomTextField(
-                                                  controller: controller
-                                                      .ownerLctnSearchController,
-                                                  hintText: '부번',
-                                                  onChanged: (value) {
-                                                    //controller.searchBsnsName(value);
-                                                  },
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 취득용도
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '지장물구분',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-
-                                        /// 취득용도
-                                        Expanded(
-                                          flex: 6,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Expanded(
-                                                flex: 4,
-                                                child: CustomTextField(
-                                                  controller: controller
-                                                      .ownerLctnSearchController,
-                                                  hintText: '',
-                                                  onChanged: (value) {
-                                                    //controller.searchBsnsName(value);
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(width: 6.w),
-                                              CustomButton(
-                                                color: Color(0XFFE5E8ED),
-                                                text: '조회',
-                                                textColor: Color(0xFF1D1D1D),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 가격시점
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '가격시점',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                            flex: 6,
-                                            child: Container(
-                                                child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    isDateTime: true,
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 6.w),
-                                                Text('~'),
-                                                SizedBox(width: 6.w),
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    isDateTime: true,
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            ))),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 지급요청일
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '지급요청일',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                            flex: 6,
-                                            child: Container(
-                                                child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    isDateTime: true,
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 6.w),
-                                                Text('~'),
-                                                SizedBox(width: 6.w),
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    isDateTime: true,
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            ))),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 취득용도
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '진행단계',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                          flex: 6,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Expanded(
-                                                flex: 4,
-                                                child: CustomTextField(
-                                                  controller: controller
-                                                      .ownerLctnSearchController,
-                                                  hintText: '',
-                                                  onChanged: (value) {
-                                                    //controller.searchBsnsName(value);
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(width: 6.w),
-                                              CustomButton(
-                                                color: Color(0XFFE5E8ED),
-                                                text: '조회',
-                                                textColor: Color(0xFF1D1D1D),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 평가차수
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '평가차수',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                          flex: 6,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Expanded(
-                                                flex: 4,
-                                                child: CustomTextField(
-                                                  controller: controller
-                                                      .ownerLctnSearchController,
-                                                  hintText: '',
-                                                  onChanged: (value) {
-                                                    //controller.searchBsnsName(value);
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(width: 6.w),
-                                              CustomButton(
-                                                color: Color(0XFFE5E8ED),
-                                                text: '조회',
-                                                textColor: Color(0xFF1D1D1D),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )),
-                              SizedBox(width: 40.w),
-                              // 소유자명, 조사차수, 실태조사일, 수용재결일, 평가구분
-                              Expanded(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '소유자명',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                          flex: 6,
-                                          child: CustomTextField(
-                                            controller: controller
-                                                .ownerLctnSearchController,
-                                            hintText: '읍면동',
-                                            onChanged: (value) {
-                                              //controller.searchBsnsName(value);
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 조사차수
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '조사차수',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                          flex: 6,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Expanded(
-                                                flex: 4,
-                                                child: CustomTextField(
-                                                  controller: controller
-                                                      .ownerLctnSearchController,
-                                                  hintText: '',
-                                                  onChanged: (value) {
-                                                    //controller.searchBsnsName(value);
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(width: 6.w),
-                                              CustomButton(
-                                                color: Color(0XFFE5E8ED),
-                                                text: '조회',
-                                                textColor: Color(0xFF1D1D1D),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 실태조사일
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '실태조사일',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                            flex: 6,
-                                            child: Container(
-                                                child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    isDateTime: true,
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 6.w),
-                                                Text('~'),
-                                                SizedBox(width: 6.w),
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    isDateTime: true,
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            ))),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 수용재결일
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '수용재결일',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                            flex: 6,
-                                            child: Container(
-                                                child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    isDateTime: true,
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 6.w),
-                                                Text('~'),
-                                                SizedBox(width: 6.w),
-                                                Expanded(
-                                                  flex: 4,
-                                                  child: CustomTextField(
-                                                    controller: controller
-                                                        .ownerLctnSearchController,
-                                                    hintText: '',
-                                                    isDateTime: true,
-                                                    onChanged: (value) {
-                                                      //controller.searchBsnsName(value);
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            ))),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 평가구분
-                                  SizedBox(
-                                    height: 80.h,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            //height: 24.h,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '평가구분',
-                                                  style: TextStyle(
-                                                    color: tableTextColor,
-                                                    fontSize: 30.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 12.w),
-                                        Expanded(
-                                          flex: 6,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Expanded(
-                                                flex: 4,
-                                                child: CustomTextField(
-                                                  controller: controller
-                                                      .ownerLctnSearchController,
-                                                  hintText: '',
-                                                  onChanged: (value) {
-                                                    //controller.searchBsnsName(value);
-                                                  },
-                                                ),
-                                              ),
-                                              SizedBox(width: 6.w),
-                                              CustomButton(
-                                                color: Color(0XFFE5E8ED),
-                                                text: '조회',
-                                                textColor: Color(0xFF1D1D1D),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-
-                                  /// 평가구분
-                                  SizedBox(height: 80.h, child: Container()),
-                                ],
-                              )),
-                            ],
-                          ),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 24.h),
-                      Container(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              width: Get.width,
-                              child: Row(
+                    ),
+                    SizedBox(height: 24.h),
+                    Container(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: Get.width,
+                            child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   CustomRichText(length: 10),
@@ -1722,197 +1706,197 @@ class SttusWidget {
                                     children: [
                                       CustomChip(
                                         title: '실태조사',
-                                        isSelected: controller.ladSttusInqireTabIsSelected[0],
+                                        isSelected: controller.sttusInqireTabIsSelected[0],
                                         onTap: () {
                                           controller
-                                              .handleLadSttusInqireTabSelected(
+                                              .handleSttusInqireTabSelected(
                                               0);
                                           if (controller
-                                              .isLadSttusInqireGridTab1
+                                              .isSttusInqireGridTab1
                                               .value ==
                                               true) {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             0] = false;
-                                            controller.isLadSttusInqireGridTab1
+                                            controller.isSttusInqireGridTab1
                                                 .value = false;
                                           } else {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             0] = true;
-                                            controller.isLadSttusInqireGridTab1
+                                            controller.isSttusInqireGridTab1
                                                 .value = true;
                                           }
                                           controller
-                                              .fetchLadSttusInqireDataSource();
+                                              .fetchObstSttusInqireDataSource();
                                         },
                                       ),
                                       SizedBox(width: 10.w),
                                       CustomChip(
                                         title: '소유자정보',
-                                        isSelected: controller.ladSttusInqireTabIsSelected[1],
+                                        isSelected: controller.sttusInqireTabIsSelected[1],
                                         onTap: () {
                                           controller
-                                              .handleLadSttusInqireTabSelected(
+                                              .handleSttusInqireTabSelected(
                                               1);
                                           if (controller
-                                              .isLadSttusInqireGridTab2
+                                              .isSttusInqireGridTab2
                                               .value ==
                                               true) {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             1] = false;
-                                            controller.isLadSttusInqireGridTab2
+                                            controller.isSttusInqireGridTab2
                                                 .value = false;
                                           } else {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             1] = true;
-                                            controller.isLadSttusInqireGridTab2
+                                            controller.isSttusInqireGridTab2
                                                 .value = true;
                                           }
                                           controller
-                                              .fetchLadSttusInqireDataSource();
+                                              .fetchObstSttusInqireDataSource();
                                         },
                                       ),
                                       SizedBox(width: 10.w),
                                       CustomChip(
                                         title: '감정평가',
-                                        isSelected: controller.ladSttusInqireTabIsSelected[2],
+                                        isSelected: controller.sttusInqireTabIsSelected[2],
                                         onTap: () {
                                           controller
-                                              .handleLadSttusInqireTabSelected(
+                                              .handleSttusInqireTabSelected(
                                               2);
                                           if (controller
-                                              .isLadSttusInqireGridTab3
+                                              .isSttusInqireGridTab3
                                               .value ==
                                               true) {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             2] = false;
-                                            controller.isLadSttusInqireGridTab3
+                                            controller.isSttusInqireGridTab3
                                                 .value = false;
                                           } else {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             2] = true;
-                                            controller.isLadSttusInqireGridTab3
+                                            controller.isSttusInqireGridTab3
                                                 .value = true;
                                           }
                                           controller
-                                              .fetchLadSttusInqireDataSource();
+                                              .fetchObstSttusInqireDataSource();
                                         },
                                       ),
                                       SizedBox(width: 10.w),
                                       CustomChip(
                                         title: '보상비산정',
-                                        isSelected: controller.ladSttusInqireTabIsSelected[3],
+                                        isSelected: controller.sttusInqireTabIsSelected[3],
                                         onTap: () {
                                           controller
-                                              .handleLadSttusInqireTabSelected(
+                                              .handleSttusInqireTabSelected(
                                               3);
                                           if (controller
-                                              .isLadSttusInqireGridTab4
+                                              .isSttusInqireGridTab4
                                               .value ==
                                               true) {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             3] = false;
-                                            controller.isLadSttusInqireGridTab4
+                                            controller.isSttusInqireGridTab4
                                                 .value = false;
                                           } else {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             3] = true;
-                                            controller.isLadSttusInqireGridTab4
+                                            controller.isSttusInqireGridTab4
                                                 .value = true;
                                           }
                                           controller
-                                              .fetchLadSttusInqireDataSource();
+                                              .fetchObstSttusInqireDataSource();
                                         },
                                       ),
                                       SizedBox(width: 10.w),
                                       CustomChip(
                                         title: '보상비지급',
-                                        isSelected: controller.ladSttusInqireTabIsSelected[4],
+                                        isSelected: controller.sttusInqireTabIsSelected[4],
                                         onTap: () {
                                           controller
-                                              .handleLadSttusInqireTabSelected(
+                                              .handleSttusInqireTabSelected(
                                               4);
                                           if (controller
-                                              .isLadSttusInqireGridTab5
+                                              .isSttusInqireGridTab5
                                               .value ==
                                               true) {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             4] = false;
-                                            controller.isLadSttusInqireGridTab5
+                                            controller.isSttusInqireGridTab5
                                                 .value = false;
                                           } else {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             4] = true;
-                                            controller.isLadSttusInqireGridTab5
+                                            controller.isSttusInqireGridTab5
                                                 .value = true;
                                           }
                                           controller
-                                              .fetchLadSttusInqireDataSource();
+                                              .fetchObstSttusInqireDataSource();
                                         },
                                       ),
                                       SizedBox(width: 10.w),
                                       CustomChip(
                                         title: '수용재결',
-                                        isSelected: controller.ladSttusInqireTabIsSelected[5],
+                                        isSelected: controller.sttusInqireTabIsSelected[5],
                                         onTap: () {
                                           controller
-                                              .handleLadSttusInqireTabSelected(
+                                              .handleSttusInqireTabSelected(
                                               5);
                                           if (controller
-                                              .isLadSttusInqireGridTab6
+                                              .isSttusInqireGridTab6
                                               .value ==
                                               true) {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             5] = false;
-                                            controller.isLadSttusInqireGridTab6
+                                            controller.isSttusInqireGridTab6
                                                 .value = false;
                                           } else {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             5] = true;
-                                            controller.isLadSttusInqireGridTab6
+                                            controller.isSttusInqireGridTab6
                                                 .value = true;
                                           }
                                           controller
-                                              .fetchLadSttusInqireDataSource();
+                                              .fetchObstSttusInqireDataSource();
                                         },
                                       ),
                                       SizedBox(width: 10.w),
                                       CustomChip(
                                         title: '이의재결',
-                                        isSelected: controller.ladSttusInqireTabIsSelected[6],
+                                        isSelected: controller.sttusInqireTabIsSelected[6],
                                         onTap: () {
                                           controller
-                                              .handleLadSttusInqireTabSelected(
+                                              .handleSttusInqireTabSelected(
                                               6);
                                           if (controller
-                                              .isLadSttusInqireGridTab7
+                                              .isSttusInqireGridTab7
                                               .value ==
                                               true) {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             6] = false;
-                                            controller.isLadSttusInqireGridTab7
+                                            controller.isSttusInqireGridTab7
                                                 .value = false;
                                           } else {
                                             controller
-                                                .ladSttusInqireTabIsSelected[
+                                                .sttusInqireTabIsSelected[
                                             6] = true;
-                                            controller.isLadSttusInqireGridTab7
+                                            controller.isSttusInqireGridTab7
                                                 .value = true;
                                           }
                                           controller
-                                              .fetchLadSttusInqireDataSource();
+                                              .fetchObstSttusInqireDataSource();
                                         },
                                       ),
                                     ],
@@ -1921,9 +1905,23 @@ class SttusWidget {
                               ),
                             ),
                             SizedBox(height: 10.h),
-                            Obx(() => BsnsSelectScreen()
-                                .buildObstSttusInqireDataGrid(
-                                    controller.obstSttusInqireColumns))
+                            // Obx(() => BsnsSelectScreen()
+                            //     .buildObstSttusInqireDataGrid(
+                            //         controller.obstSttusInqireColumns))
+                            Obx(() => controller.obstSttusInqireDataSource.value.rows.length == 0
+                                ? Center(
+                                  child: Container(
+                                      height: double.infinity,
+                                      child: AutoSizeText('데이터가 없습니다.',
+                                          style: TextStyle(
+                                              color: Color(0xFF555555),
+                                              fontSize: 32.sp,
+                                              fontWeight: FontWeight.w400)),
+                                    ),
+                                )
+                                : BsnsSelectScreen()
+                                    .buildObstSttusInqireDataGrid(
+                                        controller.obstSttusInqireColumns))
                           ],
                         ),
                       )

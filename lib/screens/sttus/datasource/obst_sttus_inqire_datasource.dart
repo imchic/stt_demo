@@ -53,9 +53,9 @@ class ObstSttusInqireDatasource extends DataGridSource {
               DataGridCell<String>(columnName: 'cmpnstnDscssUpc', value: e.cmpnstnDscssUpc.toString()),
               DataGridCell<String>(columnName: 'cmpnstnDscssTotAmt', value: e.cmpnstnDscssTotAmt.toString()),
 
-              DataGridCell<String>(columnName: 'aceptncAdjdcUpc', value: e.dcsUpc.toString()),
-              DataGridCell<String>(columnName: 'aceptncAdjdcAmt', value: e.dcsAmt.toString()),
-              DataGridCell<String>(columnName: 'aceptncAdjdcDt', value: e.dcsDt),
+              DataGridCell<String>(columnName: 'dcsUpc', value: e.dcsUpc.toString()),
+              DataGridCell<String>(columnName: 'dcsAmt', value: e.dcsAmt.toString()),
+              DataGridCell<String>(columnName: 'dcsDt', value: e.dcsDt),
               DataGridCell<String>(columnName: 'aceptncUseBeginDe', value: e.aceptncUseBeginDe),
               DataGridCell<String>(columnName: 'ldPymntRequstDe', value: e.ldPymntRequstDe),
               DataGridCell<String>(columnName: 'ldCpsmnPymntLdgmntDivCd', value: e.ldCpsmnPymntLdgmntDivCd),
