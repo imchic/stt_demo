@@ -21,4 +21,15 @@ class CommonUtil {
     return value.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
   }
 
+  // 전화번호 하이픈
+  static String phoneHyphen(String phone) {
+    if (phone.length == 11) {
+      return "${phone.substring(0, 3)}-${phone.substring(3, 7)}-${phone.substring(7, 11)}";
+    } else if (phone.length == 10) {
+      return "${phone.substring(0, 3)}-${phone.substring(3, 6)}-${phone.substring(6, 10)}";
+    } else {
+      return phone;
+    }
+  }
+
 }

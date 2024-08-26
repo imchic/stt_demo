@@ -613,7 +613,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       columns: [
         gridColumn('ownerNo', '소유자번호'),
         gridColumn('ownerNm', '소유자명'),
-        gridColumn('posesnDivCd', '소유자구분', width: 60),
+        // gridColumn('posesnDivCd', '소유자구분', width: 60),
+        gridColumn('posesnDivNm', '소유자구분', width: 60),
         // gridColumn('bsnsNo', '사업번호', isVisble: false),
         // gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
         gridColumn('ownerRgsbukAddr', '등기부주소', width: 440),

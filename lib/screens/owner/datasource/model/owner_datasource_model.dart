@@ -53,7 +53,8 @@ class OwnerDataSourceModel {
       this.lastUpdusrId, 
       this.lastUpdtDt, 
       this.conectIp, 
-      this.posesnDivCd, 
+      this.posesnDivCd,
+      this.posesnDivNm,
       this.thingCnt, 
       this.bsnsCnt, 
       this.realOwnerNo, 
@@ -84,6 +85,7 @@ class OwnerDataSourceModel {
     lastUpdtDt = json['lastUpdtDt'];
     conectIp = json['conectIp'];
     posesnDivCd = json['posesnDivCd'];
+    posesnDivNm = json['posesnDivNm'];
     thingCnt = json['thingCnt'];
     bsnsCnt = json['bsnsCnt'];
     realOwnerNo = json['realOwnerNo'];
@@ -113,6 +115,7 @@ class OwnerDataSourceModel {
   num? lastUpdtDt;
   String? conectIp;
   String? posesnDivCd;
+  String? posesnDivNm;
   num? thingCnt;
   num? bsnsCnt;
   String? realOwnerNo;
@@ -144,6 +147,7 @@ class OwnerDataSourceModel {
     map['lastUpdtDt'] = lastUpdtDt;
     map['conectIp'] = conectIp;
     map['posesnDivCd'] = posesnDivCd;
+    map['posesnDivNm'] = posesnDivNm;
     map['thingCnt'] = thingCnt;
     map['bsnsCnt'] = bsnsCnt;
     map['realOwnerNo'] = realOwnerNo;

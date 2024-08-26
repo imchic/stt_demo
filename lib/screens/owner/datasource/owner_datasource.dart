@@ -16,7 +16,8 @@ class OwnerDatasource extends DataGridSource {
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell(columnName: 'ownerNo', value: e.ownerNo),
               DataGridCell(columnName: 'ownerNm', value: e.ownerNm),
-              DataGridCell(columnName: 'posesnDivCd', value: e.posesnDivCd),
+              //DataGridCell(columnName: 'posesnDivCd', value: e.posesnDivCd),
+              DataGridCell(columnName: 'posesnDivNm', value: e.posesnDivNm),
               // DataGridCell(columnName: 'bsnsNo', value: e.bsnsNo),
               // DataGridCell(columnName: 'bsnsZoneNo', value: e.bsnsZoneNo),
               DataGridCell(columnName: 'ownerRgsbukAddr', value: e.ownerRgsbukAddr),
@@ -68,6 +69,21 @@ class OwnerDatasource extends DataGridSource {
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
+        );
+      }
+
+      if(dataGridCell.columnName == 'posesnDivNm') {
+        return Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(6.0),
+          child: Container(
+            alignment: Alignment.center,
+            width: 80.w,
+            decoration: BoxDecoration(
+              color: dataGridCell.value.toString() == '국유' ? Color(0xffFFBF00) : dataGridCell.value.toString() == '공유' ? Color(0xffFF7F50) : dataGridCell.value.toString() == '사유' ? Color(0xffFF4500) : Color(0xffFF69B4),
+              borderRadius: BorderRadius.circular(5.0),
+            ), child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w400, color: Colors.white)),
+          ),
         );
       }
 
