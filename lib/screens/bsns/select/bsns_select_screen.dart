@@ -310,9 +310,9 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           TableRow(
             children: [
               TableCell(
+                verticalAlignment: TableCellVerticalAlignment.fill,
                 child: Container(
                   width: 200.w,
-                  height: 128.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
@@ -350,9 +350,9 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           TableRow(
             children: [
               TableCell(
+                verticalAlignment: TableCellVerticalAlignment.fill,
                 child: Container(
                   width: 200.w,
-                  height: 80.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
@@ -370,8 +370,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                 ),
               ),
               TableCell(
+                verticalAlignment: TableCellVerticalAlignment.fill,
                 child: Container(
-                  height: 80.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
                   child: AutoSizeText(
@@ -389,9 +389,9 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           TableRow(
             children: [
               TableCell(
+                verticalAlignment: TableCellVerticalAlignment.fill,
                 child: Container(
                   width: 200.w,
-                  height: 128.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
@@ -411,7 +411,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               ),
               TableCell(
                 child: Container(
-                  // height: 80.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
                   child: AutoSizeText(
@@ -430,9 +429,9 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           TableRow(
             children: [
               TableCell(
+                verticalAlignment: TableCellVerticalAlignment.fill,
                 child: Container(
                   width: 200.w,
-                  height: 256.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
@@ -468,9 +467,9 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           TableRow(
             children: [
               TableCell(
+                verticalAlignment: TableCellVerticalAlignment.fill,
                 child: Container(
                   width: 200.w,
-                  height: 80.h,
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: gray300),
@@ -489,7 +488,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
               ),
               TableCell(
                 child: Container(
-                  height: 80.h,
                   padding: const EdgeInsets.all(8.0),
                   color: Colors.white,
                   child: AutoSizeText(
@@ -576,7 +574,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
-      columnWidthMode: ColumnWidthMode.none,
+      columnWidthMode: ColumnWidthMode.auto,
       isSelect: false,
       isSort: false,
       columns: [
@@ -929,7 +927,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.ladSttusInqireDataSource.value,
       controller: controller.ladSttusInqireDataGridController,
-      columnWidthMode: ColumnWidthMode.auto,
+      columnWidthMode: ColumnWidthMode.fill,
       isSort: false,
       freezeColumnCount: 4,
       stackedHeaderRows: [
@@ -1051,6 +1049,122 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                           fontWeight: FontWeight.bold,
                           fontSize: 30.sp,
                           color: Color(0xFF1D1D1D),)))),
+        ]),
+      ],
+      columns: columns,
+    );
+  }
+
+  /// [buildAccdtlnvstgObstDataGrid] 데이터그리드
+  /// [통계정보 > 지장물현황조회]
+  Widget buildObstSttusInqireDataGrid(List<GridColumn> columns) {
+    return CustomGrid(
+      dataSource: controller.ladSttusInqireDataSource.value,
+      controller: controller.ladSttusInqireDataGridController,
+      columnWidthMode: ColumnWidthMode.fill,
+      isSort: false,
+      freezeColumnCount: 4,
+      stackedHeaderRows: [
+        StackedHeaderRow(cells: [
+          StackedHeaderCell(
+              columnNames: ['lgdongNm', 'lcrtsDivCd', 'mlnoLtno', 'slnoLtno'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('토지기본정보',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['rqest', 'invstgDe', 'accdtInvstgSqnc'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('실태조사',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['ownerNo', 'posesnDivCd', 'ownerNm', 'ownerRgsbukAddr', 'posesnShreNmrtrInfo', 'posesnShreDnmntrInfo'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('소유자정보',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['apasmtReqestDivCd', 'apasmtSqnc', 'prcPnttmDe'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('감정평가',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['apasmtInsttNm1', 'apasmtInsttEvlUpc1', 'apasmtInsttEvlAmt1'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('A평가법인',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['apasmtInsttNm2', 'apasmtInsttEvlUpc2', 'apasmtInsttEvlAmt2'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('B평가법인',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['apasmtInsttNm3', 'apasmtInsttEvlUpc3', 'apasmtInsttEvlAmt3'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('C평가법인',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['cmpnstnCmptnUpc', 'cpsmnCmptnAmt'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('보상비산정',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['caPymntRequstDe', 'cmpnstnDscssUpc', 'cmpnstnDscssTotAmt'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('보상비지급',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['dcsUpc', 'dcsAmt', 'dcsDt', 'aceptncUseBeginDe', 'ldPymntRequstDe', 'ldCpsmnPymntLdgmntDivCd'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('수용재결',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
+          StackedHeaderCell(
+              columnNames: ['proUpc', 'proAmt', 'proDt', 'proPymntRequstDe', 'proCpsmnPymntLdgmntDivCd'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('이의재결',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),)))),
         ]),
       ],
       columns: columns,

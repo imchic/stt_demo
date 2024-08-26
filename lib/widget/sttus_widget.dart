@@ -1922,8 +1922,8 @@ class SttusWidget {
                             ),
                             SizedBox(height: 10.h),
                             Obx(() => BsnsSelectScreen()
-                                .buildLadSttusInqireDataGrid(
-                                    controller.ladSttusInqireColumns))
+                                .buildObstSttusInqireDataGrid(
+                                    controller.obstSttusInqireColumns))
                           ],
                         ),
                       )

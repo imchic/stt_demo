@@ -445,7 +445,7 @@ class BsnsWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: [
                                                     AutoSizeText(
-                                                      controller.searchBsnsPlanList[index].mngdeptCd ?? '-',
+                                                      controller.searchBsnsPlanList[index].head ?? '-',
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(
                                                         color: Color(0xFF1D1D1D),
@@ -470,7 +470,7 @@ class BsnsWidget {
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: [
                                                         AutoSizeText(
-                                                          '수도개발처',
+                                                          controller.searchBsnsPlanList[index].dept ?? '-',
                                                           style: TextStyle(
                                                             color: Color(0xFF555555),
                                                             fontSize: 1.w > 1.h ? 30.sp : 50.sp,
@@ -486,7 +486,7 @@ class BsnsWidget {
                                                         ),
                                                         SizedBox(width: 16.w),
                                                         AutoSizeText(
-                                                          '수도개발부',
+                                                          controller.searchBsnsPlanList[index].team ?? '-',
                                                           style: TextStyle(
                                                             color: Color(0xFF555555),
                                                             fontSize: 1.w > 1.h ? 30.sp : 50.sp,
@@ -501,7 +501,7 @@ class BsnsWidget {
                                                         ),
                                                         SizedBox(width: 16.w),
                                                         AutoSizeText(
-                                                          '수도개발팀',
+                                                          controller.searchBsnsPlanList[index].plans ?? '-',
                                                           style: TextStyle(
                                                             color: Color(0xFF555555),
                                                             fontSize: 1.w > 1.h ? 30.sp : 50.sp,
@@ -511,7 +511,7 @@ class BsnsWidget {
                                                         ),
                                                         SizedBox(width: 16.w),
                                                         AutoSizeText(
-                                                          '홍길동',
+                                                          controller.searchBsnsPlanList[index].korname ?? '-',
                                                           style: TextStyle(
                                                             color: Color(0xFF555555),
                                                             fontSize: 1.w > 1.h ? 30.sp : 50.sp,
