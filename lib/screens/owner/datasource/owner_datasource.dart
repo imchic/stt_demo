@@ -80,7 +80,13 @@ class OwnerDatasource extends DataGridSource {
             alignment: Alignment.center,
             width: 80.w,
             decoration: BoxDecoration(
-              color: dataGridCell.value.toString() == '국유' ? Color(0xffFFBF00) : dataGridCell.value.toString() == '공유' ? Color(0xffFF7F50) : dataGridCell.value.toString() == '사유' ? Color(0xffFF4500) : Color(0xffFF69B4),
+              color: dataGridCell.value.toString() == '국유'
+                  ? Color(0xffFFBF00)
+                  : dataGridCell.value.toString() == '공유'
+                  ? Color(0xffFF7F50)
+                  : dataGridCell.value.toString() == '사유'
+                  ? Color(0xffFF4500)
+                  : Color(0xffFF69B4),
               borderRadius: BorderRadius.circular(5.0),
             ), child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w400, color: Colors.white)),
           ),

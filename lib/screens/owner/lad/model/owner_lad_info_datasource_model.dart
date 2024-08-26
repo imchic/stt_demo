@@ -1,28 +1,31 @@
-/// TM_LP20210 (LP_실태조사토지정보)
-
 import 'dart:convert';
-/// bsnsNo : "4301"
+/// bsnsNo : "5006"
 /// bsnsZoneNo : 1
-/// thingSerNo : "L-0000004301-0001-4313012100-2-0012-0005-000001"
-/// accdtInvstgRstSqnc : 1
+/// thingSerNo : "L-0000005006-0001-4157031025-1-0576-0006-000001"
+/// accdtInvstgRstSqnc : 2
 /// accdtInvstgSqnc : 1
-/// lcrtsDivCd : "2"
-/// lgdongCd : "4313012100"
-/// mlnoLtno : "12"
-/// slnoLtno : "5"
-/// sttusLndcgrDivCd : "30"
-/// acqsPrpDivCd : "D18"
-/// aceptncUseDivCd : null
-/// lgdongNm : "충청북도 충주시 종민동"
-/// ofcbkLndcgrDivCd : "30"
-/// ofcbkAra : 18516
-/// incrprAra : 16359
-/// cmpnstnInvstgAra : 16359
+/// lcrtsDivCd : "1"
+/// lcrtsDivNm : "일반"
+/// lgdongCd : "4157031025"
+/// mlnoLtno : "576"
+/// slnoLtno : "6"
+/// sttusLndcgrDivCd : "01"
+/// sttusLndcgrDivNm : "전"
+/// acqsPrpDivCd : "D16"
+/// acqsPrpDivNm : "주운수로"
+/// aceptncUseDivCd : "07"
+/// aceptncUseDivNm : "염전"
+/// lgdongNm : "경기도 김포시 고촌면 전호리"
+/// ofcbkLndcgrDivCd : "02"
+/// ofcbkLndcgrDivNm : "답"
+/// ofcbkAra : 668
+/// incrprAra : 668
+/// cmpnstnInvstgAra : 668
 /// oflndvalAmt : 0
 /// oflndvalStdrMt : null
 /// rprsLtnoYn : "Y"
 /// apasmtReqestYn : "Y"
-/// invstgDt : "20150311"
+/// invstgDt : "20100210"
 /// cmpnstnDtaChnStatDivCd : null
 /// cmpnstnDtaCreatId : "실태IMPORT"
 /// cmpnstnDtaCreatGrpId : null
@@ -32,54 +35,59 @@ import 'dart:convert';
 /// parentLcrtsDivCd : null
 /// lotMergeDivsDivCd : null
 /// accdtInvstgRm : null
-/// frstRgstrId : "20150132"
-/// frstRegistDt : "20150326"
+/// frstRgstrId : "0"
+/// frstRegistDt : "20100426"
 /// lastUpdusrId : "LMIS"
 /// lastUpdtDt : "20151001"
-/// cmpnstnStepDivCd : "29"
-/// cmpnstnStepDivCdNm : "x"
+/// cmpnstnStepDivCd : "49"
+/// cmpnstnStepDivCdNm : "보상비지급"
 
-OwnerLadInfoDatasourceModel ownerLadInfoFromJson(String str) => OwnerLadInfoDatasourceModel.fromJson(json.decode(str));
-String ownerLadInfoToJson(OwnerLadInfoDatasourceModel data) => json.encode(data.toJson());
+OwnerLadInfoDatasourceModel ownerLadInfoDatasourceModelFromJson(String str) => OwnerLadInfoDatasourceModel.fromJson(json.decode(str));
+String ownerLadInfoDatasourceModelToJson(OwnerLadInfoDatasourceModel data) => json.encode(data.toJson());
 class OwnerLadInfoDatasourceModel {
   OwnerLadInfoDatasourceModel({
-    this.bsnsNo,
-    this.bsnsZoneNo,
-    this.thingSerNo,
-    this.accdtInvstgRstSqnc,
-    this.accdtInvstgSqnc,
-    this.lcrtsDivCd,
-    this.lgdongCd,
-    this.mlnoLtno,
-    this.slnoLtno,
-    this.sttusLndcgrDivCd,
-    this.acqsPrpDivCd,
-    this.aceptncUseDivCd,
-    this.lgdongNm,
-    this.ofcbkLndcgrDivCd,
-    this.ofcbkAra,
-    this.incrprAra,
-    this.cmpnstnInvstgAra,
-    this.oflndvalAmt,
-    this.oflndvalStdrMt,
-    this.rprsLtnoYn,
-    this.apasmtReqestYn,
-    this.invstgDt,
-    this.cmpnstnDtaChnStatDivCd,
-    this.cmpnstnDtaCreatId,
-    this.cmpnstnDtaCreatGrpId,
-    this.chnCtnt,
-    this.parentMlnoLtno,
-    this.parentSlnoLtno,
-    this.parentLcrtsDivCd,
-    this.lotMergeDivsDivCd,
-    this.accdtInvstgRm,
-    this.frstRgstrId,
-    this.frstRegistDt,
-    this.lastUpdusrId,
-    this.lastUpdtDt,
-    this.cmpnstnStepDivCd,
-    this.cmpnstnStepDivCdNm,});
+      this.bsnsNo, 
+      this.bsnsZoneNo, 
+      this.thingSerNo, 
+      this.accdtInvstgRstSqnc, 
+      this.accdtInvstgSqnc, 
+      this.lcrtsDivCd, 
+      this.lcrtsDivNm, 
+      this.lgdongCd, 
+      this.mlnoLtno, 
+      this.slnoLtno, 
+      this.sttusLndcgrDivCd, 
+      this.sttusLndcgrDivNm, 
+      this.acqsPrpDivCd, 
+      this.acqsPrpDivNm, 
+      this.aceptncUseDivCd, 
+      this.aceptncUseDivNm, 
+      this.lgdongNm, 
+      this.ofcbkLndcgrDivCd, 
+      this.ofcbkLndcgrDivNm, 
+      this.ofcbkAra, 
+      this.incrprAra, 
+      this.cmpnstnInvstgAra, 
+      this.oflndvalAmt, 
+      this.oflndvalStdrMt, 
+      this.rprsLtnoYn, 
+      this.apasmtReqestYn, 
+      this.invstgDt, 
+      this.cmpnstnDtaChnStatDivCd, 
+      this.cmpnstnDtaCreatId, 
+      this.cmpnstnDtaCreatGrpId, 
+      this.chnCtnt, 
+      this.parentMlnoLtno, 
+      this.parentSlnoLtno, 
+      this.parentLcrtsDivCd, 
+      this.lotMergeDivsDivCd, 
+      this.accdtInvstgRm, 
+      this.frstRgstrId, 
+      this.frstRegistDt, 
+      this.lastUpdusrId, 
+      this.lastUpdtDt, 
+      this.cmpnstnStepDivCd, 
+      this.cmpnstnStepDivCdNm,});
 
   OwnerLadInfoDatasourceModel.fromJson(dynamic json) {
     bsnsNo = json['bsnsNo'];
@@ -88,14 +96,19 @@ class OwnerLadInfoDatasourceModel {
     accdtInvstgRstSqnc = json['accdtInvstgRstSqnc'];
     accdtInvstgSqnc = json['accdtInvstgSqnc'];
     lcrtsDivCd = json['lcrtsDivCd'];
+    lcrtsDivNm = json['lcrtsDivNm'];
     lgdongCd = json['lgdongCd'];
     mlnoLtno = json['mlnoLtno'];
     slnoLtno = json['slnoLtno'];
     sttusLndcgrDivCd = json['sttusLndcgrDivCd'];
+    sttusLndcgrDivNm = json['sttusLndcgrDivNm'];
     acqsPrpDivCd = json['acqsPrpDivCd'];
+    acqsPrpDivNm = json['acqsPrpDivNm'];
     aceptncUseDivCd = json['aceptncUseDivCd'];
+    aceptncUseDivNm = json['aceptncUseDivNm'];
     lgdongNm = json['lgdongNm'];
     ofcbkLndcgrDivCd = json['ofcbkLndcgrDivCd'];
+    ofcbkLndcgrDivNm = json['ofcbkLndcgrDivNm'];
     ofcbkAra = json['ofcbkAra'];
     incrprAra = json['incrprAra'];
     cmpnstnInvstgAra = json['cmpnstnInvstgAra'];
@@ -126,17 +139,22 @@ class OwnerLadInfoDatasourceModel {
   num? accdtInvstgRstSqnc;
   num? accdtInvstgSqnc;
   String? lcrtsDivCd;
+  String? lcrtsDivNm;
   String? lgdongCd;
   String? mlnoLtno;
   String? slnoLtno;
   String? sttusLndcgrDivCd;
+  String? sttusLndcgrDivNm;
   String? acqsPrpDivCd;
-  dynamic aceptncUseDivCd;
+  String? acqsPrpDivNm;
+  String? aceptncUseDivCd;
+  String? aceptncUseDivNm;
   String? lgdongNm;
   String? ofcbkLndcgrDivCd;
-  num? ofcbkAra;
-  num? incrprAra;
-  num? cmpnstnInvstgAra;
+  String? ofcbkLndcgrDivNm;
+  String? ofcbkAra;
+  String? incrprAra;
+  String? cmpnstnInvstgAra;
   num? oflndvalAmt;
   dynamic oflndvalStdrMt;
   String? rprsLtnoYn;
@@ -166,14 +184,19 @@ class OwnerLadInfoDatasourceModel {
     map['accdtInvstgRstSqnc'] = accdtInvstgRstSqnc;
     map['accdtInvstgSqnc'] = accdtInvstgSqnc;
     map['lcrtsDivCd'] = lcrtsDivCd;
+    map['lcrtsDivNm'] = lcrtsDivNm;
     map['lgdongCd'] = lgdongCd;
     map['mlnoLtno'] = mlnoLtno;
     map['slnoLtno'] = slnoLtno;
     map['sttusLndcgrDivCd'] = sttusLndcgrDivCd;
+    map['sttusLndcgrDivNm'] = sttusLndcgrDivNm;
     map['acqsPrpDivCd'] = acqsPrpDivCd;
+    map['acqsPrpDivNm'] = acqsPrpDivNm;
     map['aceptncUseDivCd'] = aceptncUseDivCd;
+    map['aceptncUseDivNm'] = aceptncUseDivNm;
     map['lgdongNm'] = lgdongNm;
     map['ofcbkLndcgrDivCd'] = ofcbkLndcgrDivCd;
+    map['ofcbkLndcgrDivNm'] = ofcbkLndcgrDivNm;
     map['ofcbkAra'] = ofcbkAra;
     map['incrprAra'] = incrprAra;
     map['cmpnstnInvstgAra'] = cmpnstnInvstgAra;

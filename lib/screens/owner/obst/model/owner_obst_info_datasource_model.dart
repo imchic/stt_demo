@@ -1,39 +1,43 @@
 import 'dart:convert';
-/// bsnsNo : "4301"
+/// bsnsNo : "2005"
 /// bsnsZoneNo : 1
-/// thingSerNo : "O-0000004301-0001-4313012100-1-0898-0003-000001"
-/// accdtInvstgRstSqnc : 1
-/// accdtInvstgSqnc : 1
-/// cmpnstnObstNo : 1
-/// obstSeq : 1
-/// lgdongCd : "4313012100"
-/// mlnoLtno : "898"
-/// slnoLtno : "3"
-/// lcrtsDivCd : "1"
-/// acqsPrpDivCd : "D18"
-/// lgdongNm : "충청북도 충주시 종민동"
-/// invstgDt : "2015-03-10"
-/// obstDivCd : "03"
-/// cmpnstnThingKndDtls : "사과나무"
-/// obstStrctStndrdInfo : null
-/// dtaPrcsSittnCtnt : null
-/// cmpnstnQtyAraVu : 433
-/// cmpnstnThingUnitDivCd : "175"
+/// thingSerNo : "O-0000002005-0001-4715043023-2-0016-0005-000007"
+/// accdtInvstgRstSqnc : 0
+/// accdtInvstgSqnc : 3
+/// cmpnstnObstNo : 8
+/// obstSeq : 7
+/// lgdongCd : "4715043023"
+/// mlnoLtno : "16"
+/// slnoLtno : "5"
+/// lcrtsDivCd : "2"
+/// lcrtsDivNm : "산"
+/// acqsPrpDivCd : "D01"
+/// acqsPrpDivNm : "수몰용지"
+/// lgdongNm : "경상북도 김천시 부항면 지좌리 "
+/// invstgDt : "2006-09-25"
+/// obstDivCd : "09"
+/// obstDivNm : "분묘"
+/// cmpnstnThingKndDtls : "단장"
+/// obstStrctStndrdInfo : "6-14"
+/// dtaPrcsSittnCtnt : "무연"
+/// cmpnstnQtyAraVu : 1
+/// cmpnstnThingUnitDivCd : "910"
+/// cmpnstnThingUnitDivNm : "기"
 /// cmptnUpcCtnt : null
-/// cmpnstnDtaChnStatDivCd : null
-/// chnCtnt : null
-/// spcitm : "10년"
+/// cmpnstnDtaChnStatDivCd : "09"
+/// chnCtnt : "데이터변경"
+/// spcitm : null
 /// fobjctNo : "0"
 /// accdtInvstgRm : null
-/// frstRgstrId : "0"
-/// frstRegistDt : 1429025457000
+/// frstRgstrId : "20090301"
+/// frstRegistDt : 1264644377000
 /// lastUpdusrId : "LMIS"
-/// lastUpdtDt : 1443675917000
-/// cmpnstnStepDivCd : "49"
-/// cmpnstnStepDivCdNm : "x"
+/// lastUpdtDt : 1443631404000
+/// cmpnstnStepDivCd : "41"
+/// cmpnstnStepDivNm : "보상협의요청"
 
-OwnerObstInfoDatasourceModel ownerObstInfoDatasourcModelFromJson(String str) => OwnerObstInfoDatasourceModel.fromJson(json.decode(str));
-String ownerObstInfoDatasourcModelToJson(OwnerObstInfoDatasourceModel data) => json.encode(data.toJson());
+OwnerObstInfoDatasourceModel ownerObstInfoDatasourceModelFromJson(String str) => OwnerObstInfoDatasourceModel.fromJson(json.decode(str));
+String ownerObstInfoDatasourceModelToJson(OwnerObstInfoDatasourceModel data) => json.encode(data.toJson());
 class OwnerObstInfoDatasourceModel {
   OwnerObstInfoDatasourceModel({
       this.bsnsNo, 
@@ -47,15 +51,19 @@ class OwnerObstInfoDatasourceModel {
       this.mlnoLtno, 
       this.slnoLtno, 
       this.lcrtsDivCd, 
+      this.lcrtsDivNm, 
       this.acqsPrpDivCd, 
+      this.acqsPrpDivNm, 
       this.lgdongNm, 
       this.invstgDt, 
       this.obstDivCd, 
+      this.obstDivNm, 
       this.cmpnstnThingKndDtls, 
       this.obstStrctStndrdInfo, 
       this.dtaPrcsSittnCtnt, 
       this.cmpnstnQtyAraVu, 
       this.cmpnstnThingUnitDivCd, 
+      this.cmpnstnThingUnitDivNm, 
       this.cmptnUpcCtnt, 
       this.cmpnstnDtaChnStatDivCd, 
       this.chnCtnt, 
@@ -67,7 +75,7 @@ class OwnerObstInfoDatasourceModel {
       this.lastUpdusrId, 
       this.lastUpdtDt, 
       this.cmpnstnStepDivCd, 
-      this.cmpnstnStepDivCdNm,});
+      this.cmpnstnStepDivNm,});
 
   OwnerObstInfoDatasourceModel.fromJson(dynamic json) {
     bsnsNo = json['bsnsNo'];
@@ -81,15 +89,19 @@ class OwnerObstInfoDatasourceModel {
     mlnoLtno = json['mlnoLtno'];
     slnoLtno = json['slnoLtno'];
     lcrtsDivCd = json['lcrtsDivCd'];
+    lcrtsDivNm = json['lcrtsDivNm'];
     acqsPrpDivCd = json['acqsPrpDivCd'];
+    acqsPrpDivNm = json['acqsPrpDivNm'];
     lgdongNm = json['lgdongNm'];
     invstgDt = json['invstgDt'];
     obstDivCd = json['obstDivCd'];
+    obstDivNm = json['obstDivNm'];
     cmpnstnThingKndDtls = json['cmpnstnThingKndDtls'];
     obstStrctStndrdInfo = json['obstStrctStndrdInfo'];
     dtaPrcsSittnCtnt = json['dtaPrcsSittnCtnt'];
     cmpnstnQtyAraVu = json['cmpnstnQtyAraVu'];
     cmpnstnThingUnitDivCd = json['cmpnstnThingUnitDivCd'];
+    cmpnstnThingUnitDivNm = json['cmpnstnThingUnitDivNm'];
     cmptnUpcCtnt = json['cmptnUpcCtnt'];
     cmpnstnDtaChnStatDivCd = json['cmpnstnDtaChnStatDivCd'];
     chnCtnt = json['chnCtnt'];
@@ -101,7 +113,7 @@ class OwnerObstInfoDatasourceModel {
     lastUpdusrId = json['lastUpdusrId'];
     lastUpdtDt = json['lastUpdtDt'];
     cmpnstnStepDivCd = json['cmpnstnStepDivCd'];
-    cmpnstnStepDivCdNm = json['cmpnstnStepDivCdNm'];
+    cmpnstnStepDivNm = json['cmpnstnStepDivNm'];
   }
   String? bsnsNo;
   num? bsnsZoneNo;
@@ -114,19 +126,23 @@ class OwnerObstInfoDatasourceModel {
   String? mlnoLtno;
   String? slnoLtno;
   String? lcrtsDivCd;
+  String? lcrtsDivNm;
   String? acqsPrpDivCd;
+  String? acqsPrpDivNm;
   String? lgdongNm;
   String? invstgDt;
   String? obstDivCd;
+  String? obstDivNm;
   String? cmpnstnThingKndDtls;
-  dynamic obstStrctStndrdInfo;
-  dynamic dtaPrcsSittnCtnt;
+  String? obstStrctStndrdInfo;
+  String? dtaPrcsSittnCtnt;
   num? cmpnstnQtyAraVu;
   String? cmpnstnThingUnitDivCd;
+  String? cmpnstnThingUnitDivNm;
   dynamic cmptnUpcCtnt;
-  dynamic cmpnstnDtaChnStatDivCd;
-  dynamic chnCtnt;
-  String? spcitm;
+  String? cmpnstnDtaChnStatDivCd;
+  String? chnCtnt;
+  dynamic spcitm;
   String? fobjctNo;
   dynamic accdtInvstgRm;
   String? frstRgstrId;
@@ -134,7 +150,7 @@ class OwnerObstInfoDatasourceModel {
   String? lastUpdusrId;
   num? lastUpdtDt;
   String? cmpnstnStepDivCd;
-  String? cmpnstnStepDivCdNm;
+  String? cmpnstnStepDivNm;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -149,15 +165,19 @@ class OwnerObstInfoDatasourceModel {
     map['mlnoLtno'] = mlnoLtno;
     map['slnoLtno'] = slnoLtno;
     map['lcrtsDivCd'] = lcrtsDivCd;
+    map['lcrtsDivNm'] = lcrtsDivNm;
     map['acqsPrpDivCd'] = acqsPrpDivCd;
+    map['acqsPrpDivNm'] = acqsPrpDivNm;
     map['lgdongNm'] = lgdongNm;
     map['invstgDt'] = invstgDt;
     map['obstDivCd'] = obstDivCd;
+    map['obstDivNm'] = obstDivNm;
     map['cmpnstnThingKndDtls'] = cmpnstnThingKndDtls;
     map['obstStrctStndrdInfo'] = obstStrctStndrdInfo;
     map['dtaPrcsSittnCtnt'] = dtaPrcsSittnCtnt;
     map['cmpnstnQtyAraVu'] = cmpnstnQtyAraVu;
     map['cmpnstnThingUnitDivCd'] = cmpnstnThingUnitDivCd;
+    map['cmpnstnThingUnitDivNm'] = cmpnstnThingUnitDivNm;
     map['cmptnUpcCtnt'] = cmptnUpcCtnt;
     map['cmpnstnDtaChnStatDivCd'] = cmpnstnDtaChnStatDivCd;
     map['chnCtnt'] = chnCtnt;
@@ -169,7 +189,7 @@ class OwnerObstInfoDatasourceModel {
     map['lastUpdusrId'] = lastUpdusrId;
     map['lastUpdtDt'] = lastUpdtDt;
     map['cmpnstnStepDivCd'] = cmpnstnStepDivCd;
-    map['cmpnstnStepDivCdNm'] = cmpnstnStepDivCdNm;
+    map['cmpnstnStepDivNm'] = cmpnstnStepDivNm;
     return map;
   }
 
