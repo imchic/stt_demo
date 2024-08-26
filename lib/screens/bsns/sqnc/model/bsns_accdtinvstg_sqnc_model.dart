@@ -43,9 +43,9 @@ class BsnsAccdtinvstgSqncModel {
   String? accdtInvstgNm;
   String? delYn;
   String? frstRgstrId;
-  num? frstRegistDt;
+  String? frstRegistDt;
   String? lastUpdusrId;
-  num? lastUpdtDt;
+  String? lastUpdtDt;
   String? conectIp;
 
   Map<String, dynamic> toJson() {

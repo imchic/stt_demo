@@ -15,9 +15,9 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
       DataGridCell<String>(columnName: 'accdtInvstgNm', value: e.accdtInvstgNm),
       DataGridCell<String>(columnName: 'delYn', value: e.delYn),
       DataGridCell<String>(columnName: 'frstRgstrId', value: e.frstRgstrId),
-      DataGridCell<num>(columnName: 'frstRegistDt', value: e.frstRegistDt),
+      DataGridCell<String>(columnName: 'frstRegistDt', value: e.frstRegistDt),
       DataGridCell<String>(columnName: 'lastUpdusrId', value: e.lastUpdusrId),
-      DataGridCell<num>(columnName: 'lastUpdtDt', value: e.lastUpdtDt),
+      DataGridCell<String>(columnName: 'lastUpdtDt', value: e.lastUpdtDt),
       DataGridCell<String>(columnName: 'conectIp', value: e.conectIp),
     ]))
         .toList();

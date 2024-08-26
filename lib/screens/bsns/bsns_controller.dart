@@ -541,6 +541,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     } else {
       debugPrint('Failed to load post');
+      DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
     }
 
     return bsnsPlanList;
@@ -1203,121 +1204,105 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          '차수등록',
-                          style: TextStyle(
-                            color: tableTextColor,
-                            fontSize: 1.w > 1.h ? 32.sp : 52.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 140.w,
+                      child: Text(
+                        '차수등록',
+                        style: TextStyle(
+                          color: tableTextColor,
+                          fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(width: 32.w),
-                      Expanded(
-                        flex: 9,
-                        child: SizedBox(
-                          child: CustomTextField(
-                            controller: orderAutoController,
-                            hintText: orderAutoController.text,
-                            isPassword: false,
-                            isReadOnly: true,
-                            textColor: tableTextColor,
-                            onChanged: (value) {
-                              debugPrint('orderAutoController : $value');
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    SizedBox(width: 32.w),
+                    CustomTextField(
+                      controller: orderAutoController,
+                      hintText: orderAutoController.text,
+                      isPassword: false,
+                      isReadOnly: true,
+                      textColor: tableTextColor,
+                      onChanged: (value) {
+                        debugPrint('orderAutoController : $value');
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
             SizedBox(height: 20.h),
             // 시작일
-            Container(
-              width: double.infinity,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          '시작일',
-                          style: TextStyle(
-                            color: tableTextColor,
-                            fontSize: 1.w > 1.h ? 32.sp : 52.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 140.w,
+                      child: Text(
+                        '시작일',
+                        style: TextStyle(
+                          color: tableTextColor,
+                          fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(width: 32.w),
-                      Expanded(
-                        flex: 9,
-                        child: SizedBox(
-                          child: CustomTextField(
-                            controller: orderStartDtController,
-                            hintText: orderStartDtController.text,
-                            isPassword: false,
-                            isReadOnly: true,
-                            textColor: tableTextColor,
-                            onChanged: (value) {
-                              debugPrint('orderAutoController : $value');
-                            },
-                            onTap: () {
-                              showDatePicker(
-                                context: Get.context!,
-                                initialDate: orderStartDtController
-                                    .text.isEmpty
-                                    ? DateTime.now()
-                                    : DateTime.parse(
-                                    orderStartDtController.text),
-                                firstDate: DateTime(2024),
-                                lastDate: DateTime(2034),
-                                initialDatePickerMode:
-                                DatePickerMode.day,
-                              ).then((value) {
-                                debugPrint('start dt : $value');
-                                var year = value!.year;
-                                var month = value.month < 10
-                                    ? '0${value.month}'
-                                    : value.month;
-                                var day = value.day < 10
-                                    ? '0${value.day}'
-                                    : value.day;
+                    ),
+                    SizedBox(width: 32.w),
+                    CustomTextField(
+                      controller: orderStartDtController,
+                      hintText: orderStartDtController.text,
+                      isPassword: false,
+                      isReadOnly: true,
+                      textColor: tableTextColor,
+                      onChanged: (value) {
+                        debugPrint('orderAutoController : $value');
+                      },
+                      onTap: () {
+                        showDatePicker(
+                          context: Get.context!,
+                          initialDate: orderStartDtController
+                              .text.isEmpty
+                              ? DateTime.now()
+                              : DateTime.parse(
+                              orderStartDtController.text),
+                          firstDate: DateTime(2024),
+                          lastDate: DateTime(2034),
+                          initialDatePickerMode:
+                          DatePickerMode.day,
+                        ).then((value) {
+                          debugPrint('start dt : $value');
+                          var year = value!.year;
+                          var month = value.month < 10
+                              ? '0${value.month}'
+                              : value.month;
+                          var day = value.day < 10
+                              ? '0${value.day}'
+                              : value.day;
 
-                                orderStartDtController.text =
-                                '$year-$month-$day';
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                          orderStartDtController.text =
+                          '$year-$month-$day';
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
             SizedBox(height: 20.h),
             // 종료일
@@ -1333,8 +1318,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Expanded(
-                        flex: 2,
+                      SizedBox(
+                        width: 140.w,
                         child: Text(
                           '종료일',
                           style: TextStyle(
@@ -1345,46 +1330,41 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                         ),
                       ),
                       SizedBox(width: 32.w),
-                      Expanded(
-                        flex: 9,
-                        child: SizedBox(
-                          child: CustomTextField(
-                            controller: orderEndDtController,
-                            hintText: orderEndDtController.text,
-                            isPassword: false,
-                            isReadOnly: true,
-                            textColor: tableTextColor,
-                            onChanged: (value) {
-                              debugPrint('orderAutoController : $value');
-                            },
-                            onTap: () {
-                              showDatePicker(
-                                context: Get.context!,
-                                initialDate: orderEndDtController
-                                    .text.isEmpty
-                                    ? DateTime.now()
-                                    : DateTime.parse(
-                                    orderEndDtController.text),
-                                firstDate: DateTime(2024),
-                                lastDate: DateTime(2034),
-                                initialDatePickerMode:
-                                DatePickerMode.day,
-                              ).then((value) {
-                                debugPrint('start dt : $value');
-                                var year = value!.year;
-                                var month = value.month < 10
-                                    ? '0${value.month}'
-                                    : value.month;
-                                var day = value.day < 10
-                                    ? '0${value.day}'
-                                    : value.day;
+                      CustomTextField(
+                        controller: orderEndDtController,
+                        hintText: orderEndDtController.text,
+                        isPassword: false,
+                        isReadOnly: true,
+                        textColor: tableTextColor,
+                        onChanged: (value) {
+                          debugPrint('orderAutoController : $value');
+                        },
+                        onTap: () {
+                          showDatePicker(
+                            context: Get.context!,
+                            initialDate: orderEndDtController
+                                .text.isEmpty
+                                ? DateTime.now()
+                                : DateTime.parse(
+                                orderEndDtController.text),
+                            firstDate: DateTime(2024),
+                            lastDate: DateTime(2034),
+                            initialDatePickerMode:
+                            DatePickerMode.day,
+                          ).then((value) {
+                            debugPrint('start dt : $value');
+                            var year = value!.year;
+                            var month = value.month < 10
+                                ? '0${value.month}'
+                                : value.month;
+                            var day = value.day < 10
+                                ? '0${value.day}'
+                                : value.day;
 
-                                orderEndDtController.text =
-                                '$year-$month-$day';
-                              });
-                            },
-                          ),
-                        ),
+                            orderEndDtController.text =
+                            '$year-$month-$day';
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -1630,27 +1610,32 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       for (var i = 0; i < data.length; i++) {
         bsnsAccdtinvstgSqncModel.add(
           BsnsAccdtinvstgSqncModel(
-            bsnsNo: data[i]['bsnsNo'],
-            bsnsZoneNo: data[i]['bsnsZoneNo'],
-            accdtInvstgSqnc: data[i]['accdtInvstgSqnc'],
-            accdtInvstgNm: data[i]['accdtInvstgNm'],
-            delYn: data[i]['delYn'],
-            frstRgstrId: data[i]['frstRgstrId'],
-            frstRegistDt: data[i]['frstRegistDt'],
-            lastUpdusrId: data[i]['lastUpdusrId'],
-            lastUpdtDt: data[i]['lastUpdtDt'],
+            bsnsNo: data[i]['bsnsNo'] ?? '',
+            bsnsZoneNo: data[i]['bsnsZoneNo'] ?? 0,
+            accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? 0,
+            accdtInvstgNm: data[i]['accdtInvstgNm'] ?? '',
+            delYn: data[i]['delYn'] ?? '',
+            frstRgstrId: data[i]['frstRgstrId'] ?? '',
+            frstRegistDt: CommonUtil.convertToDateTime(data[i]['frstRegistDt']),
+            lastUpdusrId: data[i]['lastUpdusrId'] ?? '',
+            lastUpdtDt: CommonUtil.convertToDateTime(data[i]['lastUpdtDt']),
             conectIp: data[i]['conectIp'],
           ),
         );
       }
 
       // 마지막 차수 + 1
-      num lastSqnc = bsnsAccdtinvstgSqncModel.first.accdtInvstgSqnc ?? 0 + 1;
-      debugPrint('lastSqnc : $lastSqnc');
 
-      num last = lastSqnc == 0 ? 1 : lastSqnc + 1;
+      if(bsnsAccdtinvstgSqncModel.isEmpty) {
+        orderAutoController.text = '1';
+      } else {
+        num lastSqnc = bsnsAccdtinvstgSqncModel.first.accdtInvstgSqnc ?? 0 + 1;
+        debugPrint('lastSqnc : $lastSqnc');
 
-      orderAutoController.text = last.toString();
+        num last = lastSqnc == 0 ? 1 : lastSqnc + 1;
+
+        orderAutoController.text = last.toString();
+      }
 
       bsnsAccdtinvstgSqncDataSource.value = BsnsAccdtinvstgSqncDatasource(items: bsnsAccdtinvstgSqncModel);
 

@@ -111,7 +111,10 @@ class _BaseHeaderState extends State<BaseHeader> {
                                     context,
                                     0,
                                     '로그아웃',
-                                    widget: Text('로그아웃 하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 1.w > 1.h ? 32.sp : 52.sp, fontWeight: FontWeight.w500)),
+                                    widget: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text('로그아웃 하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 1.w > 1.h ? 32.sp : 52.sp, fontWeight: FontWeight.w500)),
+                                    ),
                                     onOk: () {
                                       Get.back();
                                       Get.offAllNamed(AppRoute.login);

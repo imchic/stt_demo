@@ -96,7 +96,7 @@ class DialogUtil {
                           width: double.infinity,
                           child: widget,
                         ),
-                        SizedBox(height: 24.h),
+                        SizedBox(height: 48.h),
                         isButtonVisible == false ? Container() : SizedBox(
                           width: double.infinity,
                           child: Row(
@@ -110,7 +110,7 @@ class DialogUtil {
                                   onCancel();
                                 },
                                 child: Container(
-                                  width: 144.w,
+                                  width: 96.w,
                                   height: 1.w > 1.h ? 72.h : 52.h,
                                   padding: EdgeInsets.symmetric(horizontal: 12.w),
                                   decoration: ShapeDecoration(
@@ -142,7 +142,7 @@ class DialogUtil {
                                   onOk();
                                 },
                                 child: Container(
-                                  width: 144.w,
+                                  width: 96.w,
                                   height: 1.w > 1.h ? 72.h : 52.h,
                                   padding: EdgeInsets.symmetric(horizontal: 12.w),
                                   decoration: ShapeDecoration(
@@ -263,6 +263,51 @@ class DialogUtil {
         borderRadius: 12.r,
         duration: Duration(milliseconds: 1500),
 
+      );
+    }
+  }
+
+  static void errorSnackBar(BuildContext context, String title, String message) {
+    if(Get.isSnackbarOpen == false) {
+      Get.snackbar(
+        title,
+        message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.5),
+        colorText: Colors.white,
+        icon: Icon(Icons.error_outline, color: Colors.white),
+        borderRadius: 12.r,
+        duration: Duration(milliseconds: 1500),
+      );
+    }
+  }
+
+  static void successSnackBar(BuildContext context, String title, String message) {
+    if(Get.isSnackbarOpen == false) {
+      Get.snackbar(
+        title,
+        message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.withOpacity(0.5),
+        colorText: Colors.white,
+        icon: Icon(Icons.check_circle_outline, color: Colors.white),
+        borderRadius: 12.r,
+        duration: Duration(milliseconds: 1500),
+      );
+    }
+  }
+
+  static void warningSnackBar(BuildContext context, String title, String message) {
+    if(Get.isSnackbarOpen == false) {
+      Get.snackbar(
+        title,
+        message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange.withOpacity(0.5),
+        colorText: Colors.white,
+        icon: Icon(Icons.warning_amber_outlined, color: Colors.white),
+        borderRadius: 12.r,
+        duration: Duration(milliseconds: 1500),
       );
     }
   }

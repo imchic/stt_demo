@@ -715,7 +715,8 @@ class SttusWidget {
                                     crossAxisAlignment: CrossAxisAlignment
                                         .center,
                                     children: [
-                                      CustomRichText(length: 10),
+                                      CustomRichText(length: controller
+                                          .ladSttusInqireDataSource.value.rows.length),
                                       Row(
                                         children: [
                                           CustomChip(
@@ -1701,7 +1702,7 @@ class SttusWidget {
                                 MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  CustomRichText(length: 10),
+                                  CustomRichText(length: controller.obstSttusInqireDataSource.value.rows.length),
                                   Row(
                                     children: [
                                       CustomChip(
