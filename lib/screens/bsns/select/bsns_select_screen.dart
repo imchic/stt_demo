@@ -936,7 +936,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
           StackedHeaderCell(
-              columnNames: ['lgdongNm', 'lcrtsDivCd', 'mlnoLtno', 'slnoLtno'],
+              columnNames: ['lgdongNm', 'lcrtsDivNm', 'mlnoLtno', 'slnoLtno'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('토지기본정보',
@@ -945,7 +945,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                           fontSize: 30.sp,
                           color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
-              columnNames: ['ofcbkLndcgrDivCd', 'sttusLndcgrDivCd'],
+              columnNames: ['ofcbkLndcgrDivNm', 'sttusLndcgrDivNm'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('지목',
@@ -972,7 +972,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                           fontSize: 30.sp,
                           color: Color(0xFF1D1D1D),)))),
           StackedHeaderCell(
-              columnNames: ['ownerNo', 'posesnDivCd', 'ownerNm', 'ownerRgsbukAddr', 'posesnShreNmrtrInfo', 'posesnShreDnmntrInfo'],
+              columnNames: ['ownerNo', 'posesnDivNm', 'ownerNm', 'ownerRgsbukAddr', 'posesnShreNmrtrInfo', 'posesnShreDnmntrInfo'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('소유자정보',

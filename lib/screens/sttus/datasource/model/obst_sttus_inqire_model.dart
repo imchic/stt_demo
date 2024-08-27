@@ -56,20 +56,25 @@ class ObstSttusInqireModel {
   ObstSttusInqireModel({
       this.lgdongNm,
       this.lcrtsDivCd,
+      this.lcrtsDivNm,
       this.mlnoLtno,
       this.slnoLtno,
       this.cmpnstnStepDivCd,
+      this.cmpnstnStepDivNm,
       this.acqsPrpDivCd,
+      this.acqsPrpDivNm,
       this.rqestNo,
       this.invstgDe,
       this.accdtInvstgSqnc,
       this.ownerNo,
       this.posesnDivCd,
+      this.posesnDivNm,
       this.ownerNm,
       this.ownerRgsbukAddr,
       this.posesnShreNmrtrInfo,
       this.posesnShreDnmntrInfo,
       this.apasmtReqestDivCd,
+      this.apasmtReqestDivNm,
       this.apasmtSqnc,
       this.prcPnttmDe,
       this.apasmtInsttNm1,
@@ -92,29 +97,37 @@ class ObstSttusInqireModel {
       this.aceptncUseBeginDe,
       this.ldPymntRequstDe,
       this.ldCpsmnPymntLdgmntDivCd,
+      this.ldCpsmnPymntLdgmntDivNm,
       this.proUpc,
       this.proAmt,
       this.proDt,
       this.proPymntRequstDe,
-      this.proCpsmnPymntLdgmntDivCd,});
+      this.proCpsmnPymntLdgmntDivCd,
+      this.proCpsmnPymntLdgmntDivNm,
+  });
 
   ObstSttusInqireModel.fromJson(dynamic json) {
     lgdongNm = json['lgdongNm'];
     lcrtsDivCd = json['lcrtsDivCd'];
+    lcrtsDivCd = json['lcrtsDivNm'];
     mlnoLtno = json['mlnoLtno'];
     slnoLtno = json['slnoLtno'];
     cmpnstnStepDivCd = json['cmpnstnStepDivCd'];
+    cmpnstnStepDivNm = json['cmpnstnStepDivNm'];
     acqsPrpDivCd = json['acqsPrpDivCd'];
+    acqsPrpDivNm = json['acqsPrpDivNm'];
     rqestNo = json['rqestNo'];
     invstgDe = json['invstgDe'];
     accdtInvstgSqnc = json['accdtInvstgSqnc'];
     ownerNo = json['ownerNo'];
     posesnDivCd = json['posesnDivCd'];
+    posesnDivNm = json['posesnDivNm'];
     ownerNm = json['ownerNm'];
     ownerRgsbukAddr = json['ownerRgsbukAddr'];
     posesnShreNmrtrInfo = json['posesnShreNmrtrInfo'];
     posesnShreDnmntrInfo = json['posesnShreDnmntrInfo'];
     apasmtReqestDivCd = json['apasmtReqestDivCd'];
+    apasmtReqestDivNm = json['apasmtReqestDivNm'];
     apasmtSqnc = json['apasmtSqnc'];
     prcPnttmDe = json['prcPnttmDe'];
     apasmtInsttNm1 = json['apasmtInsttNm1'];
@@ -137,28 +150,35 @@ class ObstSttusInqireModel {
     aceptncUseBeginDe = json['aceptncUseBeginDe'];
     ldPymntRequstDe = json['ldPymntRequstDe'];
     ldCpsmnPymntLdgmntDivCd = json['ldCpsmnPymntLdgmntDivCd'];
+    ldCpsmnPymntLdgmntDivNm = json['ldCpsmnPymntLdgmntDivNm'];
     proUpc = json['proUpc'];
     proAmt = json['proAmt'];
     proDt = json['proDt'];
     proPymntRequstDe = json['proPymntRequstDe'];
     proCpsmnPymntLdgmntDivCd = json['proCpsmnPymntLdgmntDivCd'];
+    proCpsmnPymntLdgmntDivNm = json['proCpsmnPymntLdgmntDivNm'];
   }
   String? lgdongNm;
   String? lcrtsDivCd;
+  String? lcrtsDivNm;
   String? mlnoLtno;
   String? slnoLtno;
   String? cmpnstnStepDivCd;
+  String? cmpnstnStepDivNm;
   String? acqsPrpDivCd;
+  String? acqsPrpDivNm;
   String? rqestNo;
   String? invstgDe;
   num? accdtInvstgSqnc;
   String? ownerNo;
   String? posesnDivCd;
+  String? posesnDivNm;
   String? ownerNm;
   String? ownerRgsbukAddr;
   String? posesnShreNmrtrInfo;
   String? posesnShreDnmntrInfo;
   String? apasmtReqestDivCd;
+  String? apasmtReqestDivNm;
   num? apasmtSqnc;
   String? prcPnttmDe;
   String? apasmtInsttNm1;
@@ -181,30 +201,36 @@ class ObstSttusInqireModel {
   dynamic aceptncUseBeginDe;
   String? ldPymntRequstDe;
   String? ldCpsmnPymntLdgmntDivCd;
+  String? ldCpsmnPymntLdgmntDivNm;
   dynamic proUpc;
   dynamic proAmt;
   dynamic proDt;
   String? proPymntRequstDe;
   String? proCpsmnPymntLdgmntDivCd;
+  String? proCpsmnPymntLdgmntDivNm;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['lgdongNm'] = lgdongNm;
     map['lcrtsDivCd'] = lcrtsDivCd;
+    map['acqsPrpDivNm'] = lcrtsDivNm;
     map['mlnoLtno'] = mlnoLtno;
     map['slnoLtno'] = slnoLtno;
     map['cmpnstnStepDivCd'] = cmpnstnStepDivCd;
     map['acqsPrpDivCd'] = acqsPrpDivCd;
+    map['acqsPrpDivNm'] = acqsPrpDivNm;
     map['rqestNo'] = rqestNo;
     map['invstgDe'] = invstgDe;
     map['accdtInvstgSqnc'] = accdtInvstgSqnc;
     map['ownerNo'] = ownerNo;
     map['posesnDivCd'] = posesnDivCd;
+    map['posesnDivNm'] = posesnDivNm;
     map['ownerNm'] = ownerNm;
     map['ownerRgsbukAddr'] = ownerRgsbukAddr;
     map['posesnShreNmrtrInfo'] = posesnShreNmrtrInfo;
     map['posesnShreDnmntrInfo'] = posesnShreDnmntrInfo;
     map['apasmtReqestDivCd'] = apasmtReqestDivCd;
+    map['apasmtReqestDivNm'] = apasmtReqestDivNm;
     map['apasmtSqnc'] = apasmtSqnc;
     map['prcPnttmDe'] = prcPnttmDe;
     map['apasmtInsttNm1'] = apasmtInsttNm1;
@@ -227,11 +253,13 @@ class ObstSttusInqireModel {
     map['aceptncUseBeginDe'] = aceptncUseBeginDe;
     map['ldPymntRequstDe'] = ldPymntRequstDe;
     map['ldCpsmnPymntLdgmntDivCd'] = ldCpsmnPymntLdgmntDivCd;
+    map['ldCpsmnPymntLdgmntDivNm'] = ldCpsmnPymntLdgmntDivNm;
     map['proUpc'] = proUpc;
     map['proAmt'] = proAmt;
     map['proDt'] = proDt;
     map['proPymntRequstDe'] = proPymntRequstDe;
     map['proCpsmnPymntLdgmntDivCd'] = proCpsmnPymntLdgmntDivCd;
+    map['proCpsmnPymntLdgmntDivNm'] = proCpsmnPymntLdgmntDivNm;
     return map;
   }
 

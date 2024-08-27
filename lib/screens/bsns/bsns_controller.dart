@@ -107,7 +107,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   // 통계정보 탭 아이템 선택 여부
   final sttusInqireTabIsSelected = [
-    false,
+    true,
     false,
     false,
     false,
@@ -333,6 +333,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     '일시사용'
   ].obs;
 
+  //  통계 상세 탑
   RxBool isSttusInqireGridTab1 = false.obs;
   RxBool isSttusInqireGridTab2 = false.obs;
   RxBool isSttusInqireGridTab3 = false.obs;
@@ -1183,47 +1184,54 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
         res.add(ObstSttusInqireModel(
           lgdongNm: data[i]['lgdongNm'] ?? '',
           lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
+          lcrtsDivNm: data[i]['lcrtsDivNm'] ?? '',
           mlnoLtno: data[i]['mlnoLtno'] ?? '',
           slnoLtno: data[i]['slnoLtno'] ?? '',
           cmpnstnStepDivCd: data[i]['cmpnstnStepDivCd'] ?? '',
+          cmpnstnStepDivNm: data[i]['cmpnstnStepDivNm'] ?? '',
           acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
+          acqsPrpDivNm: data[i]['acqsPrpDivNm'] ?? '',
           rqestNo: data[i]['rqestNo'] ?? '',
           invstgDe: data[i]['invstgDe'] ?? '',
           accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? '',
           ownerNo: data[i]['ownerNo'] ?? '',
           posesnDivCd: data[i]['posesnDivCd'] ?? '',
+          posesnDivNm: data[i]['posesnDivNm'] ?? '',
           ownerNm: data[i]['ownerNm'] ?? '',
           ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
           posesnShreNmrtrInfo: data[i]['posesnShreNmrtrInfo'] ?? '',
           posesnShreDnmntrInfo: data[i]['posesnShreDnmntrInfo'] ?? '',
           apasmtReqestDivCd: data[i]['apasmtReqestDivCd'] ?? '',
+          apasmtReqestDivNm: data[i]['apasmtReqestDivNm'] ?? '',
           apasmtSqnc: data[i]['apasmtSqnc'] ?? 0,
           prcPnttmDe: data[i]['prcPnttmDe'] ?? '',
           apasmtInsttNm1: data[i]['apasmtInsttNm1'] ?? '',
           apasmtInsttEvlUpc1: data[i]['apasmtInsttEvlUpc1'] ?? 0,
           apasmtInsttEvamt1: data[i]['apasmtInsttEvamt1'] ?? 0,
           apasmtInsttNm2: data[i]['apasmtInsttNm2'] ?? '',
-          apasmtInsttEvlUpc2: data[i]['apasmtInsttEvlUpc2'] ?? '',
-          apasmtInsttEvamt2: data[i]['apasmtInsttEvamt2'] ?? '',
+          apasmtInsttEvlUpc2: data[i]['apasmtInsttEvlUpc2'] ?? 0,
+          apasmtInsttEvamt2: data[i]['apasmtInsttEvamt2'] ?? 0,
           apasmtInsttNm3: data[i]['apasmtInsttNm3'] ?? '',
-          apasmtInsttEvlUpc3: data[i]['apasmtInsttEvlUpc3'] ?? '',
-          apasmtInsttEvamt3: data[i]['apasmtInsttEvamt3'] ?? '',
+          apasmtInsttEvlUpc3: data[i]['apasmtInsttEvlUpc3'] ?? 0,
+          apasmtInsttEvamt3: data[i]['apasmtInsttEvamt3'] ?? 0,
           cmpnstnCmptnUpc: data[i]['cmpnstnCmptnUpc'] ?? 0,
           cpsmnCmptnAmt: data[i]['cpsmnCmptnAmt'] ?? 0,
           caPymntRequstDe: data[i]['caPymntRequstDe'] ?? '',
           cmpnstnDscssUpc: data[i]['cmpnstnDscssUpc'] ?? 0,
           cmpnstnDscssTotAmt: data[i]['cmpnstnDscssTotAmt'] ?? 0,
-          dcsUpc: data[i]['dcsUpc'] ?? '',
-          dcsAmt: data[i]['dcsAmt'] ?? '',
+          dcsUpc: data[i]['dcsUpc'] ?? 0,
+          dcsAmt: data[i]['dcsAmt'] ?? 0,
           dcsDt: data[i]['dcsDt'] ?? '',
           aceptncUseBeginDe: data[i]['aceptncUseBeginDe'] ?? '',
           ldPymntRequstDe: data[i]['ldPymntRequstDe'] ?? '',
           ldCpsmnPymntLdgmntDivCd: data[i]['ldCpsmnPymntLdgmntDivCd'] ?? '',
-          proUpc: data[i]['proUpc'] ?? '',
-          proAmt: data[i]['proAmt'] ?? '',
+          ldCpsmnPymntLdgmntDivNm: data[i]['ldCpsmnPymntLdgmntDivNm'] ?? '',
+          proUpc: data[i]['proUpc'] ?? 0,
+          proAmt: data[i]['proAmt'] ?? 0,
           proDt: data[i]['proDt'] ?? '',
           proPymntRequstDe: data[i]['proPymntRequstDe'] ?? '',
           proCpsmnPymntLdgmntDivCd: data[i]['proCpsmnPymntLdgmntDivCd'] ?? '',
+          proCpsmnPymntLdgmntDivNm: data[i]['proCpsmnPymntLdgmntDivNm'] ?? '',
         ));
       }
 
@@ -1241,7 +1249,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       gridColumn('cmpnstnStepDivCd', '진행단계', width: 100),
       gridColumn('acqsPrpDivCd', '취득용도', width: 100),
 
-      gridColumn('rqestNo', '수용/사용',
+      gridColumn('rqestNo', '청구번호',
           isVisble: isSttusInqireGridTab1.value, width: 80),
       gridColumn('invstgDe', '조사일',
           isVisble: isSttusInqireGridTab1.value, width: 80),
