@@ -106,7 +106,21 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgTabObstSelected = [true, false].obs;
 
   // 통계정보 탭 아이템 선택 여부
-  final sttusInqireTabIsSelected = [false, false, false, false, false, false, false, false, false, false].obs;
+  final sttusInqireTabIsSelected = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ].obs;
+
+  // 고객카드 탭 아이템 선택 여부
+  final customerCardTabIsSelected = [true, false].obs;
 
   // 소유자 관리 탭 아이템
   final bsnsOwnerTabItems = [
@@ -164,26 +178,32 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   final bsnsOwnerDataSource = OwnerDatasource(items: []).obs; // 소유자
 
-  final ownerLadInfoDataSource = OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
-  final ownerObstInfoDataSource = OwnerObstInfoDatasource(items: []).obs; // 지장물정보
+  final ownerLadInfoDataSource =
+      OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
+  final ownerObstInfoDataSource =
+      OwnerObstInfoDatasource(items: []).obs; // 지장물정보
 
   final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
   RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
 
-  final bsnsAccdtinvstgSqncDataSource = BsnsAccdtinvstgSqncDatasource(items: []).obs; // 조사차수
+  final bsnsAccdtinvstgSqncDataSource =
+      BsnsAccdtinvstgSqncDatasource(items: []).obs; // 조사차수
 
   // 실태조사 > 토지내역
   final accdtlnvstgLadDataSource = AccdtlnvstgLadDatasource(items: []).obs;
 
   // 실태조사 > 소유자/관계인 > 토지
   final accdtlnvstgOwnerLadDataSource = OwnerLadInfoDatasource(items: []).obs;
-  Rx<OwnerLadInfoDatasourceModel> selectedOwnerLadInfoData = OwnerLadInfoDatasourceModel().obs;
+  Rx<OwnerLadInfoDatasourceModel> selectedOwnerLadInfoData =
+      OwnerLadInfoDatasourceModel().obs;
 
   // 실태조사 > 소유자/관계인 > 소유자 현황
-  final accdtlnvstgLadOwnerDataSource = AccdtlnvstgLadOwnerDatasource(items: []).obs;
+  final accdtlnvstgLadOwnerDataSource =
+      AccdtlnvstgLadOwnerDatasource(items: []).obs;
 
   // 실태조사 > 소유자/관계인 > 소유자별 관계인 현황
-  final accdtlnvstgLadPartcpntDataSource = AccdtlnvstgLadPartcpntDatasource(items: []).obs;
+  final accdtlnvstgLadPartcpntDataSource =
+      AccdtlnvstgLadPartcpntDatasource(items: []).obs;
 
   // 실태조사 > 지장물내역
   final accdtlnvstgObstDataSource = AccdtlnvstgObstDatasource(items: []).obs;
@@ -197,8 +217,10 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   // 사업선택 화면에서 사업선택 여부
   RxBool isBsnsSelectFlag = false.obs;
+
   // 사업구역 선택 화면에서 사업구역 선택 여부
   RxBool isBsnsZoneSelectFlag = false.obs;
+
   // 조사차수 화면에서 조사차수 선택 여부
   RxBool isBsnsSqncSelectFlag = false.obs;
 
@@ -210,8 +232,10 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   Rx<OwnerInfoModel> selectedOwner = OwnerInfoModel().obs;
   RxList<LadSttusInqireModel> ladSttusInqireList = <LadSttusInqireModel>[].obs;
 
-  Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource = BsnsSelectAreaDataSourceModel().obs;
-  Rx<BsnsPlanSelectAreaModel> selectedBsnsSelectArea = BsnsPlanSelectAreaModel().obs;
+  Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource =
+      BsnsSelectAreaDataSourceModel().obs;
+  Rx<BsnsPlanSelectAreaModel> selectedBsnsSelectArea =
+      BsnsPlanSelectAreaModel().obs;
 
   RxList<String> leftNavItems = ['사업선택', '소유자관리', '실태조사', '통계정보', '고객카드'].obs;
   RxList businessList = [].obs;
@@ -318,7 +342,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   RxBool isSttusInqireGridTab7 = false.obs;
   RxBool isSttusInqireGridTab8 = false.obs;
   RxBool isSttusInqireGridTab9 = false.obs;
-  RxBool isSttusInqireGridTab10 =false.obs;
+  RxBool isSttusInqireGridTab10 = false.obs;
 
   //late RxList<GridColumn> ladSttusInqireColumns;
   RxList<GridColumn> ladSttusInqireColumns = <GridColumn>[].obs;
@@ -355,12 +379,18 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     sttusInqireAcqstnPrpsController = TextEditingController();
     sttusInqireBsnsSqncController = TextEditingController();
 
-    accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
-    bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
-    bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
-    accdtlnvstgLadTabController = TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
-    accdtlnvstgObstTabController = TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
-    sttusTabController = TabController(length: sttusTabItems.length, vsync: this);
+    accdtlnvstgTabController =
+        TabController(length: accdtlnvstgTabItems.length, vsync: this);
+    bsnsTabController =
+        TabController(length: bsnsSelectTabItems.length, vsync: this);
+    bsnsOwnerTabController =
+        TabController(length: bsnsOwnerTabItems.length, vsync: this);
+    accdtlnvstgLadTabController =
+        TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
+    accdtlnvstgObstTabController =
+        TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
+    sttusTabController =
+        TabController(length: sttusTabItems.length, vsync: this);
 
     orderController = TextEditingController();
 
@@ -410,8 +440,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     });
 
     bsnsListScrollController.addListener(() {
-      debugPrint('bsnsListScrollController.offset : ${bsnsListScrollController
-          .offset}');
+      debugPrint(
+          'bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
     });
 
     /// [사업목록] 조회
@@ -437,18 +467,24 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     /**
      * 통계
      */
-
   }
 
   /// [gridColumn] 데이터그리드 컬럼
-  GridColumn gridColumn(String columnName, String label, {bool? isVisble, double? width}) {
+  GridColumn gridColumn(String columnName, String label,
+      {bool? isVisble, double? width}) {
     return GridColumn(
         //width: controller.columnWidths[columnName ?? ''] ?? 80,
         //width: columnWidths[columnName] ?? width ?? 80,
         width: width ?? double.nan,
         columnName: columnName,
         visible: isVisble ?? true,
-        label: SizedBox(child: Center(child: Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.sp, color: tableTextColor)))));
+        label: SizedBox(
+            child: Center(
+                child: Text(label,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: tableTextColor)))));
   }
 
   @override
@@ -475,12 +511,21 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     print('radioValue : $radioValue');
 
     // filter
-    if(radioValue == 0){
-      searchBsnsPlanList = bsnsPlanList.where((element) => element.bsnsDivLclsNm == '댐').toList().obs;
-    } else if(radioValue == 1){
-      searchBsnsPlanList = bsnsPlanList.where((element) => element.bsnsDivLclsNm == '수도').toList().obs;
-    } else if(radioValue == 2){
-      searchBsnsPlanList = bsnsPlanList.where((element) => element.bsnsDivLclsNm == '단지').toList().obs;
+    if (radioValue == 0) {
+      searchBsnsPlanList = bsnsPlanList
+          .where((element) => element.bsnsDivLclsNm == '댐')
+          .toList()
+          .obs;
+    } else if (radioValue == 1) {
+      searchBsnsPlanList = bsnsPlanList
+          .where((element) => element.bsnsDivLclsNm == '수도')
+          .toList()
+          .obs;
+    } else if (radioValue == 2) {
+      searchBsnsPlanList = bsnsPlanList
+          .where((element) => element.bsnsDivLclsNm == '단지')
+          .toList()
+          .obs;
     } else {
       searchBsnsPlanList.value = bsnsPlanList;
     }
@@ -495,84 +540,82 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [사업목록] 조회
   fetchBsnsList() async {
-
-    var url = Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsPlan.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsPlan.do');
     var response = await http.post(url);
 
     bsnsPlanList.clear();
 
     if (response.statusCode == 200) {
-
       var data = JsonDecoder().convert(response.body)['list'];
       List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
 
       print('fetchBsnsList > data : $data');
 
-      dataList = data.map<BsnsPlanModel>((e) => BsnsPlanModel(
-          bsnsNo: e['bsnsNo'],
-          bsnsNm: e['bsnsNm'],
-          bsnsDivLclsCd: e['bsnsDivLclsCd'],
-          bsnsDivMclsCd: e['bsnsDivMclsCd'],
-          bsnsDivSclsCd: e['bsnsDivSclsCd'],
-          bsnsStrtDe: e['bsnsStrtDe'],
-          bsnsEndDe: e['bsnsEndDe'],
-          competDe: e['competDe'],
-          bsnsPlanAprvRqstDe: e['bsnsPlanAprvRqstDe'],
-          aprvDe: e['aprvDe'],
-          gztNtfcDe: e['gztNtfcDe'],
-          enfcMthDtls: e['enfcMthDtls'],
-          bsnsPurpsDtls: e['bsnsPurpsDtls'],
-          bsnsLcinfo: e['bsnsLcinfo'],
-          bsnsScaleInfo: e['bsnsScaleInfo'],
-          lotCnt: e['lotCnt'],
-          bsnsAra: e['bsnsAra'],
-          bsnsAmt: e['bsnsAmt'],
-          gztNtfcNoDtls: e['gztNtfcNoDtls'],
-          mngdeptCd: e['mngdeptCd'],
-          reltDeptCd1: e['reltDeptCd1'],
-          reltDeptCd2: e['reltDeptCd2'],
-          reltDeptCd3: e['reltDeptCd3'],
-          reltDeptCd4: e['reltDeptCd4'],
-          reltDeptCd5: e['reltDeptCd5'],
-          gisDtaYn: e['gisDtaYn'],
-          bsnsSqnc: e['bsnsSqnc'],
-          bsnsBasisLawordInfo: e['bsnsBasisLawordInfo'],
-          oldMngdeptCd: e['oldMngdeptCd'],
-          bsnsCnfmInsttNm: e['bsnsCnfmInsttNm'],
-          delYn: e['delYn'],
-          frstRgstrId: e['frstRgstrId'],
-          frstRegistDt: e['frstRegistDt'],
-          lastUpdusrId: e['lastUpdusrId'],
-          lastUpdtDt: e['lastUpdtDt'],
-          conectIp: e['conectIp'],
-          bsnsDivLclsNm: e['bsnsDivLclsNm'] ?? '',
-          bsnsDivMclsNm: e['bsnsDivMclsNm'] ?? '',
-          bsnsDivSclsNm: e['bsnsDivSclsNm'] ?? '',
-          head: e['head'],
-          dept: e['dept'],
-          team: e['team'],
-          bgroup: e['bgroup'],
-          affcd: e['affcd'],
-          plans: e['plans'],
-          korname: e['korname']
-      )).toList();
+      dataList = data
+          .map<BsnsPlanModel>((e) => BsnsPlanModel(
+              bsnsNo: e['bsnsNo'],
+              bsnsNm: e['bsnsNm'],
+              bsnsDivLclsCd: e['bsnsDivLclsCd'],
+              bsnsDivMclsCd: e['bsnsDivMclsCd'],
+              bsnsDivSclsCd: e['bsnsDivSclsCd'],
+              bsnsStrtDe: e['bsnsStrtDe'],
+              bsnsEndDe: e['bsnsEndDe'],
+              competDe: e['competDe'],
+              bsnsPlanAprvRqstDe: e['bsnsPlanAprvRqstDe'],
+              aprvDe: e['aprvDe'],
+              gztNtfcDe: e['gztNtfcDe'],
+              enfcMthDtls: e['enfcMthDtls'],
+              bsnsPurpsDtls: e['bsnsPurpsDtls'],
+              bsnsLcinfo: e['bsnsLcinfo'],
+              bsnsScaleInfo: e['bsnsScaleInfo'],
+              lotCnt: e['lotCnt'],
+              bsnsAra: e['bsnsAra'],
+              bsnsAmt: e['bsnsAmt'],
+              gztNtfcNoDtls: e['gztNtfcNoDtls'],
+              mngdeptCd: e['mngdeptCd'],
+              reltDeptCd1: e['reltDeptCd1'],
+              reltDeptCd2: e['reltDeptCd2'],
+              reltDeptCd3: e['reltDeptCd3'],
+              reltDeptCd4: e['reltDeptCd4'],
+              reltDeptCd5: e['reltDeptCd5'],
+              gisDtaYn: e['gisDtaYn'],
+              bsnsSqnc: e['bsnsSqnc'],
+              bsnsBasisLawordInfo: e['bsnsBasisLawordInfo'],
+              oldMngdeptCd: e['oldMngdeptCd'],
+              bsnsCnfmInsttNm: e['bsnsCnfmInsttNm'],
+              delYn: e['delYn'],
+              frstRgstrId: e['frstRgstrId'],
+              frstRegistDt: e['frstRegistDt'],
+              lastUpdusrId: e['lastUpdusrId'],
+              lastUpdtDt: e['lastUpdtDt'],
+              conectIp: e['conectIp'],
+              bsnsDivLclsNm: e['bsnsDivLclsNm'] ?? '',
+              bsnsDivMclsNm: e['bsnsDivMclsNm'] ?? '',
+              bsnsDivSclsNm: e['bsnsDivSclsNm'] ?? '',
+              head: e['head'],
+              dept: e['dept'],
+              team: e['team'],
+              bgroup: e['bgroup'],
+              affcd: e['affcd'],
+              plans: e['plans'],
+              korname: e['korname']))
+          .toList();
 
       bsnsPlanList = dataList.obs;
       searchBsnsPlanList = dataList.obs;
-
     } else {
       debugPrint('Failed to load post');
       DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
     }
 
     return bsnsPlanList;
-
   }
 
   /// [사업구역선택] 조회
   fetchBsnsSelectAreaGridDataSource() async {
-
-    var url = Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsZone.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsZone.do');
 
     // param
     var param = {
@@ -588,9 +631,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       var bsnsPlanSelectAreaModel = <BsnsPlanSelectAreaModel>[];
 
       for (var i = 0; i < data.length; i++) {
-
         var bsnsZoneNo = data[i]['bsnsZoneNo'];
-        debugPrint('fetchBsnsSelectAreaGridDataSource > bsnsZoneNo : $bsnsZoneNo');
+        debugPrint(
+            'fetchBsnsSelectAreaGridDataSource > bsnsZoneNo : $bsnsZoneNo');
 
         bsnsPlanSelectAreaModel.add(BsnsPlanSelectAreaModel(
             bsnsNo: num.parse(data[i]['bsnsNo']),
@@ -600,25 +643,22 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
             bsnsAra: CommonUtil.comma3(data[i]['bsnsAra']),
             bsnsReadngPblancDe: data[i]['bsnsReadngPblancDe'] == null
                 ? '-'
-                : CommonUtil.convertToDateTime(data[i]['bsnsReadngPblancDe'])
-        ));
+                : CommonUtil.convertToDateTime(data[i]['bsnsReadngPblancDe'])));
       }
 
-      bsnsListDataSource.value = BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
-
+      bsnsListDataSource.value =
+          BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
     } else {
       debugPrint('Failed to load post');
     }
-
   }
 
   /// [소유자 및 관리인] 조회
   fetchBsnsOwnerDataSource() async {
-
     DialogUtil.showLoading(Get.context!);
 
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/owner/selectOwnList.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/owner/selectOwnList.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -630,13 +670,12 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
-
       var data = JsonDecoder().convert(response.body)['list'];
       debugPrint('fetchBsnsOwnerDataSource > data : $data');
 
       var res = <OwnerDataSourceModel>[];
 
-      for(var i = 0; i < data.length; i++) {
+      for (var i = 0; i < data.length; i++) {
         res.add(OwnerDataSourceModel(
           ownerNo: data[i]['ownerNo'] ?? '',
           ownerNm: data[i]['ownerNm'] ?? '',
@@ -676,35 +715,32 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     }
   }
 
-
   /// [소유자관리 > 토지정보] 조회
   fetchOwnerLadInfoDataSource(ownerNum) async {
-
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/owner/selectLandList.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/owner/selectLandList.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
       'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
-      'shOwnerNo' : ownerNum ?? '',
+      'shOwnerNo': ownerNum ?? '',
     };
 
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
-
       var data = JsonDecoder().convert(response.body)['list'];
       debugPrint('fetchOwnerLadInfoDataSource > data : $data');
 
       var res = <OwnerLadInfoDatasourceModel>[];
 
-      if(data.length == 0) {
+      if (data.length == 0) {
         DialogUtil.showSnackBar(Get.context!, '토지정보', '토지정보가 없습니다.');
         Get.back();
         return;
       }
 
-      for(var i = 0; i < data.length; i++) {
+      for (var i = 0; i < data.length; i++) {
         res.add(OwnerLadInfoDatasourceModel(
           lgdongNm: data[i]['lgdongNm'] ?? '',
           lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
@@ -717,7 +753,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           //ofcbkAra: data[i]['ofcbkAra'] ?? '',
           ofcbkAra: CommonUtil.comma3(data[i]['ofcbkAra'] ?? ''),
           incrprAra: CommonUtil.comma3(data[i]['incrprAra'] ?? ''),
-          cmpnstnInvstgAra: CommonUtil.comma3(data[i]['cmpnstnInvstgAra'] ?? ''),
+          cmpnstnInvstgAra:
+              CommonUtil.comma3(data[i]['cmpnstnInvstgAra'] ?? ''),
           acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
           acqsPrpDivNm: data[i]['acqsPrpDivNm'] ?? '',
           aceptncUseDivCd: data[i]['aceptncUseDivCd'] ?? '',
@@ -735,26 +772,24 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [소유자관리 > 지장물정보] 조회
   fetchOwnerObstInfoDataSource(ownerNum) async {
-
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/owner/selecObstList.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/owner/selecObstList.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
       'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
-      'shOwnerNo' : ownerNum,
+      'shOwnerNo': ownerNum,
     };
 
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
-
       var data = JsonDecoder().convert(response.body)['list'];
       debugPrint('fetchOwnerObstInfoDataSource > data : $data');
 
       var res = <OwnerObstInfoDatasourceModel>[];
 
-      for(var i = 0; i < data.length; i++) {
+      for (var i = 0; i < data.length; i++) {
         res.add(OwnerObstInfoDatasourceModel(
           lgdongNm: data[i]['lgdongNm'] ?? '',
           lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
@@ -779,18 +814,15 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       }
       ownerObstInfoDataSource.value = OwnerObstInfoDatasource(items: res);
     }
-
   }
 
   /// [소유자관리 > 정보변경] 조회
   /// @deprecated 선택한 소유자에대한 소유자정보를 조회한다.
   fetchOwnerInfo(ownerNum) async {
-
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/owner/selecOwnInfo.do');
+    var url = Uri.parse('http://222.107.22.159:18080/lp/owner/selecOwnInfo.do');
 
     var param = {
-      'shOwnerNo' : ownerNum,
+      'shOwnerNo': ownerNum,
     };
 
     var response = await http.post(url, body: param);
@@ -800,7 +832,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       debugPrint('fetchOwnerInfo > data : $data');
 
       var res = <OwnerInfoModel>[];
-      for(var i = 0; i < data.length; i++) {
+      for (var i = 0; i < data.length; i++) {
         res.add(OwnerInfoModel(
           ownerNo: data[i]['ownerNo'] ?? '',
           ownerRrnEnc: data[i]['ownerRrnEnc'] ?? '',
@@ -830,36 +862,32 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
       debugPrint('fetchOwnerInfo > res : $res');
       selectedOwner.value = res[0];
-
     }
-
   }
 
   /// [실태조사 > 토지내역] 조회
   fetchAccdtlnvstgSearchDataSource() async {
     var accdtlnvstgLad = <AccdtlnvstgLadModel>[];
     for (var i = 0; i < 10; i++) {
-      accdtlnvstgLad.add(
-        AccdtlnvstgLadModel(
-          col1: '건축물대장내용확인',
-          col2: '0',
-          col3: '소재지',
-          col4: '특지',
-          col5: '본번',
-          col6: '부번',
-          col7: '공부',
-          col8: '현황',
-          col9: '공부',
-          col10: '편입',
-          col11: '조사',
-          col12: '취득용도',
-          col13: '수용/사용',
-          col14: '조사차수',
-          col15: '조사일자',
-          col16: '보상단계',
-          col17: '비고',
-        )
-      );
+      accdtlnvstgLad.add(AccdtlnvstgLadModel(
+        col1: '건축물대장내용확인',
+        col2: '0',
+        col3: '소재지',
+        col4: '특지',
+        col5: '본번',
+        col6: '부번',
+        col7: '공부',
+        col8: '현황',
+        col9: '공부',
+        col10: '편입',
+        col11: '조사',
+        col12: '취득용도',
+        col13: '수용/사용',
+        col14: '조사차수',
+        col15: '조사일자',
+        col16: '보상단계',
+        col17: '비고',
+      ));
     }
 
     accdtlnvstgLadDataSource.value =
@@ -885,7 +913,6 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     this.accdtlnvstgLadOwnerDataSource.value =
         AccdtlnvstgLadOwnerDatasource(items: accdtlnvstgOwnerDataSource);
 
-
     var accdtlnvstgPartcpntDataSource = <AccdtlnvstgLadPartcpntModel>[];
     for (var i = 0; i < 1; i++) {
       accdtlnvstgPartcpntDataSource.add(AccdtlnvstgLadPartcpntModel(
@@ -907,7 +934,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     for (var i = 0; i < 10; i++) {
       accdtlnvstgObst.add(AccdtlnvstgObstModel(
           obstSeq: int.parse('$i'),
-          obstDivCd:'${randomObstDivCd()}',
+          obstDivCd: '${randomObstDivCd()}',
           cmpnstnThingKndDtls: '${randomCmpnstnThingKndDtls()}',
           obstStrctStndrdInfo: '${randomCmpnstnThingKndDtls()}',
           cmpnstnQtyAraVu: Random().nextInt(1000),
@@ -928,14 +955,14 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [통계정보 > 토지현황] 조회
   fetchLadSttusInqireDataSource() async {
-
     // loading bar
     DialogUtil.showLoading(Get.context!);
 
-    print('fetchLadSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
+    print(
+        'fetchLadSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
 
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectSttusLadInfo.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lssom/selectSttusLadInfo.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -949,55 +976,63 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       debugPrint('fetchLadSttusInqireDataSource > data : $data');
 
       var res = <LadSttusInqireModel>[];
-      for(var i = 0; i < data.length; i++) {
+      for (var i = 0; i < data.length; i++) {
         res.add(LadSttusInqireModel(
           lgdongNm: data[i]['lgdongNm'] ?? '',
           lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
+          lcrtsDivNm: data[i]['lcrtsDivNm'] ?? '',
           mlnoLtno: data[i]['mlnoLtno'] ?? '',
           slnoLtno: data[i]['slnoLtno'] ?? '',
           ofcbkLndcgrDivCd: data[i]['ofcbkLndcgrDivCd'] ?? '',
+          ofcbkLndcgrDivNm: data[i]['ofcbkLndcgrDivNm'] ?? '',
           sttusLndcgrDivCd: data[i]['sttusLndcgrDivCd'] ?? '',
+          sttusLndcgrDivNm: data[i]['sttusLndcgrDivNm'] ?? '',
           cmpnstnStepDivCd: data[i]['cmpnstnStepDivCd'] ?? '',
+          cmpnstnStepDivNm: data[i]['cmpnstnStepDivNm'] ?? '',
           acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
-          ofcbkAra: data[i]['ofcbkAra'] ?? '',
+          acqsPrpDivNm: data[i]['acqsPrpDivNm'] ?? '',
+          ofcbkAra: data[i]['ofcbkAra'] ?? 0,
           incrprAra: data[i]['incrprAra'] ?? 0,
           rqestNo: data[i]['rqestNo'] ?? '',
           aceptncUseDivCd: data[i]['aceptncUseDivCd'] ?? '',
+          aceptncUseDivNm: data[i]['aceptncUseDivNm'] ?? '',
           invstgDt: data[i]['invstgDt'] ?? '',
           accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? '',
           ownerNo: data[i]['ownerNo'] ?? '',
           posesnDivCd: data[i]['posesnDivCd'] ?? '',
+          posesnDivNm: data[i]['posesnDivNm'] ?? '',
           ownerNm: data[i]['ownerNm'] ?? '',
           ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
           posesnShreNmrtrInfo: data[i]['posesnShreNmrtrInfo'] ?? '',
           posesnShreDnmntrInfo: data[i]['posesnShreDnmntrInfo'] ?? '',
           apasmtReqestDivCd: data[i]['apasmtReqestDivCd'] ?? '',
+          apasmtReqestDivNm: data[i]['apasmtReqestDivNm'] ?? '',
           apasmtSqnc: data[i]['apasmtSqnc'] ?? 0,
           prcPnttmDe: data[i]['prcPnttmDe'] ?? '',
           apasmtInsttNm1: data[i]['apasmtInsttNm1'] ?? '',
-          apasmtInsttEvlUpc1: data[i]['apasmtInsttEvlUpc1'] ?? '',
-          apasmtInsttEvamt1: data[i]['apasmtInsttEvamt1'] ?? '',
+          apasmtInsttEvlUpc1: data[i]['apasmtInsttEvlUpc1'] ?? 0,
+          apasmtInsttEvamt1: data[i]['apasmtInsttEvamt1'] ?? 0,
           apasmtInsttNm2: data[i]['apasmtInsttNm2'] ?? '',
-          apasmtInsttEvlUpc2: data[i]['apasmtInsttEvlUpc2'] ?? '',
-          apasmtInsttEvamt2: data[i]['apasmtInsttEvamt2'] ?? '',
+          apasmtInsttEvlUpc2: data[i]['apasmtInsttEvlUpc2'] ?? 0,
+          apasmtInsttEvamt2: data[i]['apasmtInsttEvamt2'] ?? 0,
           apasmtInsttNm3: data[i]['apasmtInsttNm3'] ?? '',
-          apasmtInsttEvlUpc3: data[i]['apasmtInsttEvlUpc3'] ?? '',
-          apasmtInsttEvamt3: data[i]['apasmtInsttEvamt3'] ?? '',
-          cmpnstnCmptnUpc: data[i]['cmpnstnCmptnUpc'] ?? '',
-          cpsmnCmptnAmt: data[i]['cpsmnCmptnAmt'] ?? '',
+          apasmtInsttEvlUpc3: data[i]['apasmtInsttEvlUpc3'] ?? 0,
+          apasmtInsttEvamt3: data[i]['apasmtInsttEvamt3'] ?? 0,
+          cmpnstnCmptnUpc: data[i]['cmpnstnCmptnUpc'] ?? 0,
+          cpsmnCmptnAmt: data[i]['cpsmnCmptnAmt'] ?? 0,
           caPymntRequstDe: data[i]['caPymntRequstDe'] ?? '',
-          cmpnstnDscssUpc: data[i]['cmpnstnDscssUpc'] ?? '',
-          cmpnstnDscssTotAmt: data[i]['cmpnstnDscssTotAmt'] ?? '',
+          cmpnstnDscssUpc: data[i]['cmpnstnDscssUpc'] ?? 0,
+          cmpnstnDscssTotAmt: data[i]['cmpnstnDscssTotAmt'] ?? 0,
           caRgistDt: data[i]['caRgistDt'] ?? '',
-          aceptncAdjdcUpc: data[i]['aceptncAdjdcUpc'] ?? '',
-          aceptncAdjdcAmt: data[i]['aceptncAdjdcAmt'] ?? '',
+          aceptncAdjdcUpc: data[i]['aceptncAdjdcUpc'] ?? 0,
+          aceptncAdjdcAmt: data[i]['aceptncAdjdcAmt'] ?? 0,
           aceptncAdjdcDt: data[i]['aceptncAdjdcDt'] ?? '',
           aceptncUseBeginDe: data[i]['aceptncUseBeginDe'] ?? '',
           ldPymntRequstDe: data[i]['ldPymntRequstDe'] ?? '',
           ldRgistDt: data[i]['ldRgistDt'] ?? '',
           ldCpsmnPymntLdgmntDivCd: data[i]['ldCpsmnPymntLdgmntDivCd'] ?? '',
-          obadUpc: data[i]['obadUpc'] ?? '',
-          objcRstAmt: data[i]['objcRstAmt'] ?? '',
+          obadUpc: data[i]['obadUpc'] ?? 0,
+          objcRstAmt: data[i]['objcRstAmt'] ?? 0,
           objcAdjdcDt: data[i]['objcAdjdcDt'] ?? '',
           proPymntRequstDe: data[i]['proPymntRequstDe'] ?? '',
           proCpsmnPymntLdgmntDivCd: data[i]['proCpsmnPymntLdgmntDivCd'] ?? '',
@@ -1008,89 +1043,126 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
       // close loading bar
       Get.back();
-
     }
 
     ladSttusInqireColumns.value = [];
 
     ladSttusInqireColumns.value = [
       gridColumn('lgdongNm', '소재지', width: 250),
-      gridColumn('lcrtsDivCd', '특지', width: 60),
+      gridColumn('lcrtsDivNm', '특지', width: 60),
       gridColumn('mlnoLtno', '본번', width: 60),
       gridColumn('slnoLtno', '부번', width: 60),
 
-      gridColumn('ofcbkLndcgrDivCd', '공부', width: 60),
-      gridColumn('sttusLndcgrDivCd', '현황', width: 60),
+      gridColumn('ofcbkLndcgrDivNm', '공부', width: 60),
+      gridColumn('sttusLndcgrDivNm', '현황', width: 60),
 
-      gridColumn('cmpnstnStepDivCd', '진행단계', width: 100),
-      gridColumn('acqsPrpDivCd', '취득용도', width: 100),
+      gridColumn('cmpnstnStepDivNm', '진행단계', width: 100),
+      gridColumn('acqsPrpDivNm', '취득용도', width: 100),
 
       gridColumn('ofcbkAra', '공부', width: 100),
       gridColumn('incrprAra', '편입', width: 100),
 
-      gridColumn('aceptncUseDivCd', '수용/사용',isVisble: isSttusInqireGridTab1.value, width: 80),
-      gridColumn('invstgDt', '조사일', isVisble: isSttusInqireGridTab1.value, width: 80),
-      gridColumn('accdtInvstgSqnc', '조사차수', isVisble: isSttusInqireGridTab1.value, width: 80),
+      gridColumn('aceptncUseDivNm', '수용/사용',
+          isVisble: isSttusInqireGridTab1.value, width: 80),
+      gridColumn('invstgDt', '조사일',
+          isVisble: isSttusInqireGridTab1.value, width: 80),
+      gridColumn('accdtInvstgSqnc', '조사차수',
+          isVisble: isSttusInqireGridTab1.value, width: 80),
 
-      gridColumn('ownerNo', '소유자번호', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('posesnDivCd', '구분', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('ownerNm', '소유자명', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('ownerRgsbukAddr', '등기부주소', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('posesnShreNmrtrInfo', '분자', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('posesnShreDnmntrInfo', '분모', isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('ownerNo', '소유자번호',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('posesnDivNm', '구분',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('ownerNm', '소유자명',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('ownerRgsbukAddr', '등기부주소',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('posesnShreNmrtrInfo', '분자',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('posesnShreDnmntrInfo', '분모',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
 
-      gridColumn('apasmtReqestDivCd', '평가구분', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('apasmtSqnc', '평가차수', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('prcPnttmDe', '가격시점', isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtReqestDivNm', '평가구분',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtSqnc', '평가차수',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('prcPnttmDe', '가격시점',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
 
       // a평가법인
-      gridColumn('apasmtInsttNm1', '법인명', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('apasmtInsttEvlUpc1', '단가', isVisble: isSttusInqireGridTab3.value , width: 80),
-      gridColumn('apasmtInsttEvlAmt1', '금액', isVisble: isSttusInqireGridTab3.value , width: 80),
+      gridColumn('apasmtInsttNm1', '법인명',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlUpc1', '단가',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlAmt1', '금액',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
 
       // b평가법인
-      gridColumn('apasmtInsttNm2', '법인명', isVisble: isSttusInqireGridTab3.value , width: 80),
-      gridColumn('apasmtInsttEvlUpc2', '단가', isVisble: isSttusInqireGridTab3.value , width: 80),
-      gridColumn('apasmtInsttEvlAmt2', '금액', isVisble: isSttusInqireGridTab3.value , width: 80),
+      gridColumn('apasmtInsttNm2', '법인명',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlUpc2', '단가',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlAmt2', '금액',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
 
       // c평가법인
-      gridColumn('apasmtInsttNm3', '법인명', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('apasmtInsttEvlUpc3', '단가', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('apasmtInsttEvlAmt3', '금액', isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttNm3', '법인명',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlUpc3', '단가',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlAmt3', '금액',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
 
       // 보상비산정
-      gridColumn('cmpnstnCmptnUpc', '산정단가', isVisble: isSttusInqireGridTab4.value, width: 80),
-      gridColumn('cpsmnCmptnAmt', '산정금액', isVisble: isSttusInqireGridTab4.value, width: 80),
+      gridColumn('cmpnstnCmptnUpc', '산정단가',
+          isVisble: isSttusInqireGridTab4.value, width: 80),
+      gridColumn('cpsmnCmptnAmt', '산정금액',
+          isVisble: isSttusInqireGridTab4.value, width: 80),
 
       // 보상비지급
-      gridColumn('caPymntRequstDe', '지급요청일', isVisble: isSttusInqireGridTab5.value, width: 80),
-      gridColumn('cmpnstnDscssUpc', '지급단가', isVisble: isSttusInqireGridTab5.value, width: 80),
-      gridColumn('cmpnstnDscssTotAmt', '지급금액', isVisble: isSttusInqireGridTab5.value, width: 80),
-      gridColumn('caRgistDt', '등기일자', isVisble: isSttusInqireGridTab5.value, width: 80),
+      gridColumn('caPymntRequstDe', '지급요청일',
+          isVisble: isSttusInqireGridTab5.value, width: 80),
+      gridColumn('cmpnstnDscssUpc', '지급단가',
+          isVisble: isSttusInqireGridTab5.value, width: 80),
+      gridColumn('cmpnstnDscssTotAmt', '지급금액',
+          isVisble: isSttusInqireGridTab5.value, width: 80),
+      gridColumn('caRgistDt', '등기일자',
+          isVisble: isSttusInqireGridTab5.value, width: 80),
 
       // 수용재결
-      gridColumn('aceptncAdjdcUpc', '재결단가', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('aceptncAdjdcAmt', '재결금액', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('aceptncAdjdcDt', '재결일자', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('aceptncUseBeginDe', '수용/사용개시일', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('ldPymntRequstDe', '지급요청일자', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('ldRgistDt', '등기일자', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('aceptncAdjdcUpc', '재결단가',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('aceptncAdjdcAmt', '재결금액',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('aceptncAdjdcDt', '재결일자',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('aceptncUseBeginDe', '수용/사용개시일',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('ldPymntRequstDe', '지급요청일자',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('ldRgistDt', '등기일자',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
 
       // 이의재결
-      gridColumn('obadUpc', '재결단가', isVisble: isSttusInqireGridTab7.value, width: 80),
-      gridColumn('objcRstAmt', '재결금액', isVisble: isSttusInqireGridTab7.value, width: 80),
-      gridColumn('objcAdjdcDt', '재결일자', isVisble: isSttusInqireGridTab7.value, width: 80),
-      gridColumn('proPymntRequstDe', '지급요청일자', isVisble: isSttusInqireGridTab7.value, width: 80),
-      gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('obadUpc', '재결단가',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('objcRstAmt', '재결금액',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('objcAdjdcDt', '재결일자',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('proPymntRequstDe', '지급요청일자',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
     ];
-
   }
 
   /// [통계정보 > 지장물현황] 조회
   fetchObstSttusInqireDataSource() async {
-
-    print('fetchObstSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
+    print(
+        'fetchObstSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
 
     var url = Uri.parse(
         'http://222.107.22.159:18080/lp/lssom/selectSttusObstInfo.do');
@@ -1107,69 +1179,55 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       debugPrint('fetchObstSttusInqireDataSource > data : $data');
 
       var res = <ObstSttusInqireModel>[];
-      for(var i = 0; i < data.length; i++) {
+      for (var i = 0; i < data.length; i++) {
         res.add(ObstSttusInqireModel(
-
           lgdongNm: data[i]['lgdongNm'] ?? '',
           lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
           mlnoLtno: data[i]['mlnoLtno'] ?? '',
           slnoLtno: data[i]['slnoLtno'] ?? '',
-
           cmpnstnStepDivCd: data[i]['cmpnstnStepDivCd'] ?? '',
           acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
-
           rqestNo: data[i]['rqestNo'] ?? '',
           invstgDe: data[i]['invstgDe'] ?? '',
           accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? '',
-
           ownerNo: data[i]['ownerNo'] ?? '',
           posesnDivCd: data[i]['posesnDivCd'] ?? '',
           ownerNm: data[i]['ownerNm'] ?? '',
           ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
           posesnShreNmrtrInfo: data[i]['posesnShreNmrtrInfo'] ?? '',
           posesnShreDnmntrInfo: data[i]['posesnShreDnmntrInfo'] ?? '',
-
           apasmtReqestDivCd: data[i]['apasmtReqestDivCd'] ?? '',
           apasmtSqnc: data[i]['apasmtSqnc'] ?? 0,
           prcPnttmDe: data[i]['prcPnttmDe'] ?? '',
-
           apasmtInsttNm1: data[i]['apasmtInsttNm1'] ?? '',
           apasmtInsttEvlUpc1: data[i]['apasmtInsttEvlUpc1'] ?? 0,
           apasmtInsttEvamt1: data[i]['apasmtInsttEvamt1'] ?? 0,
-
           apasmtInsttNm2: data[i]['apasmtInsttNm2'] ?? '',
           apasmtInsttEvlUpc2: data[i]['apasmtInsttEvlUpc2'] ?? '',
           apasmtInsttEvamt2: data[i]['apasmtInsttEvamt2'] ?? '',
-
           apasmtInsttNm3: data[i]['apasmtInsttNm3'] ?? '',
           apasmtInsttEvlUpc3: data[i]['apasmtInsttEvlUpc3'] ?? '',
           apasmtInsttEvamt3: data[i]['apasmtInsttEvamt3'] ?? '',
-
           cmpnstnCmptnUpc: data[i]['cmpnstnCmptnUpc'] ?? 0,
           cpsmnCmptnAmt: data[i]['cpsmnCmptnAmt'] ?? 0,
-
           caPymntRequstDe: data[i]['caPymntRequstDe'] ?? '',
           cmpnstnDscssUpc: data[i]['cmpnstnDscssUpc'] ?? 0,
           cmpnstnDscssTotAmt: data[i]['cmpnstnDscssTotAmt'] ?? 0,
-
           dcsUpc: data[i]['dcsUpc'] ?? '',
           dcsAmt: data[i]['dcsAmt'] ?? '',
           dcsDt: data[i]['dcsDt'] ?? '',
           aceptncUseBeginDe: data[i]['aceptncUseBeginDe'] ?? '',
           ldPymntRequstDe: data[i]['ldPymntRequstDe'] ?? '',
           ldCpsmnPymntLdgmntDivCd: data[i]['ldCpsmnPymntLdgmntDivCd'] ?? '',
-
           proUpc: data[i]['proUpc'] ?? '',
           proAmt: data[i]['proAmt'] ?? '',
           proDt: data[i]['proDt'] ?? '',
           proPymntRequstDe: data[i]['proPymntRequstDe'] ?? '',
           proCpsmnPymntLdgmntDivCd: data[i]['proCpsmnPymntLdgmntDivCd'] ?? '',
-
         ));
       }
 
       obstSttusInqireDataSource.value = ObstSttusInqireDatasource(items: res);
-
     }
 
     obstSttusInqireColumns.value = [];
@@ -1183,68 +1241,103 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       gridColumn('cmpnstnStepDivCd', '진행단계', width: 100),
       gridColumn('acqsPrpDivCd', '취득용도', width: 100),
 
-      gridColumn('rqestNo', '수용/사용',isVisble: isSttusInqireGridTab1.value, width: 80),
-      gridColumn('invstgDe', '조사일', isVisble: isSttusInqireGridTab1.value, width: 80),
-      gridColumn('accdtInvstgSqnc', '조사차수', isVisble: isSttusInqireGridTab1.value, width: 80),
+      gridColumn('rqestNo', '수용/사용',
+          isVisble: isSttusInqireGridTab1.value, width: 80),
+      gridColumn('invstgDe', '조사일',
+          isVisble: isSttusInqireGridTab1.value, width: 80),
+      gridColumn('accdtInvstgSqnc', '조사차수',
+          isVisble: isSttusInqireGridTab1.value, width: 80),
 
-      gridColumn('ownerNo', '소유자번호', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('posesnDivCd', '구분', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('ownerNm', '소유자명', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('ownerRgsbukAddr', '등기부주소', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('posesnShreNmrtrInfo', '분자', isVisble: isSttusInqireGridTab2.value, width: 80),
-      gridColumn('posesnShreDnmntrInfo', '분모', isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('ownerNo', '소유자번호',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('posesnDivCd', '구분',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('ownerNm', '소유자명',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('ownerRgsbukAddr', '등기부주소',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('posesnShreNmrtrInfo', '분자',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
+      gridColumn('posesnShreDnmntrInfo', '분모',
+          isVisble: isSttusInqireGridTab2.value, width: 80),
 
-      gridColumn('apasmtReqestDivCd', '평가구분', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('apasmtSqnc', '평가차수', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('prcPnttmDe', '가격시점', isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtReqestDivCd', '평가구분',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtSqnc', '평가차수',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('prcPnttmDe', '가격시점',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
 
       // a평가법인
-      gridColumn('apasmtInsttNm1', '법인명', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('apasmtInsttEvlUpc1', '단가', isVisble: isSttusInqireGridTab3.value , width: 80),
-      gridColumn('apasmtInsttEvlAmt1', '금액', isVisble: isSttusInqireGridTab3.value , width: 80),
+      gridColumn('apasmtInsttNm1', '법인명',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlUpc1', '단가',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlAmt1', '금액',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
 
       // b평가법인
-      gridColumn('apasmtInsttNm2', '법인명', isVisble: isSttusInqireGridTab3.value , width: 80),
-      gridColumn('apasmtInsttEvlUpc2', '단가', isVisble: isSttusInqireGridTab3.value , width: 80),
-      gridColumn('apasmtInsttEvlAmt2', '금액', isVisble: isSttusInqireGridTab3.value , width: 80),
+      gridColumn('apasmtInsttNm2', '법인명',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlUpc2', '단가',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlAmt2', '금액',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
 
       // c평가법인
-      gridColumn('apasmtInsttNm3', '법인명', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('apasmtInsttEvlUpc3', '단가', isVisble: isSttusInqireGridTab3.value, width: 80),
-      gridColumn('apasmtInsttEvlAmt3', '금액', isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttNm3', '법인명',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlUpc3', '단가',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
+      gridColumn('apasmtInsttEvlAmt3', '금액',
+          isVisble: isSttusInqireGridTab3.value, width: 80),
 
       // 보상비산정
-      gridColumn('cmpnstnCmptnUpc', '산정단가', isVisble: isSttusInqireGridTab4.value, width: 80),
-      gridColumn('cpsmnCmptnAmt', '산정금액', isVisble: isSttusInqireGridTab4.value, width: 80),
+      gridColumn('cmpnstnCmptnUpc', '산정단가',
+          isVisble: isSttusInqireGridTab4.value, width: 80),
+      gridColumn('cpsmnCmptnAmt', '산정금액',
+          isVisble: isSttusInqireGridTab4.value, width: 80),
 
       // 보상비지급
-      gridColumn('caPymntRequstDe', '지급요청일', isVisble: isSttusInqireGridTab5.value, width: 80),
-      gridColumn('cmpnstnDscssUpc', '지급단가', isVisble: isSttusInqireGridTab5.value, width: 80),
-      gridColumn('cmpnstnDscssTotAmt', '지급금액', isVisble: isSttusInqireGridTab5.value, width: 80),
+      gridColumn('caPymntRequstDe', '지급요청일',
+          isVisble: isSttusInqireGridTab5.value, width: 80),
+      gridColumn('cmpnstnDscssUpc', '지급단가',
+          isVisble: isSttusInqireGridTab5.value, width: 80),
+      gridColumn('cmpnstnDscssTotAmt', '지급금액',
+          isVisble: isSttusInqireGridTab5.value, width: 80),
 
       // 수용재결
-      gridColumn('dcsUpc', '재결단가', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('dcsAmt', '재결금액', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('dcsDt', '재결일자', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('aceptncUseBeginDe', '수용/사용개시일', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('ldPymntRequstDe', '지급요청일자', isVisble: isSttusInqireGridTab6.value, width: 80),
-      gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('dcsUpc', '재결단가',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('dcsAmt', '재결금액',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('dcsDt', '재결일자',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('aceptncUseBeginDe', '수용/사용개시일',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('ldPymntRequstDe', '지급요청일자',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
+      gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁',
+          isVisble: isSttusInqireGridTab6.value, width: 80),
 
       // 이의재결
-      gridColumn('proUpc', '재결단가', isVisble: isSttusInqireGridTab7.value, width: 80),
-      gridColumn('proAmt', '재결금액', isVisble: isSttusInqireGridTab7.value, width: 80),
-      gridColumn('proDt', '재결일자', isVisble: isSttusInqireGridTab7.value, width: 80),
-      gridColumn('proPymntRequstDe', '지급요청일자', isVisble: isSttusInqireGridTab7.value, width: 80),
-      gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁', isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('proUpc', '재결단가',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('proAmt', '재결금액',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('proDt', '재결일자',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('proPymntRequstDe', '지급요청일자',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
+      gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁',
+          isVisble: isSttusInqireGridTab7.value, width: 80),
     ];
-
-
   }
 
   // [통계정보 > 취득용도] 조회
   fetchAcqsPrpDivCdDataSource() async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectAcqsPrp.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lssom/selectAcqsPrp.do');
 
     var response = await http.post(url);
 
@@ -1252,27 +1345,30 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       var data = JsonDecoder().convert(response.body)['list'];
       debugPrint('fetchAcqsPrpDivCdDataSource > data : $data');
 
-      DialogUtil.showBottomSheet(Get.context!, '취득용도', Container(
-        height: 500.h,
-        child: ListView.builder(
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(data[index]['cmmnCdNm']),
-              onTap: () {
-                sttusInqireAcqstnPrpsController.text = data[index]['cmmnCdNm'];
-                Get.back();
+      DialogUtil.showBottomSheet(
+          Get.context!,
+          '취득용도',
+          Container(
+            height: 500.h,
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(data[index]['cmmnCdNm']),
+                  onTap: () {
+                    sttusInqireAcqstnPrpsController.text =
+                        data[index]['cmmnCdNm'];
+                    Get.back();
+                  },
+                );
               },
-            );
-          },
-        ),
-      ));
+            ),
+          ));
     }
   }
 
   // [ 통계정보 > 토지현황 > 조사 차수] 조회
   fetchLadSttusInqireSqncDataSource() async {
-
     var url = Uri.parse(
         'http://222.107.22.159:18080/lp/lssom/selectLandApasmtSqnc.do');
 
@@ -1287,24 +1383,27 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       var data = JsonDecoder().convert(response.body)['list'];
       debugPrint('fetchLadSttusInqireSqncDataSource > data : $data');
 
-      DialogUtil.showBottomSheet(Get.context!, '조사 차수', Container(
-        height: 500.h,
-        child: ListView.builder(
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              //title: Text(data[index]['accdtInvstgSqnc']),
-              title: Text('${data[index]['apasmtSqnc']}차'),
-              onTap: () {
-                sttusInqireBsnsSqncController.text = data[index]['apasmtSqnc'].toString();
-                Get.back();
+      DialogUtil.showBottomSheet(
+          Get.context!,
+          '조사 차수',
+          Container(
+            height: 500.h,
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  //title: Text(data[index]['accdtInvstgSqnc']),
+                  title: Text('${data[index]['apasmtSqnc']}차'),
+                  onTap: () {
+                    sttusInqireBsnsSqncController.text =
+                        data[index]['apasmtSqnc'].toString();
+                    Get.back();
+                  },
+                );
               },
-            );
-          },
-        ),
-      ));
+            ),
+          ));
     }
-
   }
 
   /// [차수] 선택
@@ -1392,27 +1491,22 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                       onTap: () {
                         showDatePicker(
                           context: Get.context!,
-                          initialDate: orderStartDtController
-                              .text.isEmpty
+                          initialDate: orderStartDtController.text.isEmpty
                               ? DateTime.now()
-                              : DateTime.parse(
-                              orderStartDtController.text),
+                              : DateTime.parse(orderStartDtController.text),
                           firstDate: DateTime(2024),
                           lastDate: DateTime(2034),
-                          initialDatePickerMode:
-                          DatePickerMode.day,
+                          initialDatePickerMode: DatePickerMode.day,
                         ).then((value) {
                           debugPrint('start dt : $value');
                           var year = value!.year;
                           var month = value.month < 10
                               ? '0${value.month}'
                               : value.month;
-                          var day = value.day < 10
-                              ? '0${value.day}'
-                              : value.day;
+                          var day =
+                              value.day < 10 ? '0${value.day}' : value.day;
 
-                          orderStartDtController.text =
-                          '$year-$month-$day';
+                          orderStartDtController.text = '$year-$month-$day';
                         });
                       },
                     ),
@@ -1458,27 +1552,22 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                         onTap: () {
                           showDatePicker(
                             context: Get.context!,
-                            initialDate: orderEndDtController
-                                .text.isEmpty
+                            initialDate: orderEndDtController.text.isEmpty
                                 ? DateTime.now()
-                                : DateTime.parse(
-                                orderEndDtController.text),
+                                : DateTime.parse(orderEndDtController.text),
                             firstDate: DateTime(2024),
                             lastDate: DateTime(2034),
-                            initialDatePickerMode:
-                            DatePickerMode.day,
+                            initialDatePickerMode: DatePickerMode.day,
                           ).then((value) {
                             debugPrint('start dt : $value');
                             var year = value!.year;
                             var month = value.month < 10
                                 ? '0${value.month}'
                                 : value.month;
-                            var day = value.day < 10
-                                ? '0${value.day}'
-                                : value.day;
+                            var day =
+                                value.day < 10 ? '0${value.day}' : value.day;
 
-                            orderEndDtController.text =
-                            '$year-$month-$day';
+                            orderEndDtController.text = '$year-$month-$day';
                           });
                         },
                       ),
@@ -1492,11 +1581,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
               onTap: () {
                 Get.back();
                 if (orderStartDtController.text == "") {
-                  return DialogUtil.showSnackBar(Get.context!, '실태조사', '시작일을 입력해주세요.');
+                  return DialogUtil.showSnackBar(
+                      Get.context!, '실태조사', '시작일을 입력해주세요.');
                 }
 
                 if (orderEndDtController.text == "") {
-                  return DialogUtil.showSnackBar(Get.context!, '실태조사', '종료일을 입력해주세요.');
+                  return DialogUtil.showSnackBar(
+                      Get.context!, '실태조사', '종료일을 입력해주세요.');
                 }
 
                 DialogUtil.showAlertDialog(
@@ -1513,13 +1604,30 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                         children: [
                           Row(
                             children: [
-                              CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivLclsNm ?? '', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                              CustomBsnsBadge(
+                                  text: BsnsController.to.selectBsnsPlan.value
+                                          .bsnsDivLclsNm ??
+                                      '',
+                                  bgColor: Color(0xFFEFF5FF),
+                                  textColor: Color(0xFF1D58BC)),
                               SizedBox(width: 6.w),
-                              CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivMclsNm ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                              CustomBsnsBadge(
+                                  text: BsnsController.to.selectBsnsPlan.value
+                                          .bsnsDivMclsNm ??
+                                      '',
+                                  bgColor: Color(0xFFFFF1E4),
+                                  textColor: Color(0xFFFF8000)),
                               SizedBox(width: 6.w),
-                              BsnsController.to.selectBsnsPlan.value.bsnsDivSclsNm == ''
+                              BsnsController.to.selectBsnsPlan.value
+                                          .bsnsDivSclsNm ==
+                                      ''
                                   ? SizedBox()
-                                  : CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivSclsNm ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                                  : CustomBsnsBadge(
+                                      text: BsnsController.to.selectBsnsPlan
+                                              .value.bsnsDivSclsNm ??
+                                          '',
+                                      bgColor: Color(0xFFFFF1E4),
+                                      textColor: Color(0xFFFF8000)),
                             ],
                           ),
                           SizedBox(height: 20.h),
@@ -1535,19 +1643,25 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
-                                            text: '(${selectBsnsPlan.value.bsnsNo}) ',
+                                            text:
+                                                '(${selectBsnsPlan.value.bsnsNo}) ',
                                             style: TextStyle(
                                               color: Color(0xFF1D1D1D),
-                                              fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                              fontSize:
+                                                  1.w > 1.h ? 32.sp : 52.sp,
                                               fontFamily: 'Pretendard',
                                               fontWeight: FontWeight.w700,
                                             ),
                                           ),
                                           TextSpan(
-                                            text: selectBsnsPlan.value.bsnsNm ?? '',
+                                            text: selectBsnsPlan.value.bsnsNm ??
+                                                '',
                                             style: TextStyle(
-                                              color: Theme.of(Get.context!).colorScheme.primary,
-                                              fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                              color: Theme.of(Get.context!)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontSize:
+                                                  1.w > 1.h ? 32.sp : 52.sp,
                                               fontFamily: 'Pretendard',
                                               fontWeight: FontWeight.w700,
                                               overflow: TextOverflow.ellipsis,
@@ -1560,7 +1674,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                     Container(
                                       width: 2.w,
                                       height: 32.h,
-                                      decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFFD8D8D8)),
                                     ),
                                     SizedBox(width: 20.w),
                                     RichText(
@@ -1570,7 +1685,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                             text: '${orderAutoController.text}',
                                             style: TextStyle(
                                               color: Colors.red,
-                                              fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                              fontSize:
+                                                  1.w > 1.h ? 32.sp : 52.sp,
                                               fontFamily: 'Pretendard',
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -1579,7 +1695,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                             text: '차조사',
                                             style: TextStyle(
                                               color: Color(0xFF1D1D1D),
-                                              fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                              fontSize:
+                                                  1.w > 1.h ? 32.sp : 52.sp,
                                               fontFamily: 'Pretendard',
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -1696,18 +1813,18 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       if (value.isEmpty) {
         searchBsnsPlanList.value = bsnsPlanList;
       } else {
-        searchBsnsPlanList.value = bsnsPlanList.where((element) => element.bsnsNm?.contains(value) ?? false).toList();
+        searchBsnsPlanList.value = bsnsPlanList
+            .where((element) => element.bsnsNm?.contains(value) ?? false)
+            .toList();
         debugPrint('serachBsnsPlanList : $searchBsnsPlanList');
-
       }
     });
   }
 
   /// [차수 자동 입력]
   autoSqnc() async {
-
     var url = 'http://222.107.22.159:18080/lp/bsns/selectAccdtInvstgSqnc.do';
-        //'?shBsnsNo=2101&shBsnsZoneNo=2';
+    //'?shBsnsNo=2101&shBsnsZoneNo=2';
 
     debugPrint('shBsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
     debugPrint('shBsnsZoneNo : ${selectedBsnsSelectArea.value.bsnsZoneNo}');
@@ -1746,7 +1863,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
       // 마지막 차수 + 1
 
-      if(bsnsAccdtinvstgSqncModel.isEmpty) {
+      if (bsnsAccdtinvstgSqncModel.isEmpty) {
         orderAutoController.text = '1';
       } else {
         num lastSqnc = bsnsAccdtinvstgSqncModel.first.accdtInvstgSqnc ?? 0 + 1;
@@ -1757,12 +1874,11 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
         orderAutoController.text = last.toString();
       }
 
-      bsnsAccdtinvstgSqncDataSource.value = BsnsAccdtinvstgSqncDatasource(items: bsnsAccdtinvstgSqncModel);
-
+      bsnsAccdtinvstgSqncDataSource.value =
+          BsnsAccdtinvstgSqncDatasource(items: bsnsAccdtinvstgSqncModel);
     } else {
       debugPrint('error');
     }
-
   }
 
   /// 실태조사 -> 토지조사 -> 토지검색
@@ -1783,259 +1899,265 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// 통계정보 탭 선택 핸들러
   Future<void> handleSttusInqireTabSelected(int index) async {
-
     sttusInqireTabIsSelected[index] = !sttusInqireTabIsSelected[index];
     debugPrint('ladSttusInqireTabIsSelected : $sttusInqireTabIsSelected');
+  }
 
+  /// 고객카드 탭 선택 핸들러
+  Future<void> handleCustomerCardTabSelected(int index) async {
+    for (var i = 0; i < customerCardTabIsSelected.length; i++) {
+      customerCardTabIsSelected[i] = false;
+    }
+    customerCardTabIsSelected[index] = true;
   }
 
   void addBsns() {
     DialogUtil.showAlertDialog(Get.context!, 0, '토지 현실이용현황 조회 및 입력',
-    widget: SizedBox(
-      width: 520.w,
-      height: 166.h,
-      child: Column(
-        children: [
-          Container(
-            height: 52.h,
-            child: Row(
-              children: [
-                Container(
-                  width: 100.w,
+        widget: SizedBox(
+          width: 520.w,
+          height: 166.h,
+          child: Column(
+            children: [
+              Container(
                   height: 52.h,
-                  color: Color(0XFFE5E8ED),
-                  child: Center(
-                    child: Text(
-                      '지목선택',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.symmetric(
-                        horizontal: BorderSide(
-                          color: Color(0XFFE5E8ED),
-                          width: 1,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100.w,
+                        height: 52.h,
+                        color: Color(0XFFE5E8ED),
+                        child: Center(
+                          child: Text(
+                            '지목선택',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 5,
-                            child: Container(
-                              height: 36.h,
-                              child: CustomTextField(
-                                controller: orderController,
-                                hintText: '지목을 입력해주세요.',
-                                isPassword: false,
-                                isReadOnly: false,
-                                onChanged: (value) {
-                                  debugPrint('orderController : $value');
-                                },
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.symmetric(
+                              horizontal: BorderSide(
+                                color: Color(0XFFE5E8ED),
+                                width: 1,
                               ),
                             ),
                           ),
-                          SizedBox(width: 6.w),
-                          Expanded(
-                            child: CustomButton(
-                              color: Color(0XFFE5E8ED),
-                              text: '조회',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ),
-          SizedBox(height: 1.h),
-          Container(
-              height: 52.h,
-              child: Row(
-                children: [
-                  Container(
-                    width: 100.w,
-                    height: 52.h,
-                    color: Color(0XFFE5E8ED),
-                    child: Center(
-                      child: Text(
-                        '면적(㎡)',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        // border only bottom
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Color(0XFFE5E8ED),
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 36.h,
-                                child: CustomTextField(
-                                  controller: orderController,
-                                  hintText: '',
-                                  isPassword: false,
-                                  isReadOnly: false,
-                                  onChanged: (value) {
-                                    debugPrint('orderController : $value');
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-          ),
-          SizedBox(height: 1.h),
-          Container(
-              height: 52.h,
-              child: Row(
-                children: [
-                  Container(
-                    width: 100.w,
-                    height: 52.h,
-                    color: Color(0XFFE5E8ED),
-                    child: Center(
-                      child: Text(
-                        '용도지구 \n 및 지역',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Color(0XFFE5E8ED),
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                height: 36.h,
-                                child: CustomTextField(
-                                  controller: orderController,
-                                  hintText: '',
-                                  isPassword: false,
-                                  isReadOnly: false,
-                                  onChanged: (value) {
-                                    debugPrint('orderController : $value');
-                                  },
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 6.w),
-                            Expanded(
-                              child:
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      width: 38.w,
-                                      height: 38.w,
-                                      padding: EdgeInsets.all(4),
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: ShapeDecoration(
-                                        color: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
-                                          borderRadius: BorderRadius.circular(6),
-                                        ),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/ic_microphone.svg',
-                                      )
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Container(
-                                    width: 38.w,
-                                    height: 38.w,
-                                    padding: EdgeInsets.all(4),
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: ShapeDecoration(
-                                      color: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 5,
+                                  child: Container(
+                                    height: 36.h,
+                                    child: CustomTextField(
+                                      controller: orderController,
+                                      hintText: '지목을 입력해주세요.',
+                                      isPassword: false,
+                                      isReadOnly: false,
+                                      onChanged: (value) {
+                                        debugPrint('orderController : $value');
+                                      },
                                     ),
-                                    child: SvgPicture.asset(
-                                      'assets/icons/ic_pen.svg',
-                                    )
                                   ),
-                                  // Container(
-                                  //   width: 36.w,
-                                  //   height: 36.h,
-                                  //   decoration: BoxDecoration(
-                                  //       color: Color(0xFFFFFFFF),
-                                  //       borderRadius: BorderRadius.circular(6.r),
-                                  //       border: Border.all(color: borderLine)
-                                  //   ),
-                                  //   child: SvgPicture.asset(
-                                  //     width: 10.w,
-                                  //     height: 10.h,
-                                  //     'assets/icons/ic_pen.svg',
-                                  //     fit: BoxFit.contain,
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(width: 6.w),
+                                Expanded(
+                                  child: CustomButton(
+                                    color: Color(0XFFE5E8ED),
+                                    text: '조회',
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              )
+                    ],
+                  )),
+              SizedBox(height: 1.h),
+              Container(
+                  height: 52.h,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100.w,
+                        height: 52.h,
+                        color: Color(0XFFE5E8ED),
+                        child: Center(
+                          child: Text(
+                            '면적(㎡)',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            // border only bottom
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Color(0XFFE5E8ED),
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 36.h,
+                                    child: CustomTextField(
+                                      controller: orderController,
+                                      hintText: '',
+                                      isPassword: false,
+                                      isReadOnly: false,
+                                      onChanged: (value) {
+                                        debugPrint('orderController : $value');
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+              SizedBox(height: 1.h),
+              Container(
+                  height: 52.h,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100.w,
+                        height: 52.h,
+                        color: Color(0XFFE5E8ED),
+                        child: Center(
+                          child: Text(
+                            '용도지구 \n 및 지역',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Color(0XFFE5E8ED),
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    height: 36.h,
+                                    child: CustomTextField(
+                                      controller: orderController,
+                                      hintText: '',
+                                      isPassword: false,
+                                      isReadOnly: false,
+                                      onChanged: (value) {
+                                        debugPrint('orderController : $value');
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 6.w),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          width: 38.w,
+                                          height: 38.w,
+                                          padding: EdgeInsets.all(4),
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: ShapeDecoration(
+                                            color: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  width: 1,
+                                                  color: Color(0xFFD8D8D8)),
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                          ),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/ic_microphone.svg',
+                                          )),
+                                      SizedBox(width: 10.w),
+                                      Container(
+                                          width: 38.w,
+                                          height: 38.w,
+                                          padding: EdgeInsets.all(4),
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: ShapeDecoration(
+                                            color: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  width: 1,
+                                                  color: Color(0xFFD8D8D8)),
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                          ),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/ic_pen.svg',
+                                          )),
+                                      // Container(
+                                      //   width: 36.w,
+                                      //   height: 36.h,
+                                      //   decoration: BoxDecoration(
+                                      //       color: Color(0xFFFFFFFF),
+                                      //       borderRadius: BorderRadius.circular(6.r),
+                                      //       border: Border.all(color: borderLine)
+                                      //   ),
+                                      //   child: SvgPicture.asset(
+                                      //     width: 10.w,
+                                      //     height: 10.h,
+                                      //     'assets/icons/ic_pen.svg',
+                                      //     fit: BoxFit.contain,
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+              SizedBox(height: 1.h),
+            ],
           ),
-          SizedBox(height: 1.h),
-        ],
-      ),
-    ),
-    onOk: () {
+        ), onOk: () {
       debugPrint('토지 현실이용현황 조회 및 입력');
       isBsnsSelectFlag.value = false;
       isBsnsSqncSelectFlag.value = false;
@@ -2127,46 +2249,46 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   randomLndcgrDivCd() {
     var names = [
-    '미등록',
-    '전',
-    '답',
-    '과수원',
-    '목장용지',
-    '없음',
-    '광천지',
-    '염전',
-    '대',
-    '공장용지',
-    '학교용지',
-    '도로',
-    '철도용지',
-    '하천',
-    '제방',
-    '구거',
-    '유지',
-    '수도용지',
-    '공원',
-    '체육용지',
-    '보상비산정',
-    '종교용지',
-    '사적지',
-    '묘지',
-    '보상비산정완료',
-    '주차장',
-    '주유소용지',
-    '창고용지',
-    '양어장',
-    '지적도',
-    '(無)',
-    '임야',
-    '유원지',
-    '잡종지',
-    '묵답',
-    '묵전',
-    '수',
-    '전,답',
-    '학',
-    '기타'
+      '미등록',
+      '전',
+      '답',
+      '과수원',
+      '목장용지',
+      '없음',
+      '광천지',
+      '염전',
+      '대',
+      '공장용지',
+      '학교용지',
+      '도로',
+      '철도용지',
+      '하천',
+      '제방',
+      '구거',
+      '유지',
+      '수도용지',
+      '공원',
+      '체육용지',
+      '보상비산정',
+      '종교용지',
+      '사적지',
+      '묘지',
+      '보상비산정완료',
+      '주차장',
+      '주유소용지',
+      '창고용지',
+      '양어장',
+      '지적도',
+      '(無)',
+      '임야',
+      '유원지',
+      '잡종지',
+      '묵답',
+      '묵전',
+      '수',
+      '전,답',
+      '학',
+      '기타'
     ];
 
     return names[Random().nextInt(names.length)];
@@ -2174,36 +2296,36 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   randomObstDivCd() {
     var names = [
-     '건축물'
-     '공작물'
-     '과수 등',
-     '입목',
-     '묘목',
-     '농작물'
-     '농기구'
-     '축산보상',
-     '분묘',
-     '개간비',
-     '영업보상',
-     '광업권',
-     '어업보상',
-     '영농손실액',
-     '이사비'
-     '주거이전비',
-     '(소유자)'
-     '이주정착금',
-     '이주정착지원금'
-     '생활안정지원금',
-     '가산보상',
-     '토지사용료',
-     '이농/이어비',
-     '휴직/실직보상',
-     '주거이전비(세입자)',
-     '분묘이장보조비',
-     '동산이전비',
-     '구축물',
-     '물사용권',
-     '기타',
+      '건축물'
+          '공작물'
+          '과수 등',
+      '입목',
+      '묘목',
+      '농작물'
+          '농기구'
+          '축산보상',
+      '분묘',
+      '개간비',
+      '영업보상',
+      '광업권',
+      '어업보상',
+      '영농손실액',
+      '이사비'
+          '주거이전비',
+      '(소유자)'
+          '이주정착금',
+      '이주정착지원금'
+          '생활안정지원금',
+      '가산보상',
+      '토지사용료',
+      '이농/이어비',
+      '휴직/실직보상',
+      '주거이전비(세입자)',
+      '분묘이장보조비',
+      '동산이전비',
+      '구축물',
+      '물사용권',
+      '기타',
     ];
 
     return names[Random().nextInt(names.length)];
@@ -2245,5 +2367,4 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     return names[Random().nextInt(names.length)];
   }
-
-  }
+}

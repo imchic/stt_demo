@@ -60,7 +60,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 return;
                               }
 
-                              if(index == 1){
+                              if(index == 1 || index == 4){
                                 /// [소유자 및 관리인] 조회
                                 controller.fetchBsnsOwnerDataSource();
                               }
@@ -132,13 +132,13 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                                 ],
                               ),
                               /// [고객카드] 화면
-                              Center(child: AutoSizeText('고객카드 개발 준비중입니다 😃')),
-                              // Column(
-                              //   children: [
-                              //     BaseHeader(),
-                              //     Expanded(child: CustomerCardWidget.buildCustomerCard(controller))
-                              //   ],
-                              // ),
+                              // Center(child: AutoSizeText('고객카드 개발 준비중입니다 😃')),
+                              Column(
+                                children: [
+                                  BaseHeader(),
+                                  Expanded(child: CustomerCardWidget.buildCustomerCard(controller))
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -930,7 +930,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.ladSttusInqireDataSource.value,
       controller: controller.ladSttusInqireDataGridController,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.auto,
       isSort: false,
       freezeColumnCount: 4,
       stackedHeaderRows: [

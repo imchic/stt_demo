@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ldi/components/custom_button.dart';
+import 'package:ldi/utils/common_util.dart';
 
 import '../components/base_tabbar.dart';
 import '../components/custom_richtext.dart';
@@ -211,7 +212,8 @@ class OwnerWidget {
     return Container(
       width: Get.width,
       padding: EdgeInsets.all(40.r),
-      child: Column(
+      child:
+      /*Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -491,7 +493,250 @@ class OwnerWidget {
             ],
           )
         ],
-      ),
+      ),*/
+      Container(
+        width: double.infinity,
+        child: Column(
+          children: [
+            Table(
+              columnWidths: {
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(1),
+                2: FlexColumnWidth(1),
+                3: FlexColumnWidth(1),
+              },
+              // border: TableBorder.all(color: borderLine),
+              border: TableBorder(
+                top: BorderSide(color: borderLine),
+              ),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: [
+                // 4개의 row
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: tableColor1,
+                        child: Center(
+                          child: AutoSizeText('소유자명',
+                              style: TextStyle(
+                                  color: tableTextColor,
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: Colors.white,
+                        child: Center(
+                          child: AutoSizeText(controller.selectedOwner.value.ownerNm ?? '',
+                              style: TextStyle(
+                                  color: Color(0xFF555555),
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: tableColor1,
+                        child: Center(
+                          child: AutoSizeText('소유자구분',
+                              style: TextStyle(
+                                  color: tableTextColor,
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: Colors.white,
+                        child: Center(
+                          child: AutoSizeText(controller.selectedOwner.value.ownerDivCd ?? '',
+                              style: TextStyle(
+                                  color: Color(0xFF555555),
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // 2개의 row
+              ],
+            ),
+            //SizedBox(height: 1.h),
+            Table(
+              columnWidths: {
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(3),
+              },
+              border: TableBorder(
+                top: BorderSide(color: borderLine),
+              ),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: [
+                // 4개의 row
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: tableColor1,
+                        child: Center(
+                          child: AutoSizeText('등록번호',
+                              style: TextStyle(
+                                  color: tableTextColor,
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: Colors.white,
+                        child: Center(
+                          child: AutoSizeText(controller.selectedOwner.value.ownerRrnEnc ?? '',
+                              style: TextStyle(
+                                  color: Color(0xFF555555),
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // 2개의 row
+              ],
+            ),
+            Table(
+              columnWidths: {
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(1),
+                2: FlexColumnWidth(1),
+                3: FlexColumnWidth(1),
+              },
+              border: TableBorder(
+                top: BorderSide(color: borderLine),
+              ),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: [
+                // 4개의 row
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: tableColor1,
+                        child: Center(
+                          child: AutoSizeText('전화번호',
+                              style: TextStyle(
+                                  color: tableTextColor,
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: Colors.white,
+                        child: Center(
+                          child: AutoSizeText(CommonUtil.phoneHyphen(controller.selectedOwner.value.ownerTelno ?? ''),
+                              style: TextStyle(
+                                  color: Color(0xFF555555),
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: tableColor1,
+                        child: Center(
+                          child: AutoSizeText('휴대폰번호',
+                              style: TextStyle(
+                                  color: tableTextColor,
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Container(
+                        height: 80.h,
+                        color: Colors.white,
+                        child: Center(
+                          child: AutoSizeText(CommonUtil.phoneHyphen(controller.selectedOwner.value.ownerMbtlnum ?? ''),
+                              style: TextStyle(
+                                  color: Color(0xFF555555),
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // 2개의 row
+              ],
+            ),
+            Table(
+              columnWidths: {
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(3),
+              },
+              border: TableBorder(
+                top: BorderSide(color: borderLine),
+                bottom: BorderSide(color: borderLine),
+              ),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: [
+                // 4개의 row
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Container(
+                        height: 256.h,
+                        color: tableColor1,
+                        child: Center(
+                          child: AutoSizeText('특이사항',
+                              style: TextStyle(
+                                  color: tableTextColor,
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.fill,
+                      child: Container(
+                        height: 256.h,
+                        color: Colors.white,
+                        child: Center(
+                          child: AutoSizeText(controller.selectedOwner.value.accdtInvstgRm ?? '',
+                              style: TextStyle(
+                                  color: Color(0xFF555555),
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.w400)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // 2개의 row
+              ],
+            )
+          ],
+        ),
+      )
     );
   }
 }

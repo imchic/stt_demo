@@ -1,42 +1,50 @@
 import 'dart:convert';
-/// lgdongNm : "충청북도 충주시 종민동"
+/// lgdongNm : "세종특별자치시  소정면 대곡리"
 /// lcrtsDivCd : "1"
-/// mlnoLtno : "647"
-/// slnoLtno : "0"
-/// ofcbkLndcgrDivCd : "16"
-/// sttusLndcgrDivCd : "16"
-/// cmpnstnStepDivCd : "29"
-/// acqsPrpDivCd : "D18"
-/// ofcbkAra : 1349
-/// incrprAra : 144
-/// rqestNo : "0"
-/// aceptncUseDivCd : null
-/// invstgDt : "20150311"
+/// lcrtsDivNm : "일반"
+/// mlnoLtno : "80"
+/// slnoLtno : "1"
+/// ofcbkLndcgrDivCd : "01"
+/// ofcbkLndcgrDivNm : "전"
+/// sttusLndcgrDivCd : "01"
+/// sttusLndcgrDivNm : "전"
+/// cmpnstnStepDivCd : "49"
+/// cmpnstnStepDivNm : "보상비지급"
+/// acqsPrpDivCd : "S03"
+/// acqsPrpDivNm : "도수관로"
+/// ofcbkAra : 1977
+/// incrprAra : 206
+/// rqestNo : "315"
+/// aceptncUseDivCd : "02"
+/// aceptncUseDivNm : "사용"
+/// invstgDt : "20140301"
 /// accdtInvstgSqnc : 1
-/// ownerNo : "1000053978"
-/// posesnDivCd : "01"
-/// ownerNm : "국토교통부"
-/// ownerRgsbukAddr : "!"
+/// ownerNo : "1000083320"
+/// posesnDivCd : "03"
+/// posesnDivNm : "사유"
+/// ownerNm : "김홍남"
+/// ownerRgsbukAddr : "충청남도 천안시 동남구 다가말2길 87-1, (다가동)"
 /// posesnShreNmrtrInfo : "1"
 /// posesnShreDnmntrInfo : "1"
 /// apasmtReqestDivCd : "01"
-/// apasmtSqnc : 1
-/// prcPnttmDe : null
-/// apasmtInsttNm1 : "1001"
-/// apasmtInsttEvlUpc1 : null
-/// apasmtInsttEvamt1 : null
-/// apasmtInsttNm2 : "1002"
-/// apasmtInsttEvlUpc2 : null
-/// apasmtInsttEvamt2 : null
-/// apasmtInsttNm3 : "1003"
+/// apasmtReqestDivNm : "평가"
+/// apasmtSqnc : 8
+/// prcPnttmDe : "20140815"
+/// apasmtInsttNm1 : "0005400005"
+/// apasmtInsttEvlUpc1 : 2300
+/// apasmtInsttEvamt1 : 473800
+/// apasmtInsttNm2 : "0001000007"
+/// apasmtInsttEvlUpc2 : 2300
+/// apasmtInsttEvamt2 : 473800
+/// apasmtInsttNm3 : null
 /// apasmtInsttEvlUpc3 : null
 /// apasmtInsttEvamt3 : null
-/// cmpnstnCmptnUpc : null
-/// cpsmnCmptnAmt : null
-/// caPymntRequstDe : null
-/// cmpnstnDscssUpc : null
-/// cmpnstnDscssTotAmt : null
-/// caRgistDt : null
+/// cmpnstnCmptnUpc : 2300
+/// cpsmnCmptnAmt : 473800
+/// caPymntRequstDe : "20140905"
+/// cmpnstnDscssUpc : 2300
+/// cmpnstnDscssTotAmt : 473800
+/// caRgistDt : "20140905"
 /// aceptncAdjdcUpc : null
 /// aceptncAdjdcAmt : null
 /// aceptncAdjdcDt : null
@@ -50,31 +58,39 @@ import 'dart:convert';
 /// proPymntRequstDe : null
 /// proCpsmnPymntLdgmntDivCd : null
 
-LadSttusInqireModel ladSttusInqireModelFromJson(String str) => LadSttusInqireModel.fromJson(json.decode(str));
-String ladSttusInqireModelToJson(LadSttusInqireModel data) => json.encode(data.toJson());
+LadSttusInqireModel LadSttusInqireModelFromJson(String str) => LadSttusInqireModel.fromJson(json.decode(str));
+String LadSttusInqireModelToJson(LadSttusInqireModel data) => json.encode(data.toJson());
 class LadSttusInqireModel {
   LadSttusInqireModel({
       this.lgdongNm, 
       this.lcrtsDivCd, 
+      this.lcrtsDivNm, 
       this.mlnoLtno, 
       this.slnoLtno, 
       this.ofcbkLndcgrDivCd, 
+      this.ofcbkLndcgrDivNm, 
       this.sttusLndcgrDivCd, 
+      this.sttusLndcgrDivNm, 
       this.cmpnstnStepDivCd, 
+      this.cmpnstnStepDivNm, 
       this.acqsPrpDivCd, 
+      this.acqsPrpDivNm, 
       this.ofcbkAra, 
       this.incrprAra, 
       this.rqestNo, 
       this.aceptncUseDivCd, 
+      this.aceptncUseDivNm, 
       this.invstgDt, 
       this.accdtInvstgSqnc, 
       this.ownerNo, 
       this.posesnDivCd, 
+      this.posesnDivNm, 
       this.ownerNm, 
       this.ownerRgsbukAddr, 
       this.posesnShreNmrtrInfo, 
       this.posesnShreDnmntrInfo, 
       this.apasmtReqestDivCd, 
+      this.apasmtReqestDivNm, 
       this.apasmtSqnc, 
       this.prcPnttmDe, 
       this.apasmtInsttNm1, 
@@ -108,25 +124,33 @@ class LadSttusInqireModel {
   LadSttusInqireModel.fromJson(dynamic json) {
     lgdongNm = json['lgdongNm'];
     lcrtsDivCd = json['lcrtsDivCd'];
+    lcrtsDivNm = json['lcrtsDivNm'];
     mlnoLtno = json['mlnoLtno'];
     slnoLtno = json['slnoLtno'];
     ofcbkLndcgrDivCd = json['ofcbkLndcgrDivCd'];
+    ofcbkLndcgrDivNm = json['ofcbkLndcgrDivNm'];
     sttusLndcgrDivCd = json['sttusLndcgrDivCd'];
+    sttusLndcgrDivNm = json['sttusLndcgrDivNm'];
     cmpnstnStepDivCd = json['cmpnstnStepDivCd'];
+    cmpnstnStepDivNm = json['cmpnstnStepDivNm'];
     acqsPrpDivCd = json['acqsPrpDivCd'];
+    acqsPrpDivNm = json['acqsPrpDivNm'];
     ofcbkAra = json['ofcbkAra'];
     incrprAra = json['incrprAra'];
     rqestNo = json['rqestNo'];
     aceptncUseDivCd = json['aceptncUseDivCd'];
+    aceptncUseDivNm = json['aceptncUseDivNm'];
     invstgDt = json['invstgDt'];
     accdtInvstgSqnc = json['accdtInvstgSqnc'];
     ownerNo = json['ownerNo'];
     posesnDivCd = json['posesnDivCd'];
+    posesnDivNm = json['posesnDivNm'];
     ownerNm = json['ownerNm'];
     ownerRgsbukAddr = json['ownerRgsbukAddr'];
     posesnShreNmrtrInfo = json['posesnShreNmrtrInfo'];
     posesnShreDnmntrInfo = json['posesnShreDnmntrInfo'];
     apasmtReqestDivCd = json['apasmtReqestDivCd'];
+    apasmtReqestDivNm = json['apasmtReqestDivNm'];
     apasmtSqnc = json['apasmtSqnc'];
     prcPnttmDe = json['prcPnttmDe'];
     apasmtInsttNm1 = json['apasmtInsttNm1'];
@@ -159,42 +183,50 @@ class LadSttusInqireModel {
   }
   String? lgdongNm;
   String? lcrtsDivCd;
+  String? lcrtsDivNm;
   String? mlnoLtno;
   String? slnoLtno;
   String? ofcbkLndcgrDivCd;
+  String? ofcbkLndcgrDivNm;
   String? sttusLndcgrDivCd;
+  String? sttusLndcgrDivNm;
   String? cmpnstnStepDivCd;
+  String? cmpnstnStepDivNm;
   String? acqsPrpDivCd;
+  String? acqsPrpDivNm;
   num? ofcbkAra;
   num? incrprAra;
   String? rqestNo;
-  dynamic aceptncUseDivCd;
+  String? aceptncUseDivCd;
+  String? aceptncUseDivNm;
   String? invstgDt;
   num? accdtInvstgSqnc;
   String? ownerNo;
   String? posesnDivCd;
+  String? posesnDivNm;
   String? ownerNm;
   String? ownerRgsbukAddr;
   String? posesnShreNmrtrInfo;
   String? posesnShreDnmntrInfo;
   String? apasmtReqestDivCd;
+  String? apasmtReqestDivNm;
   num? apasmtSqnc;
-  dynamic prcPnttmDe;
+  String? prcPnttmDe;
   String? apasmtInsttNm1;
-  dynamic apasmtInsttEvlUpc1;
-  dynamic apasmtInsttEvamt1;
+  num? apasmtInsttEvlUpc1;
+  num? apasmtInsttEvamt1;
   String? apasmtInsttNm2;
-  dynamic apasmtInsttEvlUpc2;
-  dynamic apasmtInsttEvamt2;
-  String? apasmtInsttNm3;
+  num? apasmtInsttEvlUpc2;
+  num? apasmtInsttEvamt2;
+  dynamic apasmtInsttNm3;
   dynamic apasmtInsttEvlUpc3;
   dynamic apasmtInsttEvamt3;
-  dynamic cmpnstnCmptnUpc;
-  dynamic cpsmnCmptnAmt;
-  dynamic caPymntRequstDe;
-  dynamic cmpnstnDscssUpc;
-  dynamic cmpnstnDscssTotAmt;
-  dynamic caRgistDt;
+  num? cmpnstnCmptnUpc;
+  num? cpsmnCmptnAmt;
+  String? caPymntRequstDe;
+  num? cmpnstnDscssUpc;
+  num? cmpnstnDscssTotAmt;
+  String? caRgistDt;
   dynamic aceptncAdjdcUpc;
   dynamic aceptncAdjdcAmt;
   dynamic aceptncAdjdcDt;
@@ -212,25 +244,33 @@ class LadSttusInqireModel {
     final map = <String, dynamic>{};
     map['lgdongNm'] = lgdongNm;
     map['lcrtsDivCd'] = lcrtsDivCd;
+    map['lcrtsDivNm'] = lcrtsDivNm;
     map['mlnoLtno'] = mlnoLtno;
     map['slnoLtno'] = slnoLtno;
     map['ofcbkLndcgrDivCd'] = ofcbkLndcgrDivCd;
+    map['ofcbkLndcgrDivNm'] = ofcbkLndcgrDivNm;
     map['sttusLndcgrDivCd'] = sttusLndcgrDivCd;
+    map['sttusLndcgrDivNm'] = sttusLndcgrDivNm;
     map['cmpnstnStepDivCd'] = cmpnstnStepDivCd;
+    map['cmpnstnStepDivNm'] = cmpnstnStepDivNm;
     map['acqsPrpDivCd'] = acqsPrpDivCd;
+    map['acqsPrpDivNm'] = acqsPrpDivNm;
     map['ofcbkAra'] = ofcbkAra;
     map['incrprAra'] = incrprAra;
     map['rqestNo'] = rqestNo;
     map['aceptncUseDivCd'] = aceptncUseDivCd;
+    map['aceptncUseDivNm'] = aceptncUseDivNm;
     map['invstgDt'] = invstgDt;
     map['accdtInvstgSqnc'] = accdtInvstgSqnc;
     map['ownerNo'] = ownerNo;
     map['posesnDivCd'] = posesnDivCd;
+    map['posesnDivNm'] = posesnDivNm;
     map['ownerNm'] = ownerNm;
     map['ownerRgsbukAddr'] = ownerRgsbukAddr;
     map['posesnShreNmrtrInfo'] = posesnShreNmrtrInfo;
     map['posesnShreDnmntrInfo'] = posesnShreDnmntrInfo;
     map['apasmtReqestDivCd'] = apasmtReqestDivCd;
+    map['apasmtReqestDivNm'] = apasmtReqestDivNm;
     map['apasmtSqnc'] = apasmtSqnc;
     map['prcPnttmDe'] = prcPnttmDe;
     map['apasmtInsttNm1'] = apasmtInsttNm1;
