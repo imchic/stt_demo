@@ -596,7 +596,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
             bsnsNo: num.parse(data[i]['bsnsNo']),
             bsnsZoneNo: data[i]['bsnsZoneNo'],
             bsnsZoneNm: data[i]['bsnsZoneNm'],
-            lotCnt: data[i]['lotCnt'],
+            lotCnt: CommonUtil.comma3(data[i]['lotCnt']),
             bsnsAra: CommonUtil.comma3(data[i]['bsnsAra']),
             bsnsReadngPblancDe: data[i]['bsnsReadngPblancDe'] == null
                 ? '-'
@@ -614,6 +614,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   /// [소유자 및 관리인] 조회
   fetchBsnsOwnerDataSource() async {
+
+    DialogUtil.showLoading(Get.context!);
+
     var url = Uri.parse(
         'http://222.107.22.159:18080/lp/owner/selectOwnList.do');
 
@@ -669,6 +672,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
         ));
       }
       bsnsOwnerDataSource.value = OwnerDatasource(items: res);
+      Get.back();
     }
   }
 
@@ -693,6 +697,12 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       debugPrint('fetchOwnerLadInfoDataSource > data : $data');
 
       var res = <OwnerLadInfoDatasourceModel>[];
+
+      if(data.length == 0) {
+        DialogUtil.showSnackBar(Get.context!, '토지정보', '토지정보가 없습니다.');
+        Get.back();
+        return;
+      }
 
       for(var i = 0; i < data.length; i++) {
         res.add(OwnerLadInfoDatasourceModel(
@@ -950,7 +960,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           cmpnstnStepDivCd: data[i]['cmpnstnStepDivCd'] ?? '',
           acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
           ofcbkAra: data[i]['ofcbkAra'] ?? '',
-          incrprAra: data[i]['incrprAra'] ?? '',
+          incrprAra: data[i]['incrprAra'] ?? 0,
           rqestNo: data[i]['rqestNo'] ?? '',
           aceptncUseDivCd: data[i]['aceptncUseDivCd'] ?? '',
           invstgDt: data[i]['invstgDt'] ?? '',
@@ -1264,12 +1274,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   fetchLadSttusInqireSqncDataSource() async {
 
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectLandAccdtInvstgSqnc.do');
+        'http://222.107.22.159:18080/lp/lssom/selectLandApasmtSqnc.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
       'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
     };
+
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
@@ -1283,9 +1294,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           itemBuilder: (context, index) {
             return ListTile(
               //title: Text(data[index]['accdtInvstgSqnc']),
-              title: Text('${data[index]['accdtInvstgSqnc']}차'),
+              title: Text('${data[index]['apasmtSqnc']}차'),
               onTap: () {
-                sttusInqireBsnsSqncController.text = data[index]['accdtInvstgSqnc'].toString();
+                sttusInqireBsnsSqncController.text = data[index]['apasmtSqnc'].toString();
                 Get.back();
               },
             );
@@ -1502,9 +1513,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                         children: [
                           Row(
                             children: [
-                              CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivLclsCd ?? '', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                              CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivLclsNm ?? '', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
                               SizedBox(width: 6.w),
-                              CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivMclsCd ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                              CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivMclsNm ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                              SizedBox(width: 6.w),
+                              BsnsController.to.selectBsnsPlan.value.bsnsDivSclsNm == ''
+                                  ? SizedBox()
+                                  : CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivSclsNm ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
                             ],
                           ),
                           SizedBox(height: 20.h),
@@ -1593,7 +1608,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
                                   '사업기간: ${orderStartDtController.text} ~ ${orderEndDtController.text}',
                                   style: TextStyle(
                                     color: Color(0xFF1D1D1D),
-                                    fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                                    fontSize: 1.w > 1.h ? 32.sp : 50.sp,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w500,
                                   ),

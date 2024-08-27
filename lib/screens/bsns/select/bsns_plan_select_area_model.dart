@@ -23,7 +23,7 @@ class BsnsPlanSelectAreaModel {
   num? bsnsNo;
   String? bsnsZoneNm;
   num? bsnsZoneNo;
-  num? lotCnt;
+  String? lotCnt;
   String? bsnsAra;
   dynamic bsnsReadngPblancDe;
 

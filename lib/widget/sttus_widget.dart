@@ -183,8 +183,7 @@ class SttusWidget {
                                                   text: '조회',
                                                   textColor: Color(0xFF1D1D1D),
                                                   onPressed: () {
-                                                    controller
-                                                        .fetchAcqsPrpDivCdDataSource();
+
                                                   },
                                                 )
                                               ],

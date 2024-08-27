@@ -20,7 +20,7 @@ class BsnsSelectAreaDataSource extends DataGridSource {
               // 사업구역 명
               DataGridCell<String>(columnName: 'bsnsZoneNm', value: e.bsnsZoneNm),
               // 필지 수
-              DataGridCell<num>(columnName: 'lotCnt', value: e.lotCnt),
+              DataGridCell<String>(columnName: 'lotCnt', value: e.lotCnt),
               // 면적
               DataGridCell<String>(columnName: 'bsnsAra', value: e.bsnsAra),
               // 열람공고일
