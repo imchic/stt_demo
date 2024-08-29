@@ -93,7 +93,7 @@ class OwnerDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(CommonUtil.phoneHyphen(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+          child: AutoSizeText(CommonUtil.phoneHyphen(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp)),
         );
       }
 
@@ -122,7 +122,7 @@ class OwnerDatasource extends DataGridSource {
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w400)),
+        child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w400)),
       );
     }).toList());
   }

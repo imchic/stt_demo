@@ -31,85 +31,83 @@ class BsnsWidget {
             delegate: CustomSliverPersistentHeaderDelegate(
               minHeight: 130.0,
               maxHeight: 130.0,
-              child: Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1.w, color: borderLine),
-                      borderRadius: BorderRadius.circular(12.r),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 1.w, color: borderLine),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 120.w,
+                                child: AutoSizeText(
+                                  '사업명',
+                                  style: TextStyle(
+                                    color: tableTextColor,
+                                    fontSize: 1.w > 1.h ? 32.sp : 22.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 24.w),
+                              CustomTextField(
+                                controller: controller.bsnsNameSearchController,
+                                hintText: '사업명을 입력해주세요',
+                                onChanged: (value) {
+                                  controller.searchBsnsName(value);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 80.w),
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                //width: 120.w,
+                                child: AutoSizeText(
+                                  '사업번호',
+                                  style: TextStyle(
+                                    color: tableTextColor,
+                                    fontSize: 1.w > 1.h ? 32.sp : 22.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 12.w),
+                              CustomTextField(
+                                controller: controller.bsnsNoSearchController,
+                                hintText: '사업번호를 입력해주세요',
+                                onChanged: (value) {
+                                  controller.searchBsnsName(value);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 120.w,
-                                  child: AutoSizeText(
-                                    '사업명',
-                                    style: TextStyle(
-                                      color: tableTextColor,
-                                      fontSize: 1.w > 1.h ? 32.sp : 22.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 24.w),
-                                CustomTextField(
-                                  controller: controller.bsnsNameSearchController,
-                                  hintText: '사업명을 입력해주세요',
-                                  onChanged: (value) {
-                                    controller.searchBsnsName(value);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 80.w),
-                          Expanded(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  //width: 120.w,
-                                  child: AutoSizeText(
-                                    '사업번호',
-                                    style: TextStyle(
-                                      color: tableTextColor,
-                                      fontSize: 1.w > 1.h ? 32.sp : 22.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 12.w),
-                                CustomTextField(
-                                  controller: controller.bsnsNoSearchController,
-                                  hintText: '사업번호를 입력해주세요',
-                                  onChanged: (value) {
-                                    controller.searchBsnsName(value);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      1.w > 1.h ? SizedBox(height: 32.h) : SizedBox(height: 0.h),
-                      BsnsSelectScreen().buildBsnsRadio(),
-                    ],
-                  ),
+                    1.w > 1.h ? SizedBox(height: 32.h) : SizedBox(height: 0.h),
+                    BsnsSelectScreen().buildBsnsRadio(),
+                  ],
                 ),
               ),
             ),

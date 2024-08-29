@@ -4,8 +4,6 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:ldi/screens/bsns/sqnc/model/bsns_sqnc_datasource_model.dart';
-import 'package:ldi/screens/owner/obst/model/owner_obst_info_datasource_model.dart';
 import 'package:ldi/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -13,7 +11,6 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../components/base_header.dart';
 import '../../../components/custom_grid.dart';
 import '../../../components/custom_radio.dart';
-import '../../../components/custom_textfield.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/dialog_util.dart';
 import '../../../widget/accdt_invstg_widget.dart';
@@ -674,7 +671,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.ownerListDataSource.value,
       controller: controller.ownerListDataGridController,
-      isSort: false,
+      isSort: true,
       columnWidthMode: ColumnWidthMode.fill,
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
@@ -692,16 +689,16 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       }),
       columns: [
         gridColumn('ownerNo', '소유자번호', width: 100),
-        gridColumn('ownerNm', '소유자명', width: 180),
+        gridColumn('ownerNm', '소유자명', width: 100),
         // gridColumn('posesnDivCd', '소유자구분', width: 60),
         gridColumn('posesnDivNm', '구분', width: 60),
         // gridColumn('bsnsNo', '사업번호', isVisble: false),
         // gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
         gridColumn('ownerRgsbukAddr', '등기부주소', width: double.nan),
-        gridColumn('ownerRrnEnc', '주민등록번호', width: 150),
+        gridColumn('ownerRrnEnc', '주민등록번호', width: 130),
         // gridColumn('oldRegno', '구주민등록번호', isVisble: false),
-        gridColumn('ownerTelno', '전화번호', width: 100),
-        gridColumn('ownerMbtlnum', '휴대폰번호', width: 100),
+        gridColumn('ownerTelno', '전화번호', width: 130),
+        gridColumn('ownerMbtlnum', '휴대폰번호', width: 130),
         // gridColumn('rgsbukZip', '등기부번지', isVisble: false),
         // gridColumn('delvyZip', '전송부번지', isVisble: false),
         // gridColumn('moisZip', '모임부번지', isVisble: false),
