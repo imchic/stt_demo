@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ldi/utils/common_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'model/owner_datasource_model.dart';
@@ -56,19 +57,19 @@ class OwnerDatasource extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(cells: row.getCells().map<Widget>((dataGridCell) {
 
-      if(dataGridCell.columnName == 'ownerRegisterNo') {
-        return Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w400)),
-        );
-      }
-
       if(dataGridCell.columnName == 'ownerNo') {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
+        );
+      }
+      
+      if(dataGridCell.columnName == 'ownerTelno' || dataGridCell.columnName == 'ownerMbtlnum') {
+        return Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(CommonUtil.phoneHyphen(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
         );
       }
 

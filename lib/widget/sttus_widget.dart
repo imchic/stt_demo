@@ -694,19 +694,19 @@ class SttusWidget {
                                             controller
                                                 .handleSttusInqireTabSelected(
                                                     0);
-                                            if (controller.isSttusInqireGridTab1
+                                            if (controller.isLadSttusInqireGridTab1
                                                     .value ==
                                                 true) {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   0] = false;
-                                              controller.isSttusInqireGridTab1
+                                              controller.isLadSttusInqireGridTab1
                                                   .value = false;
                                             } else {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   0] = true;
-                                              controller.isSttusInqireGridTab1
+                                              controller.isLadSttusInqireGridTab1
                                                   .value = true;
                                             }
                                             controller
@@ -722,19 +722,19 @@ class SttusWidget {
                                             controller
                                                 .handleSttusInqireTabSelected(
                                                     1);
-                                            if (controller.isSttusInqireGridTab2
+                                            if (controller.isLadSttusInqireGridTab2
                                                     .value ==
                                                 true) {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   1] = false;
-                                              controller.isSttusInqireGridTab2
+                                              controller.isLadSttusInqireGridTab2
                                                   .value = false;
                                             } else {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   1] = true;
-                                              controller.isSttusInqireGridTab2
+                                              controller.isLadSttusInqireGridTab2
                                                   .value = true;
                                             }
                                             controller
@@ -750,19 +750,19 @@ class SttusWidget {
                                             controller
                                                 .handleSttusInqireTabSelected(
                                                     2);
-                                            if (controller.isSttusInqireGridTab3
+                                            if (controller.isLadSttusInqireGridTab3
                                                     .value ==
                                                 true) {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   2] = false;
-                                              controller.isSttusInqireGridTab3
+                                              controller.isLadSttusInqireGridTab3
                                                   .value = false;
                                             } else {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   2] = true;
-                                              controller.isSttusInqireGridTab3
+                                              controller.isLadSttusInqireGridTab3
                                                   .value = true;
                                             }
                                             controller
@@ -778,19 +778,19 @@ class SttusWidget {
                                             controller
                                                 .handleSttusInqireTabSelected(
                                                     3);
-                                            if (controller.isSttusInqireGridTab4
+                                            if (controller.isLadSttusInqireGridTab4
                                                     .value ==
                                                 true) {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   3] = false;
-                                              controller.isSttusInqireGridTab4
+                                              controller.isLadSttusInqireGridTab4
                                                   .value = false;
                                             } else {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   3] = true;
-                                              controller.isSttusInqireGridTab4
+                                              controller.isLadSttusInqireGridTab4
                                                   .value = true;
                                             }
                                             controller
@@ -806,19 +806,19 @@ class SttusWidget {
                                             controller
                                                 .handleSttusInqireTabSelected(
                                                     4);
-                                            if (controller.isSttusInqireGridTab5
+                                            if (controller.isLadSttusInqireGridTab5
                                                     .value ==
                                                 true) {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   4] = false;
-                                              controller.isSttusInqireGridTab5
+                                              controller.isLadSttusInqireGridTab5
                                                   .value = false;
                                             } else {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   4] = true;
-                                              controller.isSttusInqireGridTab5
+                                              controller.isLadSttusInqireGridTab5
                                                   .value = true;
                                             }
                                             controller
@@ -834,19 +834,19 @@ class SttusWidget {
                                             controller
                                                 .handleSttusInqireTabSelected(
                                                     5);
-                                            if (controller.isSttusInqireGridTab6
+                                            if (controller.isLadSttusInqireGridTab6
                                                     .value ==
                                                 true) {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   5] = false;
-                                              controller.isSttusInqireGridTab6
+                                              controller.isLadSttusInqireGridTab6
                                                   .value = false;
                                             } else {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   5] = true;
-                                              controller.isSttusInqireGridTab6
+                                              controller.isLadSttusInqireGridTab6
                                                   .value = true;
                                             }
                                             controller
@@ -862,19 +862,19 @@ class SttusWidget {
                                             controller
                                                 .handleSttusInqireTabSelected(
                                                     6);
-                                            if (controller.isSttusInqireGridTab7
+                                            if (controller.isLadSttusInqireGridTab7
                                                     .value ==
                                                 true) {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   6] = false;
-                                              controller.isSttusInqireGridTab7
+                                              controller.isLadSttusInqireGridTab7
                                                   .value = false;
                                             } else {
                                               controller
                                                       .sttusInqireTabIsSelected[
                                                   6] = true;
-                                              controller.isSttusInqireGridTab7
+                                              controller.isLadSttusInqireGridTab7
                                                   .value = true;
                                             }
                                             controller
@@ -1639,17 +1639,17 @@ class SttusWidget {
                                         onTap: () {
                                           controller
                                               .handleSttusInqireTabSelected(0);
-                                          if (controller.isSttusInqireGridTab1
+                                          if (controller.isLadSttusInqireGridTab1
                                                   .value ==
                                               true) {
                                             controller.sttusInqireTabIsSelected[
                                                 0] = false;
-                                            controller.isSttusInqireGridTab1
+                                            controller.isLadSttusInqireGridTab1
                                                 .value = false;
                                           } else {
                                             controller.sttusInqireTabIsSelected[
                                                 0] = true;
-                                            controller.isSttusInqireGridTab1
+                                            controller.isLadSttusInqireGridTab1
                                                 .value = true;
                                           }
                                           controller
@@ -1664,17 +1664,17 @@ class SttusWidget {
                                         onTap: () {
                                           controller
                                               .handleSttusInqireTabSelected(1);
-                                          if (controller.isSttusInqireGridTab2
+                                          if (controller.isLadSttusInqireGridTab2
                                                   .value ==
                                               true) {
                                             controller.sttusInqireTabIsSelected[
                                                 1] = false;
-                                            controller.isSttusInqireGridTab2
+                                            controller.isLadSttusInqireGridTab2
                                                 .value = false;
                                           } else {
                                             controller.sttusInqireTabIsSelected[
                                                 1] = true;
-                                            controller.isSttusInqireGridTab2
+                                            controller.isLadSttusInqireGridTab2
                                                 .value = true;
                                           }
                                           controller
@@ -1689,17 +1689,17 @@ class SttusWidget {
                                         onTap: () {
                                           controller
                                               .handleSttusInqireTabSelected(2);
-                                          if (controller.isSttusInqireGridTab3
+                                          if (controller.isLadSttusInqireGridTab3
                                                   .value ==
                                               true) {
                                             controller.sttusInqireTabIsSelected[
                                                 2] = false;
-                                            controller.isSttusInqireGridTab3
+                                            controller.isLadSttusInqireGridTab3
                                                 .value = false;
                                           } else {
                                             controller.sttusInqireTabIsSelected[
                                                 2] = true;
-                                            controller.isSttusInqireGridTab3
+                                            controller.isLadSttusInqireGridTab3
                                                 .value = true;
                                           }
                                           controller
@@ -1714,17 +1714,17 @@ class SttusWidget {
                                         onTap: () {
                                           controller
                                               .handleSttusInqireTabSelected(3);
-                                          if (controller.isSttusInqireGridTab4
+                                          if (controller.isLadSttusInqireGridTab4
                                                   .value ==
                                               true) {
                                             controller.sttusInqireTabIsSelected[
                                                 3] = false;
-                                            controller.isSttusInqireGridTab4
+                                            controller.isLadSttusInqireGridTab4
                                                 .value = false;
                                           } else {
                                             controller.sttusInqireTabIsSelected[
                                                 3] = true;
-                                            controller.isSttusInqireGridTab4
+                                            controller.isLadSttusInqireGridTab4
                                                 .value = true;
                                           }
                                           controller
@@ -1739,17 +1739,17 @@ class SttusWidget {
                                         onTap: () {
                                           controller
                                               .handleSttusInqireTabSelected(4);
-                                          if (controller.isSttusInqireGridTab5
+                                          if (controller.isLadSttusInqireGridTab5
                                                   .value ==
                                               true) {
                                             controller.sttusInqireTabIsSelected[
                                                 4] = false;
-                                            controller.isSttusInqireGridTab5
+                                            controller.isLadSttusInqireGridTab5
                                                 .value = false;
                                           } else {
                                             controller.sttusInqireTabIsSelected[
                                                 4] = true;
-                                            controller.isSttusInqireGridTab5
+                                            controller.isLadSttusInqireGridTab5
                                                 .value = true;
                                           }
                                           controller
@@ -1764,17 +1764,17 @@ class SttusWidget {
                                         onTap: () {
                                           controller
                                               .handleSttusInqireTabSelected(5);
-                                          if (controller.isSttusInqireGridTab6
+                                          if (controller.isLadSttusInqireGridTab6
                                                   .value ==
                                               true) {
                                             controller.sttusInqireTabIsSelected[
                                                 5] = false;
-                                            controller.isSttusInqireGridTab6
+                                            controller.isLadSttusInqireGridTab6
                                                 .value = false;
                                           } else {
                                             controller.sttusInqireTabIsSelected[
                                                 5] = true;
-                                            controller.isSttusInqireGridTab6
+                                            controller.isLadSttusInqireGridTab6
                                                 .value = true;
                                           }
                                           controller
@@ -1789,17 +1789,17 @@ class SttusWidget {
                                         onTap: () {
                                           controller
                                               .handleSttusInqireTabSelected(6);
-                                          if (controller.isSttusInqireGridTab7
+                                          if (controller.isLadSttusInqireGridTab7
                                                   .value ==
                                               true) {
                                             controller.sttusInqireTabIsSelected[
                                                 6] = false;
-                                            controller.isSttusInqireGridTab7
+                                            controller.isLadSttusInqireGridTab7
                                                 .value = false;
                                           } else {
                                             controller.sttusInqireTabIsSelected[
                                                 6] = true;
-                                            controller.isSttusInqireGridTab7
+                                            controller.isLadSttusInqireGridTab7
                                                 .value = true;
                                           }
                                           controller

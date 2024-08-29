@@ -46,8 +46,19 @@ import 'dart:convert';
 /// plans : null
 /// korname : null
 
-BsnsPlanModel bsnsPlanModelFromJson(String str) => BsnsPlanModel.fromJson(json.decode(str));
+
+// key : value 형태로 json 데이터를 받아서 파싱하는 클래스
+List bsnsPlanModelFromJson(dynamic str, List<dynamic> list, int length) {
+ for (int i = 0; i < length; i++) {
+   var data = BsnsPlanModel.fromJson(str[i]);
+    list.add(data);
+ }
+  return list;
+}
+
+
 String bsnsPlanModelToJson(BsnsPlanModel data) => json.encode(data.toJson());
+
 class BsnsPlanModel {
   BsnsPlanModel({
       this.bsnsNo, 

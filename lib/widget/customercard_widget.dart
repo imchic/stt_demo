@@ -166,8 +166,7 @@ class CustomerCardWidget {
             SizedBox(height: 20.h),
             SizedBox(
                 height: 350.h,
-                child: BsnsSelectScreen().buildBsnsOwnerDataGrid()
-            ),
+                child: BsnsSelectScreen().buildOwnerListDataGrid()),
             SizedBox(height: 64.h),
             Row(
               children: [
@@ -193,53 +192,109 @@ class CustomerCardWidget {
               visible: controller.customerCardTabIsSelected[0],
               child: controller.ownerLadInfoDataSource.value.rows.length == 0
                   ? Container(
-                width: Get.width,
-                height: 200.h,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-                child: Center(
-                  child: AutoSizeText(
-                    '조회된 데이터가 없습니다.',
-                    style: TextStyle(
-                      color: Color(0xFF1D1D1D),
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              )
-                  : BsnsSelectScreen().buildOwnerLadInfoDataGrid(),
+                      width: Get.width,
+                      height: 200.h,
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      child: Center(
+                        child: AutoSizeText(
+                          '조회된 데이터가 없습니다.',
+                          style: TextStyle(
+                            color: Color(0xFF1D1D1D),
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      height: 350.h,
+                      child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()),
             ),
             Visibility(
               visible: controller.customerCardTabIsSelected[1],
-              child:   controller.ownerObstInfoDataSource.value.rows.length == 0
+              child: controller.ownerObstInfoDataSource.value.rows.length == 0
                   ? Container(
-                width: Get.width,
-                height: 200.h,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
+                      width: Get.width,
+                      height: 200.h,
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      child: Center(
+                        child: AutoSizeText(
+                          '조회된 데이터가 없습니다.',
+                          style: TextStyle(
+                            color: Color(0xFF1D1D1D),
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      height: 350.h,
+                      child: BsnsSelectScreen().buildOwnerObstInfoDataGrid()),
+            ),
+            SizedBox(height: 44.h),
+            Row(
+              children: [
+                CustomChip(
+                  title: '관계인',
+                  isSelected: controller.customerCardDetailTabIsSelected[0],
+                  onTap: () {
+                    controller.handleCustomerCardDetailTabSelected(0);
+                  },
                 ),
-                child: Center(
-                  child: AutoSizeText(
-                    '조회된 데이터가 없습니다.',
-                    style: TextStyle(
-                      color: Color(0xFF1D1D1D),
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                SizedBox(width: 12.w),
+                CustomChip(
+                  title: '협의내역',
+                  isSelected: controller.customerCardDetailTabIsSelected[1],
+                  onTap: () {
+                    controller.handleCustomerCardDetailTabSelected(1);
+                  },
                 ),
-              )
-                  : BsnsSelectScreen().buildOwnerObstInfoDataGrid(),
+                SizedBox(width: 12.w),
+                CustomChip(
+                  title: '수용재결',
+                  isSelected: controller.customerCardDetailTabIsSelected[2],
+                  onTap: () {
+                    controller.handleCustomerCardDetailTabSelected(2);
+                  },
+                ),
+                SizedBox(width: 12.w),
+                CustomChip(
+                  title: '이의재결',
+                  isSelected: controller.customerCardDetailTabIsSelected[3],
+                  onTap: () {
+                    controller.handleCustomerCardDetailTabSelected(3);
+                  },
+                ),
+                SizedBox(width: 12.w),
+                CustomChip(
+                  title: '소송',
+                  isSelected: controller.customerCardDetailTabIsSelected[4],
+                  onTap: () {
+                    controller.handleCustomerCardDetailTabSelected(4);
+                  },
+                ),
+                SizedBox(width: 12.w),
+                CustomChip(
+                  title: '환매',
+                  isSelected: controller.customerCardDetailTabIsSelected[5],
+                  onTap: () {
+                    controller.handleCustomerCardDetailTabSelected(5);
+                  },
+                ),
+              ],
             ),
           ]),
         ),

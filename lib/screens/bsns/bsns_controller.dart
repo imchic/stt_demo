@@ -108,7 +108,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   // 통계정보 탭 아이템 선택 여부
   final sttusInqireTabIsSelected = [
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -121,6 +121,9 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
   // 고객카드 탭 아이템 선택 여부
   final customerCardTabIsSelected = [true, false].obs;
+
+  // 고객카드 상세 탭 아이템 선택 여부
+  final customerCardDetailTabIsSelected = [true, false, false, false, false, false, false, false].obs;
 
   // 소유자 관리 탭 아이템
   final bsnsOwnerTabItems = [
@@ -157,7 +160,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [DataGridController] 는 데이터 그리드의 상태를 제어하는 컨트롤러 클래스이다.
 
   late DataGridController bsnsListDataGridController;
-  late DataGridController bsnsOwnerDataGridController;
+  late DataGridController ownerListDataGridController;
   late DataGridController bsnsOrderDataGridController;
   late DataGridController bsnsAccdtinvstgSqncDataGridController;
 
@@ -176,7 +179,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   /// [BsnsSelectAreaDataSource] 는 [DataGridSource] 를 상속받아 구현한 데이터 소스 클래스이다.
   final bsnsListDataSource = BsnsSelectAreaDataSource(items: []).obs; // 사업구역선택
 
-  final bsnsOwnerDataSource = OwnerDatasource(items: []).obs; // 소유자
+  final ownerListDataSource = OwnerDatasource(items: []).obs; // 소유자
 
   final ownerLadInfoDataSource =
       OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
@@ -334,16 +337,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   ].obs;
 
   //  통계 상세 탑
-  RxBool isSttusInqireGridTab1 = false.obs;
-  RxBool isSttusInqireGridTab2 = false.obs;
-  RxBool isSttusInqireGridTab3 = false.obs;
-  RxBool isSttusInqireGridTab4 = false.obs;
-  RxBool isSttusInqireGridTab5 = false.obs;
-  RxBool isSttusInqireGridTab6 = false.obs;
-  RxBool isSttusInqireGridTab7 = false.obs;
-  RxBool isSttusInqireGridTab8 = false.obs;
-  RxBool isSttusInqireGridTab9 = false.obs;
-  RxBool isSttusInqireGridTab10 = false.obs;
+  RxBool isLadSttusInqireGridTab1 = true.obs;
+  RxBool isLadSttusInqireGridTab2 = true.obs;
+  RxBool isLadSttusInqireGridTab3 = false.obs;
+  RxBool isLadSttusInqireGridTab4 = false.obs;
+  RxBool isLadSttusInqireGridTab5 = false.obs;
+  RxBool isLadSttusInqireGridTab6 = false.obs;
+  RxBool isLadSttusInqireGridTab7 = false.obs;
 
   //late RxList<GridColumn> ladSttusInqireColumns;
   RxList<GridColumn> ladSttusInqireColumns = <GridColumn>[].obs;
@@ -399,7 +399,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
 
     /// [DataGridController] 는 데이터 그리드의 상태를 제어하는 컨트롤러 클래스이다.
     bsnsListDataGridController = DataGridController();
-    bsnsOwnerDataGridController = DataGridController();
+    ownerListDataGridController = DataGridController();
     bsnsOrderDataGridController = DataGridController();
     bsnsAccdtinvstgSqncDataGridController = DataGridController();
 
@@ -463,7 +463,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     // await fetchAccdtlnvstgOwnerDataSource();
 
     /// [실태조사 > 지장물 정보] 조회
-    await fetchAccdtlnvstgObstDataSource();
+    // await fetchAccdtlnvstgObstDataSource();
 
     /**
      * 통계
@@ -548,60 +548,13 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     bsnsPlanList.clear();
 
     if (response.statusCode == 200) {
-      var data = JsonDecoder().convert(response.body)['list'];
+      var res = JsonDecoder().convert(response.body)['list'];
       List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
 
-      print('fetchBsnsList > data : $data');
+      print('fetchBsnsList > data : $res');
 
-      dataList = data
-          .map<BsnsPlanModel>((e) => BsnsPlanModel(
-              bsnsNo: e['bsnsNo'],
-              bsnsNm: e['bsnsNm'],
-              bsnsDivLclsCd: e['bsnsDivLclsCd'],
-              bsnsDivMclsCd: e['bsnsDivMclsCd'],
-              bsnsDivSclsCd: e['bsnsDivSclsCd'],
-              bsnsStrtDe: e['bsnsStrtDe'],
-              bsnsEndDe: e['bsnsEndDe'],
-              competDe: e['competDe'],
-              bsnsPlanAprvRqstDe: e['bsnsPlanAprvRqstDe'],
-              aprvDe: e['aprvDe'],
-              gztNtfcDe: e['gztNtfcDe'],
-              enfcMthDtls: e['enfcMthDtls'],
-              bsnsPurpsDtls: e['bsnsPurpsDtls'],
-              bsnsLcinfo: e['bsnsLcinfo'],
-              bsnsScaleInfo: e['bsnsScaleInfo'],
-              lotCnt: e['lotCnt'],
-              bsnsAra: e['bsnsAra'],
-              bsnsAmt: e['bsnsAmt'],
-              gztNtfcNoDtls: e['gztNtfcNoDtls'],
-              mngdeptCd: e['mngdeptCd'],
-              reltDeptCd1: e['reltDeptCd1'],
-              reltDeptCd2: e['reltDeptCd2'],
-              reltDeptCd3: e['reltDeptCd3'],
-              reltDeptCd4: e['reltDeptCd4'],
-              reltDeptCd5: e['reltDeptCd5'],
-              gisDtaYn: e['gisDtaYn'],
-              bsnsSqnc: e['bsnsSqnc'],
-              bsnsBasisLawordInfo: e['bsnsBasisLawordInfo'],
-              oldMngdeptCd: e['oldMngdeptCd'],
-              bsnsCnfmInsttNm: e['bsnsCnfmInsttNm'],
-              delYn: e['delYn'],
-              frstRgstrId: e['frstRgstrId'],
-              frstRegistDt: e['frstRegistDt'],
-              lastUpdusrId: e['lastUpdusrId'],
-              lastUpdtDt: e['lastUpdtDt'],
-              conectIp: e['conectIp'],
-              bsnsDivLclsNm: e['bsnsDivLclsNm'] ?? '',
-              bsnsDivMclsNm: e['bsnsDivMclsNm'] ?? '',
-              bsnsDivSclsNm: e['bsnsDivSclsNm'] ?? '',
-              head: e['head'],
-              dept: e['dept'],
-              team: e['team'],
-              bgroup: e['bgroup'],
-              affcd: e['affcd'],
-              plans: e['plans'],
-              korname: e['korname']))
-          .toList();
+      var length = res.length;
+      bsnsPlanModelFromJson(res, dataList, length);
 
       bsnsPlanList = dataList.obs;
       searchBsnsPlanList = dataList.obs;
@@ -671,47 +624,52 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
+
       var data = JsonDecoder().convert(response.body)['list'];
       debugPrint('fetchBsnsOwnerDataSource > data : $data');
 
-      var res = <OwnerDataSourceModel>[];
+      var length = data.length;
+      var list = <OwnerDataSourceModel>[];
 
-      for (var i = 0; i < data.length; i++) {
-        res.add(OwnerDataSourceModel(
-          ownerNo: data[i]['ownerNo'] ?? '',
-          ownerNm: data[i]['ownerNm'] ?? '',
-          posesnDivCd: data[i]['posesnDivCd'] ?? '',
-          posesnDivNm: data[i]['posesnDivNm'] ?? '',
-          bsnsNo: data[i]['bsnsNo'] ?? '',
-          bsnsZoneNo: data[i]['bsnsZoneNo'] ?? '',
-          ownerRrnEnc: data[i]['ownerRrnEnc'] ?? '',
-          oldRegno: data[i]['oldRegno'] ?? '',
-          //ownerTelno: data[i]['ownerTelno'] ?? '',
-          ownerTelno: CommonUtil.phoneHyphen(data[i]['ownerTelno'] ?? ''),
-          //ownerMbtlnum: data[i]['ownerMbtlnum'] ?? '',
-          ownerMbtlnum: CommonUtil.phoneHyphen(data[i]['ownerMbtlnum'] ?? ''),
-          rgsbukZip: data[i]['rgsbukZip'] ?? '',
-          delvyZip: data[i]['delvyZip'] ?? '',
-          moisZip: data[i]['moisZip'] ?? '',
-          ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
-          ownerDelvyAddr: data[i]['ownerDelvyAddr'] ?? '',
-          ownerMoisAddr: data[i]['ownerMoisAddr'] ?? '',
-          accdtInvstgRm: data[i]['accdtInvstgRm'] ?? '',
-          frstRgstrId: data[i]['frstRgstrId'] ?? '',
-          frstRegistDt: data[i]['frstRegistDt'] ?? '',
-          lastUpdusrId: data[i]['lastUpdusrId'] ?? '',
-          lastUpdtDt: data[i]['lastUpdtDt'] ?? '',
-          conectIp: data[i]['conectIp'] ?? '',
-          thingCnt: data[i]['thingCnt'] ?? '',
-          bsnsCnt: data[i]['bsnsCnt'] ?? '',
-          realOwnerNo: data[i]['realOwnerNo'] ?? '',
-          ownerDivCd: data[i]['ownerDivCd'] ?? '',
-          ownerRgsbukAddrFull: data[i]['ownerRgsbukAddrFull'] ?? '',
-          ownerDelvyAddrFull: data[i]['ownerDelvyAddrFull'] ?? '',
-          ownerMoisAddrFull: data[i]['ownerMoisAddrFull'] ?? '',
-        ));
-      }
-      bsnsOwnerDataSource.value = OwnerDatasource(items: res);
+      // for (var i = 0; i < data.length; i++) {
+      //   res.add(OwnerDataSourceModel(
+      //     ownerNo: data[i]['ownerNo'] ?? '',
+      //     ownerNm: data[i]['ownerNm'] ?? '',
+      //     posesnDivCd: data[i]['posesnDivCd'] ?? '',
+      //     posesnDivNm: data[i]['posesnDivNm'] ?? '',
+      //     bsnsNo: data[i]['bsnsNo'] ?? '',
+      //     bsnsZoneNo: data[i]['bsnsZoneNo'] ?? '',
+      //     ownerRrnEnc: data[i]['ownerRrnEnc'] ?? '',
+      //     oldRegno: data[i]['oldRegno'] ?? '',
+      //     //ownerTelno: data[i]['ownerTelno'] ?? '',
+      //     ownerTelno: CommonUtil.phoneHyphen(data[i]['ownerTelno'] ?? ''),
+      //     //ownerMbtlnum: data[i]['ownerMbtlnum'] ?? '',
+      //     ownerMbtlnum: CommonUtil.phoneHyphen(data[i]['ownerMbtlnum'] ?? ''),
+      //     rgsbukZip: data[i]['rgsbukZip'] ?? '',
+      //     delvyZip: data[i]['delvyZip'] ?? '',
+      //     moisZip: data[i]['moisZip'] ?? '',
+      //     ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
+      //     ownerDelvyAddr: data[i]['ownerDelvyAddr'] ?? '',
+      //     ownerMoisAddr: data[i]['ownerMoisAddr'] ?? '',
+      //     accdtInvstgRm: data[i]['accdtInvstgRm'] ?? '',
+      //     frstRgstrId: data[i]['frstRgstrId'] ?? '',
+      //     frstRegistDt: data[i]['frstRegistDt'] ?? '',
+      //     lastUpdusrId: data[i]['lastUpdusrId'] ?? '',
+      //     lastUpdtDt: data[i]['lastUpdtDt'] ?? '',
+      //     conectIp: data[i]['conectIp'] ?? '',
+      //     thingCnt: data[i]['thingCnt'] ?? '',
+      //     bsnsCnt: data[i]['bsnsCnt'] ?? '',
+      //     realOwnerNo: data[i]['realOwnerNo'] ?? '',
+      //     ownerDivCd: data[i]['ownerDivCd'] ?? '',
+      //     ownerRgsbukAddrFull: data[i]['ownerRgsbukAddrFull'] ?? '',
+      //     ownerDelvyAddrFull: data[i]['ownerDelvyAddrFull'] ?? '',
+      //     ownerMoisAddrFull: data[i]['ownerMoisAddrFull'] ?? '',
+      //   ));
+      // }
+
+      ownerDataSourceKeyValue(data, list, length);
+
+      ownerListDataSource.value = OwnerDatasource(items: list);
       Get.back();
     }
   }
@@ -733,18 +691,22 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       var data = JsonDecoder().convert(response.body)['list'];
       debugPrint('fetchOwnerLadInfoDataSource > data : $data');
 
-      var res = <OwnerLadInfoDatasourceModel>[];
+      var list = <OwnerLadInfoDatasourceModel>[];
+      var length = data.length;
 
-      if (data.length == 0) {
+      if (length == 0) {
         DialogUtil.showSnackBar(Get.context!, '토지정보', '토지정보가 없습니다.');
         Get.back();
         return;
       }
 
-      for (var i = 0; i < data.length; i++) {
-        res.add(OwnerLadInfoDatasourceModel(
+      //ownerLadInfoDataSourceKeyValue(data, list, length);
+
+      for (var i = 0; i < length; i++) {
+        list.add(OwnerLadInfoDatasourceModel(
           lgdongNm: data[i]['lgdongNm'] ?? '',
           lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
+          lcrtsDivNm: data[i]['lcrtsDivNm'] ?? '',
           mlnoLtno: data[i]['mlnoLtno'] ?? '',
           slnoLtno: data[i]['slnoLtno'] ?? '',
           ofcbkLndcgrDivCd: data[i]['ofcbkLndcgrDivCd'] ?? '',
@@ -754,8 +716,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           //ofcbkAra: data[i]['ofcbkAra'] ?? '',
           ofcbkAra: CommonUtil.comma3(data[i]['ofcbkAra'] ?? ''),
           incrprAra: CommonUtil.comma3(data[i]['incrprAra'] ?? ''),
-          cmpnstnInvstgAra:
-              CommonUtil.comma3(data[i]['cmpnstnInvstgAra'] ?? ''),
+          cmpnstnInvstgAra: CommonUtil.comma3(data[i]['cmpnstnInvstgAra'] ?? ''),
           acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
           acqsPrpDivNm: data[i]['acqsPrpDivNm'] ?? '',
           aceptncUseDivCd: data[i]['aceptncUseDivCd'] ?? '',
@@ -767,7 +728,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           accdtInvstgRm: data[i]['accdtInvstgRm'] ?? '',
         ));
       }
-      ownerLadInfoDataSource.value = OwnerLadInfoDatasource(items: res);
+
+      ownerLadInfoDataSource.value = OwnerLadInfoDatasource(items: list);
     }
   }
 
@@ -794,6 +756,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
         res.add(OwnerObstInfoDatasourceModel(
           lgdongNm: data[i]['lgdongNm'] ?? '',
           lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
+          lcrtsDivNm: data[i]['lcrtsDivNm'] ?? '',
           mlnoLtno: data[i]['mlnoLtno'] ?? '',
           slnoLtno: data[i]['slnoLtno'] ?? '',
           cmpnstnObstNo: data[i]['cmpnstnObstNo'] ?? '',
@@ -1064,99 +1027,99 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       gridColumn('incrprAra', '편입', width: 100),
 
       gridColumn('aceptncUseDivNm', '수용/사용',
-          isVisble: isSttusInqireGridTab1.value, width: 80),
+          isVisble: isLadSttusInqireGridTab1.value, width: 80),
       gridColumn('invstgDt', '조사일',
-          isVisble: isSttusInqireGridTab1.value, width: 80),
+          isVisble: isLadSttusInqireGridTab1.value, width: 80),
       gridColumn('accdtInvstgSqnc', '조사차수',
-          isVisble: isSttusInqireGridTab1.value, width: 80),
+          isVisble: isLadSttusInqireGridTab1.value, width: 80),
 
       gridColumn('ownerNo', '소유자번호',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('posesnDivNm', '구분',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('ownerNm', '소유자명',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('ownerRgsbukAddr', '등기부주소',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('posesnShreNmrtrInfo', '분자',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('posesnShreDnmntrInfo', '분모',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
 
       gridColumn('apasmtReqestDivNm', '평가구분',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtSqnc', '평가차수',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('prcPnttmDe', '가격시점',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
 
       // a평가법인
       gridColumn('apasmtInsttNm1', '법인명',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlUpc1', '단가',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlAmt1', '금액',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
 
       // b평가법인
       gridColumn('apasmtInsttNm2', '법인명',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlUpc2', '단가',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlAmt2', '금액',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
 
       // c평가법인
       gridColumn('apasmtInsttNm3', '법인명',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlUpc3', '단가',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlAmt3', '금액',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
 
       // 보상비산정
       gridColumn('cmpnstnCmptnUpc', '산정단가',
-          isVisble: isSttusInqireGridTab4.value, width: 80),
+          isVisble: isLadSttusInqireGridTab4.value, width: 80),
       gridColumn('cpsmnCmptnAmt', '산정금액',
-          isVisble: isSttusInqireGridTab4.value, width: 80),
+          isVisble: isLadSttusInqireGridTab4.value, width: 80),
 
       // 보상비지급
       gridColumn('caPymntRequstDe', '지급요청일',
-          isVisble: isSttusInqireGridTab5.value, width: 80),
+          isVisble: isLadSttusInqireGridTab5.value, width: 80),
       gridColumn('cmpnstnDscssUpc', '지급단가',
-          isVisble: isSttusInqireGridTab5.value, width: 80),
+          isVisble: isLadSttusInqireGridTab5.value, width: 80),
       gridColumn('cmpnstnDscssTotAmt', '지급금액',
-          isVisble: isSttusInqireGridTab5.value, width: 80),
+          isVisble: isLadSttusInqireGridTab5.value, width: 80),
       gridColumn('caRgistDt', '등기일자',
-          isVisble: isSttusInqireGridTab5.value, width: 80),
+          isVisble: isLadSttusInqireGridTab5.value, width: 80),
 
       // 수용재결
       gridColumn('aceptncAdjdcUpc', '재결단가',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('aceptncAdjdcAmt', '재결금액',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('aceptncAdjdcDt', '재결일자',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('aceptncUseBeginDe', '수용/사용개시일',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('ldPymntRequstDe', '지급요청일자',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('ldRgistDt', '등기일자',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
 
       // 이의재결
       gridColumn('obadUpc', '재결단가',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
       gridColumn('objcRstAmt', '재결금액',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
       gridColumn('objcAdjdcDt', '재결일자',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
       gridColumn('proPymntRequstDe', '지급요청일자',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
       gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
     ];
   }
 
@@ -1250,95 +1213,95 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       gridColumn('acqsPrpDivCd', '취득용도', width: 100),
 
       gridColumn('rqestNo', '청구번호',
-          isVisble: isSttusInqireGridTab1.value, width: 80),
+          isVisble: isLadSttusInqireGridTab1.value, width: 80),
       gridColumn('invstgDe', '조사일',
-          isVisble: isSttusInqireGridTab1.value, width: 80),
+          isVisble: isLadSttusInqireGridTab1.value, width: 80),
       gridColumn('accdtInvstgSqnc', '조사차수',
-          isVisble: isSttusInqireGridTab1.value, width: 80),
+          isVisble: isLadSttusInqireGridTab1.value, width: 80),
 
       gridColumn('ownerNo', '소유자번호',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('posesnDivCd', '구분',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('ownerNm', '소유자명',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('ownerRgsbukAddr', '등기부주소',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('posesnShreNmrtrInfo', '분자',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
       gridColumn('posesnShreDnmntrInfo', '분모',
-          isVisble: isSttusInqireGridTab2.value, width: 80),
+          isVisble: isLadSttusInqireGridTab2.value, width: 80),
 
       gridColumn('apasmtReqestDivCd', '평가구분',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtSqnc', '평가차수',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('prcPnttmDe', '가격시점',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
 
       // a평가법인
       gridColumn('apasmtInsttNm1', '법인명',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlUpc1', '단가',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlAmt1', '금액',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
 
       // b평가법인
       gridColumn('apasmtInsttNm2', '법인명',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlUpc2', '단가',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlAmt2', '금액',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
 
       // c평가법인
       gridColumn('apasmtInsttNm3', '법인명',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlUpc3', '단가',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
       gridColumn('apasmtInsttEvlAmt3', '금액',
-          isVisble: isSttusInqireGridTab3.value, width: 80),
+          isVisble: isLadSttusInqireGridTab3.value, width: 80),
 
       // 보상비산정
       gridColumn('cmpnstnCmptnUpc', '산정단가',
-          isVisble: isSttusInqireGridTab4.value, width: 80),
+          isVisble: isLadSttusInqireGridTab4.value, width: 80),
       gridColumn('cpsmnCmptnAmt', '산정금액',
-          isVisble: isSttusInqireGridTab4.value, width: 80),
+          isVisble: isLadSttusInqireGridTab4.value, width: 80),
 
       // 보상비지급
       gridColumn('caPymntRequstDe', '지급요청일',
-          isVisble: isSttusInqireGridTab5.value, width: 80),
+          isVisble: isLadSttusInqireGridTab5.value, width: 80),
       gridColumn('cmpnstnDscssUpc', '지급단가',
-          isVisble: isSttusInqireGridTab5.value, width: 80),
+          isVisble: isLadSttusInqireGridTab5.value, width: 80),
       gridColumn('cmpnstnDscssTotAmt', '지급금액',
-          isVisble: isSttusInqireGridTab5.value, width: 80),
+          isVisble: isLadSttusInqireGridTab5.value, width: 80),
 
       // 수용재결
       gridColumn('dcsUpc', '재결단가',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('dcsAmt', '재결금액',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('dcsDt', '재결일자',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('aceptncUseBeginDe', '수용/사용개시일',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('ldPymntRequstDe', '지급요청일자',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
       gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁',
-          isVisble: isSttusInqireGridTab6.value, width: 80),
+          isVisble: isLadSttusInqireGridTab6.value, width: 80),
 
       // 이의재결
       gridColumn('proUpc', '재결단가',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
       gridColumn('proAmt', '재결금액',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
       gridColumn('proDt', '재결일자',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
       gridColumn('proPymntRequstDe', '지급요청일자',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
       gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁',
-          isVisble: isSttusInqireGridTab7.value, width: 80),
+          isVisble: isLadSttusInqireGridTab7.value, width: 80),
     ];
   }
 
@@ -1917,6 +1880,14 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
       customerCardTabIsSelected[i] = false;
     }
     customerCardTabIsSelected[index] = true;
+  }
+
+  /// 고객카드 상세 탭 선택 핸들러
+  Future<void> handleCustomerCardDetailTabSelected(int index) async {
+    for (var i = 0; i < customerCardDetailTabIsSelected.length; i++) {
+      customerCardDetailTabIsSelected[i] = false;
+    }
+    customerCardDetailTabIsSelected[index] = true;
   }
 
   void addBsns() {

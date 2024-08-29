@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 /// ownerNm : "서울특별시"
 /// bsnsNo : "2502"
 /// bsnsZoneNo : "1"
@@ -28,72 +29,85 @@ import 'dart:convert';
 /// ownerDelvyAddrFull : null
 /// ownerMoisAddrFull : null
 
-OwnerDataSourceModel ownerDatasourcModelFromJson(String str) => OwnerDataSourceModel.fromJson(json.decode(str));
-String ownerDatasourcModelToJson(OwnerDataSourceModel data) => json.encode(data.toJson());
+List ownerDataSourceKeyValue(dynamic str, List<dynamic> list, int length) {
+  for (int i = 0; i < length; i++) {
+    var data = OwnerDataSourceModel.fromJson(str[i]);
+    list.add(data);
+  }
+  return list;
+}
+
+OwnerDataSourceModel ownerDatasourcModelFromJson(String str) =>
+    OwnerDataSourceModel.fromJson(json.decode(str));
+
+String ownerDatasourcModelToJson(OwnerDataSourceModel data) =>
+    json.encode(data.toJson());
 
 class OwnerDataSourceModel {
   OwnerDataSourceModel({
-      this.ownerNm, 
-      this.bsnsNo, 
-      this.bsnsZoneNo, 
-      this.ownerNo, 
-      this.ownerRrnEnc, 
-      this.oldRegno, 
-      this.ownerTelno, 
-      this.ownerMbtlnum, 
-      this.rgsbukZip, 
-      this.delvyZip, 
-      this.moisZip, 
-      this.ownerRgsbukAddr, 
-      this.ownerDelvyAddr, 
-      this.ownerMoisAddr, 
-      this.accdtInvstgRm, 
-      this.frstRgstrId, 
-      this.frstRegistDt, 
-      this.lastUpdusrId, 
-      this.lastUpdtDt, 
-      this.conectIp, 
-      this.posesnDivCd,
-      this.posesnDivNm,
-      this.thingCnt, 
-      this.bsnsCnt, 
-      this.realOwnerNo, 
-      this.ownerDivCd, 
-      this.ownerRgsbukAddrFull, 
-      this.ownerDelvyAddrFull, 
-      this.ownerMoisAddrFull,});
+    this.ownerNm,
+    this.bsnsNo,
+    this.bsnsZoneNo,
+    this.ownerNo,
+    this.ownerRrnEnc,
+    this.oldRegno,
+    this.ownerTelno,
+    this.ownerMbtlnum,
+    this.rgsbukZip,
+    this.delvyZip,
+    this.moisZip,
+    this.ownerRgsbukAddr,
+    this.ownerDelvyAddr,
+    this.ownerMoisAddr,
+    this.accdtInvstgRm,
+    this.frstRgstrId,
+    this.frstRegistDt,
+    this.lastUpdusrId,
+    this.lastUpdtDt,
+    this.conectIp,
+    this.posesnDivCd,
+    this.posesnDivNm,
+    this.thingCnt,
+    this.bsnsCnt,
+    this.realOwnerNo,
+    this.ownerDivCd,
+    this.ownerRgsbukAddrFull,
+    this.ownerDelvyAddrFull,
+    this.ownerMoisAddrFull,
+  });
 
   OwnerDataSourceModel.fromJson(dynamic json) {
-    ownerNm = json['ownerNm'];
-    bsnsNo = json['bsnsNo'];
-    bsnsZoneNo = json['bsnsZoneNo'];
-    ownerNo = json['ownerNo'];
-    ownerRrnEnc = json['ownerRrnEnc'];
-    oldRegno = json['oldRegno'];
-    ownerTelno = json['ownerTelno'];
-    ownerMbtlnum = json['ownerMbtlnum'];
-    rgsbukZip = json['rgsbukZip'];
-    delvyZip = json['delvyZip'];
-    moisZip = json['moisZip'];
-    ownerRgsbukAddr = json['ownerRgsbukAddr'];
-    ownerDelvyAddr = json['ownerDelvyAddr'];
-    ownerMoisAddr = json['ownerMoisAddr'];
-    accdtInvstgRm = json['accdtInvstgRm'];
-    frstRgstrId = json['frstRgstrId'];
-    frstRegistDt = json['frstRegistDt'];
-    lastUpdusrId = json['lastUpdusrId'];
-    lastUpdtDt = json['lastUpdtDt'];
-    conectIp = json['conectIp'];
-    posesnDivCd = json['posesnDivCd'];
-    posesnDivNm = json['posesnDivNm'];
-    thingCnt = json['thingCnt'];
-    bsnsCnt = json['bsnsCnt'];
-    realOwnerNo = json['realOwnerNo'];
-    ownerDivCd = json['ownerDivCd'];
-    ownerRgsbukAddrFull = json['ownerRgsbukAddrFull'];
-    ownerDelvyAddrFull = json['ownerDelvyAddrFull'];
-    ownerMoisAddrFull = json['ownerMoisAddrFull'];
+    ownerNm = json['ownerNm'] ?? '';
+    bsnsNo = json['bsnsNo'] ?? '';
+    bsnsZoneNo = json['bsnsZoneNo'] ?? '';
+    ownerNo = json['ownerNo'] ?? '';
+    ownerRrnEnc = json['ownerRrnEnc'] ?? '';
+    oldRegno = json['oldRegno'] ?? '';
+    ownerTelno = json['ownerTelno'] ?? '';
+    ownerMbtlnum = json['ownerMbtlnum'] ?? '';
+    rgsbukZip = json['rgsbukZip'] ?? '';
+    delvyZip = json['delvyZip'] ?? '';
+    moisZip = json['moisZip'] ?? '';
+    ownerRgsbukAddr = json['ownerRgsbukAddr'] ?? '';
+    ownerDelvyAddr = json['ownerDelvyAddr'] ?? '';
+    ownerMoisAddr = json['ownerMoisAddr'] ?? '';
+    accdtInvstgRm = json['accdtInvstgRm'] ?? '';
+    frstRgstrId = json['frstRgstrId'] ?? '';
+    frstRegistDt = json['frstRegistDt'] ?? '';
+    lastUpdusrId = json['lastUpdusrId'] ?? '';
+    lastUpdtDt = json['lastUpdtDt'] ?? '';
+    conectIp = json['conectIp'] ?? '';
+    posesnDivCd = json['posesnDivCd'] ?? '';
+    posesnDivNm = json['posesnDivNm'] ?? '';
+    thingCnt = json['thingCnt'] ?? '';
+    bsnsCnt = json['bsnsCnt'] ?? '';
+    realOwnerNo = json['realOwnerNo'] ?? '';
+    ownerDivCd = json['ownerDivCd'] ?? '';
+    ownerRgsbukAddrFull = json['ownerRgsbukAddrFull'] ?? '';
+    ownerDelvyAddrFull = json['ownerDelvyAddrFull'] ?? '';
+    ownerMoisAddrFull = json['ownerMoisAddrFull'] ?? '';
   }
+
   String? ownerNm;
   String? bsnsNo;
   String? bsnsZoneNo;
@@ -157,5 +171,4 @@ class OwnerDataSourceModel {
     map['ownerMoisAddrFull'] = ownerMoisAddrFull;
     return map;
   }
-
 }

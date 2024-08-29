@@ -15,7 +15,7 @@ class OwnerLadInfoDatasource extends DataGridSource {
         .map<DataGridRow>((e) =>
         DataGridRow(cells: [
           DataGridCell<String>(columnName: 'lgdongNm', value: e.lgdongNm), // 법정동
-          DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivCd), // 특지
+          DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivNm), // 특지
           DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno), // 본번
           DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno), // 부번
           // 지목

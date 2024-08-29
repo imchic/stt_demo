@@ -135,10 +135,10 @@ class OwnerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomRichText(length: controller.bsnsOwnerDataSource.value.rows.length),
+                    CustomRichText(length: controller.ownerListDataSource.value.rows.length),
                     SizedBox(height: 20.h),
                     Expanded(
-                        child: BsnsSelectScreen().buildBsnsOwnerDataGrid()),
+                        child: BsnsSelectScreen().buildOwnerListDataGrid()),
                   ],
                 )),
           ),

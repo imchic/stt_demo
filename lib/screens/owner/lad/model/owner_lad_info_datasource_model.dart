@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 /// bsnsNo : "5006"
 /// bsnsZoneNo : 1
 /// thingSerNo : "L-0000005006-0001-4157031025-1-0576-0006-000001"
@@ -42,97 +43,135 @@ import 'dart:convert';
 /// cmpnstnStepDivCd : "49"
 /// cmpnstnStepDivCdNm : "보상비지급"
 
-OwnerLadInfoDatasourceModel ownerLadInfoDatasourceModelFromJson(String str) => OwnerLadInfoDatasourceModel.fromJson(json.decode(str));
-String ownerLadInfoDatasourceModelToJson(OwnerLadInfoDatasourceModel data) => json.encode(data.toJson());
+List ownerLadInfoDataSourceKeyValue(
+    dynamic str, List<dynamic> list, int length) {
+  for (int i = 0; i < length; i++) {
+    var data = OwnerLadInfoDatasourceModel.fromJson(str[i]);
+    list.add(data);
+  }
+  return list;
+}
+
+OwnerLadInfoDatasourceModel ownerLadInfoDatasourceModelFromJson(String str) =>
+    OwnerLadInfoDatasourceModel.fromJson(json.decode(str));
+
+String ownerLadInfoDatasourceModelToJson(OwnerLadInfoDatasourceModel data) =>
+    json.encode(data.toJson());
+
 class OwnerLadInfoDatasourceModel {
   OwnerLadInfoDatasourceModel({
-      this.bsnsNo, 
-      this.bsnsZoneNo, 
-      this.thingSerNo, 
-      this.accdtInvstgRstSqnc, 
-      this.accdtInvstgSqnc, 
-      this.lcrtsDivCd, 
-      this.lcrtsDivNm, 
-      this.lgdongCd, 
-      this.mlnoLtno, 
-      this.slnoLtno, 
-      this.sttusLndcgrDivCd, 
-      this.sttusLndcgrDivNm, 
-      this.acqsPrpDivCd, 
-      this.acqsPrpDivNm, 
-      this.aceptncUseDivCd, 
-      this.aceptncUseDivNm, 
-      this.lgdongNm, 
-      this.ofcbkLndcgrDivCd, 
-      this.ofcbkLndcgrDivNm, 
-      this.ofcbkAra, 
-      this.incrprAra, 
-      this.cmpnstnInvstgAra, 
-      this.oflndvalAmt, 
-      this.oflndvalStdrMt, 
-      this.rprsLtnoYn, 
-      this.apasmtReqestYn, 
-      this.invstgDt, 
-      this.cmpnstnDtaChnStatDivCd, 
-      this.cmpnstnDtaCreatId, 
-      this.cmpnstnDtaCreatGrpId, 
-      this.chnCtnt, 
-      this.parentMlnoLtno, 
-      this.parentSlnoLtno, 
-      this.parentLcrtsDivCd, 
-      this.lotMergeDivsDivCd, 
-      this.accdtInvstgRm, 
-      this.frstRgstrId, 
-      this.frstRegistDt, 
-      this.lastUpdusrId, 
-      this.lastUpdtDt, 
-      this.cmpnstnStepDivCd, 
-      this.cmpnstnStepDivCdNm,});
+    this.bsnsNo,
+    this.bsnsZoneNo,
+    this.thingSerNo,
+    this.accdtInvstgRstSqnc,
+    this.accdtInvstgSqnc,
+    this.lcrtsDivCd,
+    this.lcrtsDivNm,
+    this.lgdongCd,
+    this.mlnoLtno,
+    this.slnoLtno,
+    this.sttusLndcgrDivCd,
+    this.sttusLndcgrDivNm,
+    this.acqsPrpDivCd,
+    this.acqsPrpDivNm,
+    this.aceptncUseDivCd,
+    this.aceptncUseDivNm,
+    this.lgdongNm,
+    this.ofcbkLndcgrDivCd,
+    this.ofcbkLndcgrDivNm,
+    this.ofcbkAra,
+    this.incrprAra,
+    this.cmpnstnInvstgAra,
+    this.oflndvalAmt,
+    this.oflndvalStdrMt,
+    this.rprsLtnoYn,
+    this.apasmtReqestYn,
+    this.invstgDt,
+    this.cmpnstnDtaChnStatDivCd,
+    this.cmpnstnDtaCreatId,
+    this.cmpnstnDtaCreatGrpId,
+    this.chnCtnt,
+    this.parentMlnoLtno,
+    this.parentSlnoLtno,
+    this.parentLcrtsDivCd,
+    this.lotMergeDivsDivCd,
+    this.accdtInvstgRm,
+    this.frstRgstrId,
+    this.frstRegistDt,
+    this.lastUpdusrId,
+    this.lastUpdtDt,
+    this.cmpnstnStepDivCd,
+    this.cmpnstnStepDivCdNm,
+  });
 
   OwnerLadInfoDatasourceModel.fromJson(dynamic json) {
-    bsnsNo = json['bsnsNo'];
-    bsnsZoneNo = json['bsnsZoneNo'];
-    thingSerNo = json['thingSerNo'];
-    accdtInvstgRstSqnc = json['accdtInvstgRstSqnc'];
-    accdtInvstgSqnc = json['accdtInvstgSqnc'];
-    lcrtsDivCd = json['lcrtsDivCd'];
-    lcrtsDivNm = json['lcrtsDivNm'];
-    lgdongCd = json['lgdongCd'];
-    mlnoLtno = json['mlnoLtno'];
-    slnoLtno = json['slnoLtno'];
-    sttusLndcgrDivCd = json['sttusLndcgrDivCd'];
-    sttusLndcgrDivNm = json['sttusLndcgrDivNm'];
-    acqsPrpDivCd = json['acqsPrpDivCd'];
-    acqsPrpDivNm = json['acqsPrpDivNm'];
-    aceptncUseDivCd = json['aceptncUseDivCd'];
-    aceptncUseDivNm = json['aceptncUseDivNm'];
-    lgdongNm = json['lgdongNm'];
-    ofcbkLndcgrDivCd = json['ofcbkLndcgrDivCd'];
-    ofcbkLndcgrDivNm = json['ofcbkLndcgrDivNm'];
-    ofcbkAra = json['ofcbkAra'];
-    incrprAra = json['incrprAra'];
-    cmpnstnInvstgAra = json['cmpnstnInvstgAra'];
-    oflndvalAmt = json['oflndvalAmt'];
-    oflndvalStdrMt = json['oflndvalStdrMt'];
-    rprsLtnoYn = json['rprsLtnoYn'];
-    apasmtReqestYn = json['apasmtReqestYn'];
-    invstgDt = json['invstgDt'];
-    cmpnstnDtaChnStatDivCd = json['cmpnstnDtaChnStatDivCd'];
-    cmpnstnDtaCreatId = json['cmpnstnDtaCreatId'];
-    cmpnstnDtaCreatGrpId = json['cmpnstnDtaCreatGrpId'];
-    chnCtnt = json['chnCtnt'];
-    parentMlnoLtno = json['parentMlnoLtno'];
-    parentSlnoLtno = json['parentSlnoLtno'];
-    parentLcrtsDivCd = json['parentLcrtsDivCd'];
-    lotMergeDivsDivCd = json['lotMergeDivsDivCd'];
-    accdtInvstgRm = json['accdtInvstgRm'];
-    frstRgstrId = json['frstRgstrId'];
-    frstRegistDt = json['frstRegistDt'];
-    lastUpdusrId = json['lastUpdusrId'];
-    lastUpdtDt = json['lastUpdtDt'];
-    cmpnstnStepDivCd = json['cmpnstnStepDivCd'];
-    cmpnstnStepDivCdNm = json['cmpnstnStepDivCdNm'];
+    // bsnsNo = json['bsnsNo'];
+    // bsnsZoneNo = json['bsnsZoneNo'];
+    // thingSerNo = json['thingSerNo'];
+    // accdtInvstgRstSqnc = json['accdtInvstgRstSqnc'];
+    // accdtInvstgSqnc = json['accdtInvstgSqnc'];
+    // lcrtsDivCd = json['lcrtsDivCd'] ?? '';
+    // lcrtsDivNm = json['lcrtsDivNm'];
+    // lgdongCd = json['lgdongCd'];
+    // mlnoLtno = json['mlnoLtno'];
+    // slnoLtno = json['slnoLtno'];
+    // sttusLndcgrDivCd = json['sttusLndcgrDivCd'];
+    // sttusLndcgrDivNm = json['sttusLndcgrDivNm'];
+    // acqsPrpDivCd = json['acqsPrpDivCd'];
+    // acqsPrpDivNm = json['acqsPrpDivNm'];
+    // aceptncUseDivCd = json['aceptncUseDivCd'];
+    // aceptncUseDivNm = json['aceptncUseDivNm'];
+    // lgdongNm = json['lgdongNm'];
+    // ofcbkLndcgrDivCd = json['ofcbkLndcgrDivCd'];
+    // ofcbkLndcgrDivNm = json['ofcbkLndcgrDivNm'];
+    // ofcbkAra = json['ofcbkAra'];
+    // incrprAra = json['incrprAra'];
+    // cmpnstnInvstgAra = json['cmpnstnInvstgAra'];
+    // oflndvalAmt = json['oflndvalAmt'];
+    // oflndvalStdrMt = json['oflndvalStdrMt'];
+    // rprsLtnoYn = json['rprsLtnoYn'];
+    // apasmtReqestYn = json['apasmtReqestYn'];
+    // invstgDt = json['invstgDt'];
+    // cmpnstnDtaChnStatDivCd = json['cmpnstnDtaChnStatDivCd'];
+    // cmpnstnDtaCreatId = json['cmpnstnDtaCreatId'];
+    // cmpnstnDtaCreatGrpId = json['cmpnstnDtaCreatGrpId'];
+    // chnCtnt = json['chnCtnt'];
+    // parentMlnoLtno = json['parentMlnoLtno'];
+    // parentSlnoLtno = json['parentSlnoLtno'];
+    // parentLcrtsDivCd = json['parentLcrtsDivCd'];
+    // lotMergeDivsDivCd = json['lotMergeDivsDivCd'];
+    // accdtInvstgRm = json['accdtInvstgRm'];
+    // frstRgstrId = json['frstRgstrId'];
+    // frstRegistDt = json['frstRegistDt'];
+    // lastUpdusrId = json['lastUpdusrId'];
+    // lastUpdtDt = json['lastUpdtDt'];
+    // cmpnstnStepDivCd = json['cmpnstnStepDivCd'];
+    // cmpnstnStepDivCdNm = json['cmpnstnStepDivCdNm'];
+
+    lgdongNm = json['lgdongNm'] ?? '';
+    lcrtsDivCd = json['lcrtsDivCd'] ?? '';
+    lcrtsDivNm = json['lcrtsDivNm'] ?? '';
+    mlnoLtno = json['mlnoLtno'] ?? '';
+    slnoLtno = json['slnoLtno'] ?? '';
+    ofcbkLndcgrDivCd = json['ofcbkLndcgrDivCd'] ?? '';
+    ofcbkLndcgrDivNm = json['ofcbkLndcgrDivNm'] ?? '';
+    sttusLndcgrDivCd = json['sttusLndcgrDivCd'] ?? '';
+    sttusLndcgrDivNm = json['sttusLndcgrDivNm'] ?? '';
+    //ofcbkAra= json['ofcbkAra'] ?? '';
+    ofcbkAra = json['ofcbkAra'] ?? '';
+    incrprAra = json['incrprAra'] ?? '';
+    cmpnstnInvstgAra = json['cmpnstnInvstgAra'] ?? '';
+    acqsPrpDivCd = json['acqsPrpDivCd'] ?? '';
+    acqsPrpDivNm = json['acqsPrpDivNm'] ?? '';
+    aceptncUseDivCd = json['aceptncUseDivCd'] ?? '';
+    aceptncUseDivNm = json['aceptncUseDivNm'] ?? '';
+    accdtInvstgSqnc = json['accdtInvstgSqnc'] ?? '';
+    invstgDt = json['invstgDt'] ?? '';
+    cmpnstnStepDivCd = json['cmpnstnStepDivCd'] ?? '';
+    cmpnstnStepDivCdNm = json['cmpnstnStepDivCdNm'] ?? '';
+    accdtInvstgRm = json['accdtInvstgRm'] ?? '';
   }
+
   String? bsnsNo;
   num? bsnsZoneNo;
   String? thingSerNo;
@@ -222,5 +261,4 @@ class OwnerLadInfoDatasourceModel {
     map['cmpnstnStepDivCdNm'] = cmpnstnStepDivCdNm;
     return map;
   }
-
 }

@@ -198,7 +198,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                     SizedBox(width: 6.w),
                     CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivMclsNm ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
                     SizedBox(width: 6.w),
-                    BsnsController.to.selectBsnsPlan.value.bsnsDivSclsNm == ''
+                    BsnsController.to.selectBsnsPlan.value.bsnsDivSclsNm == null
                         ? Container()
                         : CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivSclsNm ?? '', bgColor: Color(0xFFE8F6F3), textColor: Color(0xFF00BFA5)),
                   ],

@@ -175,7 +175,7 @@ class BsnsWidget {
                                                     SizedBox(width: 12.w),
                                                     CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivMclsNm, bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
                                                     SizedBox(width: 20.w),
-                                                    controller.searchBsnsPlanList[index].bsnsDivSclsNm == '' ? Container() : CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivSclsNm, bgColor: Color(0xffE5F8EE), textColor: Color(0xff2D9D64)),
+                                                    controller.searchBsnsPlanList[index].bsnsDivSclsNm == null ? Container() : CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivSclsNm, bgColor: Color(0xffE5F8EE), textColor: Color(0xff2D9D64)),
                                                     //CustomBsnsBadge(text: controller.searchBsnsPlanList[index].bsnsDivSclsNm, bgColor: Color(0xffE5F8EE), textColor: Color(0xff2D9D64)),
                                                   ],
                                                 ),

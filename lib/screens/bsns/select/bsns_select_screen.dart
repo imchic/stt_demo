@@ -1,10 +1,11 @@
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/screens/owner/obst/model/owner_obst_info_datasource_model.dart';
+import 'package:ldi/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -25,7 +26,6 @@ import 'bsns_plan_select_area_model.dart';
 
 /// [BsnsSelectScreen] 사업선택 화면
 class BsnsSelectScreen extends GetView<BsnsController> {
-
   const BsnsSelectScreen({super.key});
 
   @override
@@ -44,104 +44,129 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   Container(child: lnbWidget()),
                   // 메인 뷰
                   Expanded(
-                    child: Obx(() => PageView(
-                            physics: NeverScrollableScrollPhysics(),
-                            controller: controller.pageController,
-                            onPageChanged: (index) {
-                              controller.selectedIndex.value = index;
-                              controller.isBsnsZoneSelectFlag.value = false;
-                              controller.isBsnsSqncSelectFlag.value = false;
-                              controller.isBsnsSelectFlag.value = false;
+                    child: Obx(
+                      () => PageView(
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: controller.pageController,
+                        onPageChanged: (index) {
+                          controller.selectedIndex.value = index;
+                          controller.isBsnsZoneSelectFlag.value = false;
+                          controller.isBsnsSqncSelectFlag.value = false;
+                          controller.isBsnsSelectFlag.value = false;
 
-                              // 사업구역 선택이 안됐을 경우
-                              if(controller.selectedBsnsSelectArea.value.bsnsNo == null && controller.selectedBsnsSelectArea.value.bsnsZoneNo == null){
-                                DialogUtil.showSnackBar(context, '사업구역', '사업구역을 선택해주세요.');
-                                controller.pageController.jumpToPage(0);
-                                return;
-                              }
+                          // 사업구역 선택이 안됐을 경우
+                          if (controller.selectedBsnsSelectArea.value.bsnsNo ==
+                                  null &&
+                              controller.selectedBsnsSelectArea.value
+                                      .bsnsZoneNo ==
+                                  null) {
+                            DialogUtil.showSnackBar(
+                                context, '사업구역', '사업구역을 선택해주세요.');
+                            controller.pageController.jumpToPage(0);
+                            return;
+                          }
 
-                              if(index == 1 || index == 4){
-                                /// [소유자 및 관리인] 조회
-                                controller.fetchBsnsOwnerDataSource();
-                              }
+                          if (index == 1 || index == 4) {
+                            /// [소유자 및 관리인] 조회
+                            controller.fetchBsnsOwnerDataSource();
+                          }
 
-                              if(index == 3){
-                                /// [통계정보] 조회
-                                controller.fetchLadSttusInqireDataSource();
-                                controller.fetchObstSttusInqireDataSource();
-                              }
-
-                            },
+                          if (index == 3) {
+                            /// [통계정보] 조회
+                            controller.fetchLadSttusInqireDataSource();
+                            controller.fetchObstSttusInqireDataSource();
+                          }
+                        },
+                        children: [
+                          /// [사업선택] 화면
+                          Column(
                             children: [
-                              /// [사업선택] 화면
-                              Column(
+                              BaseHeader(),
+                              Expanded(
+                                  child: Row(
                                 children: [
-                                  BaseHeader(),
-                                  Expanded(child: Row(
-                                    children: [
-                                      Expanded(
-                                          flex: 1,
-                                          child: BsnsWidget.buildBsnsListView(controller)
+                                  Expanded(
+                                      flex: 1,
+                                      child: BsnsWidget.buildBsnsListView(
+                                          controller)),
+                                  // 오른쪽 뷰
+                                  Obx(() {
+                                    return Expanded(
+                                      flex: controller.isBsnsSelectFlag == true
+                                          ? 1
+                                          : 0,
+                                      child: Column(
+                                        children: [
+                                          if (controller.selectedIndex.value ==
+                                              0)
+
+                                            // 사업구역
+                                            controller.isBsnsSelectFlag == true
+                                                ? BsnsWidget
+                                                    .buildBsnsSelectZoneContainer(
+                                                        controller)
+                                                : Container(),
+
+                                          // 조사차수
+                                          controller.isBsnsZoneSelectFlag ==
+                                                  true
+                                              ? BsnsWidget
+                                                  .buildBsnsSelectSqncContainer(
+                                                      controller)
+                                              : Container(),
+                                        ],
                                       ),
-                                      // 오른쪽 뷰
-                                      Obx(() {
-                                        return Expanded(
-                                          flex: controller.isBsnsSelectFlag == true ? 1 : 0,
-                                          child: Column(
-                                            children: [
-                                              if (controller.selectedIndex.value == 0)
-
-                                              // 사업구역
-                                                controller.isBsnsSelectFlag == true
-                                                    ? BsnsWidget.buildBsnsSelectZoneContainer(controller)
-                                                    : Container(),
-
-                                              // 조사차수
-                                              controller.isBsnsZoneSelectFlag == true
-                                                  ? BsnsWidget.buildBsnsSelectSqncContainer(controller)
-                                                  : Container(),
-
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                    ],
-                                  )),
+                                    );
+                                  }),
                                 ],
-                              ),
-                              /// [소유자관리] 화면
-                              Column(
-                                children: [
-                                  BaseHeader(),
-                                  Expanded(child: OwnerWidget.buildOwnerView(controller)),
-                                ],
-                              ),
-                              /// [실태조사] 화면
-                              Column(
-                                children: [
-                                  BaseHeader(),
-                                  Expanded(child: AccdtInvstgWidget.buildAccdtInvstgView(controller)),
-                                ],
-                              ),
-                              /// [통계정보] 화면
-                              //Center(child: AutoSizeText('통계정보 개발 준비중입니다 😃')),
-                              Column(
-                                children: [
-                                  BaseHeader(),
-                                  Expanded(child: SttusWidget.buildSttusView(controller)),
-                                ],
-                              ),
-                              /// [고객카드] 화면
-                              // Center(child: AutoSizeText('고객카드 개발 준비중입니다 😃')),
-                              Column(
-                                children: [
-                                  BaseHeader(),
-                                  Expanded(child: CustomerCardWidget.buildCustomerCard(controller))
-                                ],
-                              ),
+                              )),
                             ],
                           ),
-                        ),
+
+                          /// [소유자관리] 화면
+                          Column(
+                            children: [
+                              BaseHeader(),
+                              Expanded(
+                                  child:
+                                      OwnerWidget.buildOwnerView(controller)),
+                            ],
+                          ),
+
+                          /// [실태조사] 화면
+                          Column(
+                            children: [
+                              BaseHeader(),
+                              Expanded(
+                                  child: AccdtInvstgWidget.buildAccdtInvstgView(
+                                      controller)),
+                            ],
+                          ),
+
+                          /// [통계정보] 화면
+                          //Center(child: AutoSizeText('통계정보 개발 준비중입니다 😃')),
+                          Column(
+                            children: [
+                              BaseHeader(),
+                              Expanded(
+                                  child:
+                                      SttusWidget.buildSttusView(controller)),
+                            ],
+                          ),
+
+                          /// [고객카드] 화면
+                          // Center(child: AutoSizeText('고객카드 개발 준비중입니다 😃')),
+                          Column(
+                            children: [
+                              BaseHeader(),
+                              Expanded(
+                                  child: CustomerCardWidget.buildCustomerCard(
+                                      controller))
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
 
                   // // 오른쪽 뷰
@@ -247,45 +272,44 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                 itemBuilder: (context, index) {
                   return Obx(() {
                     return InkWell(
-                      onTap: () {
-                        //controller.selectedIndex.value = index;
-                        controller.pageController.jumpToPage(index);
-                      },
-                      child: Container(
-                        width: 1.w > 1.h ? 208.w : 308.w,
-                        height: 160.h,
-                        padding: EdgeInsets.symmetric(horizontal: 40.w),
-                        decoration: BoxDecoration(
-                          color: controller.selectedIndex.value == index
-                              ? Color(0xFF2287EF)
-                              : Colors.transparent,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 1.w > 1.h ? 40.w : 60.w,
-                              height: 1.w > 1.h ? 40.h : 60.h,
-                              child: SvgPicture.asset(
-                                  'assets/icons/ic_menu_${index + 1}.svg',
-                                  width: 1.w > 1.h ? 40.w : 60.w,
-                                  height: 1.w > 1.h ? 40.h : 60.h,
-                                  color: Colors.white),
-                            ),
-                            SizedBox(height: 8.h),
-                            AutoSizeText(controller.leftNavItems[index],
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 1.w > 1.h ? 30.sp : 42.sp,
-                                    fontWeight: FontWeight.w500),
-                                //overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center),
-                          ],
-                        ),
-                      )
-                    );
+                        onTap: () {
+                          //controller.selectedIndex.value = index;
+                          controller.pageController.jumpToPage(index);
+                        },
+                        child: Container(
+                          width: 1.w > 1.h ? 208.w : 308.w,
+                          height: 160.h,
+                          padding: EdgeInsets.symmetric(horizontal: 40.w),
+                          decoration: BoxDecoration(
+                            color: controller.selectedIndex.value == index
+                                ? Color(0xFF2287EF)
+                                : Colors.transparent,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 1.w > 1.h ? 40.w : 60.w,
+                                height: 1.w > 1.h ? 40.h : 60.h,
+                                child: SvgPicture.asset(
+                                    'assets/icons/ic_menu_${index + 1}.svg',
+                                    width: 1.w > 1.h ? 40.w : 60.w,
+                                    height: 1.w > 1.h ? 40.h : 60.h,
+                                    color: Colors.white),
+                              ),
+                              SizedBox(height: 8.h),
+                              AutoSizeText(controller.leftNavItems[index],
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 1.w > 1.h ? 30.sp : 42.sp,
+                                      fontWeight: FontWeight.w500),
+                                  //overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center),
+                            ],
+                          ),
+                        ));
                   });
                 },
               ),
@@ -320,16 +344,16 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   ),
                   child: Center(
                       child: AutoSizeText(
-                        '관련고시번호',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF1D1D1D),
-                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                          fontWeight: FontWeight.w700,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 2,
-                      )),
+                    '관련고시번호',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF1D1D1D),
+                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontWeight: FontWeight.w700,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    maxLines: 2,
+                  )),
                 ),
               ),
               TableCell(
@@ -360,14 +384,14 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   ),
                   child: Center(
                       child: AutoSizeText(
-                        '시행방법',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF1D1D1D),
-                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )),
+                    '시행방법',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF1D1D1D),
+                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
                 ),
               ),
               TableCell(
@@ -439,14 +463,14 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   ),
                   child: Center(
                       child: AutoSizeText(
-                        '사업규모',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF1D1D1D),
-                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )),
+                    '사업규모',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF1D1D1D),
+                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
                 ),
               ),
               TableCell(
@@ -477,14 +501,14 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   ),
                   child: Center(
                       child: AutoSizeText(
-                        '근거법령',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF1D1D1D),
-                          fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )),
+                    '근거법령',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF1D1D1D),
+                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
                 ),
               ),
               TableCell(
@@ -509,14 +533,23 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   }
 
   /// [gridColumn] 데이터그리드 컬럼
-  GridColumn gridColumn(String columnName, String label, {bool? isVisble, double? width}) {
+  GridColumn gridColumn(String columnName, String label,
+      {bool? isVisble, double? width}) {
     return GridColumn(
         //width: controller.columnWidths[columnName ?? ''] ?? 80,
         //width: controller.columnWidths[columnName] ?? width ?? 80,
         width: width ?? double.nan,
         columnName: columnName,
         visible: isVisble ?? true,
-        label: SizedBox(child: Center(child: AutoSizeText(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.sp, color: tableTextColor)))));
+        label: SizedBox(
+            child: Center(
+                child: AutoSizeText(label,
+                    maxLines: 2,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        overflow: TextOverflow.ellipsis,
+                        color: tableTextColor)))));
   }
 
   ///  사업선택 -> 사업구역 선택
@@ -525,19 +558,25 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.bsnsListDataSource.value,
       controller: controller.bsnsListDataGridController,
       isSort: false,
-      //columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.fill,
       columns: [
-        gridColumn('bsnsZoneNo', '사업구역\n번호', width: 60),
-        gridColumn('bsnsZoneNm', '사업구역명', width: 200),
-        gridColumn('lotCnt', '필지수', width: 60),
-        gridColumn('bsnsAra', '면적(㎡)', width: 80),
+        // gridColumn('bsnsZoneNo', '사업구역\n번호', width: 60),
+        // gridColumn('bsnsZoneNm', '사업구역명', width: 200),
+        // gridColumn('lotCnt', '필지수', width: 60),
+        // gridColumn('bsnsAra', '면적(㎡)', width: 80),
+        // gridColumn('bsnsReadngPblancDe', '열람공고일'),
+        gridColumn('bsnsZoneNo', '사업구역번호'),
+        gridColumn('bsnsZoneNm', '사업구역명'),
+        gridColumn('lotCnt', '필지수'),
+        gridColumn('bsnsAra', '면적(㎡)'),
         gridColumn('bsnsReadngPblancDe', '열람공고일'),
       ],
-      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) async {
-
+      selectionEvent:
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) async {
         if (addedRows.isEmpty) return;
 
-        final index = controller.bsnsListDataSource.value.rows.indexOf(addedRows.first);
+        final index =
+            controller.bsnsListDataSource.value.rows.indexOf(addedRows.first);
         var getRow = controller.bsnsListDataSource.value.rows[index];
 
         var bsnsNo = controller.selectBsnsPlan.value.bsnsNo;
@@ -547,7 +586,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         var bsnsAra = getRow.getCells()[3].value;
         var bsnsReadngPblancDe = getRow.getCells()[4].value;
 
-        debugPrint('사업구역 선택: $bsnsNo, $bsnsZoneNo, $bsnsZoneNm, $lotCnt, $bsnsAra, $bsnsReadngPblancDe');
+        debugPrint(
+            '사업구역 선택: $bsnsNo, $bsnsZoneNo, $bsnsZoneNm, $lotCnt, $bsnsAra, $bsnsReadngPblancDe');
 
         debugPrint('선택된 사업번호: ${controller.selectBsnsPlan.value.bsnsNo}');
         debugPrint('선택된 사업구역번호: $bsnsZoneNo');
@@ -565,7 +605,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
 
         controller.isBsnsZoneSelectFlag.value = true;
         controller.isBsnsSqncSelectFlag.value = false;
-
       }),
     );
   }
@@ -575,41 +614,56 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
-      columnWidthMode: ColumnWidthMode.auto,
+      columnWidthMode: ColumnWidthMode.fitByCellValue,
       isSelect: false,
       isSort: false,
       // freezeColumnCount: 4,
       columns: [
+        // gridColumn('bsnsNo', '사업번호', isVisble: false),
+        // gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
+        // gridColumn('accdtInvstgSqnc', '조사차수', width: 60),
+        // gridColumn('accdtInvstgNm', '조사명', width: 300),
+        // gridColumn('delYn', '삭제여부', isVisble: false),
+        // gridColumn('frstRgstrId', '최초등록자', width: 60),
+        // gridColumn('frstRegistDt', '등록일', width: 80),
+        // gridColumn('lastUpdusrId', '최종수정자', width: 60),
+        // gridColumn('lastUpdtDt', '수정일', width: 80),
+        // gridColumn('conectIp', '접속IP', isVisble: false),
+
         gridColumn('bsnsNo', '사업번호', isVisble: false),
         gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
-        gridColumn('accdtInvstgSqnc', '조사차수', width: 60),
-        gridColumn('accdtInvstgNm', '조사명', width: 300),
+        gridColumn('accdtInvstgSqnc', '조사차수'),
+        gridColumn('accdtInvstgNm', '조사명'),
         gridColumn('delYn', '삭제여부', isVisble: false),
-        gridColumn('frstRgstrId', '최초등록자', width: 60),
-        gridColumn('frstRegistDt', '등록일', width: 80),
-        gridColumn('lastUpdusrId', '최종수정자', width: 60),
-        gridColumn('lastUpdtDt', '수정일', width: 80),
+        gridColumn('frstRgstrId', '최초등록자'),
+        gridColumn('frstRegistDt', '등록일'),
+        gridColumn('lastUpdusrId', '최종수정자'),
+        gridColumn('lastUpdtDt', '수정일'),
         gridColumn('conectIp', '접속IP', isVisble: false),
       ],
     );
   }
 
   /// 소유자관리 -> 소유자검색
-  Widget buildBsnsOwnerDataGrid() {
+  Widget buildOwnerListDataGrid() {
     return CustomGrid(
-      dataSource: controller.bsnsOwnerDataSource.value,
-      controller: controller.bsnsOwnerDataGridController,
+      dataSource: controller.ownerListDataSource.value,
+      controller: controller.ownerListDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.auto,
-      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
-        debugPrint('buildBsnsOwnerDataGrid> 선택된 소유자번호 > ${addedRows.first.getCells()[0].value}');
+      columnWidthMode: ColumnWidthMode.fill,
+      selectionEvent:
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+        debugPrint(
+            'buildBsnsOwnerDataGrid> 선택된 소유자번호 > ${addedRows.first.getCells()[0].value}');
         var ownerNum = addedRows.first.getCells()[0].value;
 
         controller.fetchOwnerLadInfoDataSource(ownerNum);
         controller.fetchOwnerObstInfoDataSource(ownerNum);
         controller.fetchOwnerInfo(ownerNum);
 
-        controller.bsnsOwnerTabController.animateTo(1);
+        if (controller.selectedIndex.value == 1) {
+          controller.bsnsOwnerTabController.animateTo(1);
+        }
       }),
       columns: [
         gridColumn('ownerNo', '소유자번호', width: 100),
@@ -675,14 +729,15 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                           color: Color(0xFF1D1D1D))))),
         ]),
       ],
-      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
-
-        final index = controller.ownerLadInfoDataSource.value.rows.indexOf(addedRows.first);
+      selectionEvent:
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+        final index = controller.ownerLadInfoDataSource.value.rows
+            .indexOf(addedRows.first);
         var getRow = controller.ownerLadInfoDataSource.value.rows[index];
 
-       var data = OwnerLadInfoDatasourceModel(
+        var data = OwnerLadInfoDatasourceModel(
           lgdongNm: getRow.getCells()[0].value,
-          lcrtsDivCd: getRow.getCells()[1].value,
+          lcrtsDivNm: getRow.getCells()[1].value,
           mlnoLtno: getRow.getCells()[2].value,
           slnoLtno: getRow.getCells()[3].value,
           ofcbkLndcgrDivCd: getRow.getCells()[4].value,
@@ -692,22 +747,49 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           cmpnstnInvstgAra: getRow.getCells()[8].value,
           acqsPrpDivCd: getRow.getCells()[9].value,
           aceptncUseDivCd: getRow.getCells()[10].value,
-          accdtInvstgSqnc: getRow.getCells()[11].value,
+          accdtInvstgSqnc: num.parse(getRow.getCells()[11].value),
           invstgDt: getRow.getCells()[12].value,
           cmpnstnStepDivCd: getRow.getCells()[13].value,
           cmpnstnDtaChnStatDivCd: getRow.getCells()[13].value,
           accdtInvstgRm: getRow.getCells()[14].value,
         );
 
-        // var num = data.accdtInvstgSqnc;
-        // controller.selectedOwnerLadInfoData.value = data;
-        // controller.fetchAccdtlnvstgOwnerDataSource();
-        // controller.handleAccdtlnvstgLadTabSelected(1);
+        AppLog.i('buildOwnerLadInfoDataGrid > 선택된 토지 정보: ${data.toJson()}');
 
+        /***
+         * 고객카드의 토지, 지장물, 고객정보를 조회한다.
+         * land - 토지,
+         * obst - 지장물,
+         * List - 내역,
+         * Partcpnt - 관계인,
+         * Cmpnstn - 협의내역,
+         * Aceptnc - 수용재결,
+         * Objc - 이의재결,
+         * Lwst - 소송,
+         * Reprchs - 환매,
+         * Confirm - 수용확인원,
+         * Fobjct - 이의신청
+         */
+
+        // 관계인 (토지)
+        //controller.fetchCstmrCardLadPartcpntInfo(data);
+        // 관계인 (지장물)
+        //controller.fetchCstmrCardObstPartcpntInfo(data);
+
+        // 협의내역
+        // controller.fetchCstmrCardCmpnstnInfo(data);
+        // 수용재결
+        // controller.fetchCstmrCardAceptncInfo(data);
+        // 이의재결
+        // controller.fetchCstmrCardObjctnInfo(data);
+        // 소송
+        // controller.fetchCstmrCardLwstInfo(data);
+        // 환매
+        // controller.fetchCstmrCardReprchsInfo(data);
       }),
       columns: [
         gridColumn('lgdongNm', '소재지', width: 200),
-        gridColumn('lcrtsDivCd', '특지', width: 60),
+        gridColumn('lcrtsDivNm', '특지', width: 60),
         gridColumn('mlnoLtno', '본번', width: 60),
         gridColumn('slnoLtno', '부번', width: 60),
         gridColumn('ofcbkLndcgrDivNm', '공부', width: 80),
@@ -733,9 +815,36 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       columnWidthMode: ColumnWidthMode.fill,
       freezeColumnCount: 4,
       isSort: false,
+      selectionEvent:
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+        final index = controller.ownerObstInfoDataSource.value.rows
+            .indexOf(addedRows.first);
+        var getRow = controller.ownerObstInfoDataSource.value.rows[index];
+
+        // var data = OwnerObstInfoDatasourceModel(
+        //   lgdongNm: getRow.getCells()[0].value,
+        //   lcrtsDivCd: getRow.getCells()[1].value,
+        //   mlnoLtno: getRow.getCells()[2].value,
+        //   slnoLtno: getRow.getCells()[3].value,
+        //   ofcbkLndcgrDivCd: getRow.getCells()[4].value,
+        //   sttusLndcgrDivCd: getRow.getCells()[5].value,
+        //   ofcbkAra: getRow.getCells()[6].value,
+        //   incrprAra: getRow.getCells()[7].value,
+        //   cmpnstnInvstgAra: getRow.getCells()[8].value,
+        //   acqsPrpDivCd: getRow.getCells()[9].value,
+        //   aceptncUseDivCd: getRow.getCells()[10].value,
+        //   accdtInvstgSqnc: num.parse(getRow.getCells()[11].value),
+        //   invstgDt: getRow.getCells()[12].value,
+        //   cmpnstnStepDivCd: getRow.getCells()[13].value,
+        //   cmpnstnDtaChnStatDivCd: getRow.getCells()[13].value,
+        //   accdtInvstgRm: getRow.getCells()[14].value,
+        // );
+        //
+        // print('선택된 토지 정보: ${data.toJson()}');
+      }),
       columns: [
         gridColumn('lgdongNm', '소재지', width: 200),
-        gridColumn('lcrtsDivCd', '특지', width: 60),
+        gridColumn('lcrtsDivNm', '특지', width: 60),
         gridColumn('mlnoLtno', '본번', width: 60),
         gridColumn('slnoLtno', '부번', width: 60),
         gridColumn('cmpnstnObstNo', '지장물순번', width: 80),
@@ -769,27 +878,30 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   alignment: Alignment.center,
                   child: AutoSizeText('토지보상 대상 기준 정보',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['col7', 'col8'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('지목',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['col9', 'col10'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('면적(㎡)',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
         ]),
       ],
       columns: [
@@ -891,18 +1003,20 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   alignment: Alignment.center,
                   child: AutoSizeText('조사자',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['obsrverNm', 'accdtInvstgObsrverAddr'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('입회자',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
         ]),
       ],
       columns: [
@@ -931,7 +1045,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.ladSttusInqireDataSource.value,
       controller: controller.ladSttusInqireDataGridController,
       columnWidthMode: ColumnWidthMode.auto,
-      isSort: false,
+      isSort: true,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
@@ -941,117 +1055,168 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                   alignment: Alignment.center,
                   child: AutoSizeText('토지기본정보',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['ofcbkLndcgrDivNm', 'sttusLndcgrDivNm'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('지목',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['ofcbkAra', 'incrprAra'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('면적(㎡)',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['aceptncUseDivCd', 'invstgDt', 'accdtInvstgSqnc'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('실태조사',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['ownerNo', 'posesnDivNm', 'ownerNm', 'ownerRgsbukAddr', 'posesnShreNmrtrInfo', 'posesnShreDnmntrInfo'],
+              columnNames: [
+                'ownerNo',
+                'posesnDivNm',
+                'ownerNm',
+                'ownerRgsbukAddr',
+                'posesnShreNmrtrInfo',
+                'posesnShreDnmntrInfo'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('소유자정보',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['apasmtDivCd', 'apasmtSqnc', 'prcPnttmDe'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('감정평가',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['apasmtInsttNm1', 'apasmtInsttEvlUpc1', 'apasmtInsttEvlAmt1'],
+              columnNames: [
+                'apasmtInsttNm1',
+                'apasmtInsttEvlUpc1',
+                'apasmtInsttEvlAmt1'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('A평가법인',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['apasmtInsttNm2', 'apasmtInsttEvlUpc2', 'apasmtInsttEvlAmt2'],
+              columnNames: [
+                'apasmtInsttNm2',
+                'apasmtInsttEvlUpc2',
+                'apasmtInsttEvlAmt2'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('B평가법인',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['apasmtInsttNm3', 'apasmtInsttEvlUpc3', 'apasmtInsttEvlAmt3'],
+              columnNames: [
+                'apasmtInsttNm3',
+                'apasmtInsttEvlUpc3',
+                'apasmtInsttEvlAmt3'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('C평가법인',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['cmpnstnCmptnUpc', 'cpsmnCmptnAmt'],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('보상비산정',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['caPymntRequstDe', 'cmpnstnDscssUpc', 'cmpnstnDscssTotAmt', 'caRgistDt'],
+              columnNames: [
+                'caPymntRequstDe',
+                'cmpnstnDscssUpc',
+                'cmpnstnDscssTotAmt',
+                'caRgistDt'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('보상비지급',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['aceptncAdjdcUpc', 'aceptncAdjdcAmt', 'aceptncAdjdcDt', 'aceptncUseBeginDe', 'ldPymntRequstDe', 'ldRgistDt', 'ldCpsmnPymntLdgmntDivCd'],
+              columnNames: [
+                'aceptncAdjdcUpc',
+                'aceptncAdjdcAmt',
+                'aceptncAdjdcDt',
+                'aceptncUseBeginDe',
+                'ldPymntRequstDe',
+                'ldRgistDt',
+                'ldCpsmnPymntLdgmntDivCd'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('수용재결',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['obadUpc', 'objcRstAmt', 'objcAdjdcDt', 'proPymntRequstDe', 'proCpsmnPymntLdgmntDivCd'],
+              columnNames: [
+                'obadUpc',
+                'objcRstAmt',
+                'objcAdjdcDt',
+                'proPymntRequstDe',
+                'proCpsmnPymntLdgmntDivCd'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('이의재결',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Color(0xFF1D1D1D),)))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.sp,
+                        color: Color(0xFF1D1D1D),
+                      )))),
         ]),
       ],
       columns: columns,
@@ -1077,7 +1242,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['rqest', 'invstgDe', 'accdtInvstgSqnc'],
               child: Container(
@@ -1086,16 +1252,25 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['ownerNo', 'posesnDivCd', 'ownerNm', 'ownerRgsbukAddr', 'posesnShreNmrtrInfo', 'posesnShreDnmntrInfo'],
+              columnNames: [
+                'ownerNo',
+                'posesnDivCd',
+                'ownerNm',
+                'ownerRgsbukAddr',
+                'posesnShreNmrtrInfo',
+                'posesnShreDnmntrInfo'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('소유자정보',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['apasmtReqestDivCd', 'apasmtSqnc', 'prcPnttmDe'],
               child: Container(
@@ -1104,34 +1279,50 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['apasmtInsttNm1', 'apasmtInsttEvlUpc1', 'apasmtInsttEvlAmt1'],
+              columnNames: [
+                'apasmtInsttNm1',
+                'apasmtInsttEvlUpc1',
+                'apasmtInsttEvlAmt1'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('A평가법인',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['apasmtInsttNm2', 'apasmtInsttEvlUpc2', 'apasmtInsttEvlAmt2'],
+              columnNames: [
+                'apasmtInsttNm2',
+                'apasmtInsttEvlUpc2',
+                'apasmtInsttEvlAmt2'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('B평가법인',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['apasmtInsttNm3', 'apasmtInsttEvlUpc3', 'apasmtInsttEvlAmt3'],
+              columnNames: [
+                'apasmtInsttNm3',
+                'apasmtInsttEvlUpc3',
+                'apasmtInsttEvlAmt3'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('C평가법인',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
               columnNames: ['cmpnstnCmptnUpc', 'cpsmnCmptnAmt'],
               child: Container(
@@ -1140,34 +1331,55 @@ class BsnsSelectScreen extends GetView<BsnsController> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['caPymntRequstDe', 'cmpnstnDscssUpc', 'cmpnstnDscssTotAmt'],
+              columnNames: [
+                'caPymntRequstDe',
+                'cmpnstnDscssUpc',
+                'cmpnstnDscssTotAmt'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('보상비지급',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['dcsUpc', 'dcsAmt', 'dcsDt', 'aceptncUseBeginDe', 'ldPymntRequstDe', 'ldCpsmnPymntLdgmntDivCd'],
+              columnNames: [
+                'dcsUpc',
+                'dcsAmt',
+                'dcsDt',
+                'aceptncUseBeginDe',
+                'ldPymntRequstDe',
+                'ldCpsmnPymntLdgmntDivCd'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('수용재결',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
           StackedHeaderCell(
-              columnNames: ['proUpc', 'proAmt', 'proDt', 'proPymntRequstDe', 'proCpsmnPymntLdgmntDivCd'],
+              columnNames: [
+                'proUpc',
+                'proAmt',
+                'proDt',
+                'proPymntRequstDe',
+                'proCpsmnPymntLdgmntDivCd'
+              ],
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('이의재결',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),)))),
+                        color: Color(0xFF1D1D1D),
+                      )))),
         ]),
       ],
       columns: columns,
@@ -1187,7 +1399,13 @@ class BsnsSelectScreen extends GetView<BsnsController> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(width: 120.w, child: AutoSizeText('사업구분', style: TextStyle(color: tableTextColor, fontSize: 1.w > 1.h ? 32.sp : 22.sp, fontWeight: FontWeight.w500))),
+            SizedBox(
+                width: 120.w,
+                child: AutoSizeText('사업구분',
+                    style: TextStyle(
+                        color: tableTextColor,
+                        fontSize: 1.w > 1.h ? 32.sp : 22.sp,
+                        fontWeight: FontWeight.w500))),
             SizedBox(width: 20.w),
             CustomRadio(
               value: 0,
