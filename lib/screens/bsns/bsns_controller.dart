@@ -189,6 +189,8 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
   final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
   RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
 
+  final selectSqnc = BsnsAccdtinvstgSqncModel().obs;
+
   final bsnsAccdtinvstgSqncDataSource =
       BsnsAccdtinvstgSqncDatasource(items: []).obs; // 조사차수
 
@@ -812,6 +814,7 @@ class BsnsController extends GetxController with GetTickerProviderStateMixin {
           accdtInvstgRm: data[i]['accdtInvstgRm'] ?? '',
           posesnDivCd: data[i]['posesnDivCd'] ?? '',
           ownerDivCd: data[i]['ownerDivCd'] ?? '',
+          ownerDivNm: data[i]['ownerDivNm'] ?? '',
           chnSqnc: data[i]['chnSqnc'] ?? '',
           cmpnstnDtaCreatId: data[i]['cmpnstnDtaCreatId'] ?? '',
           bcncNo: data[i]['bcncNo'] ?? '',

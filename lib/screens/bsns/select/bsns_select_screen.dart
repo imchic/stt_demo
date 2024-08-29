@@ -4,6 +4,7 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/screens/bsns/sqnc/model/bsns_sqnc_datasource_model.dart';
 import 'package:ldi/screens/owner/obst/model/owner_obst_info_datasource_model.dart';
 import 'package:ldi/utils/applog.dart';
 
@@ -22,6 +23,7 @@ import '../../../widget/owner_widget.dart';
 import '../../../widget/sttus_widget.dart';
 import '../../owner/lad/model/owner_lad_info_datasource_model.dart';
 import '../bsns_controller.dart';
+import '../sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
 import 'bsns_plan_select_area_model.dart';
 
 /// [BsnsSelectScreen] 사업선택 화면
@@ -615,9 +617,37 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
       columnWidthMode: ColumnWidthMode.fitByCellValue,
-      isSelect: false,
+      //isSelect: false,
       isSort: false,
-      // freezeColumnCount: 4,
+      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+        if (addedRows.isEmpty) return;
+
+        final index = controller.bsnsAccdtinvstgSqncDataSource.value.rows.indexOf(addedRows.first);
+        var getRow = controller.bsnsAccdtinvstgSqncDataSource.value.rows[index];
+
+        var accdtInvstgSqnc = getRow.getCells()[2].value;
+        var accdtInvstgNm = getRow.getCells()[3].value;
+        var frstRgstrId = getRow.getCells()[5].value;
+        var frstRegistDt = getRow.getCells()[6].value;
+        var lastUpdusrId = getRow.getCells()[7].value;
+        var lastUpdtDt = getRow.getCells()[8].value;
+
+        var sqnc = BsnsAccdtinvstgSqncModel(
+          accdtInvstgSqnc: accdtInvstgSqnc,
+          accdtInvstgNm: accdtInvstgNm,
+          frstRgstrId: frstRgstrId,
+          frstRegistDt: frstRegistDt,
+          lastUpdusrId: lastUpdusrId,
+          lastUpdtDt: lastUpdtDt,
+        );
+
+        controller.selectSqnc.value = sqnc;
+
+        // controller.selectedBsnsSelectArea.value.accdtInvstgSqnc = accdtInvstgSqnc;
+        // controller.selectedBsnsSelectArea.value.accdtInvstgNm = accdtInvstgNm;
+        //
+        // controller.isBsnsSqncSelectFlag.value = true;
+      }),
       columns: [
         // gridColumn('bsnsNo', '사업번호', isVisble: false),
         // gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
@@ -673,7 +703,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         // gridColumn('bsnsNo', '사업번호', isVisble: false),
         // gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
         gridColumn('ownerRgsbukAddr', '등기부주소', width: 370),
-        gridColumn('ownerRrnEnc', '주민등록번호', width: 90),
+        gridColumn('ownerRrnEnc', '주민등록번호', width: 150),
         // gridColumn('oldRegno', '구주민등록번호', isVisble: false),
         gridColumn('ownerTelno', '전화번호', width: 100),
         gridColumn('ownerMbtlnum', '휴대폰번호', width: 100),
@@ -1045,7 +1075,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.ladSttusInqireDataSource.value,
       controller: controller.ladSttusInqireDataGridController,
       columnWidthMode: ColumnWidthMode.auto,
-      isSort: true,
+      //isSort: true,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [

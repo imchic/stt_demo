@@ -65,6 +65,14 @@ class OwnerDatasource extends DataGridSource {
         );
       }
       
+      if(dataGridCell.columnName == 'ownerRrnEnc') {
+        return Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(CommonUtil.maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+        );
+      }
+      
       if(dataGridCell.columnName == 'ownerTelno' || dataGridCell.columnName == 'ownerMbtlnum') {
         return Container(
           alignment: Alignment.center,
@@ -103,12 +111,13 @@ class OwnerDatasource extends DataGridSource {
   }
 
   // 주민등록번호 마스킹 처리
-  String maskOwnerRegisterNo(String ownerRegisterNo) {
-    // 891208-1******
-    if(ownerRegisterNo.length == 14) {
-      return '${ownerRegisterNo.substring(0, 7)}-1${'*' * 5}';
-    }
-    return ownerRegisterNo;
-  }
+  // String maskOwnerRegisterNo(String ownerRegisterNo) {
+  //   // 891208-1******
+  //   print('ownerRegisterNo: $ownerRegisterNo');
+  //   if(ownerRegisterNo.length == 13) {
+  //     return '${ownerRegisterNo.substring(0, 7)}-1${'*' * 6}';
+  //   }
+  //   return ownerRegisterNo;
+  // }
 
 }

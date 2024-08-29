@@ -435,34 +435,39 @@ class LoginScreen extends GetView<LoginController> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          width: double.infinity,
-                                          height: 88.h,
-                                          padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 8.h),
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: ShapeDecoration(
-                                            color: Color(0xFF2287EF),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(12.r),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                '로그인',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 30.sp,
-                                                  fontFamily: 'Pretendard',
-                                                  fontWeight: FontWeight.w500,
-                                                  //height: 0.05,
-                                                ),
+                                        InkWell(
+                                          onTap: () {
+                                            controller.login();
+                                          },
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 88.h,
+                                            padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 8.h),
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: ShapeDecoration(
+                                              color: Color(0xFF2287EF),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(12.r),
                                               ),
-                                            ],
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  '로그인',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 30.sp,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w500,
+                                                    //height: 0.05,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         SizedBox(height: 32.h),

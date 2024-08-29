@@ -558,7 +558,7 @@ class OwnerWidget {
                         height: 80.h,
                         color: Colors.white,
                         child: Center(
-                          child: AutoSizeText(controller.selectedOwner.value.ownerDivCd ?? '',
+                          child: AutoSizeText(controller.selectedOwner.value.ownerDivNm ?? '',
                               style: TextStyle(
                                   color: Color(0xFF555555),
                                   fontSize: 32.sp,
@@ -603,7 +603,7 @@ class OwnerWidget {
                         height: 80.h,
                         color: Colors.white,
                         child: Center(
-                          child: AutoSizeText(controller.selectedOwner.value.ownerRrnEnc ?? '',
+                          child: AutoSizeText(CommonUtil.maskOwnerRegisterNo(controller.selectedOwner.value.ownerRrnEnc ?? ''),
                               style: TextStyle(
                                   color: Color(0xFF555555),
                                   fontSize: 32.sp,

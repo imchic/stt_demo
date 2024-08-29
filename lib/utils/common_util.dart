@@ -33,4 +33,11 @@ class CommonUtil {
     }
   }
 
+  static maskOwnerRegisterNo(String ownerRegisterNo) {
+    if(ownerRegisterNo.length == 13) {
+      return '${ownerRegisterNo.substring(0, 7)}-1${'*' * 6}';
+    }
+    return ownerRegisterNo;
+  }
+
 }

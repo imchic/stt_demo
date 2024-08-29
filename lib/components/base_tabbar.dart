@@ -59,12 +59,12 @@ class _BaseTabBarState extends State<BaseTabBar> {
               isScrollable: widget.isScrollable ?? true,
               tabs: widget.tabItems,
               labelStyle: TextStyle(
-                fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                fontSize: 1.w > 1.h ? 40.sp : 50.sp,
                 fontWeight: FontWeight.w500,
                 color: widget.activeTextColor ?? Color(0xFF1D1D1D),
               ),
               unselectedLabelStyle: TextStyle(
-                fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                fontSize: 1.w > 1.h ? 40.sp : 50.sp,
                 fontWeight: FontWeight.w500,
                 color: widget.unActiveTextColor ?? Color(0xFF555555),
               ),

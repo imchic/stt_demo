@@ -41,7 +41,8 @@ class OwnerInfoModel {
       this.accdtInvstgRm, 
       this.posesnDivCd, 
       this.ownerDivCd, 
-      this.chnSqnc, 
+      this.ownerDivNm,
+      this.chnSqnc,
       this.cmpnstnDtaCreatId, 
       this.bcncNo, 
       this.delYn, 
@@ -66,6 +67,7 @@ class OwnerInfoModel {
     accdtInvstgRm = json['accdtInvstgRm'];
     posesnDivCd = json['posesnDivCd'];
     ownerDivCd = json['ownerDivCd'];
+    ownerDivNm = json['ownerDivNm'];
     chnSqnc = json['chnSqnc'];
     cmpnstnDtaCreatId = json['cmpnstnDtaCreatId'];
     bcncNo = json['bcncNo'];
@@ -90,6 +92,7 @@ class OwnerInfoModel {
   dynamic accdtInvstgRm;
   String? posesnDivCd;
   String? ownerDivCd;
+  String? ownerDivNm;
   dynamic chnSqnc;
   dynamic cmpnstnDtaCreatId;
   dynamic bcncNo;
@@ -115,7 +118,9 @@ class OwnerInfoModel {
     map['ownerMoisAddr'] = ownerMoisAddr;
     map['accdtInvstgRm'] = accdtInvstgRm;
     map['posesnDivCd'] = posesnDivCd;
+    map['posesnDivCd'] = posesnDivCd;
     map['ownerDivCd'] = ownerDivCd;
+    map['ownerDivCd'] = ownerDivNm;
     map['chnSqnc'] = chnSqnc;
     map['cmpnstnDtaCreatId'] = cmpnstnDtaCreatId;
     map['bcncNo'] = bcncNo;
