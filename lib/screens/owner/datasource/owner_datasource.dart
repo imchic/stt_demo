@@ -64,6 +64,14 @@ class OwnerDatasource extends DataGridSource {
           child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
         );
       }
+
+      if(dataGridCell.columnName == 'ownerRgsbukAddr') {
+        return Container(
+          alignment: Alignment.topLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+        );
+      }
       
       if(dataGridCell.columnName == 'ownerRrnEnc') {
         return Container(

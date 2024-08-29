@@ -86,7 +86,7 @@ class OwnerWidget {
               ),
             ),
             child: Column(children: [
-              Row(
+              /*Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text('소재지'),
@@ -97,8 +97,8 @@ class OwnerWidget {
                   SizedBox(width: 12.w),
                   CustomTextField(hintText: '부번', onChanged: (value) {}),
                 ],
-              ),
-              SizedBox(height: 20.h),
+              ),*/
+              //SizedBox(height: 20.h),
               Row(
                 children: [
                   BsnsSelectScreen().buildOwnerMngRadio(),
