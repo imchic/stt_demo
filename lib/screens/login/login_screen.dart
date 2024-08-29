@@ -34,15 +34,15 @@ class LoginScreen extends GetView<LoginController> {
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(120),
-                        bottomLeft: Radius.circular(120),
+                        topLeft: Radius.circular(120.r),
+                        bottomLeft: Radius.circular(120.r),
                       ),
                     ),
                     shadows: [
                       BoxShadow(
                         color: Color(0x19005097),
                         blurRadius: 60.r,
-                        offset: Offset(-8, 0),
+                        offset: Offset(-8.r, 0),
                         spreadRadius: 0,
                       )
                     ],
@@ -93,6 +93,7 @@ class LoginScreen extends GetView<LoginController> {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(height: 8.h),
                                   SizedBox(
                                     width: double.infinity,
                                     child: Text(
@@ -322,7 +323,10 @@ class LoginScreen extends GetView<LoginController> {
                                                     Container(
                                                       width: 40.w,
                                                       height: 40.h,
-                                                      child: FlutterLogo(),
+                                                      child: SvgPicture.asset(
+                                                        'assets/icons/ic_account.svg',
+                                                        fit: BoxFit.fitHeight,
+                                                      ),
                                                     ),
                                                     SizedBox(width: 20.w),
                                                     Expanded(
@@ -363,9 +367,12 @@ class LoginScreen extends GetView<LoginController> {
                                                     Container(
                                                       width: 40.w,
                                                       height: 40.h,
-                                                      child: FlutterLogo(),
+                                                      child: SvgPicture.asset(
+                                                        'assets/icons/ic_lock.svg',
+                                                        fit: BoxFit.fitHeight,
+                                                      ),
                                                     ),
-                                                    const SizedBox(width: 20),
+                                                    SizedBox(width: 20.w),
                                                     Expanded(
                                                       child: SizedBox(
                                                         child: Text(
@@ -519,27 +526,27 @@ class LoginScreen extends GetView<LoginController> {
                   ),
                 ),
               ),
-              /*Positioned(
-                left: 285,
-                top: 292,
+              Positioned(
+                left: 285.w,
+                top: 292.h,
                 child: Container(
-                  width: 950,
-                  height: 878,
+                  width: 950.w,
+                  height: 878.h,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage("https://via.placeholder.com/950x878"),
+                      image: Image.asset('assets/images/img_login_bg.png').image,
                       fit: BoxFit.fill,
                     ),
                   ),
                 ),
               ),
               Positioned(
-                left: 452,
-                top: 1378,
+                left: 552.w,
+                top: 1378.h,
                 child: Container(
-                  width: 616,
-                  height: 38,
-                  padding: const EdgeInsets.only(right: 1.77),
+                  width: 616.w,
+                  height: 38.h,
+                  padding: EdgeInsets.only(right: 1.77.r),
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(),
                   child: Row(
@@ -548,14 +555,27 @@ class LoginScreen extends GetView<LoginController> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 614.23,
-                        height: 38.52,
-                        child: Stack(),
+                        width: 614.23.w,
+                        height: 38.52.h,
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Korea Water Resources Corporation',
+                              style: TextStyle(
+                                color: Color(0xFF1D1D1D),
+                                fontSize: 30.sp,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w400,
+                                //height: 0.05,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),*/
+              ),
             ],
           ),
         ),
