@@ -65,11 +65,19 @@ class OwnerDatasource extends DataGridSource {
         );
       }
 
+      if(dataGridCell.columnName == 'ownerNm') {
+        return Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp)),
+        );
+      }
+
       if(dataGridCell.columnName == 'ownerRgsbukAddr') {
         return Container(
           alignment: Alignment.topLeft,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 3, style: TextStyle(fontSize: 30.sp)),
         );
       }
       
@@ -92,10 +100,11 @@ class OwnerDatasource extends DataGridSource {
       if(dataGridCell.columnName == 'posesnDivNm') {
         return Container(
           alignment: Alignment.center,
-          padding: const EdgeInsets.all(6.0),
+          //padding: const EdgeInsets.all(3.0),
           child: Container(
             alignment: Alignment.center,
-            width: 80.w,
+            width: 70.w,
+            height: 60.h,
             decoration: BoxDecoration(
               color: dataGridCell.value.toString() == '국유'
                   ? Color(0xffFFBF00)

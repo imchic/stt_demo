@@ -65,7 +65,8 @@ class _CustomGridState extends State<CustomGrid> {
         headerHoverColor: Color(0xFFE5E8ED),
       ),
       child: SfDataGrid(
-        //headerRowHeight: 1.w > 1.h ? 60.sp : 100.sp,
+        // headerRowHeight: 1.w > 1.h ? 60.sp : 100.sp,
+        // rowHeight: 1.w > 1.h ? 60.sp : 100.sp,
         source: widget.dataSource,
         controller: widget.controller,
         columns: widget.columns,
@@ -97,9 +98,13 @@ class _CustomGridState extends State<CustomGrid> {
         onColumnResizeEnd: (ColumnResizeEndDetails details) {
           BsnsController.to.columnWidths[details.column.columnName] = details.width;
         },
-        onQueryRowHeight: (RowHeightDetails details) {
-          return Get.height * 0.05;
-        },
+        // onQueryRowHeight: (details) {
+        //   return details.getIntrinsicRowHeight(details.rowIndex,
+        //       excludedColumns: ['bsnsZoneNm'], canIncludeHiddenColumns: true);
+        // },
+        // onQueryRowHeight: (details) {
+        //   return details.getIntrinsicRowHeight(details.rowIndex);
+        // },
         columnResizeMode: ColumnResizeMode.onResizeEnd,
         showColumnHeaderIconOnHover: true,
         selectionMode: widget.isSelect ? SelectionMode.single : SelectionMode.none,

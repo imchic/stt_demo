@@ -562,11 +562,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       isSort: false,
       columnWidthMode: ColumnWidthMode.fill,
       columns: [
-        // gridColumn('bsnsZoneNo', '사업구역\n번호', width: 60),
-        // gridColumn('bsnsZoneNm', '사업구역명', width: 200),
-        // gridColumn('lotCnt', '필지수', width: 60),
-        // gridColumn('bsnsAra', '면적(㎡)', width: 80),
-        // gridColumn('bsnsReadngPblancDe', '열람공고일'),
         gridColumn('bsnsZoneNo', '사업구역번호'),
         gridColumn('bsnsZoneNm', '사업구역명'),
         gridColumn('lotCnt', '필지수'),
@@ -616,7 +611,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
     return CustomGrid(
       dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
-      columnWidthMode: ColumnWidthMode.fitByCellValue,
+      columnWidthMode: ColumnWidthMode.fill,
       //isSelect: false,
       isSort: false,
       selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
@@ -662,12 +657,12 @@ class BsnsSelectScreen extends GetView<BsnsController> {
 
         gridColumn('bsnsNo', '사업번호', isVisble: false),
         gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
-        gridColumn('accdtInvstgSqnc', '조사차수'),
-        gridColumn('accdtInvstgNm', '조사명'),
+        gridColumn('accdtInvstgSqnc', '차수', width: 60),
+        gridColumn('accdtInvstgNm', '조사명', width: double.nan),
         gridColumn('delYn', '삭제여부', isVisble: false),
-        gridColumn('frstRgstrId', '최초등록자'),
+        gridColumn('frstRgstrId', '최초등록자', isVisble: false),
         gridColumn('frstRegistDt', '등록일'),
-        gridColumn('lastUpdusrId', '최종수정자'),
+        gridColumn('lastUpdusrId', '최종수정자', isVisble: false),
         gridColumn('lastUpdtDt', '수정일'),
         gridColumn('conectIp', '접속IP', isVisble: false),
       ],
@@ -680,7 +675,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.ownerListDataSource.value,
       controller: controller.ownerListDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fitByCellValue,
+      columnWidthMode: ColumnWidthMode.fill,
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         debugPrint(
@@ -699,7 +694,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         gridColumn('ownerNo', '소유자번호', width: 100),
         gridColumn('ownerNm', '소유자명', width: 180),
         // gridColumn('posesnDivCd', '소유자구분', width: 60),
-        gridColumn('posesnDivNm', '소유자구분', width: 60),
+        gridColumn('posesnDivNm', '구분', width: 60),
         // gridColumn('bsnsNo', '사업번호', isVisble: false),
         // gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
         gridColumn('ownerRgsbukAddr', '등기부주소', width: double.nan),
@@ -735,7 +730,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.ownerLadInfoDataSource.value,
       controller: controller.ownerLadInfoDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fitByColumnName,
+      columnWidthMode: ColumnWidthMode.auto,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [

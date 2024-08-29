@@ -37,9 +37,40 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText('${dataGridCell.value.toString()}차', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
+          child: AutoSizeText('${dataGridCell.value.toString()}차',
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
         );
-      } else {
+
+      } else if(dataGridCell.columnName == 'accdtInvstgNm') {
+        return Container(
+          alignment: Alignment.topLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(dataGridCell.value.toString(),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+              style: TextStyle(fontSize: 30.sp)),
+        );
+
+      } else if(dataGridCell.columnName == 'accdtInvstgSqnc') {
+        return Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText('${dataGridCell.value.toString()}차',
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
+        );
+
+      } else if(dataGridCell.columnName == 'accdtInvstgNm') {
+        return Container(
+          alignment: Alignment.topLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(dataGridCell.value.toString(),
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 30.sp)),
+        );
+
+      }else {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),

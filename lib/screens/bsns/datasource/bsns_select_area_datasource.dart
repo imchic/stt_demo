@@ -41,9 +41,9 @@ class BsnsSelectAreaDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((dataGridCell) {
           if(dataGridCell.columnName == 'bsnsZoneNm') {
             return Container(
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(8.0),
-              child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
+              child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 3, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
             );
           } else {
             return Container(
