@@ -695,7 +695,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         // gridColumn('bsnsNo', '사업번호', isVisble: false),
         // gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
         gridColumn('ownerRgsbukAddr', '등기부주소', width: double.nan),
-        gridColumn('ownerRrnEnc', '주민등록번호', width: 130),
+        gridColumn('ownerRrnEnc', '등록번호', width: 130),
         // gridColumn('oldRegno', '구주민등록번호', isVisble: false),
         gridColumn('ownerTelno', '전화번호', width: 130),
         gridColumn('ownerMbtlnum', '휴대폰번호', width: 130),
@@ -727,7 +727,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.ownerLadInfoDataSource.value,
       controller: controller.ownerLadInfoDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.auto,
+      columnWidthMode: ColumnWidthMode.fill,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
@@ -811,20 +811,20 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       }),
       columns: [
         gridColumn('lgdongNm', '소재지', width: 200),
-        gridColumn('lcrtsDivNm', '특지', width: 60),
-        gridColumn('mlnoLtno', '본번', width: 60),
-        gridColumn('slnoLtno', '부번', width: 60),
-        gridColumn('ofcbkLndcgrDivNm', '공부', width: 80),
-        gridColumn('sttusLndcgrDivNm', '현황', width: 80),
-        gridColumn('ofcbkAra', '공부', width: 80),
-        gridColumn('incrprAra', '편입', width: 80),
-        gridColumn('cmpnstnInvstgAra', '조사', width: 80),
-        gridColumn('acqsPrpDivNm', '취득용도', width: 80),
+        gridColumn('lcrtsDivNm', '특지', width: 40),
+        gridColumn('mlnoLtno', '본번', width: 50),
+        gridColumn('slnoLtno', '부번', width: 50),
+        gridColumn('ofcbkLndcgrDivNm', '공부', width: 60),
+        gridColumn('sttusLndcgrDivNm', '현황', width: 60),
+        gridColumn('ofcbkAra', '공부', width: 60),
+        gridColumn('incrprAra', '편입', width: 60),
+        gridColumn('cmpnstnInvstgAra', '조사', width: 60),
+        gridColumn('acqsPrpDivNm', '취득용도', width: 60),
         gridColumn('aceptncUseDivNm', '수용/사용', width: 60),
         gridColumn('accdtInvstgSqnc', '조사차수', width: 60),
-        gridColumn('invstgDt', '조사일', width: 80),
+        gridColumn('invstgDt', '조사일', width: 100),
         gridColumn('cmpnstnStepDivCdNm', '보상진행단계', width: 80),
-        gridColumn('eaccdtInvstgRmtc', '비고', width: 80),
+        gridColumn('eaccdtInvstgRmtc', '비고', width: 300),
       ],
     );
   }
@@ -1250,8 +1250,8 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   Widget buildObstSttusInqireDataGrid(List<GridColumn> columns) {
     return CustomGrid(
       dataSource: controller.obstSttusInqireDataSource.value,
-      controller: controller.ladSttusInqireDataGridController,
-      columnWidthMode: ColumnWidthMode.fill,
+      controller: controller.obstSttusInqireDataGridController,
+      columnWidthMode: ColumnWidthMode.auto,
       isSort: false,
       freezeColumnCount: 4,
       stackedHeaderRows: [

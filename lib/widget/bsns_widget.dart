@@ -447,6 +447,7 @@ class BsnsWidget {
                                 fontWeight: FontWeight.w400,
                                 overflow: TextOverflow.ellipsis,
                               ),
+                              maxLines: 2,
                             ),
                             SizedBox(width: 16.w),
                             Container(
@@ -463,6 +464,7 @@ class BsnsWidget {
                                 fontWeight: FontWeight.w400,
                                 overflow: TextOverflow.ellipsis,
                               ),
+                              maxLines: 2,
                             ),
                             SizedBox(width: 16.w),
                             Container(
@@ -480,16 +482,19 @@ class BsnsWidget {
                                 fontWeight: FontWeight.w400,
                                 overflow: TextOverflow.ellipsis,
                               ),
+                              maxLines: 2,
                             ),
                             SizedBox(width: 16.w),
-                            AutoSizeText(
-                              controller.searchBsnsPlanList[index].korname ?? '-',
-                              style: TextStyle(
-                                color: Color(0xFF555555),
-                                fontSize: 1.w > 1.h ? 30.sp : 50.sp,
-                                fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.w400,
-                                overflow: TextOverflow.ellipsis,
+                            Expanded(
+                              child: AutoSizeText(
+                                controller.searchBsnsPlanList[index].korname ?? '-',
+                                style: TextStyle(
+                                  color: Color(0xFF555555),
+                                  fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           ],

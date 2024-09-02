@@ -65,7 +65,7 @@ class _CustomGridState extends State<CustomGrid> {
         headerHoverColor: Color(0xFFE5E8ED),
       ),
       child: SfDataGrid(
-        // headerRowHeight: 1.w > 1.h ? 60.sp : 100.sp,
+        headerRowHeight: 1.w > 1.h ? 80.sp : 100.sp,
         // rowHeight: 1.w > 1.h ? 60.sp : 100.sp,
         source: widget.dataSource,
         controller: widget.controller,

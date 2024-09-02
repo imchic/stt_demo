@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ldi/components/custom_button.dart';
+import 'package:ldi/components/custom_sliver_persistent_headerdelegate.dart';
 import 'package:ldi/utils/common_util.dart';
 
 import '../components/base_tabbar.dart';
@@ -71,76 +72,78 @@ class OwnerWidget {
   static buildOwnerSearchContainer(BsnsController controller) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(40.r),
-            decoration: ShapeDecoration(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 0, color: borderLine),
-                borderRadius: BorderRadius.circular(12.r),
+      child: CustomScrollView(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        slivers: [
+          SliverPersistentHeader(
+            pinned: false,
+            floating : true,
+            delegate: CustomSliverPersistentHeaderDelegate(
+              minHeight: 200.h,
+              maxHeight: 200.h,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(children: [
+                    Row(
+                      children: [
+                        BsnsSelectScreen().buildOwnerMngRadio(),
+                        SizedBox(width: 32.w),
+                        CustomTextField(hintText: '소유자명을 입력해주세요', onChanged: (value) {}),
+                        SizedBox(width: 12.w),
+                        CustomTextField(hintText: '등록번호', onChanged: (value) {}),
+                      ],
+                    ),
+                    SizedBox(height: 32.h),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomButton(
+                          text: '조회',
+                          color: Color(0xFF1D1D1D),
+                          prefixIcon: SvgPicture.asset('assets/icons/ic_search.svg', width: 32.w, height: 32.h),
+                          onPressed: () {},
+                        ),
+                        SizedBox(width: 12.w),
+                        CustomButton().refreshButton()
+                      ],
+                    ),
+                  ]),
+                ],
               ),
             ),
-            child: Column(children: [
-              /*Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('소재지'),
-                  SizedBox(width: 24.w),
-                  CustomTextField(hintText: '읍면동', onChanged: (value) {}),
-                  SizedBox(width: 12.w),
-                  CustomTextField(hintText: '본번', onChanged: (value) {}),
-                  SizedBox(width: 12.w),
-                  CustomTextField(hintText: '부번', onChanged: (value) {}),
-                ],
-              ),*/
-              //SizedBox(height: 20.h),
-              Row(
-                children: [
-                  BsnsSelectScreen().buildOwnerMngRadio(),
-                  SizedBox(width: 32.w),
-                  CustomTextField(hintText: '소유자명을 입력해주세요', onChanged: (value) {}),
-                  SizedBox(width: 12.w),
-                  CustomTextField(hintText: '등록번호', onChanged: (value) {}),
-                ],
-              ),
-              SizedBox(height: 32.h),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomButton(
-                    text: '조회',
-                    color: Color(0xFF1D1D1D),
-                    prefixIcon: SvgPicture.asset('assets/icons/ic_search.svg', width: 32.w, height: 32.h),
-                    onPressed: () {},
-                  ),
-                  SizedBox(width: 12.w),
-                  CustomButton().refreshButton()
-                ],
-              ),
-            ]),
           ),
-          Expanded(
-            child: Container(
+          SliverToBoxAdapter(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomRichText(length: controller.ownerListDataSource.value.rows.length),
+                SizedBox(height: 20.h),
+              ],
+            ),
+          ),
+          SliverFillRemaining(
+            fillOverscroll: true,
+            child: controller.ownerListDataSource.value.rows.isEmpty ? Container(
+              width: double.infinity,
+              child: Center(
+                child: AutoSizeText('데이터가 없습니다.',
+                    style: TextStyle(
+                        color: Color(0xFF555555),
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w400)),
+              ),
+            ) :
+            Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(top: 48.h),
-                // color: Colors.blue,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomRichText(length: controller.ownerListDataSource.value.rows.length),
-                    SizedBox(height: 20.h),
-                    Expanded(
-                        child: BsnsSelectScreen().buildOwnerListDataGrid()),
-                  ],
-                )),
+                height: double.infinity,
+                child: BsnsSelectScreen().buildOwnerListDataGrid()
+            ),
           ),
         ],
       ),

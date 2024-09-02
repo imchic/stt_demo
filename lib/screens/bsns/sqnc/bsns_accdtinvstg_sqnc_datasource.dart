@@ -44,7 +44,7 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
 
       } else if(dataGridCell.columnName == 'accdtInvstgNm') {
         return Container(
-          alignment: Alignment.topLeft,
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(dataGridCell.value.toString(),
               overflow: TextOverflow.ellipsis,
@@ -63,7 +63,7 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
 
       } else if(dataGridCell.columnName == 'accdtInvstgNm') {
         return Container(
-          alignment: Alignment.topLeft,
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(dataGridCell.value.toString(),
               overflow: TextOverflow.ellipsis,
