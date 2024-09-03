@@ -1012,8 +1012,7 @@ class AccdtInvstgObstWidget {
                                                   child: InkWell(
                                                     onTap: () {
                                                       DialogUtil.showAlertDialog(
-                                                          Get
-                                                              .context!,
+                                                          Get.context!,
                                                           0,
                                                           '토지 소유자 불러오기',
                                                           widget:
@@ -1060,7 +1059,7 @@ class AccdtInvstgObstWidget {
                                     AutoSizeText(
                                       '지장물 등록 현황',
                                       style: TextStyle(
-                                          fontSize: 32.sp,
+                                          fontSize: 36.sp,
                                           fontWeight:
                                           FontWeight.w700),
                                       maxLines: 1,

@@ -413,7 +413,7 @@ class AccdtInvstgLadWidget {
                                           ),
                                           child: InkWell(
                                             onTap: () {
-                                              //controller.addBsns();
+                                              controller.addBsns();
                                             },
                                             child: SvgPicture.asset(
                                                 'assets/icons/ic_add.svg'),

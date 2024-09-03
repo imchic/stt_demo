@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ldi/components/custom_bsns_badge.dart';
-import 'package:ldi/components/custom_button.dart';
+import 'package:ldi/components/custom_microphonewithpen_button.dart';
 import 'package:ldi/screens/bsns/bsns_plan_model.dart';
 import 'package:ldi/screens/bsns/select/bsns_plan_select_area_model.dart';
 import 'package:ldi/screens/bsns/sqnc/bsns_accdtinvstg_sqnc_datasource.dart';
@@ -21,6 +21,7 @@ import 'package:ldi/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
+import '../../components/custom_button.dart';
 import '../../utils/colors.dart';
 import '../../utils/common_util.dart';
 import '../../utils/dialog_util.dart';
@@ -2019,34 +2020,81 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   void addBsns() {
     DialogUtil.showAlertDialog(Get.context!, 1040, '토지 현실이용현황 조회 및 입력',
         widget: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
                   width: 200.w,
                   height: 104.h,
-                  color: Color(0XFFE5E8ED),
-                  child: Center(
-                    child: Text(
-                      '지목선택',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 30.sp,
-                        fontWeight: FontWeight.bold,
+                  padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: Color(0xFFD8D8D8)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          child: Text(
+                            '지목선택',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF1D1D1D),
+                              fontSize: 30.sp,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                SizedBox(width: 20.w),
                 Expanded(
-                  child: CustomTextField(
-                    controller: orderController,
-                    hintText: '',
-                    isPassword: false,
-                    isReadOnly: false,
-                    onChanged: (value) {
-                      AppLog.d('orderController : $value');
-                    },
+                  child: Container(
+                    height: 104.h,
+                    padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(color: Color(0xFFD8D8D8)),
+                        bottom: BorderSide(color: Color(0xFFD8D8D8)),
+                      )
+                    ),
+                    child: Expanded(
+                      child: Row(
+                       children: [
+                         Expanded(
+                           child: CustomTextField(
+                             hintText: '내용',
+                             isPassword: false,
+                             isReadOnly: true,
+                             textColor: tableTextColor,
+                             onChanged: (value) {
+                               AppLog.d('sttusInqireBsnsSelectController : $value');
+                             },
+                             onTap: () {
+                  
+                             },
+                           ),
+                         ),
+                         SizedBox(width: 12.w),
+                         SizedBox(
+                           width: 100.w,
+                           child: CustomButton(
+                             text: '조회',
+                             textColor: tableTextColor,
+                             color: Color(0xFFE5E8ED),
+                           ),
+                         ),
+                       ],
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -2057,27 +2105,62 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                 Container(
                   width: 200.w,
                   height: 104.h,
-                  color: Color(0XFFE5E8ED),
-                  child: Center(
-                    child: Text(
-                      '면적(㎡)',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 30.sp,
-                        fontWeight: FontWeight.bold,
+                  padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: Color(0xFFD8D8D8)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          child: Text(
+                            '면적(㎡)',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF1D1D1D),
+                              fontSize: 30.sp,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
                 Expanded(
-                  child: CustomTextField(
-                    controller: orderController,
-                    hintText: '',
-                    isPassword: false,
-                    isReadOnly: false,
-                    onChanged: (value) {
-                      AppLog.d('orderController : $value');
-                    },
+                  child: Container(
+                    height: 104.h,
+                    padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: Color(0xFFD8D8D8)),
+                        )
+                    ),
+                    child: Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CustomTextField(
+                              hintText: '내용',
+                              isPassword: false,
+                              isReadOnly: true,
+                              textColor: tableTextColor,
+                              onChanged: (value) {
+                                AppLog.d('sttusInqireBsnsSelectController : $value');
+                              },
+                              onTap: () {
+
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -2087,33 +2170,69 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
               children: [
                 Container(
                   width: 200.w,
-                  height: 104.h,
-                  color: Color(0XFFE5E8ED),
-                  child: Center(
-                    child: Text(
-                      '용도지구 \n 및 지역',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 30.sp,
-                        fontWeight: FontWeight.bold,
+                  height: 122.h,
+                  padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: Color(0xFFD8D8D8)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          child: Text(
+                            '용도지구\n및 지역',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF1D1D1D),
+                              fontSize: 30.sp,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 104.h,
+                    padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: Color(0xFFD8D8D8)),
+                        )
+                    ),
+                    child: Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CustomTextField(
+                              hintText: '내용',
+                              isPassword: false,
+                              isReadOnly: true,
+                              textColor: tableTextColor,
+                              onChanged: (value) {
+                                AppLog.d('sttusInqireBsnsSelectController : $value');
+                              },
+                              onTap: () {
+
+                              },
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          CustomMicrophonewithpenButton(),
+                        ],
                       ),
                     ),
                   ),
                 ),
-                Expanded(
-                  child: CustomTextField(
-                    controller: orderController,
-                    hintText: '',
-                    isPassword: false,
-                    isReadOnly: false,
-                    onChanged: (value) {
-                      debugPrint('orderController : $value');
-                    },
-                  ),
-                ),
               ],
             ),
-            SizedBox(height: 1.h),
           ],
         ), onOk: () {
       debugPrint('토지 현실이용현황 조회 및 입력');
