@@ -542,7 +542,8 @@ class lpScreen extends GetView<LpController> {
         width: width ?? double.nan,
         columnName: columnName,
         visible: isVisble ?? true,
-        label: SizedBox(
+        label: Container(
+            color: Color(0xFFE5E8ED),
             child: Center(
                 child: AutoSizeText(label,
                     maxLines: 2,
@@ -612,6 +613,7 @@ class lpScreen extends GetView<LpController> {
       controller: controller.bsnsOrderDataGridController,
       columnWidthMode: ColumnWidthMode.fill,
       isSort: false,
+      isSelect: true,
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         if (addedRows.isEmpty) return;
@@ -639,6 +641,8 @@ class lpScreen extends GetView<LpController> {
         controller.selectSqnc.value = sqnc;
 
         controller.fetchAccdtlnvstgSearchDataSource();
+        controller.fetchAccdtlnvstgObstDataSource();
+
       }),
       columns: [
         gridColumn('bsnsNo', '사업번호', isVisble: false),
@@ -661,7 +665,7 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.ownerListDataSource.value,
       controller: controller.ownerListDataGridController,
       isSort: true,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.auto,
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         AppLog.d(
@@ -929,7 +933,7 @@ class lpScreen extends GetView<LpController> {
           var data = AccdtlnvstgLadModel(
             thingSerNo: getRow.getCells()[0].value,
             lgdongNm: getRow.getCells()[1].value,
-            lcrtsDivCd: getRow.getCells()[2].value,
+            lcrtsDivCdNm: getRow.getCells()[2].value,
             mlnoLtno: getRow.getCells()[3].value,
             slnoLtno: getRow.getCells()[4].value,
             ofcbkLndcgrDivNm: getRow.getCells()[5].value,
@@ -944,7 +948,6 @@ class lpScreen extends GetView<LpController> {
             cmpnstnStepDivNm: getRow.getCells()[14].value,
             accdtInvstgRm: getRow.getCells()[15].value,
           );
-
 
           controller.selectedOwnerLadOwnerData.value = data;
           controller.accdtlnvstgLadSearchDataSource.value = AccdtlnvstgLadDatasource(items: [data]);
@@ -1028,39 +1031,13 @@ class lpScreen extends GetView<LpController> {
       ]);
   }
 
-  /// 실태조사 -> 토지 -> 소유자
-  Widget buildAccdtlnvstgOwnerDataGrid() {
-    return CustomGrid(
-      dataSource: controller.accdtlnvstgOwnerLadDataSource.value,
-      controller: controller.accdtlnvstgLadOwnerDataGridController,
-      isSort: false,
-      columns: [
-        gridColumn('lgdongNm', '소재지'),
-        gridColumn('lcrtsDivCd', '특지'),
-        gridColumn('mlnoLtno', '본번'),
-        gridColumn('slnoLtno', '부번'),
-        gridColumn('ofcbkLndcgrDivCd', '공부'),
-        gridColumn('sttusLndcgrDivCd', '현황'),
-        gridColumn('ofcbkAra', '공부'),
-        gridColumn('incrprAra', '편입'),
-        gridColumn('cmpnstnInvstgAra', '조사'),
-        gridColumn('acqsPrpDivCd', '취득용도'),
-        gridColumn('aceptncPrpDivCd', '수용/사용'),
-        gridColumn('accdtInvstgSqnc', '조사차수'),
-        gridColumn('invstgDt', '조사일'),
-        gridColumn('cmpnstnDtaChnStatDivCd', '보상진행단계'),
-        gridColumn('etc', '비고'),
-      ],
-    );
-  }
-
   /// 실태조사 -> 토지 -> 소유자/관계인 -> 소유자 현황
   Widget buildAccdtlnvstgLadOwnerStatusDataGrid() {
     return CustomGrid(
       dataSource: controller.accdtlnvstgLadOwnerDataSource.value,
       controller: controller.accdtlnvstgLadOwnerDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.auto,
+      columnWidthMode: ColumnWidthMode.fill,
       columns: [
         gridColumn('ownerNo', '소유자번호'),
         gridColumn('ownerNm', '성명'),
@@ -1092,7 +1069,7 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.accdtlnvstgLadPartcpntDataSource.value,
       controller: controller.accdtlnvstgLadPartcpntDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.auto,
       columns: [
         gridColumn('ownerNo', '소유자번호'),
         gridColumn('partcpntNm', '관계구분'),
@@ -1112,45 +1089,61 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.accdtlnvstgObstDataSource.value,
       controller: controller.accdtlnvstgObstDataGridController,
       isSort: false,
-      stackedHeaderRows: [
-        StackedHeaderRow(cells: [
-          StackedHeaderCell(
-              columnNames: ['invstrEmpNo', 'invstrJgrdNm', 'invstrNm'],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('조사자',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: ['obsrverNm', 'accdtInvstgObsrverAddr'],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('입회자',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-        ]),
-      ],
+      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+        if (addedRows.isEmpty) return;
+
+        final index = controller.accdtlnvstgObstDataSource.value.rows.indexOf(addedRows.first);
+        var getRow = controller.accdtlnvstgObstDataSource.value.rows[index];
+
+        var thingSerNo = getRow.getCells()[0].value;
+        AppLog.d('선택된 지장물 번호: $thingSerNo');
+
+        controller.fetchAccdtlnvstgObstOwnerDataSource(thingSerNo);
+      }),
       columns: [
-        gridColumn('obstSeq', '지장물순번'),
-        gridColumn('obstDivCd', '지장물구분'),
+        gridColumn('thingSerNo', '물건일련번호'),
+        gridColumn('cmpnstnObstNo', '지장물순번'),
+        gridColumn('obstDivNm', '지장물구분'),
         gridColumn('cmpnstnThingKndDtls', '물건의종류'),
         gridColumn('obstStrctStndrdInfo', '구조 및 규격'),
         gridColumn('cmpnstnQtyAraVu', '수량(면적)'),
-        gridColumn('cmpnstnThingUnitDivCd', '단위'),
-        gridColumn('invstrEmpNo', '사번'),
-        gridColumn('invstrJgrdNm', '직급'),
-        gridColumn('invstrNm', '성명'),
-        gridColumn('obsrverNm', '성명'),
-        gridColumn('accdtInvstgObsrverAddr', '주소'),
+        gridColumn('cmpnstnThingUnitDivNm', '단위'),
+        gridColumn('lgdongNm', '주소'),
         gridColumn('acddtInvstgSqnc', '조사차수'),
         gridColumn('invstgDt', '조사일'),
         gridColumn('spcitm', '비고'),
+      ],
+    );
+  }
+
+  Widget buildAccdtlnvstgObstOwnerStatusDataGrid() {
+    return CustomGrid(
+      dataSource: controller.accdtlnvstgObstOwnerDataSource.value,
+      controller: controller.accdtlnvstgObstOwnerDataGridController,
+      isSort: false,
+      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+        if (addedRows.isEmpty) return;
+
+        final index = controller.accdtlnvstgObstOwnerDataSource.value.rows.indexOf(addedRows.first);
+        var getRow = controller.accdtlnvstgObstOwnerDataSource.value.rows[index];
+
+        var thingSerNo = getRow.getCells()[0].value;
+        AppLog.d('선택된 지장물 번호: $thingSerNo');
+
+        controller.fetchAccdtlnvstgObstOwnerDataSource(thingSerNo);
+      }),
+      columns: [
+        gridColumn('thingSerNo', '물건일련번호'),
+        gridColumn('ownerNo', '소유자번호'),
+        gridColumn('ownerNm', '성명'),
+        gridColumn('posesnDivNm', '소유구분'),
+        gridColumn('posesnShreDnmntrInfo', '지분분자'),
+        gridColumn('posesnShreNmrtrInfo', '지분분모'),
+        gridColumn('ownerRrnEnc', '등록번호'),
+        gridColumn('ownerRgsbukAddr', '주소'),
+        gridColumn('rgsbukZip', '우편번호'),
+        gridColumn('ownerTelno', '전화번호'),
+        gridColumn('ownerMbtlnum', '휴대폰'),
       ],
     );
   }

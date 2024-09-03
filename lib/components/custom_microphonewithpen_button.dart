@@ -18,8 +18,8 @@ class _CustomMicrophonewithpenButtonState extends State<CustomMicrophonewithpenB
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            width: 38.w,
-            height: 38.w,
+            width: 72.w,
+            height: 72.h,
             padding: EdgeInsets.all(4),
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
@@ -35,8 +35,8 @@ class _CustomMicrophonewithpenButtonState extends State<CustomMicrophonewithpenB
         ),
         SizedBox(width: 10.w),
         Container(
-            width: 38.w,
-            height: 38.w,
+            width: 72.w,
+            height: 72.h,
             padding: EdgeInsets.all(4),
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(

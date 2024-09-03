@@ -29,10 +29,12 @@ import '../accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_owner_datasource.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_lad_partcpnt_datasource.dart';
 import '../accdtlnvstg/datasource/accdtlnvstg_obst_datasource.dart';
+import '../accdtlnvstg/datasource/accdtlnvstg_obst_owner_datasource.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
+import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_owner_model.dart';
 import '../owner/datasource/owner_datasource.dart';
 import '../owner/datasource/model/owner_datasource_model.dart';
 import '../owner/lad/model/owner_lad_info_datasource_model.dart';
@@ -174,6 +176,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late DataGridController accdtlnvstgLadPartcpntDataGridController;
 
   late DataGridController accdtlnvstgObstDataGridController;
+  late DataGridController accdtlnvstgObstOwnerDataGridController;
+  late DataGridController accdtlnvstgObstPartcpntDataGridController;
 
   late DataGridController ladSttusInqireDataGridController;
   late DataGridController obstSttusInqireDataGridController;
@@ -220,6 +224,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   // 실태조사 > 지장물내역
   final accdtlnvstgObstDataSource = AccdtlnvstgObstDatasource(items: []).obs;
+
+  final accdtlnvstgObstOwnerDataSource = AccdtlnvstgObstOwnerDatasource(items: []).obs;
 
   // 통계정보 > 토지현황
   final ladSttusInqireDataSource = LadSttusInqireDatasource(items: []).obs;
@@ -428,6 +434,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     // 실태조사 > 지장물
     accdtlnvstgObstDataGridController = DataGridController();
+    accdtlnvstgObstOwnerDataGridController = DataGridController();
 
     // 통계정보 > 토지현황
     ladSttusInqireDataGridController = DataGridController();
@@ -973,27 +980,61 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   /// [실태조사 > 지장물 정보] 조회
   fetchAccdtlnvstgObstDataSource() async {
-    var accdtlnvstgObst = <AccdtlnvstgObstModel>[];
-    for (var i = 0; i < 10; i++) {
-      accdtlnvstgObst.add(AccdtlnvstgObstModel(
-          obstSeq: int.parse('$i'),
-          obstDivCd: '${randomObstDivCd()}',
-          cmpnstnThingKndDtls: '${randomCmpnstnThingKndDtls()}',
-          obstStrctStndrdInfo: '${randomCmpnstnThingKndDtls()}',
-          cmpnstnQtyAraVu: Random().nextInt(1000),
-          cmpnstnThingUnitDivCd: '${randomCmpnstnThingKndDtls()}',
-          invstrEmpNo: '100${Random().nextInt(100)}',
-          invstrJgrdNm: '대리',
-          invstrNm: randomName(),
-          obsrverNm: randomName(),
-          accdtInvstgObsrverAddr: '대전광역시 유성구 봉명동',
-          acddtInvstgSqnc: '$i차',
-          invstgDt: '2021-10-0$i',
-          spcitm: '특이사항'));
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgObst.do');
+
+    var param = {
+      'shAccdtInvstgSqnc': selectSqnc.value.accdtInvstgSqnc.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+      'bsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      AppLog.d('fetchAccdtlnvstgObstDataSource > data : $data');
+
+      var accdtlnvstgObst = <AccdtlnvstgObstModel>[];
+      var length = data.length;
+
+      accdtlnvstgObstDataSourceKeyValue(data, accdtlnvstgObst, length);
+
+      accdtlnvstgObstDataSource.value =
+          AccdtlnvstgObstDatasource(items: accdtlnvstgObst);
+    }
+  }
+
+  /// [실태조사 > 지장물 정보 > 그리드 선택 소유자 가져오기 ]
+  fetchAccdtlnvstgObstOwnerDataSource(shThingSerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgObstOwner.do');
+
+    var param = {
+      'shThingSerNo': shThingSerNo,
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+      'bsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+    };
+
+    AppLog.d('fetchAccdtlnvstgObstOwnerDataSource > param : $param');
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      AppLog.d('fetchAccdtlnvstgObstOwnerDataSource > data : $data');
+
+      var accdtlnvstgObstOwner = <AccdtlnvstgObstOwnerModel>[];
+      var length = data.length;
+
+      accdtlnvstgObstOwnerDataSourceKeyValue(data, accdtlnvstgObstOwner, length);
+
+      accdtlnvstgObstOwnerDataSource.value =
+          AccdtlnvstgObstOwnerDatasource(items: accdtlnvstgObstOwner);
+
+      handleAccdtlnvstgObstTabSelected(1);
     }
 
-    accdtlnvstgObstDataSource.value =
-        AccdtlnvstgObstDatasource(items: accdtlnvstgObst);
   }
 
   /// [통계정보 > 토지현황] 조회
@@ -1491,15 +1532,17 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                       ),
                     ),
                     SizedBox(width: 32.w),
-                    CustomTextField(
-                      controller: orderAutoController,
-                      hintText: orderAutoController.text,
-                      isPassword: false,
-                      isReadOnly: true,
-                      textColor: tableTextColor,
-                      onChanged: (value) {
-                        AppLog.d('orderAutoController : $value');
-                      },
+                    Expanded(
+                      child: CustomTextField(
+                        controller: orderAutoController,
+                        hintText: orderAutoController.text,
+                        isPassword: false,
+                        isReadOnly: true,
+                        textColor: tableTextColor,
+                        onChanged: (value) {
+                          AppLog.d('orderAutoController : $value');
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -1529,36 +1572,38 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                       ),
                     ),
                     SizedBox(width: 32.w),
-                    CustomTextField(
-                      controller: orderStartDtController,
-                      hintText: orderStartDtController.text,
-                      isPassword: false,
-                      isReadOnly: true,
-                      textColor: tableTextColor,
-                      onChanged: (value) {
-                        AppLog.d('orderAutoController : $value');
-                      },
-                      onTap: () {
-                        showDatePicker(
-                          context: Get.context!,
-                          initialDate: orderStartDtController.text.isEmpty
-                              ? DateTime.now()
-                              : DateTime.parse(orderStartDtController.text),
-                          firstDate: DateTime(2024),
-                          lastDate: DateTime(2034),
-                          initialDatePickerMode: DatePickerMode.day,
-                        ).then((value) {
-                          AppLog.d('start dt : $value');
-                          var year = value!.year;
-                          var month = value.month < 10
-                              ? '0${value.month}'
-                              : value.month;
-                          var day =
-                              value.day < 10 ? '0${value.day}' : value.day;
-
-                          orderStartDtController.text = '$year-$month-$day';
-                        });
-                      },
+                    Expanded(
+                      child: CustomTextField(
+                        controller: orderStartDtController,
+                        hintText: orderStartDtController.text,
+                        isPassword: false,
+                        isReadOnly: true,
+                        textColor: tableTextColor,
+                        onChanged: (value) {
+                          AppLog.d('orderAutoController : $value');
+                        },
+                        onTap: () {
+                          showDatePicker(
+                            context: Get.context!,
+                            initialDate: orderStartDtController.text.isEmpty
+                                ? DateTime.now()
+                                : DateTime.parse(orderStartDtController.text),
+                            firstDate: DateTime(2024),
+                            lastDate: DateTime(2034),
+                            initialDatePickerMode: DatePickerMode.day,
+                          ).then((value) {
+                            AppLog.d('start dt : $value');
+                            var year = value!.year;
+                            var month = value.month < 10
+                                ? '0${value.month}'
+                                : value.month;
+                            var day =
+                                value.day < 10 ? '0${value.day}' : value.day;
+                      
+                            orderStartDtController.text = '$year-$month-$day';
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -1590,36 +1635,38 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                         ),
                       ),
                       SizedBox(width: 32.w),
-                      CustomTextField(
-                        controller: orderEndDtController,
-                        hintText: orderEndDtController.text,
-                        isPassword: false,
-                        isReadOnly: true,
-                        textColor: tableTextColor,
-                        onChanged: (value) {
-                          AppLog.d('orderAutoController : $value');
-                        },
-                        onTap: () {
-                          showDatePicker(
-                            context: Get.context!,
-                            initialDate: orderEndDtController.text.isEmpty
-                                ? DateTime.now()
-                                : DateTime.parse(orderEndDtController.text),
-                            firstDate: DateTime(2024),
-                            lastDate: DateTime(2034),
-                            initialDatePickerMode: DatePickerMode.day,
-                          ).then((value) {
-                            AppLog.d('start dt : $value');
-                            var year = value!.year;
-                            var month = value.month < 10
-                                ? '0${value.month}'
-                                : value.month;
-                            var day =
-                                value.day < 10 ? '0${value.day}' : value.day;
-
-                            orderEndDtController.text = '$year-$month-$day';
-                          });
-                        },
+                      Expanded(
+                        child: CustomTextField(
+                          controller: orderEndDtController,
+                          hintText: orderEndDtController.text,
+                          isPassword: false,
+                          isReadOnly: true,
+                          textColor: tableTextColor,
+                          onChanged: (value) {
+                            AppLog.d('orderAutoController : $value');
+                          },
+                          onTap: () {
+                            showDatePicker(
+                              context: Get.context!,
+                              initialDate: orderEndDtController.text.isEmpty
+                                  ? DateTime.now()
+                                  : DateTime.parse(orderEndDtController.text),
+                              firstDate: DateTime(2024),
+                              lastDate: DateTime(2034),
+                              initialDatePickerMode: DatePickerMode.day,
+                            ).then((value) {
+                              AppLog.d('start dt : $value');
+                              var year = value!.year;
+                              var month = value.month < 10
+                                  ? '0${value.month}'
+                                  : value.month;
+                              var day =
+                                  value.day < 10 ? '0${value.day}' : value.day;
+                        
+                              orderEndDtController.text = '$year-$month-$day';
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -1991,14 +2038,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                   ),
                 ),
                 SizedBox(width: 20.w),
-                CustomTextField(
-                  controller: orderController,
-                  hintText: '',
-                  isPassword: false,
-                  isReadOnly: false,
-                  onChanged: (value) {
-                    AppLog.d('orderController : $value');
-                  },
+                Expanded(
+                  child: CustomTextField(
+                    controller: orderController,
+                    hintText: '',
+                    isPassword: false,
+                    isReadOnly: false,
+                    onChanged: (value) {
+                      AppLog.d('orderController : $value');
+                    },
+                  ),
                 ),
               ],
             ),
@@ -2020,14 +2069,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                     ),
                   ),
                 ),
-                CustomTextField(
-                  controller: orderController,
-                  hintText: '',
-                  isPassword: false,
-                  isReadOnly: false,
-                  onChanged: (value) {
-                    AppLog.d('orderController : $value');
-                  },
+                Expanded(
+                  child: CustomTextField(
+                    controller: orderController,
+                    hintText: '',
+                    isPassword: false,
+                    isReadOnly: false,
+                    onChanged: (value) {
+                      AppLog.d('orderController : $value');
+                    },
+                  ),
                 ),
               ],
             ),
@@ -2049,14 +2100,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                     ),
                   ),
                 ),
-                CustomTextField(
-                  controller: orderController,
-                  hintText: '',
-                  isPassword: false,
-                  isReadOnly: false,
-                  onChanged: (value) {
-                    debugPrint('orderController : $value');
-                  },
+                Expanded(
+                  child: CustomTextField(
+                    controller: orderController,
+                    hintText: '',
+                    isPassword: false,
+                    isReadOnly: false,
+                    onChanged: (value) {
+                      debugPrint('orderController : $value');
+                    },
+                  ),
                 ),
               ],
             ),

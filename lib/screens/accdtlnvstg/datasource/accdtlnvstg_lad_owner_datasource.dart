@@ -39,7 +39,6 @@ class AccdtlnvstgLadOwnerDatasource extends DataGridSource {
       if(dataGridCell.columnName == 'ownerRrnEnc') {
         return Container(
           alignment: Alignment.center,
-          color: Colors.white,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(CommonUtil.maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
         );
@@ -47,7 +46,6 @@ class AccdtlnvstgLadOwnerDatasource extends DataGridSource {
 
       if(dataGridCell.columnName == 'ownerTelno' || dataGridCell.columnName == 'ownerMbtlnum') {
         return Container(
-          color: Colors.white,
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(CommonUtil.phoneHyphen(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp)),
@@ -55,7 +53,6 @@ class AccdtlnvstgLadOwnerDatasource extends DataGridSource {
       }
 
       return Container(
-        color: Colors.white,
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
         child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),

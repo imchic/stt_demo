@@ -64,12 +64,14 @@ class BsnsWidget {
                                 ),
                               ),
                               SizedBox(width: 24.w),
-                              CustomTextField(
-                                controller: controller.bsnsNameSearchController,
-                                hintText: '사업명을 입력해주세요',
-                                onChanged: (value) {
-                                  controller.searchBsnsName(value);
-                                },
+                              Expanded(
+                                child: CustomTextField(
+                                  controller: controller.bsnsNameSearchController,
+                                  hintText: '사업명을 입력해주세요',
+                                  onChanged: (value) {
+                                    controller.searchBsnsName(value);
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -93,12 +95,14 @@ class BsnsWidget {
                                 ),
                               ),
                               SizedBox(width: 12.w),
-                              CustomTextField(
-                                controller: controller.bsnsNoSearchController,
-                                hintText: '사업번호를 입력해주세요',
-                                onChanged: (value) {
-                                  controller.searchBsnsName(value);
-                                },
+                              Expanded(
+                                child: CustomTextField(
+                                  controller: controller.bsnsNoSearchController,
+                                  hintText: '사업번호를 입력해주세요',
+                                  onChanged: (value) {
+                                    controller.searchBsnsName(value);
+                                  },
+                                ),
                               ),
                             ],
                           ),
