@@ -375,7 +375,6 @@ class AccdtInvstgWidget {
                                     height: 300.h,
                                     child: lpScreen()
                                         .buildLadAccdtlnvstgSearchDataGrid()),
-                                SizedBox(height: 40.h),
                                 SizedBox(
                                   width: Get.width,
                                   child: Row(
@@ -401,7 +400,7 @@ class AccdtInvstgWidget {
                                           ),
                                           child: InkWell(
                                             onTap: () {
-                                              controller.addBsns();
+                                              //controller.addBsns();
                                             },
                                             child: SvgPicture.asset(
                                                 'assets/icons/ic_add.svg'),
@@ -459,7 +458,7 @@ class AccdtInvstgWidget {
                                       ]),
                                       for (var i = 0;
                                           i <
-                                             5;
+                                             3;
                                           i++)
                                         TableRow(children: [
                                           TableCell(
@@ -470,10 +469,7 @@ class AccdtInvstgWidget {
                                               height: 72.h,
                                               child: Center(
                                                   child: Text(
-                                                      controller
-                                                          .accdtlnvstgLadDataSource
-                                                          .value
-                                                          .rows[i].toString(),
+                                                     '전',
                                                       style: TextStyle(
                                                           fontSize: 32.sp))),
                                             ),
@@ -485,10 +481,7 @@ class AccdtInvstgWidget {
                                               height: 72.h,
                                               child: Center(
                                                   child: Text(
-                                                      controller
-                                                          .accdtlnvstgLadDataSource
-                                                          .value
-                                                          .rows[i].toString(),
+                                                      '-',
                                                       style: TextStyle(
                                                           fontSize: 32.sp))),
                                             ),
@@ -500,10 +493,7 @@ class AccdtInvstgWidget {
                                               height: 72.h,
                                               child: Center(
                                                   child: Text(
-                                                      controller
-                                                          .accdtlnvstgLadDataSource
-                                                          .value
-                                                          .rows[i].toString(),
+                                                      '-',
                                                       style: TextStyle(
                                                           fontSize: 32.sp))),
                                             ),

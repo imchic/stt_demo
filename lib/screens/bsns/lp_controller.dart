@@ -1970,251 +1970,98 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   }
 
   void addBsns() {
-    DialogUtil.showAlertDialog(Get.context!, 0, '토지 현실이용현황 조회 및 입력',
-        widget: SizedBox(
-          width: 520.w,
-          height: 166.h,
-          child: Column(
-            children: [
-              Container(
-                  height: 52.h,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 100.w,
-                        height: 52.h,
-                        color: Color(0XFFE5E8ED),
-                        child: Center(
-                          child: Text(
-                            '지목선택',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+    DialogUtil.showAlertDialog(Get.context!, 1040, '토지 현실이용현황 조회 및 입력',
+        widget: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 200.w,
+                  height: 104.h,
+                  color: Color(0XFFE5E8ED),
+                  child: Center(
+                    child: Text(
+                      '지목선택',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 30.sp,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.symmetric(
-                              horizontal: BorderSide(
-                                color: Color(0XFFE5E8ED),
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 5,
-                                  child: Container(
-                                    height: 36.h,
-                                    child: CustomTextField(
-                                      controller: orderController,
-                                      hintText: '지목을 입력해주세요.',
-                                      isPassword: false,
-                                      isReadOnly: false,
-                                      onChanged: (value) {
-                                        AppLog.d('orderController : $value');
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 6.w),
-                                Expanded(
-                                  child: CustomButton(
-                                    color: Color(0XFFE5E8ED),
-                                    text: '조회',
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20.w),
+                CustomTextField(
+                  controller: orderController,
+                  hintText: '',
+                  isPassword: false,
+                  isReadOnly: false,
+                  onChanged: (value) {
+                    AppLog.d('orderController : $value');
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 1.h),
+            Row(
+              children: [
+                Container(
+                  width: 200.w,
+                  height: 104.h,
+                  color: Color(0XFFE5E8ED),
+                  child: Center(
+                    child: Text(
+                      '면적(㎡)',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 30.sp,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  )),
-              SizedBox(height: 1.h),
-              Container(
-                  height: 52.h,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 100.w,
-                        height: 52.h,
-                        color: Color(0XFFE5E8ED),
-                        child: Center(
-                          child: Text(
-                            '면적(㎡)',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                    ),
+                  ),
+                ),
+                CustomTextField(
+                  controller: orderController,
+                  hintText: '',
+                  isPassword: false,
+                  isReadOnly: false,
+                  onChanged: (value) {
+                    AppLog.d('orderController : $value');
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 1.h),
+            Row(
+              children: [
+                Container(
+                  width: 200.w,
+                  height: 104.h,
+                  color: Color(0XFFE5E8ED),
+                  child: Center(
+                    child: Text(
+                      '용도지구 \n 및 지역',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 30.sp,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            // border only bottom
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Color(0XFFE5E8ED),
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 36.h,
-                                    child: CustomTextField(
-                                      controller: orderController,
-                                      hintText: '',
-                                      isPassword: false,
-                                      isReadOnly: false,
-                                      onChanged: (value) {
-                                        AppLog.d('orderController : $value');
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )),
-              SizedBox(height: 1.h),
-              Container(
-                  height: 52.h,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 100.w,
-                        height: 52.h,
-                        color: Color(0XFFE5E8ED),
-                        child: Center(
-                          child: Text(
-                            '용도지구 \n 및 지역',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Color(0XFFE5E8ED),
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Container(
-                                    height: 36.h,
-                                    child: CustomTextField(
-                                      controller: orderController,
-                                      hintText: '',
-                                      isPassword: false,
-                                      isReadOnly: false,
-                                      onChanged: (value) {
-                                        debugPrint('orderController : $value');
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 6.w),
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          width: 38.w,
-                                          height: 38.w,
-                                          padding: EdgeInsets.all(4),
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: ShapeDecoration(
-                                            color: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  width: 1,
-                                                  color: Color(0xFFD8D8D8)),
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                          ),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/ic_microphone.svg',
-                                          )),
-                                      SizedBox(width: 10.w),
-                                      Container(
-                                          width: 38.w,
-                                          height: 38.w,
-                                          padding: EdgeInsets.all(4),
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: ShapeDecoration(
-                                            color: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  width: 1,
-                                                  color: Color(0xFFD8D8D8)),
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                          ),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/ic_pen.svg',
-                                          )),
-                                      // Container(
-                                      //   width: 36.w,
-                                      //   height: 36.h,
-                                      //   decoration: BoxDecoration(
-                                      //       color: Color(0xFFFFFFFF),
-                                      //       borderRadius: BorderRadius.circular(6.r),
-                                      //       border: Border.all(color: borderLine)
-                                      //   ),
-                                      //   child: SvgPicture.asset(
-                                      //     width: 10.w,
-                                      //     height: 10.h,
-                                      //     'assets/icons/ic_pen.svg',
-                                      //     fit: BoxFit.contain,
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )),
-              SizedBox(height: 1.h),
-            ],
-          ),
+                    ),
+                  ),
+                ),
+                CustomTextField(
+                  controller: orderController,
+                  hintText: '',
+                  isPassword: false,
+                  isReadOnly: false,
+                  onChanged: (value) {
+                    debugPrint('orderController : $value');
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 1.h),
+          ],
         ), onOk: () {
       debugPrint('토지 현실이용현황 조회 및 입력');
       isBsnsSelectFlag.value = false;

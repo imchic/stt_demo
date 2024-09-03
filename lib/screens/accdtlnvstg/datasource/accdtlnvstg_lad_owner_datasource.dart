@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -14,7 +15,7 @@ class AccdtlnvstgLadOwnerDatasource extends DataGridSource {
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'ownerNo', value: e.ownerNo),
               DataGridCell<String>(columnName: 'ownerNm', value: e.ownerNm),
-              DataGridCell<String>(columnName: 'posesnDivCd', value: e.posesnDivCd),
+              DataGridCell<String>(columnName: 'posesnDivNm', value: e.posesnDivNm),
               DataGridCell<String>(columnName: 'posesnShreDnmntrInfo', value: e.posesnShreDnmntrInfo),
               DataGridCell<String>(columnName: 'posesnShreNmrtrInfo', value: e.posesnShreNmrtrInfo),
               DataGridCell<String>(columnName: 'ownerRrnEnc', value: e.ownerRrnEnc),
@@ -38,6 +39,7 @@ class AccdtlnvstgLadOwnerDatasource extends DataGridSource {
       if(dataGridCell.columnName == 'ownerRrnEnc') {
         return Container(
           alignment: Alignment.center,
+          color: Colors.white,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(CommonUtil.maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
         );
@@ -45,6 +47,7 @@ class AccdtlnvstgLadOwnerDatasource extends DataGridSource {
 
       if(dataGridCell.columnName == 'ownerTelno' || dataGridCell.columnName == 'ownerMbtlnum') {
         return Container(
+          color: Colors.white,
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(CommonUtil.phoneHyphen(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp)),
@@ -52,6 +55,7 @@ class AccdtlnvstgLadOwnerDatasource extends DataGridSource {
       }
 
       return Container(
+        color: Colors.white,
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
         child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),

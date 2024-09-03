@@ -51,6 +51,7 @@ class AccdtlnvstgLadOwnerModel {
     this.thingSerNo,
     this.ownerNo,
     this.posesnDivCd,
+    this.posesnDivNm,
     this.posesnShreDnmntrInfo,
     this.posesnShreNmrtrInfo,
     this.realOwnerNo,
@@ -87,6 +88,7 @@ class AccdtlnvstgLadOwnerModel {
     thingSerNo = json['thingSerNo'];
     ownerNo = json['ownerNo'];
     posesnDivCd = json['posesnDivCd'];
+    posesnDivNm = json['posesnDivNm'];
     posesnShreDnmntrInfo = json['posesnShreDnmntrInfo'];
     posesnShreNmrtrInfo = json['posesnShreNmrtrInfo'];
     realOwnerNo = json['realOwnerNo'];
@@ -122,6 +124,7 @@ class AccdtlnvstgLadOwnerModel {
   String? thingSerNo;
   String? ownerNo;
   String? posesnDivCd;
+  String? posesnDivNm;
   String? posesnShreDnmntrInfo;
   String? posesnShreNmrtrInfo;
   String? realOwnerNo;
@@ -159,6 +162,7 @@ class AccdtlnvstgLadOwnerModel {
     map['thingSerNo'] = thingSerNo;
     map['ownerNo'] = ownerNo;
     map['posesnDivCd'] = posesnDivCd;
+    map['posesnDivNm'] = posesnDivNm;
     map['posesnShreDnmntrInfo'] = posesnShreDnmntrInfo;
     map['posesnShreNmrtrInfo'] = posesnShreNmrtrInfo;
     map['realOwnerNo'] = realOwnerNo;
