@@ -6,7 +6,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../screens/bsns/bsns_controller.dart';
+import '../screens/bsns/lp_controller.dart';
+import '../utils/applog.dart';
 
 /// [CustomGrid] 는 [StatefulWidget] 를 상속받아 구현한 데이터 그리드 위젯이다.
 ///
@@ -45,7 +46,7 @@ class CustomGrid extends StatefulWidget {
   });
 
   static void _selectionEvent(List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
-    debugPrint('addedRows: $addedRows');
+    AppLog.d('addedRows: $addedRows');
   }
 
   @override
@@ -91,12 +92,12 @@ class _CustomGridState extends State<CustomGrid> {
         },
         onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
           setState(() {
-            BsnsController.to.columnWidths[details.column.columnName] = details.width;
+            LpController.to.columnWidths[details.column.columnName] = details.width;
           });
           return true;
         },
         onColumnResizeEnd: (ColumnResizeEndDetails details) {
-          BsnsController.to.columnWidths[details.column.columnName] = details.width;
+          LpController.to.columnWidths[details.column.columnName] = details.width;
         },
         // onQueryRowHeight: (details) {
         //   return details.getIntrinsicRowHeight(details.rowIndex,

@@ -10,13 +10,13 @@ import 'package:ldi/utils/common_util.dart';
 import '../components/base_tabbar.dart';
 import '../components/custom_richtext.dart';
 import '../components/custom_textfield.dart';
-import '../screens/bsns/bsns_controller.dart';
-import '../screens/bsns/select/bsns_select_screen.dart';
+import '../screens/bsns/lp_controller.dart';
+import '../screens/bsns/select/lp_screen.dart';
 import '../utils/colors.dart';
 
 /// 소유자 위젯
 class OwnerWidget {
-  static buildOwnerView(BsnsController controller) {
+  static buildOwnerView(LpController controller) {
     return Container(
       color: bsnsListViewBg,
       width: Get.width,
@@ -69,7 +69,7 @@ class OwnerWidget {
   }
 
   /// 소유자관리 -> 소유자검색
-  static buildOwnerSearchContainer(BsnsController controller) {
+  static buildOwnerSearchContainer(LpController controller) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
       child: CustomScrollView(
@@ -89,7 +89,7 @@ class OwnerWidget {
                   Column(children: [
                     Row(
                       children: [
-                        BsnsSelectScreen().buildOwnerMngRadio(),
+                        lpScreen().buildOwnerMngRadio(),
                         SizedBox(width: 32.w),
                         CustomTextField(hintText: '소유자명을 입력해주세요', onChanged: (value) {}),
                         SizedBox(width: 12.w),
@@ -142,7 +142,7 @@ class OwnerWidget {
             Container(
                 width: double.infinity,
                 height: double.infinity,
-                child: BsnsSelectScreen().buildOwnerListDataGrid()
+                child: lpScreen().buildOwnerListDataGrid()
             ),
           ),
         ],
@@ -151,7 +151,7 @@ class OwnerWidget {
   }
 
   /// 소유자관리 -> 토지정보
-  static buildOwnerLandInfoContainer(BsnsController controller) {
+  static buildOwnerLandInfoContainer(LpController controller) {
     return Container(
       width: Get.width,
       padding: EdgeInsets.all(40.r),
@@ -174,14 +174,14 @@ class OwnerWidget {
               ),
             ),
           ) :
-          Expanded(child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()),
+          Expanded(child: lpScreen().buildOwnerLadInfoDataGrid()),
         ],
       ),
     );
   }
 
   /// 소유자관리 -> 지장물정보
-  static buildOwnerObstInfoContainer(BsnsController controller) {
+  static buildOwnerObstInfoContainer(LpController controller) {
     return Container(
       width: Get.width,
       padding: EdgeInsets.all(40.r),
@@ -204,14 +204,14 @@ class OwnerWidget {
               ),
             ),
           ) :
-          Expanded(child: BsnsSelectScreen().buildOwnerObstInfoDataGrid()),
+          Expanded(child: lpScreen().buildOwnerObstInfoDataGrid()),
         ],
       ),
     );
   }
 
   /// 소유자관리 -> 정보변경
-  static buildOwnerInfoChangeContainer(BsnsController controller) {
+  static buildOwnerInfoChangeContainer(LpController controller) {
     return Container(
       width: Get.width,
       padding: EdgeInsets.all(40.r),

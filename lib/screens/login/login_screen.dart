@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/components/custom_textfield.dart';
 
+import '../../utils/applog.dart';
 import '../../utils/colors.dart';
 import 'login_controller.dart';
 
@@ -141,63 +143,96 @@ class LoginScreen extends GetView<LoginController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                    child: Container(
-                                      height: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFF2287EF),
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(12),
-                                          topRight: Radius.circular(12),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '토지보상',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 32.sp,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w700,
-                                              //height: 0.05,
+                                    child: InkWell(
+                                      onTap: () {
+                                        //controller.loginType.value = LoginType.idPassword;
+                                        controller.loginType.value = '토지보상';
+                                        print(controller.loginType.value);
+                                      },
+                                      child: Obx(() =>
+                                        Container(
+                                          height: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: controller.loginType.value == '토지보상'
+                                                ? Color(0xFF2287EF)
+                                                : Color(0xFFF6F6F6),
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(12),
+                                              topRight: Radius.circular(12),
                                             ),
+                                            border: Border.all(width: 2.w, color: controller.loginType.value == '토지보상'
+                                                ? Color(0xFF2287EF)
+                                                : Color(0xFF8E8E8E)),
                                           ),
-                                        ],
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '토지보상',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: controller.loginType.value == '토지보상'
+                                                      ? Color(0xFFFFFFFF)
+                                                      : Color(0xFF1D1D1D),
+                                                  fontSize: 32.sp,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: controller.loginType.value == '토지보상'
+                                                      ? FontWeight.w700
+                                                      : FontWeight.w500,
+                                                  //height: 0.05,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                   Expanded(
-                                    child: Container(
-                                      height: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFF6F6F6),
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(12.r),
-                                          topRight: Radius.circular(12.r),
-                                        ),
-                                        border: Border.all(width: 2.w, color: Color(0xFF8E8E8E)),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '국유재산',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Color(0xFF1D1D1D),
-                                              fontSize: 32.sp,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w500,
-                                              //height: 0.05,
+                                    child: InkWell(
+                                      onTap: () {
+                                        //controller.loginType.value = LoginType.onePass;
+                                        controller.loginType.value = '국유재산';
+                                        print(controller.loginType.value);
+                                      },
+                                      child: Obx(() =>
+                                        Container(
+                                          height: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: controller.loginType.value == '국유재산'
+                                                ? Color(0xFF2287EF)
+                                                : Color(0xFFF6F6F6),
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(12.r),
+                                              topRight: Radius.circular(12.r),
                                             ),
+                                            border: Border.all(width: 2.w, color: Color(0xFF8E8E8E)),
                                           ),
-                                        ],
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '국유재산',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: controller.loginType.value == '국유재산'
+                                                      ? Color(0xFFFFFFFF)
+                                                      : Color(0xFF1D1D1D),
+                                                  fontSize: 32.sp,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: controller.loginType.value == '국유재산'
+                                                      ? FontWeight.w700
+                                                      : FontWeight.w500,
+                                                  //height: 0.05,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -303,7 +338,7 @@ class LoginScreen extends GetView<LoginController> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Container(
+                                              /*Container(
                                                 width: double.infinity,
                                                 height: 88.h,
                                                 padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
@@ -345,9 +380,15 @@ class LoginScreen extends GetView<LoginController> {
                                                     ),
                                                   ],
                                                 ),
-                                              ),
+                                              ),*/
+                                              CustomTextField(hintText: '아이디(사번)', prefixIcon: 'assets/icons/ic_account.svg', onChanged: (value) {
+                                                //controller.id.value = value;
+                                              }),
                                               SizedBox(height: 20.h),
-                                              Container(
+                                              CustomTextField(hintText: '비밀번호', prefixIcon: 'assets/icons/ic_lock.svg', isPassword: true, onChanged: (value) {
+                                                //controller.password.value = value;
+                                              }),
+                                              /*Container(
                                                 width: double.infinity,
                                                 height: 88.h,
                                                 padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
@@ -389,7 +430,7 @@ class LoginScreen extends GetView<LoginController> {
                                                     ),
                                                   ],
                                                 ),
-                                              ),
+                                              ),*/
                                             ],
                                           ),
                                         ),
@@ -713,7 +754,7 @@ class LoginScreen extends GetView<LoginController> {
             icon: Icon(Icons.clear, color: Color(0xffC6C6C6)),
             onPressed: () {
               // clear text
-              debugPrint('clear text');
+              AppLog.d('clear text');
             },
           ),
         ),
@@ -759,7 +800,7 @@ class LoginScreen extends GetView<LoginController> {
             icon: Icon(Icons.remove_red_eye, color: Color(0xffC6C6C6)),
             onPressed: () {
               // show password
-              debugPrint('show password');
+              AppLog.d('show password');
               // toggle icon
               // setState(() {
               //   _isObscure = !_isObscure;

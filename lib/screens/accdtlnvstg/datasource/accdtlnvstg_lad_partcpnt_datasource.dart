@@ -11,11 +11,12 @@ class AccdtlnvstgLadPartcpntDatasource extends DataGridSource {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'ownerNo', value: e.ownerNo),
-              DataGridCell<String>(columnName: 'ownerName', value: e.ladLdgrOwnerNm),
-              DataGridCell<String>(columnName: 'ownerType', value: e.ladLdgrPosesnDivCd),
-              DataGridCell<String>(columnName: 'ownerTypeDetail', value: e.ownerTypeDetail),
-              DataGridCell<String>(columnName: 'ownerDetail2', value: e.ownerDetail2),
-              DataGridCell<String>(columnName: 'ownerRegisterNo', value: e.ownerRegisterNo),
+              DataGridCell<String>(columnName: 'partcpntNm', value: e.partcpntNm),
+              DataGridCell<String>(columnName: 'cmpnstnPartcpntRsn', value: e.cmpnstnPartcpntRsn),
+              DataGridCell<String>(columnName: 'partcpntAddr', value: e.partcpntAddr),
+              DataGridCell<String>(columnName: 'partcpntZip', value: e.partcpntZip),
+              DataGridCell<String>(columnName: 'partcpntTelno', value: e.partcpntTelno),
+              DataGridCell<String>(columnName: 'partcpntMbtlnum', value: e.partcpntMbtlnum),
             ]))
         .toList();
   }

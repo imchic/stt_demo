@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../routes/app_route.dart';
-import '../screens/bsns/bsns_controller.dart';
+import '../screens/bsns/lp_controller.dart';
 import 'custom_bsns_badge.dart';
 import '../utils/dialog_util.dart';
 
@@ -163,7 +163,7 @@ class _BaseHeaderState extends State<BaseHeader> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Obx(() =>
-          BsnsController.to.selectBsnsPlan.value.bsnsNo == null?
+          LpController.to.selectBsnsPlan.value.bsnsNo == null?
             Container(
               width: Get.width,
               margin: EdgeInsets.only(left: 24.w),
@@ -194,13 +194,13 @@ class _BaseHeaderState extends State<BaseHeader> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivLclsNm ?? '', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
+                    CustomBsnsBadge(text: LpController.to.selectBsnsPlan.value.bsnsDivLclsNm ?? '', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
                     SizedBox(width: 6.w),
-                    CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivMclsNm ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
+                    CustomBsnsBadge(text: LpController.to.selectBsnsPlan.value.bsnsDivMclsNm ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
                     SizedBox(width: 6.w),
-                    BsnsController.to.selectBsnsPlan.value.bsnsDivSclsNm == null
+                    LpController.to.selectBsnsPlan.value.bsnsDivSclsNm == null
                         ? Container()
-                        : CustomBsnsBadge(text: BsnsController.to.selectBsnsPlan.value.bsnsDivSclsNm ?? '', bgColor: Color(0xFFE8F6F3), textColor: Color(0xFF00BFA5)),
+                        : CustomBsnsBadge(text: LpController.to.selectBsnsPlan.value.bsnsDivSclsNm ?? '', bgColor: Color(0xFFE8F6F3), textColor: Color(0xFF00BFA5)),
                   ],
                 ),
                 SizedBox(width: 20.w),
@@ -208,7 +208,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                   child: Row(
                     children: [
                       AutoSizeText(
-                        BsnsController.to.selectBsnsPlan.value.bsnsNm ?? '',
+                        LpController.to.selectBsnsPlan.value.bsnsNm ?? '',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
                           fontSize: 1.w > 1.h ? 32.sp : 52.sp,
@@ -224,7 +224,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                       ),
                       SizedBox(width: 20.w),
                       AutoSizeText(
-                        BsnsController.to.selectedBsnsSelectArea.value.bsnsZoneNm ?? '',
+                        LpController.to.selectedBsnsSelectArea.value.bsnsZoneNm ?? '',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
                           fontSize: 1.w > 1.h ? 32.sp : 52.sp,
@@ -240,7 +240,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                       ),
                       SizedBox(width: 20.w),
                       AutoSizeText(
-                        BsnsController.to.selectSqnc.value.accdtInvstgSqnc == null ? '' : '${BsnsController.to.selectSqnc.value.accdtInvstgSqnc}차',
+                        LpController.to.selectSqnc.value.accdtInvstgSqnc == null ? '' : '${LpController.to.selectSqnc.value.accdtInvstgSqnc}차',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
                           fontSize: 1.w > 1.h ? 32.sp : 52.sp,

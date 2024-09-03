@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ldi/screens/bsns/bsns_controller.dart';
+import 'package:ldi/screens/bsns/lp_controller.dart';
 import 'package:ldi/utils/dialog_util.dart';
 
+import '../utils/applog.dart';
 import '../utils/colors.dart';
 
 class BaseTabBar extends StatefulWidget {
@@ -70,12 +71,12 @@ class _BaseTabBarState extends State<BaseTabBar> {
               ),
               unselectedLabelColor: widget.unActiveColor ?? Color(0xFF555555),
               onTap: (index) {
-                debugPrint('TabBar index: $index');
-                if(widget.controller == BsnsController.to.bsnsOwnerTabController){
+                AppLog.d('TabBar index: $index');
+                if(widget.controller == LpController.to.bsnsOwnerTabController){
                   if(index > 0){
-                    if(BsnsController.to.ownerLadInfoDataSource.value.rows.isEmpty){
+                    if(LpController.to.ownerLadInfoDataSource.value.rows.isEmpty){
                       DialogUtil.showSnackBar(context, '소유자관리', '소유자 정보가 없습니다.');
-                      BsnsController.to.bsnsOwnerTabController.index = 0;
+                      LpController.to.bsnsOwnerTabController.index = 0;
                       return;
                     }
                   }

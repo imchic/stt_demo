@@ -10,6 +10,8 @@ class LoginController extends GetxController
 
   final loginTypeTabItems = [Tab(text: '토지보상'), Tab(text: '국유재산')];
 
+  final loginType = '토지보상'.obs;
+
   late TabController loginTypeTabController;
   RxBool isAutoLogin = false.obs;
 
@@ -21,7 +23,7 @@ class LoginController extends GetxController
 
 
   void login() {
-    Get.offAllNamed(AppRoute.bsnsSelect);
+    Get.offAllNamed(AppRoute.lp);
   }
 
 }

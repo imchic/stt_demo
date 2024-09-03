@@ -10,14 +10,14 @@ import '../components/base_tabbar.dart';
 import '../components/convert_datetime_text.dart';
 import '../components/custom_bsns_badge.dart';
 import '../components/custom_textfield.dart';
-import '../screens/bsns/bsns_controller.dart';
-import '../screens/bsns/select/bsns_select_screen.dart';
+import '../screens/bsns/lp_controller.dart';
+import '../screens/bsns/select/lp_screen.dart';
 import '../utils/colors.dart';
 import '../utils/dialog_util.dart';
 
 /// 사업선택 화면 위젯
 class BsnsWidget {
-  static buildBsnsListItem(BsnsController controller) {
+  static buildBsnsListItem(LpController controller) {
     return Container(
       color: bsnsListViewBg,
       width: Get.width,
@@ -106,7 +106,7 @@ class BsnsWidget {
                       ],
                     ),
                     1.w > 1.h ? SizedBox(height: 32.h) : SizedBox(height: 0.h),
-                    BsnsSelectScreen().buildBsnsRadio(),
+                    lpScreen().buildBsnsRadio(),
                   ],
                 ),
               ),
@@ -324,7 +324,7 @@ class BsnsWidget {
                                           ),
                                         ),
                                         SizedBox(height: 16.h),
-                                        BsnsSelectScreen().buildTable(),
+                                        lpScreen().buildTable(),
                                         SizedBox(height: 32.h),
                                         SizedBox(
                                           width: double.infinity,
@@ -513,7 +513,7 @@ class BsnsWidget {
   }
 
   /// 사업목록 화면 위젯
-  static Widget buildBsnsListView(BsnsController controller) {
+  static Widget buildBsnsListView(LpController controller) {
     return Container(
       color: bsnsListViewBg,
       width: Get.width,
@@ -559,7 +559,7 @@ class BsnsWidget {
   }
 
   /// 사업구역 선택 화면 위젯
-  static Widget buildBsnsSelectZoneContainer(BsnsController controller) {
+  static Widget buildBsnsSelectZoneContainer(LpController controller) {
     return Expanded(
       child: Container(
           color: bsnsListViewBg,
@@ -588,14 +588,14 @@ class BsnsWidget {
               SizedBox(height: 10.h),
               Divider(color: borderLine),
               Expanded(
-                  child: BsnsSelectScreen().buildBsnsSelectAreaListDataGrid()),
+                  child: lpScreen().buildBsnsSelectAreaListDataGrid()),
             ],
           )),
     );
   }
 
   /// 조사차수 선택 화면 위젯
-  static Widget buildBsnsSelectSqncContainer(BsnsController controller) {
+  static Widget buildBsnsSelectSqncContainer(LpController controller) {
     return Expanded(
       child: Container(
           color: bsnsListViewBg,
@@ -626,7 +626,7 @@ class BsnsWidget {
               SizedBox(height: 10.h),
               Divider(color: borderLine),
               SizedBox(height: 10.h),
-              Expanded(child: BsnsSelectScreen().buildBsnsSqncDataGrid()),
+              Expanded(child: lpScreen().buildBsnsSqncDataGrid()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

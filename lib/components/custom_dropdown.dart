@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/applog.dart';
+
 class CustomDropDownWidget extends StatefulWidget {
 
   String title;
@@ -28,7 +30,7 @@ class _CustomDropDownWidgetState extends State<CustomDropDownWidget> {
         SizedBox(height: 10),
         GestureDetector(
           onTap: () {
-            debugPrint('show dropdown');
+            AppLog.d('show dropdown');
             // expand dropdown
             setState(() {
               widget.onSelected(widget.selectedIndex);

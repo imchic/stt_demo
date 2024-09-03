@@ -6,15 +6,15 @@ import 'package:ldi/components/custom_button.dart';
 import 'package:ldi/components/custom_chip.dart';
 import 'package:ldi/components/custom_tab.dart';
 import 'package:ldi/components/custom_textfield.dart';
-import 'package:ldi/screens/bsns/select/bsns_select_screen.dart';
+import 'package:ldi/screens/bsns/select/lp_screen.dart';
 import 'package:ldi/utils/colors.dart';
 
-import '../screens/bsns/bsns_controller.dart';
+import '../screens/bsns/lp_controller.dart';
 
 /// 고객카드 위젯
 
 class CustomerCardWidget {
-  static Widget buildCustomerCard(BsnsController controller) {
+  static Widget buildCustomerCard(LpController controller) {
     return Container(
       color: bsnsListViewBg,
       width: Get.width,
@@ -166,7 +166,7 @@ class CustomerCardWidget {
             SizedBox(height: 20.h),
             SizedBox(
                 height: 350.h,
-                child: BsnsSelectScreen().buildOwnerListDataGrid()),
+                child: lpScreen().buildOwnerListDataGrid()),
             SizedBox(height: 64.h),
             Row(
               children: [
@@ -214,7 +214,7 @@ class CustomerCardWidget {
                     )
                   : SizedBox(
                       height: 350.h,
-                      child: BsnsSelectScreen().buildOwnerLadInfoDataGrid()),
+                      child: lpScreen().buildOwnerLadInfoDataGrid()),
             ),
             Visibility(
               visible: controller.customerCardTabIsSelected[1],
@@ -242,7 +242,7 @@ class CustomerCardWidget {
                     )
                   : SizedBox(
                       height: 350.h,
-                      child: BsnsSelectScreen().buildOwnerObstInfoDataGrid()),
+                      child: lpScreen().buildOwnerObstInfoDataGrid()),
             ),
             SizedBox(height: 44.h),
             Row(

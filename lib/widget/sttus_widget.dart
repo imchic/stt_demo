@@ -8,13 +8,13 @@ import 'package:ldi/components/custom_sliver_persistent_headerdelegate.dart';
 import '../components/base_tabbar.dart';
 import '../components/custom_richtext.dart';
 import '../components/custom_textfield.dart';
-import '../screens/bsns/bsns_controller.dart';
-import '../screens/bsns/select/bsns_select_screen.dart';
+import '../screens/bsns/lp_controller.dart';
+import '../screens/bsns/select/lp_screen.dart';
 import '../utils/colors.dart';
 import '../components/custom_button.dart';
 
 class SttusWidget {
-  static buildSttusView(BsnsController controller) {
+  static buildSttusView(LpController controller) {
     return Container(
       color: bsnsListViewBg,
       width: Get.width,
@@ -283,7 +283,7 @@ class SttusWidget {
                                               fontWeight: FontWeight.w400)),
                                     ),
                                   )
-                                : Obx(() => BsnsSelectScreen()
+                                : Obx(() => lpScreen()
                                 .buildLadSttusInqireDataGrid(
                                 controller.ladSttusInqireColumns)),
                       ),
@@ -566,7 +566,7 @@ class SttusWidget {
                                       fontWeight: FontWeight.w400)),
                             ),
                           )
-                              : Obx(() => BsnsSelectScreen()
+                              : Obx(() => lpScreen()
                               .buildObstSttusInqireDataGrid(
                               controller.obstSttusInqireColumns)),
                         ),
@@ -580,7 +580,7 @@ class SttusWidget {
     );
   }
 
-  static buildLadSttusSearchContainer(BsnsController controller) {
+  static buildLadSttusSearchContainer(LpController controller) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1177,7 +1177,7 @@ class SttusWidget {
     );
   }
 
-  static buildObstSttusSearchContainer(BsnsController controller) {
+  static buildObstSttusSearchContainer(LpController controller) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

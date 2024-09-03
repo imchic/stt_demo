@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
   final bool isPassword;
   final bool isReadOnly;
   final bool isDateTime;
+  final String prefixIcon;
   final Null Function(dynamic value) onChanged;
   Null Function()? onTap;
 
@@ -24,6 +25,7 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     required this.hintText,
     this.isDateTime = false,
+    this.prefixIcon = '',
     this.isPassword = false,
     this.isReadOnly = false, required
     this.onChanged,
@@ -59,10 +61,11 @@ class CustomTextField extends StatelessWidget {
             suffixStyle: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
             suffixIconColor: Color(0xff8E8E8E),
             suffixIcon: isDateTime ? SvgPicture.asset('assets/icons/ic_calendar.svg', height: 32.h, width: 32.w) : null,
+            prefixIcon: prefixIcon.isNotEmpty ? SvgPicture.asset(prefixIcon, height: 24.h, width: 24.w) : null,
           ),
           // contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 4.h),
           onChanged: (value) {
-            //debugPrint(value);
+            //AppLog.d(value);
             onChanged(value);
           },
           onTap: () {

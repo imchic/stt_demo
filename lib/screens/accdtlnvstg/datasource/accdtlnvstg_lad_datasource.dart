@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ldi/utils/common_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'model/accdtlnvstg_lad_model.dart';
@@ -12,23 +13,22 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
   AccdtlnvstgLadDatasource({required List<AccdtlnvstgLadModel> items}) {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell<String>(columnName: 'col1', value: e.col1),
-              DataGridCell<String>(columnName: 'col2', value: e.col2),
-              DataGridCell<String>(columnName: 'col3', value: e.col3),
-              DataGridCell<String>(columnName: 'col4', value: e.col4),
-              DataGridCell<String>(columnName: 'col5', value: e.col5),
-              DataGridCell<String>(columnName: 'col6', value: e.col6),
-              DataGridCell<String>(columnName: 'col7', value: e.col7),
-              DataGridCell<String>(columnName: 'col8', value: e.col8),
-              DataGridCell<String>(columnName: 'col9', value: e.col9),
-              DataGridCell<String>(columnName: 'col10', value: e.col10),
-              DataGridCell<String>(columnName: 'col11', value: e.col11),
-              DataGridCell<String>(columnName: 'col12', value: e.col12),
-              DataGridCell<String>(columnName: 'col13', value: e.col13),
-              DataGridCell<String>(columnName: 'col14', value: e.col14),
-              DataGridCell<String>(columnName: 'col15', value: e.col15),
-              DataGridCell<String>(columnName: 'col16', value: e.col16),
-              DataGridCell<String>(columnName: 'col17', value: e.col17),
+              DataGridCell<String>(columnName: 'thingSerNo', value: e.thingSerNo),
+              DataGridCell<String>(columnName: 'lgdongNm', value: e.lgdongNm),
+              DataGridCell<String>(columnName: 'lcrtsDivNm', value: e.lcrtsDivCdNm),
+              DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno),
+              DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno),
+              DataGridCell<String>(columnName: 'ofcbkLndcgrDivNm', value: e.ofcbkLndcgrDivNm),
+              DataGridCell<String>(columnName: 'sttusLndcgrDivNm', value: e.sttusLndcgrDivNm),
+              DataGridCell<String>(columnName: 'ofcbkAra', value: e.ofcbkAra.toString()),
+              DataGridCell<String>(columnName: 'incrprAra', value: e.incrprAra.toString()),
+              DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: e.cmpnstnInvstgAra.toString()),
+              DataGridCell<String>(columnName: 'acqsPrpDivNm', value: e.acqsPrpDivNm),
+              DataGridCell<String>(columnName: 'aceptncUseDivNm', value: e.aceptncUseDivNm),
+              DataGridCell<String>(columnName: 'accdtInvstgSqnc', value: e.accdtInvstgSqnc.toString()),
+              DataGridCell<String>(columnName: 'invstgDt', value: e.invstgDt.toString()),
+              DataGridCell<String>(columnName: 'cmpnstnStepDivNm', value: e.cmpnstnStepDivNm.toString()),
+              DataGridCell<String>(columnName: 'accdtInvstgRm', value: e.accdtInvstgRm.toString()),
             ]))
         .toList();
   }
@@ -41,6 +41,15 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(color: Colors.white, cells: row.getCells().map<Widget>((dataGridCell) {
+
+      if (dataGridCell.columnName == 'invstgDt') {
+        return Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: Center(child: AutoSizeText(CommonUtil.convertToDateTime(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp))),
+        );
+      }
+      
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),

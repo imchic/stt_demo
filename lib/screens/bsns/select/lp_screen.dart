@@ -4,6 +4,8 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/screens/accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
+import 'package:ldi/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
 import 'package:ldi/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -19,17 +21,17 @@ import '../../../widget/customercard_widget.dart';
 import '../../../widget/owner_widget.dart';
 import '../../../widget/sttus_widget.dart';
 import '../../owner/lad/model/owner_lad_info_datasource_model.dart';
-import '../bsns_controller.dart';
+import '../lp_controller.dart';
 import '../sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
 import 'bsns_plan_select_area_model.dart';
 
-/// [BsnsSelectScreen] 사업선택 화면
-class BsnsSelectScreen extends GetView<BsnsController> {
-  const BsnsSelectScreen({super.key});
+/// [lpScreen] 사업선택 화면
+class lpScreen extends GetView<LpController> {
+  const lpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(BsnsController());
+    Get.put(LpController());
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -222,7 +224,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
             mapType: NMapType.hybrid,
           ),
           onMapReady: (controller) {
-            debugPrint("네이버 맵 로딩됨!");
+            AppLog.d("네이버 맵 로딩됨!");
           },
         ),
       ),
@@ -580,11 +582,11 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         var bsnsAra = getRow.getCells()[3].value;
         var bsnsReadngPblancDe = getRow.getCells()[4].value;
 
-        debugPrint(
+        AppLog.d(
             '사업구역 선택: $bsnsNo, $bsnsZoneNo, $bsnsZoneNm, $lotCnt, $bsnsAra, $bsnsReadngPblancDe');
 
-        debugPrint('선택된 사업번호: ${controller.selectBsnsPlan.value.bsnsNo}');
-        debugPrint('선택된 사업구역번호: $bsnsZoneNo');
+        AppLog.d('선택된 사업번호: ${controller.selectBsnsPlan.value.bsnsNo}');
+        AppLog.d('선택된 사업구역번호: $bsnsZoneNo');
 
         controller.selectedBsnsSelectArea.value = BsnsPlanSelectAreaModel(
           bsnsNo: num.parse(bsnsNo.toString()),
@@ -609,12 +611,13 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
       columnWidthMode: ColumnWidthMode.fill,
-      //isSelect: false,
       isSort: false,
-      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+      selectionEvent:
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         if (addedRows.isEmpty) return;
 
-        final index = controller.bsnsAccdtinvstgSqncDataSource.value.rows.indexOf(addedRows.first);
+        final index = controller.bsnsAccdtinvstgSqncDataSource.value.rows
+            .indexOf(addedRows.first);
         var getRow = controller.bsnsAccdtinvstgSqncDataSource.value.rows[index];
 
         var accdtInvstgSqnc = getRow.getCells()[2].value;
@@ -635,23 +638,9 @@ class BsnsSelectScreen extends GetView<BsnsController> {
 
         controller.selectSqnc.value = sqnc;
 
-        // controller.selectedBsnsSelectArea.value.accdtInvstgSqnc = accdtInvstgSqnc;
-        // controller.selectedBsnsSelectArea.value.accdtInvstgNm = accdtInvstgNm;
-        //
-        // controller.isBsnsSqncSelectFlag.value = true;
+        controller.fetchAccdtlnvstgSearchDataSource();
       }),
       columns: [
-        // gridColumn('bsnsNo', '사업번호', isVisble: false),
-        // gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
-        // gridColumn('accdtInvstgSqnc', '조사차수', width: 60),
-        // gridColumn('accdtInvstgNm', '조사명', width: 300),
-        // gridColumn('delYn', '삭제여부', isVisble: false),
-        // gridColumn('frstRgstrId', '최초등록자', width: 60),
-        // gridColumn('frstRegistDt', '등록일', width: 80),
-        // gridColumn('lastUpdusrId', '최종수정자', width: 60),
-        // gridColumn('lastUpdtDt', '수정일', width: 80),
-        // gridColumn('conectIp', '접속IP', isVisble: false),
-
         gridColumn('bsnsNo', '사업번호', isVisble: false),
         gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
         gridColumn('accdtInvstgSqnc', '차수', width: 60),
@@ -675,7 +664,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       columnWidthMode: ColumnWidthMode.fill,
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
-        debugPrint(
+        AppLog.d(
             'buildBsnsOwnerDataGrid> 선택된 소유자번호 > ${addedRows.first.getCells()[0].value}');
         var ownerNum = addedRows.first.getCells()[0].value;
 
@@ -842,27 +831,6 @@ class BsnsSelectScreen extends GetView<BsnsController> {
         final index = controller.ownerObstInfoDataSource.value.rows
             .indexOf(addedRows.first);
         var getRow = controller.ownerObstInfoDataSource.value.rows[index];
-
-        // var data = OwnerObstInfoDatasourceModel(
-        //   lgdongNm: getRow.getCells()[0].value,
-        //   lcrtsDivCd: getRow.getCells()[1].value,
-        //   mlnoLtno: getRow.getCells()[2].value,
-        //   slnoLtno: getRow.getCells()[3].value,
-        //   ofcbkLndcgrDivCd: getRow.getCells()[4].value,
-        //   sttusLndcgrDivCd: getRow.getCells()[5].value,
-        //   ofcbkAra: getRow.getCells()[6].value,
-        //   incrprAra: getRow.getCells()[7].value,
-        //   cmpnstnInvstgAra: getRow.getCells()[8].value,
-        //   acqsPrpDivCd: getRow.getCells()[9].value,
-        //   aceptncUseDivCd: getRow.getCells()[10].value,
-        //   accdtInvstgSqnc: num.parse(getRow.getCells()[11].value),
-        //   invstgDt: getRow.getCells()[12].value,
-        //   cmpnstnStepDivCd: getRow.getCells()[13].value,
-        //   cmpnstnDtaChnStatDivCd: getRow.getCells()[13].value,
-        //   accdtInvstgRm: getRow.getCells()[14].value,
-        // );
-        //
-        // print('선택된 토지 정보: ${data.toJson()}');
       }),
       columns: [
         gridColumn('lgdongNm', '소재지', width: 200),
@@ -885,67 +853,179 @@ class BsnsSelectScreen extends GetView<BsnsController> {
   }
 
   // 실태조사 -> 토지 -> 토지보상 대상 기준 정보
-  Widget buildAccdtlnvstgDataGrid() {
+  Widget buildLadAccdtlnvstgDataGrid() {
     return CustomGrid(
-      dataSource: controller.accdtlnvstgLadDataSource.value,
-      controller: controller.accdtlnvstgLadDataGridController,
-      isSort: false,
-      columnWidthMode: ColumnWidthMode.fitByColumnName,
-      freezeColumnCount: 6,
-      stackedHeaderRows: [
-        StackedHeaderRow(cells: [
-          StackedHeaderCell(
-              columnNames: ['col1', 'col2', 'col3', 'col4', 'col5', 'col6'],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('토지보상 대상 기준 정보',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: ['col7', 'col8'],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('지목',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: ['col9', 'col10'],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('면적(㎡)',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-        ]),
-      ],
+        dataSource: controller.accdtlnvstgLadDataSource.value,
+        controller: controller.accdtlnvstgLadDataGridController,
+        isSort: false,
+        columnWidthMode: ColumnWidthMode.auto,
+        freezeColumnCount: 5,
+        stackedHeaderRows: [
+          StackedHeaderRow(cells: [
+            StackedHeaderCell(
+                columnNames: [
+                  'thingSerNo',
+                  'lgdongNm',
+                  'lcrtsDivCdNm',
+                  'mlnoLtno',
+                  'slnoLtno'
+                ],
+                child: Container(
+                    alignment: Alignment.center,
+                    child: AutoSizeText('토지보상 대상 기준 정보',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D),
+                        )))),
+            StackedHeaderCell(
+                columnNames: ['ofcbkLndcgrDivNm', 'sttusLndcgrDivNm'],
+                child: Container(
+                    alignment: Alignment.center,
+                    child: AutoSizeText('지목',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D),
+                        )))),
+            StackedHeaderCell(
+                columnNames: ['ofcbkAra', 'incrprAra', 'cmpnstnInvstgAra'],
+                child: Container(
+                    alignment: Alignment.center,
+                    child: AutoSizeText('면적(㎡)',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D),
+                        )))),
+          ]),
+        ],
+        columns: [
+          gridColumn('thingSerNo', '물건일련번호', isVisble: false),
+          gridColumn('lgdongNm', '소재지'),
+          gridColumn('lcrtsDivCdNm', '특지', width: 40),
+          gridColumn('mlnoLtno', '본번', width: 50),
+          gridColumn('slnoLtno', '부번', width: 50),
+          gridColumn('ofcbkLndcgrDivNm', '공부', width: 60),
+          gridColumn('sttusLndcgrDivNm', '현황', width: 60),
+          gridColumn('ofcbkAra', '공부', width: 60),
+          gridColumn('incrprAra', '편입', width: 60),
+          gridColumn('cmpnstnInvstgAra', '조사', width: 60),
+          gridColumn('acqsPrpDivNm', '취득용도', width: 80),
+          gridColumn('aceptncUseDivNm', '수용/사용', width: 60),
+          gridColumn('accdtInvstgSqnc', '조사차수', width: 50),
+          gridColumn('invstgDt', '조사일', width: 90),
+          gridColumn('cmpnstnStepDivNm', '보상진행단계', width: 90),
+          gridColumn('accdtInvstgRm', '비고', width: 90),
+        ],
+        selectionEvent:
+            ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+          if (addedRows.isEmpty) return;
+
+          final index = controller.accdtlnvstgLadDataSource.value.rows
+              .indexOf(addedRows.first);
+          var getRow = controller.accdtlnvstgLadDataSource.value.rows[index];
+
+          var data = AccdtlnvstgLadModel(
+            thingSerNo: getRow.getCells()[0].value,
+            lgdongNm: getRow.getCells()[1].value,
+            lcrtsDivCd: getRow.getCells()[2].value,
+            mlnoLtno: getRow.getCells()[3].value,
+            slnoLtno: getRow.getCells()[4].value,
+            ofcbkLndcgrDivCd: getRow.getCells()[5].value,
+            sttusLndcgrDivCd: getRow.getCells()[6].value,
+            ofcbkAra: num.parse(getRow.getCells()[7].value),
+            incrprAra: num.parse(getRow.getCells()[8].value),
+            cmpnstnInvstgAra: num.parse(getRow.getCells()[9].value),
+            acqsPrpDivNm: getRow.getCells()[10].value,
+            aceptncUseDivNm: getRow.getCells()[11].value,
+            accdtInvstgSqnc: num.parse(getRow.getCells()[12].value),
+            invstgDt: getRow.getCells()[13].value,
+            cmpnstnStepDivNm: getRow.getCells()[14].value,
+            accdtInvstgRm: getRow.getCells()[15].value,
+          );
+
+
+          controller.selectedOwnerLadOwnerData.value = data;
+          controller.accdtlnvstgLadSearchDataSource.value = AccdtlnvstgLadDatasource(items: [data]);
+
+          AppLog.i('buildLadAccdtlnvstgDataGrid > 선택된 토지 정보: ${data.toJson()}');
+
+          controller.handleAccdtlnvstgLadTabSelected(1);
+
+          if(controller.accdtlnvstgTabLadSelected[1] == true) {
+            controller.fetchAccdtlnvstgLadOwnerDataSource(data.thingSerNo);
+          }
+
+        }));
+  }
+
+  // 실태조사 -> 토지 -> 토지 검색 결과
+  Widget buildLadAccdtlnvstgSearchDataGrid() {
+    return CustomGrid(
+      dataSource: controller.accdtlnvstgLadSearchDataSource.value,
+      controller: controller.accdtlnvstgLadDataSearchGridController,
+        isSort: false,
+        columnWidthMode: ColumnWidthMode.auto,
+        freezeColumnCount: 5,
+        stackedHeaderRows: [
+          StackedHeaderRow(cells: [
+            StackedHeaderCell(
+                columnNames: [
+                  'thingSerNo',
+                  'lgdongNm',
+                  'lcrtsDivCdNm',
+                  'mlnoLtno',
+                  'slnoLtno'
+                ],
+                child: Container(
+                    alignment: Alignment.center,
+                    child: AutoSizeText('토지보상 대상 기준 정보',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D),
+                        )))),
+            StackedHeaderCell(
+                columnNames: ['ofcbkLndcgrDivNm', 'sttusLndcgrDivNm'],
+                child: Container(
+                    alignment: Alignment.center,
+                    child: AutoSizeText('지목',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D),
+                        )))),
+            StackedHeaderCell(
+                columnNames: ['ofcbkAra', 'incrprAra', 'cmpnstnInvstgAra'],
+                child: Container(
+                    alignment: Alignment.center,
+                    child: AutoSizeText('면적(㎡)',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D),
+                        )))),
+          ]),
+        ],
       columns: [
-        gridColumn('col1', '건축물대장\n내용확인'),
-        gridColumn('col2', '건축물개수'),
-        gridColumn('col3', '소재지'),
-        gridColumn('col4', '특지'),
-        gridColumn('col5', '본번'),
-        gridColumn('col6', '부번'),
-        gridColumn('col7', '공부'),
-        gridColumn('col8', '현황'),
-        gridColumn('col9', '공부'),
-        gridColumn('col10', '편입'),
-        gridColumn('col11', '조사'),
-        gridColumn('col12', '취득용도'),
-        gridColumn('col13', '수용/사용'),
-        gridColumn('col14', '조사차수'),
-        gridColumn('col15', '조사일'),
-        gridColumn('col16', '보상진행단계'),
-        gridColumn('col17', '비고'),
-      ],
-    );
+        gridColumn('thingSerNo', '물건일련번호', isVisble: false),
+        gridColumn('lgdongNm', '소재지'),
+        gridColumn('lcrtsDivCdNm', '특지', width: 40),
+        gridColumn('mlnoLtno', '본번', width: 50),
+        gridColumn('slnoLtno', '부번', width: 50),
+        gridColumn('ofcbkLndcgrDivNm', '공부', width: 60),
+        gridColumn('sttusLndcgrDivNm', '현황', width: 60),
+        gridColumn('ofcbkAra', '공부', width: 60),
+        gridColumn('incrprAra', '편입', width: 60),
+        gridColumn('cmpnstnInvstgAra', '조사', width: 60),
+        gridColumn('acqsPrpDivNm', '취득용도', width: 80),
+        gridColumn('aceptncUseDivNm', '수용/사용', width: 60),
+        gridColumn('accdtInvstgSqnc', '조사차수', width: 50),
+        gridColumn('invstgDt', '조사일', width: 90),
+        gridColumn('cmpnstnStepDivNm', '보상진행단계', width: 90),
+        gridColumn('accdtInvstgRm', '비고', width: 90),
+      ]);
   }
 
   /// 실태조사 -> 토지 -> 소유자
@@ -983,12 +1063,26 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       columnWidthMode: ColumnWidthMode.fill,
       columns: [
         gridColumn('ownerNo', '소유자번호'),
-        gridColumn('ladLdgrOwnerNm', '소유자명'),
-        gridColumn('ladLdgrPosesnDivCd', '소유자구분'),
-        gridColumn('ownerTypeDetail', '지분분자'),
-        gridColumn('ownerDetail2', '지분분모'),
-        gridColumn('ownerRegisterNo', '등록번호'),
+        gridColumn('ownerNm', '성명'),
+        gridColumn('posesnDivCd', '소유구분'),
+        gridColumn('posesnShreDnmntrInfo', '지분분자'),
+        gridColumn('posesnShreNmrtrInfo', '지분분모'),
+        gridColumn('ownerRrnEnc', '등록번호'),
+        gridColumn('ownerRgsbukAddr', '주소'),
+        gridColumn('rgsbukZip', '우편번호'),
+        gridColumn('ownerTelno', '전화번호'),
+        gridColumn('ownerMbtlnum', '휴대폰'),
       ],
+      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+        if (addedRows.isEmpty) return;
+
+        final index = controller.accdtlnvstgLadOwnerDataSource.value.rows.indexOf(addedRows.first);
+        var getRow = controller.accdtlnvstgLadOwnerDataSource.value.rows[index];
+
+        var ownerNo = getRow.getCells()[0].value;
+
+        controller.fetchAccdtlnvstgLadPartcpntStatusDataSource(ownerNo);
+      }),
     );
   }
 
@@ -1001,11 +1095,12 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       columnWidthMode: ColumnWidthMode.fill,
       columns: [
         gridColumn('ownerNo', '소유자번호'),
-        gridColumn('ownerName', '관계구분'),
-        gridColumn('ownerType', '성명'),
-        gridColumn('ownerTypeDetail', '주소'),
-        gridColumn('ownerDetail2', '우편번호'),
-        gridColumn('ownerRegisterNo', '전화번호'),
+        gridColumn('partcpntNm', '관계구분'),
+        gridColumn('cmpnstnPartcpntRsn', '성명'),
+        gridColumn('partcpntAddr', '주소'),
+        gridColumn('partcpntZip', '우편번호'),
+        gridColumn('partcpntTelno', '전화번호'),
+        gridColumn('partcpntMbtlnum', '전화번호'),
       ],
     );
   }
@@ -1252,7 +1347,7 @@ class BsnsSelectScreen extends GetView<BsnsController> {
       dataSource: controller.obstSttusInqireDataSource.value,
       controller: controller.obstSttusInqireDataGridController,
       columnWidthMode: ColumnWidthMode.auto,
-      isSort: false,
+      isSort: true,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [

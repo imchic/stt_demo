@@ -189,6 +189,17 @@ class LadSttusInqireDatasource extends DataGridSource {
             );
           }
 
+          if(dataGridCell.columnName == 'ownerRgsbukAddr'){
+            return Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(8.0),
+              child: AutoSizeText(
+                  dataGridCell.value.toString(),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 30.sp)),
+            );
+          }
+
           return Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(8.0),
