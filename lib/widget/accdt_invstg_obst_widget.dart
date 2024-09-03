@@ -195,46 +195,49 @@ class AccdtInvstgObstWidget {
                                                         SizedBox(
                                                           width: 12.w,
                                                         ),
-                                                        CustomButton(
-                                                          color: Color(0XFFE5E8ED),
-                                                          text: '조회',
-                                                          textColor: Color(0xFF1D1D1D),
-                                                          onPressed: () {
-                                                            DialogUtil.showBottomSheet(
-                                                                Get.context!,
-                                                                '취득용도를 선택해주세요',
-                                                                Container(
-                                                                  padding: EdgeInsets.all(20.r),
-                                                                  child: Column(
-                                                                    mainAxisSize: MainAxisSize.min,
-                                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      SingleChildScrollView(
-                                                                        child: ListView.builder(
-                                                                          shrinkWrap: true,
-                                                                          physics: NeverScrollableScrollPhysics(),
-                                                                          itemCount: controller.accdtlnvstgAcqstnPrpsList.length,
-                                                                          itemBuilder: (context, index) {
-                                                                            return ListTile(
-                                                                              title: AutoSizeText(controller.accdtlnvstgAcqstnPrpsList[index],
-                                                                                  style: TextStyle(
-                                                                                    color: tableTextColor,
-                                                                                    fontSize: 1.w > 1.h ? 32.sp : 52.sp,
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                  )),
-                                                                              onTap: () {
-                                                                                controller.accdtlnvstgAcqstnPrpsController.text = controller.accdtlnvstgAcqstnPrpsList[index];
-                                                                                Get.back();
-                                                                              },
-                                                                            );
-                                                                          },
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ));
-                                                          },
+                                                        SizedBox(
+                                                          width: 52.w,
+                                                          child: CustomButton(
+                                                            color: Color(0XFFE5E8ED),
+                                                            text: '조회',
+                                                            textColor: Color(0xFF1D1D1D),
+                                                            onPressed: () {
+                                                              DialogUtil.showBottomSheet(
+                                                                  Get.context!,
+                                                                  '취득용도를 선택해주세요',
+                                                                  Container(
+                                                                    padding: EdgeInsets.all(20.r),
+                                                                    child: Column(
+                                                                      mainAxisSize: MainAxisSize.min,
+                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        SingleChildScrollView(
+                                                                          child: ListView.builder(
+                                                                            shrinkWrap: true,
+                                                                            physics: NeverScrollableScrollPhysics(),
+                                                                            itemCount: controller.accdtlnvstgAcqstnPrpsList.length,
+                                                                            itemBuilder: (context, index) {
+                                                                              return ListTile(
+                                                                                title: AutoSizeText(controller.accdtlnvstgAcqstnPrpsList[index],
+                                                                                    style: TextStyle(
+                                                                                      color: tableTextColor,
+                                                                                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                    )),
+                                                                                onTap: () {
+                                                                                  controller.accdtlnvstgAcqstnPrpsController.text = controller.accdtlnvstgAcqstnPrpsList[index];
+                                                                                  Get.back();
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ));
+                                                            },
+                                                          ),
                                                         )
                                                       ]
                                                   )
@@ -356,7 +359,7 @@ class AccdtInvstgObstWidget {
                                                       DialogUtil.showAlertDialog(
                                                           Get
                                                               .context!,
-                                                          720,
+                                                          1440,
                                                           '지장물 소유자 추가',
                                                           widget:
                                                           Container(
@@ -376,7 +379,7 @@ class AccdtInvstgObstWidget {
                                                                     height: 104.h,
                                                                     decoration: BoxDecoration(color: Colors.white, border: Border.all(color: borderLine), borderRadius: BorderRadius.circular(6.r)),
                                                                     child: Container(
-                                                                      height: 36.h,
+                                                                      height: 72.h,
                                                                       margin: EdgeInsets.only(left: 20.w, right: 20.w),
                                                                       child: Row(
                                                                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -429,23 +432,23 @@ class AccdtInvstgObstWidget {
                                                                 SizedBox(height: 16.h),
                                                                 SizedBox(
                                                                   width: double.infinity,
-                                                                  height: 160.h,
+                                                                  height: 400.h,
                                                                   child: Column(
                                                                     children: [
                                                                       Container(
-                                                                          height: 52.h,
+                                                                          height: 104.h,
                                                                           child: Row(
                                                                             children: [
                                                                               Container(
-                                                                                width: 88.w,
-                                                                                height: 52.h,
+                                                                                width: 176.w,
+                                                                                height: 104.h,
                                                                                 color: Color(0XFFE5E8ED),
                                                                                 child: Center(
                                                                                   child: AutoSizeText(
                                                                                     '소유자번호',
                                                                                     style: TextStyle(
                                                                                       color: Colors.black,
-                                                                                      fontSize: 16.sp,
+                                                                                      fontSize: 30.sp,
                                                                                       fontWeight: FontWeight.bold,
                                                                                     ),
                                                                                   ),
@@ -467,7 +470,7 @@ class AccdtInvstgObstWidget {
                                                                                       children: [
                                                                                         Expanded(
                                                                                           child: Container(
-                                                                                            height: 36.h,
+                                                                                            height: 72.h,
                                                                                             child: CustomTextField(
                                                                                               controller: controller.orderController,
                                                                                               hintText: '',
@@ -485,15 +488,15 @@ class AccdtInvstgObstWidget {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                width: 88.w,
-                                                                                height: 52.h,
+                                                                                width: 176.w,
+                                                                                height: 104.h,
                                                                                 color: Color(0XFFE5E8ED),
                                                                                 child: Center(
                                                                                   child: AutoSizeText(
                                                                                     '소유자명',
                                                                                     style: TextStyle(
                                                                                       color: Colors.black,
-                                                                                      fontSize: 16.sp,
+                                                                                      fontSize: 30.sp,
                                                                                       fontWeight: FontWeight.bold,
                                                                                     ),
                                                                                   ),
@@ -515,7 +518,7 @@ class AccdtInvstgObstWidget {
                                                                                       children: [
                                                                                         Expanded(
                                                                                           child: Container(
-                                                                                            height: 36.h,
+                                                                                            height: 72.h,
                                                                                             child: CustomTextField(
                                                                                               controller: controller.orderController,
                                                                                               hintText: '',
@@ -533,15 +536,15 @@ class AccdtInvstgObstWidget {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                width: 88.w,
-                                                                                height: 52.h,
+                                                                                width: 176.w,
+                                                                                height: 104.h,
                                                                                 color: Color(0XFFE5E8ED),
                                                                                 child: Center(
                                                                                   child: AutoSizeText(
                                                                                     '소유구분',
                                                                                     style: TextStyle(
                                                                                       color: Colors.black,
-                                                                                      fontSize: 16.sp,
+                                                                                      fontSize: 30.sp,
                                                                                       fontWeight: FontWeight.bold,
                                                                                     ),
                                                                                   ),
@@ -563,7 +566,7 @@ class AccdtInvstgObstWidget {
                                                                                       children: [
                                                                                         Expanded(
                                                                                           child: Container(
-                                                                                            height: 36.h,
+                                                                                            height: 72.h,
                                                                                             child: CustomTextField(
                                                                                               controller: controller.orderController,
                                                                                               hintText: '',
@@ -578,6 +581,7 @@ class AccdtInvstgObstWidget {
                                                                                         SizedBox(width: 6.w),
                                                                                         CustomButton(
                                                                                           color: Color(0xFFE5E8ED),
+                                                                                          textColor: Color(0xFF1D1D1D),
                                                                                           text: '조회',
                                                                                         )
                                                                                       ],
@@ -589,12 +593,12 @@ class AccdtInvstgObstWidget {
                                                                           )),
                                                                       SizedBox(height: 1.h),
                                                                       Container(
-                                                                          height: 52.h,
+                                                                          height: 104.h,
                                                                           child: Row(
                                                                             children: [
                                                                               Container(
-                                                                                width: 88.w,
-                                                                                height: 52.h,
+                                                                                width: 176.w,
+                                                                                height: 104.h,
                                                                                 color: Color(0XFFE5E8ED),
                                                                                 child: Center(
                                                                                   child: AutoSizeText(
@@ -623,7 +627,7 @@ class AccdtInvstgObstWidget {
                                                                                       children: [
                                                                                         Expanded(
                                                                                           child: Container(
-                                                                                            height: 36.h,
+                                                                                            height: 72.h,
                                                                                             child: CustomTextField(
                                                                                               controller: controller.orderController,
                                                                                               hintText: '',
@@ -638,6 +642,7 @@ class AccdtInvstgObstWidget {
                                                                                         SizedBox(width: 6.w),
                                                                                         CustomButton(
                                                                                           color: Color(0xFFE5E8ED),
+                                                                                          textColor: Color(0xFF1D1D1D),
                                                                                           text: '조회',
                                                                                         )
                                                                                       ],
@@ -646,8 +651,8 @@ class AccdtInvstgObstWidget {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                width: 88.w,
-                                                                                height: 52.h,
+                                                                                width: 176.w,
+                                                                                height: 104.h,
                                                                                 color: Color(0XFFE5E8ED),
                                                                                 child: Center(
                                                                                   child: AutoSizeText(
@@ -676,7 +681,7 @@ class AccdtInvstgObstWidget {
                                                                                       children: [
                                                                                         Expanded(
                                                                                           child: Container(
-                                                                                            height: 36.h,
+                                                                                            height: 72.h,
                                                                                             child: CustomTextField(
                                                                                               controller: controller.orderController,
                                                                                               hintText: '',
@@ -694,8 +699,8 @@ class AccdtInvstgObstWidget {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                width: 88.w,
-                                                                                height: 52.h,
+                                                                                width: 176.w,
+                                                                                height: 104.h,
                                                                                 color: Color(0XFFE5E8ED),
                                                                                 child: Center(
                                                                                   child: AutoSizeText(
@@ -724,7 +729,7 @@ class AccdtInvstgObstWidget {
                                                                                       children: [
                                                                                         Expanded(
                                                                                           child: Container(
-                                                                                            height: 36.h,
+                                                                                            height: 72.h,
                                                                                             child: CustomTextField(
                                                                                               controller: controller.orderController,
                                                                                               hintText: '',
@@ -745,12 +750,12 @@ class AccdtInvstgObstWidget {
                                                                           )),
                                                                       SizedBox(height: 1.h),
                                                                       Container(
-                                                                          height: 52.h,
+                                                                          height: 104.h,
                                                                           child: Row(
                                                                             children: [
                                                                               Container(
-                                                                                width: 88.w,
-                                                                                height: 52.h,
+                                                                                width: 176.w,
+                                                                                height: 104.h,
                                                                                 color: Color(0XFFE5E8ED),
                                                                                 child: Center(
                                                                                   child: AutoSizeText(
@@ -779,7 +784,7 @@ class AccdtInvstgObstWidget {
                                                                                       children: [
                                                                                         Expanded(
                                                                                           child: Container(
-                                                                                            height: 36.h,
+                                                                                            height: 72.h,
                                                                                             child: CustomTextField(
                                                                                               controller: controller.orderController,
                                                                                               hintText: '',
@@ -797,8 +802,8 @@ class AccdtInvstgObstWidget {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                width: 88.w,
-                                                                                height: 52.h,
+                                                                                width: 176.w,
+                                                                                height: 104.h,
                                                                                 color: Color(0XFFE5E8ED),
                                                                                 child: Center(
                                                                                   child: AutoSizeText(
@@ -827,7 +832,7 @@ class AccdtInvstgObstWidget {
                                                                                       children: [
                                                                                         Expanded(
                                                                                           child: Container(
-                                                                                            height: 36.h,
+                                                                                            height: 72.h,
                                                                                             child: CustomTextField(
                                                                                               controller: controller.orderController,
                                                                                               hintText: '',
@@ -845,8 +850,8 @@ class AccdtInvstgObstWidget {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                width: 88.w,
-                                                                                height: 52.h,
+                                                                                width: 176.w,
+                                                                                height: 104.h,
                                                                                 color: Color(0XFFE5E8ED),
                                                                                 child: Center(
                                                                                   child: AutoSizeText(
@@ -875,7 +880,7 @@ class AccdtInvstgObstWidget {
                                                                                       children: [
                                                                                         Expanded(
                                                                                           child: Container(
-                                                                                            height: 36.h,
+                                                                                            height: 72.h,
                                                                                             child: CustomTextField(
                                                                                               controller: controller.orderController,
                                                                                               hintText: '',
@@ -1013,7 +1018,7 @@ class AccdtInvstgObstWidget {
                                                     onTap: () {
                                                       DialogUtil.showAlertDialog(
                                                           Get.context!,
-                                                          0,
+                                                          1440,
                                                           '토지 소유자 불러오기',
                                                           widget:
                                                           Container(

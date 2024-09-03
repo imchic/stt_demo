@@ -482,7 +482,7 @@ class AccdtInvstgLadWidget {
                                           ),
                                         ),
                                       ]),
-                                      for (var i = 0; i < 3; i++)
+                                      for (var i = 0; i < 1; i++)
                                         TableRow(children: [
                                           TableCell(
                                             verticalAlignment:
@@ -907,7 +907,7 @@ class AccdtInvstgLadWidget {
                                                     height: 10.h),
                                                 Container(
                                                   width: 72.w,
-                                                  height: 104.h,
+                                                  height: 72.h,
                                                   margin: EdgeInsets
                                                       .only(
                                                       bottom:

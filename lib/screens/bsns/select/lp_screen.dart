@@ -598,6 +598,7 @@ class lpScreen extends GetView<LpController> {
           bsnsReadngPblancDe: bsnsReadngPblancDe,
         );
 
+        controller.fetchBsnsOwnerDataSource();
         await controller.autoSqnc();
 
         controller.isBsnsZoneSelectFlag.value = true;
