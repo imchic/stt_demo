@@ -622,11 +622,21 @@ class SttusWidget {
                               //controller.searchBsnsName(value);
                             },
                           )),
+                          SizedBox(width: 12.w),
+                          SizedBox(
+                            width: 144.w,
+                            child: CustomTextField(hintText: '본번', onChanged: (value) {  },),
+                          ),
+                          SizedBox(width: 12.w),
+                          SizedBox(
+                            width: 144.w,
+                            child: CustomTextField(hintText: '부번', onChanged: (value) {  },),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(width: 12.w),
+                  SizedBox(width: 80.w),
                   Expanded(
                     child: Container(
                       height: 100.h,
@@ -698,7 +708,7 @@ class SttusWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12.w),
+                  SizedBox(width: 80.w),
                   Expanded(
                     child: Container(
                       height: 100.h,
@@ -771,7 +781,7 @@ class SttusWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12.w),
+                  SizedBox(width: 80.w),
                   Expanded(
                     child: Container(
                       height: 100.h,
@@ -838,7 +848,7 @@ class SttusWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12.w),
+                  SizedBox(width: 80.w),
                   Expanded(
                     child: Container(
                       height: 100.h,
@@ -911,7 +921,7 @@ class SttusWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12.w),
+                  SizedBox(width: 80.w),
                   Expanded(
                     child: Container(
                       height: 100.h,
@@ -990,6 +1000,7 @@ class SttusWidget {
                       ),
                     ),
                   ),
+                  SizedBox(width: 80.w),
                   Expanded(
                     child: Container(
                       height: 100.h,
