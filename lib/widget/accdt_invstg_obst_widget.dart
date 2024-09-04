@@ -196,7 +196,6 @@ class AccdtInvstgObstWidget {
                                                           width: 12.w,
                                                         ),
                                                         SizedBox(
-                                                          width: 52.w,
                                                           child: CustomButton(
                                                             color: Color(0XFFE5E8ED),
                                                             text: '조회',

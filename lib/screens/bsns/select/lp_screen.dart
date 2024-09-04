@@ -17,7 +17,7 @@ import '../../../utils/colors.dart';
 import '../../../utils/dialog_util.dart';
 import '../../../widget/accdt_invstg_widget.dart';
 import '../../../widget/bsns_widget.dart';
-import '../../../widget/customercard_widget.dart';
+import '../../../widget/cstmr_widget.dart';
 import '../../../widget/owner_widget.dart';
 import '../../../widget/sttus_widget.dart';
 import '../../owner/lad/model/owner_lad_info_datasource_model.dart';
@@ -161,7 +161,7 @@ class lpScreen extends GetView<LpController> {
                             children: [
                               BaseHeader(),
                               Expanded(
-                                  child: CustomerCardWidget.buildCustomerCard(
+                                  child: CstmrCardWidget.buildCstmrCard(
                                       controller))
                             ],
                           ),
