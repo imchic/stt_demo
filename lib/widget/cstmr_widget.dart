@@ -20,7 +20,7 @@ class CstmrCardWidget {
       width: Get.width,
       height: Get.height,
       child: Container(
-        margin: EdgeInsets.only(top: 40.h),
+        margin: EdgeInsets.only(top: 64.h),
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 40.w),
             child: CustomScrollView(
@@ -152,7 +152,7 @@ class CstmrCardWidget {
                             ),
                           ),
                         ))),
-                SliverFillRemaining(
+                SliverToBoxAdapter(
                   child: Container(
                     margin: EdgeInsets.only(top: 64.h),
                     child: Column(
@@ -313,6 +313,100 @@ class CstmrCardWidget {
                               },
                             ),
                           ],
+                        ),
+                        SizedBox(height: 20.h),
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[0],
+                          child: controller.cstmrcardLadPartcpntDataSource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '토지정보 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              height: 200.h,
+                              child: lpScreen().buildCstmrcardLadParcpntDataGrid()),
+                        ),
+                        SizedBox(height: 20.h),
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[0],
+                          child: controller.cstmrcardObstPartcpntDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6.r),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '지장물정보 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              height: 200.h,
+                              child: Column(
+                                children: [
+                                  lpScreen().buildCstmrcardObstParcpntDataGrid(),
+                                ],
+                              )),
+                        ),
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[1],
+                          child: controller.cstrmcardCmpnstnDatSource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '협의내역 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              height: 200.h,
+                              child: Column(
+                                children: [
+                                  lpScreen().buildCstmrcardCmpnstnDataGrid(),
+                                ],
+                              )),
                         ),
                       ],
                     ),

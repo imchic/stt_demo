@@ -11,22 +11,23 @@ class CstmrcardLadPartcpntDatasource extends DataGridSource {
         .map<DataGridRow>((e) =>
         DataGridRow(cells: [
           DataGridCell<String>(columnName: 'lgdongNm', value: e.lgdongNm), // 법정동
-          DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivNm), // 특지
+          DataGridCell<String>(columnName: 'lcrtsDivNm', value: e.lcrtsDivNm), // 특지
           DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno), // 본번
           DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno), // 부번
+          DataGridCell<String>(columnName: 'acqsPrpDivNm', value: e.acqsPrpDivNm), // 부번
           // 지목
           DataGridCell<String>(columnName: 'ofcbkLndcgrDivNm', value: e.ofcbkLndcgrDivNm), // 공부지목
-          DataGridCell<String>(columnName: 'sttusLndcgrDivNm', value: e.sttusLndcgrDivNm), // 현황지
+          DataGridCell<String>(columnName: 'sttusLndcgrDivNm', value: e.sttusLndcgrDivNm), // 현황지목
           // 면적
           DataGridCell<String>(columnName: 'ofcbkAra', value: e.ofcbkAra.toString()), // 공부
           DataGridCell<String>(columnName: 'incrprAra', value: e.incrprAra.toString()), // 편입
           DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: e.cmpnstnInvstgAra.toString()), // 보상
 
-          DataGridCell<String>(columnName: 'posesnShreNmrtrInfo', value: e.posesnShreNmrtrInfo), // 보유자
-          DataGridCell<String>(columnName: 'posesnShreDnmntrInfo', value: e.posesnShreDnmntrInfo), // 보유자
-          DataGridCell<String>(columnName: 'partcpntSeq', value: e.partcpntSeq.toString()), // 참여자
-          DataGridCell<String>(columnName: 'cmpnstnPartcpntRsn', value: e.cmpnstnPartcpntRsn), // 참여자
-          DataGridCell<String>(columnName: 'partcpntNm', value: e.partcpntNm), // 참여자
+          DataGridCell<String>(columnName: 'posesnShreNmrtrInfo', value: e.posesnShreNmrtrInfo), // 지분분자
+          DataGridCell<String>(columnName: 'posesnShreDnmntrInfo', value: e.posesnShreDnmntrInfo), // 지분분모
+          DataGridCell<String>(columnName: 'partcpntSeq', value: e.partcpntSeq.toString()),
+          DataGridCell<String>(columnName: 'cmpnstnPartcpntRsn', value: e.cmpnstnPartcpntRsn),
+          DataGridCell<String>(columnName: 'partcpntNm', value: e.partcpntNm),
           DataGridCell<String>(columnName: 'partcpntAddr', value: e.partcpntAddr.toString()), // 참여자
           DataGridCell<String>(columnName: 'partcpntMbtlnum', value: e.partcpntMbtlnum.toString()), // 참여자
 

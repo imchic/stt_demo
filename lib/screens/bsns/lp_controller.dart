@@ -206,6 +206,19 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late DataGridController ladSttusInqireDataGridController;
   late DataGridController obstSttusInqireDataGridController;
 
+  late DataGridController cstmrCardLadPartcpntDataGridController;
+  late DataGridController cstmrCardObstPartcpntDataGridController;
+  late DataGridController cstmrCardCmpnstnDataGridController;
+  late DataGridController cstmrCardLadAceptncDataGridController;
+  late DataGridController cstmrCardObstAceptncDataGridController;
+  late DataGridController cstmrCardLadObjcDataGridController;
+  late DataGridController cstmrCardObstObjcDataGridController;
+  late DataGridController cstmrCardLadLwstDataGridController;
+  late DataGridController cstmrCardObstLwstDataGridController;
+  late DataGridController cstmrCardReprchsDataGridController;
+  late DataGridController cstmrCardConfirmDataGridController;
+  late DataGridController cstmrCardFobjctDataGridController;
+
   /// [BsnsSelectAreaDataSource] 는 [DataGridSource] 를 상속받아 구현한 데이터 소스 클래스이다.
   final bsnsListDataSource = BsnsSelectAreaDataSource(items: []).obs; // 사업구역선택
 
@@ -479,6 +492,19 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     ladSttusInqireDataGridController = DataGridController();
     // 통계정보 > 지장물현황
     obstSttusInqireDataGridController = DataGridController();
+
+    cstmrCardLadPartcpntDataGridController = DataGridController();
+    cstmrCardObstPartcpntDataGridController = DataGridController();
+    cstmrCardCmpnstnDataGridController = DataGridController();
+    cstmrCardLadAceptncDataGridController = DataGridController();
+    cstmrCardObstAceptncDataGridController = DataGridController();
+    cstmrCardLadObjcDataGridController = DataGridController();
+    cstmrCardObstObjcDataGridController = DataGridController();
+    cstmrCardLadLwstDataGridController = DataGridController();
+    cstmrCardObstLwstDataGridController = DataGridController();
+    cstmrCardReprchsDataGridController = DataGridController();
+    cstmrCardConfirmDataGridController = DataGridController();
+    cstmrCardFobjctDataGridController = DataGridController();
 
     bsnsTabController.addListener(() {
       AppLog.d('bsnsTabController.index : ${bsnsTabController.index}');
@@ -1539,7 +1565,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 관계인 (토지)] 조회
   fetchCstmrCardLadPartcpntInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1567,7 +1593,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 관계인 (지장물)] 조회
   fetchCstmrCardObstPartcpntInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1595,7 +1621,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 협의내역 (토지)] 조회
   fetchCstmrCardLadCmpnstnInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1623,7 +1649,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 수요재결 (토지)] 조회
   fetchCstmrCardLadAceptncInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1651,7 +1677,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 수요재결 (지장물)] 조회
   fetchCstmrCardObstAceptncInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1680,7 +1706,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardLadObjcInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1709,7 +1735,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardObstObjcInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1738,7 +1764,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 소송 (토지)] 조회
   fetchCstmrCardLadLwstInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1766,8 +1792,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   // [고객카드 > 소송 (지장물)] 조회
   fetchCstmrCardObstLwstInfoDataSource(ownerNo) async {
+
+    print('fetchCstmrCardObstLwstInfoDataSource > ownerNo : $ownerNo');
+
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1797,7 +1826,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 환매 ] 조회
   fetchCstmrCardReprchsInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1826,7 +1855,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 토지수용확인원 ] 조회
   fetchCstmrCardConfirmInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1855,7 +1884,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 이의신청 ] 조회
   fetchCstmrCardFobjctInfoDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,

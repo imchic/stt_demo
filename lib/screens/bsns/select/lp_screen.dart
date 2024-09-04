@@ -718,6 +718,7 @@ class lpScreen extends GetView<LpController> {
           // 소송 (토지)
           controller.fetchCstmrCardLadLwstInfoDataSource(ownerNum);
           // 소송 (지장물)
+          AppLog.d('소송 조회');
           controller.fetchCstmrCardObstLwstInfoDataSource(ownerNum);
 
           // 환매
@@ -1515,6 +1516,75 @@ class lpScreen extends GetView<LpController> {
         ]),
       ],
       columns: columns,
+    );
+  }
+
+  Widget buildCstmrcardLadParcpntDataGrid() {
+    return CustomGrid(
+      dataSource: controller.cstmrcardLadPartcpntDataSource.value,
+      controller: controller.cstmrCardLadPartcpntDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
+      columns: [
+        gridColumn('lgdongNm', '토지소재지'),
+        gridColumn('lcrtsDivNm', '특지'),
+        gridColumn('mlnoLtno', '본번'),
+        gridColumn('slnoLtno', '부번'),
+        gridColumn('acqsPrpDivNm', '취득용도'),
+        gridColumn('ofcbkLndcgrDivNm', '공부지목'),
+        gridColumn('sttusLndcgrDivNm', '현황지목'),
+        gridColumn('ofcbkAra', '공부면적'),
+        gridColumn('incrprAra', '편입면적'),
+        gridColumn('cmpnstnInvstgAra', '조사면적'),
+        gridColumn('posesnShreNmrtrInfo', '지분분자'),
+        gridColumn('posesnShreDnmntrInfo', '지분분모'),
+        gridColumn('partcpntSeq', '관계인순번'),
+        gridColumn('cmpnstnPartcpntRsn', '관계인구분'),
+        gridColumn('partcpntNm', '관계인명'),
+        gridColumn('partcpntAddr', '관계인주소'),
+        gridColumn('partcpntMbtlnum', '관계인연락처'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardObstParcpntDataGrid() {
+    return CustomGrid(
+      dataSource: controller.cstmrcardObstPartcpntDatasource.value,
+      controller: controller.cstmrCardObstPartcpntDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
+      columns: [
+        gridColumn('lgdongNm', '지장물소재지'),
+        gridColumn('lcrtsDivNm', '특지'),
+        gridColumn('mlnoLtno', '본번'),
+        gridColumn('slnoLtno', '부번'),
+        gridColumn('obstStrctStndrdInfo', '구조및규격'),
+        gridColumn('cmpnstnQtyAraVu', '수량및면적'),
+        gridColumn('cmpnstnThingUnitDivNm', '단위'),
+        gridColumn('partcpntSeq', '관계인순번'),
+        gridColumn('cmpnstnPartcpntRsn', '관계인구분'),
+        gridColumn('partcpntNm', '관계인명'),
+        gridColumn('partcpntAddr', '관계인주소'),
+        gridColumn('partcpntMbtlnum', '관계인연락처'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardCmpnstnDataGrid() {
+    return CustomGrid(
+        dataSource: controller.cstrmcardCmpnstnDatSource.value,
+        controller: controller.cstmrCardCmpnstnDataGridController,
+        isSort: false,
+        columnWidthMode: ColumnWidthMode.auto,
+        columns: [
+          gridColumn('sbmtDe', '요청일자'),
+          gridColumn('sanctnTit', '요청내역'),
+          gridColumn('cmpnstnDscssSqnc', '협의차수'),
+          gridColumn('dscssMthDc', '협의방법'),
+          gridColumn('cmpnstnDscssPdInfo', '협의기간'),
+          gridColumn('cmpnstnDscssPlaceDtls', '협의장소'),
+          gridColumn('cmpnstnEraMthPrcdrCtnt', '시간방법 및 절차'),
+        ]
     );
   }
 

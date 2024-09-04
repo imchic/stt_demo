@@ -15,6 +15,9 @@ class CstmrcardObstPartcpntDatasource extends DataGridSource {
           DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivNm), // 특지
           DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno), // 본번
           DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno), // 부번
+          DataGridCell<String>(columnName: 'obstStrctStndrdInfo', value: e.obstStrctStndrdInfo), // 부번
+          DataGridCell<String>(columnName: 'cmpnstnQtyAraVu', value: e.cmpnstnQtyAraVu), // 부번
+          DataGridCell<String>(columnName: 'cmpnstnThingUnitDivNm', value: e.cmpnstnThingUnitDivNm), // 부번
           DataGridCell<String>(columnName: 'partcpntSeq', value: e.partcpntSeq.toString()), // 참여자
           DataGridCell<String>(columnName: 'cmpnstnPartcpntRsn', value: e.cmpnstnPartcpntRsn), // 참여자
           DataGridCell<String>(columnName: 'partcpntNm', value: e.partcpntNm), // 참여자

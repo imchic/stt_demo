@@ -72,7 +72,9 @@ class CstmrcardLadPartcpntDatasourceModel {
     acqsPrpDivCd = json['acqsPrpDivCd'];
     acqsPrpDivNm = json['acqsPrpDivNm'];
     ofcbkLndcgrDivCd = json['ofcbkLndcgrDivCd'];
+    ofcbkLndcgrDivNm = json['ofcbkLndcgrDivNm'];
     sttusLndcgrDivCd = json['sttusLndcgrDivCd'];
+    sttusLndcgrDivNm = json['sttusLndcgrDivNm'];
     ofcbkAra = json['ofcbkAra'];
     incrprAra = json['incrprAra'];
     cmpnstnInvstgAra = json['cmpnstnInvstgAra'];
@@ -125,7 +127,9 @@ class CstmrcardLadPartcpntDatasourceModel {
     map['slnoLtno'] = slnoLtno;
     map['acqsPrpDivCd'] = acqsPrpDivCd;
     map['ofcbkLndcgrDivCd'] = ofcbkLndcgrDivCd;
+    map['ofcbkLndcgrDivNm'] = ofcbkLndcgrDivNm;
     map['sttusLndcgrDivCd'] = sttusLndcgrDivCd;
+    map['sttusLndcgrDivNm'] = sttusLndcgrDivNm;
     map['ofcbkAra'] = ofcbkAra;
     map['incrprAra'] = incrprAra;
     map['cmpnstnInvstgAra'] = cmpnstnInvstgAra;
