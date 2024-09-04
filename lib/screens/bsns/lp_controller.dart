@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +15,10 @@ import 'package:ldi/screens/bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
 import 'package:ldi/screens/cstmr/aceptnc/cstmrcard_lad_aceptnc_datasource.dart';
 import 'package:ldi/screens/cstmr/aceptnc/model/cstmrcard_obst_aceptnc_datasource_model.dart';
 import 'package:ldi/screens/cstmr/cmpnstn/model/cstmrcard_cmpnstn_datasource_model.dart';
+import 'package:ldi/screens/cstmr/lwst/cstmrcard_lad_lwst_datasource.dart';
+import 'package:ldi/screens/cstmr/lwst/model/cstmrcard_lad_lwst_datasource_model.dart';
+import 'package:ldi/screens/cstmr/objc/model/cstmrcard_lad_objc_datasource_model.dart';
+import 'package:ldi/screens/cstmr/objc/model/cstmrcard_obst_objc_datasource_model.dart';
 import 'package:ldi/screens/cstmr/partcpnt/model/cstmrcard_lad_partcpnt_datasource_model.dart';
 import 'package:ldi/screens/owner/datasource/model/owner_info_model.dart';
 import 'package:ldi/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
@@ -43,6 +46,10 @@ import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_owner_model.dart';
 import '../cstmr/aceptnc/cstmrcard_obst_aceptnc_datasource.dart';
 import '../cstmr/aceptnc/model/cstmrcard_lad_aceptnc_datasource_model.dart';
 import '../cstmr/cmpnstn/cstmrcard_cmpnstn_datasource.dart';
+import '../cstmr/lwst/cstmrcard_obst_lwst_datasource.dart';
+import '../cstmr/lwst/model/cstmrcard_obst_lwst_datasource_model.dart';
+import '../cstmr/objc/cstmrcard_lad_objc_datasource.dart';
+import '../cstmr/objc/cstmrcard_obst_objc_datasource.dart';
 import '../cstmr/partcpnt/cstmrcard_lad_partcpnt_datasource.dart';
 import '../cstmr/partcpnt/cstmrcard_obst_partcpnt_datasource.dart';
 import '../cstmr/partcpnt/model/cstmrcard_obst_partcpnt_datasource_model.dart';
@@ -249,6 +256,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final cstrmcardCmpnstnDatSource = CstmrcardCmpnstnDatasource(items: []).obs;
   final cstmrcardLadAceptncDatasource = CstmrcardLadAceptncDatasource(items: []).obs;
   final cstmrcardObstAceptncDatasource = CstmrcardObstAceptncDatasource(items: []).obs;
+  final cstmrcardLadObjcDatasource = CstmrcardLadObjcDatasource(items: []).obs;
+  final cstmrcardObstObjcDatasource = CstmrcardObstObjcDatasource(items: []).obs;
+  final cstmrcardLadLwstDatasource = CstmrcardLadLwstDatasource(items: []).obs;
+  final cstmrcardObstLwstDatasource = CstmrcardObstLwstDatasource(items: []).obs;
 
   /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
   RxInt radioValue = 0.obs;
@@ -1653,6 +1664,122 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       cstmrcardObstAceptncDatasource.value =
           CstmrcardObstAceptncDatasource(items: cstmrcardObstAceptncDatasourceModel);
+
+    }
+  }
+
+  // [고객카드 > 이의재결 (토지)] 조회
+  fetchCstmrCardLadObjcInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['landObjc'];
+      AppLog.d(
+          'fetchCstmrCardLadObjcInfoDataSource > landObjc : $data');
+
+      var cstmrcardLadObjcDatasourceModel = <CstmrcardLadObjcDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardLadObjcDataSourceKeyValue(data, cstmrcardLadObjcDatasourceModel, length);
+
+      cstmrcardLadObjcDatasource.value =
+          CstmrcardLadObjcDatasource(items: cstmrcardLadObjcDatasourceModel);
+
+    }
+  }
+
+  // [고객카드 > 이의재결 (토지)] 조회
+  fetchCstmrCardObstObjcInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['obstObjc'];
+      AppLog.d(
+          'fetchCstmrCardObstObjcInfoDataSource > obstObjc : $data');
+
+      var cstmrcardObstObjcDatasourceModel = <CstmrcardObstObjcDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardObstObjcDataSourceKeyValue(data, cstmrcardObstObjcDatasourceModel, length);
+
+      cstmrcardObstObjcDatasource.value =
+          CstmrcardObstObjcDatasource(items: cstmrcardObstObjcDatasourceModel);
+
+    }
+  }
+
+  // [고객카드 > 소송 (토지)] 조회
+  fetchCstmrCardLadLwstInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['landLwst'];
+      AppLog.d(
+          'fetchCstmrCardLadLwstInfoDataSource > landLwst : $data');
+
+      var cstmrcardLadLwstDatasourceModel = <CstmrcardLadLwstDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardLadLwstDataSourceKeyValue(data, cstmrcardLadLwstDatasourceModel, length);
+
+      cstmrcardLadLwstDatasource.value =
+          CstmrcardLadLwstDatasource(items: cstmrcardLadLwstDatasourceModel);
+
+    }
+  }
+
+  // [고객카드 > 소송 (지장물)] 조회
+  fetchCstmrCardObstLwstInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['obstLwst'];
+      AppLog.d(
+          'fetchCstmrCardObstLwstInfoDataSource > obstLwst : $data');
+
+      var cstmrcardObstLwstDatasourceModel = <CstmrcardObstLwstDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardObstLwstDataSourceKeyValue(data, cstmrcardObstLwstDatasourceModel, length);
+
+      cstmrcardObstLwstDatasource.value =
+          CstmrcardObstLwstDatasource(items: cstmrcardObstLwstDatasourceModel);
 
     }
   }
