@@ -17,6 +17,8 @@ import 'package:ldi/screens/cstmr/aceptnc/model/cstmrcard_obst_aceptnc_datasourc
 import 'package:ldi/screens/cstmr/cmpnstn/model/cstmrcard_cmpnstn_datasource_model.dart';
 import 'package:ldi/screens/cstmr/confirm/cstmrcard_confirm_datasource.dart';
 import 'package:ldi/screens/cstmr/confirm/model/cstmrcard_confirm_datasource_model.dart';
+import 'package:ldi/screens/cstmr/fobjct/cstmrcard_fobjct_datasource.dart';
+import 'package:ldi/screens/cstmr/fobjct/model/cstmrcard_fobject_datasource_model.dart';
 import 'package:ldi/screens/cstmr/lwst/cstmrcard_lad_lwst_datasource.dart';
 import 'package:ldi/screens/cstmr/lwst/model/cstmrcard_lad_lwst_datasource_model.dart';
 import 'package:ldi/screens/cstmr/objc/model/cstmrcard_lad_objc_datasource_model.dart';
@@ -266,6 +268,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final cstmrcardObstLwstDatasource = CstmrcardObstLwstDatasource(items: []).obs;
   final cstmrcardReprchsDatasource = CstmrcardReprchsDatasource(items: []).obs;
   final cstmrcardConfirmDatasource = CstmrcardConfirmDatasource(items: []).obs;
+  final cstmrcardFobjctDatasource = CstmrcardFobjctDatasource(items: []).obs;
 
   /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
   RxInt radioValue = 0.obs;
@@ -1845,6 +1848,35 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       cstmrcardConfirmDatasource.value =
           CstmrcardConfirmDatasource(items: cstmrcardConfirmDatasourceModel);
+
+    }
+  }
+
+  // [고객카드 > 이의신청 ] 조회
+  fetchCstmrCardFobjctInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['fobjct'];
+      AppLog.d(
+          'fetchCstmrCardFobjctInfoDataSource > fobjct : $data');
+
+      var cstmrcardFobjectDatasourceModel = <CstmrcardFobjectDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardFobjctDataSourceKeyValue(data, cstmrcardFobjectDatasourceModel, length);
+
+      cstmrcardFobjctDatasource.value =
+          CstmrcardFobjctDatasource(items: cstmrcardFobjectDatasourceModel);
 
     }
   }
