@@ -246,7 +246,7 @@ class CstmrCardWidget {
                               height: 350.h,
                               child: lpScreen().buildOwnerObstInfoDataGrid()),
                         ),
-                        SizedBox(height: 24.h),
+                        SizedBox(height: 48.h),
                         Row(
                           children: [
                             CustomChip(
@@ -294,6 +294,22 @@ class CstmrCardWidget {
                               isSelected: controller.customerCardDetailTabIsSelected[5],
                               onTap: () {
                                 controller.handleCustomerCardDetailTabSelected(5);
+                              },
+                            ),
+                            SizedBox(width: 12.w),
+                            CustomChip(
+                              title: '토지수용확인원',
+                              isSelected: controller.customerCardDetailTabIsSelected[6],
+                              onTap: () {
+                                controller.handleCustomerCardDetailTabSelected(6);
+                              },
+                            ),
+                            SizedBox(width: 12.w),
+                            CustomChip(
+                              title: '이의신청',
+                              isSelected: controller.customerCardDetailTabIsSelected[7],
+                              onTap: () {
+                                controller.handleCustomerCardDetailTabSelected(7);
                               },
                             ),
                           ],

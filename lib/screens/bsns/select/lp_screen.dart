@@ -723,6 +723,9 @@ class lpScreen extends GetView<LpController> {
           // 환매
           controller.fetchCstmrCardReprchsInfoDataSource(ownerNum);
 
+          // 토지수용확인원
+          controller.fetchCstmrCardConfirmInfoDataSource(ownerNum);
+
         }
 
       }),
