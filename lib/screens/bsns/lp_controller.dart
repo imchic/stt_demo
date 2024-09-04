@@ -13,6 +13,8 @@ import 'package:ldi/screens/bsns/bsns_plan_model.dart';
 import 'package:ldi/screens/bsns/select/bsns_plan_select_area_model.dart';
 import 'package:ldi/screens/bsns/sqnc/bsns_accdtinvstg_sqnc_datasource.dart';
 import 'package:ldi/screens/bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
+import 'package:ldi/screens/cstmr/aceptnc/cstmrcard_lad_aceptnc_datasource.dart';
+import 'package:ldi/screens/cstmr/aceptnc/model/cstmrcard_obst_aceptnc_datasource_model.dart';
 import 'package:ldi/screens/cstmr/cmpnstn/model/cstmrcard_cmpnstn_datasource_model.dart';
 import 'package:ldi/screens/cstmr/partcpnt/model/cstmrcard_lad_partcpnt_datasource_model.dart';
 import 'package:ldi/screens/owner/datasource/model/owner_info_model.dart';
@@ -38,6 +40,8 @@ import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_owner_model.dart';
+import '../cstmr/aceptnc/cstmrcard_obst_aceptnc_datasource.dart';
+import '../cstmr/aceptnc/model/cstmrcard_lad_aceptnc_datasource_model.dart';
 import '../cstmr/cmpnstn/cstmrcard_cmpnstn_datasource.dart';
 import '../cstmr/partcpnt/cstmrcard_lad_partcpnt_datasource.dart';
 import '../cstmr/partcpnt/cstmrcard_obst_partcpnt_datasource.dart';
@@ -243,6 +247,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final cstmrcardLadPartcpntDataSource = CstmrcardLadPartcpntDatasource(items: []).obs;
   final cstmrcardObstPartcpntDatasource = CstmrcardObstPartcpntDatasource(items: []).obs;
   final cstrmcardCmpnstnDatSource = CstmrcardCmpnstnDatasource(items: []).obs;
+  final cstmrcardLadAceptncDatasource = CstmrcardLadAceptncDatasource(items: []).obs;
+  final cstmrcardObstAceptncDatasource = CstmrcardObstAceptncDatasource(items: []).obs;
 
   /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
   RxInt radioValue = 0.obs;
@@ -1591,6 +1597,63 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       cstrmcardCmpnstnDatSource.value =
           CstmrcardCmpnstnDatasource(items: cstmrcardCmpnstn);
+    }
+  }
+
+  // [고객카드 > 수요재결 (토지)] 조회
+  fetchCstmrCardLadAceptncInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['landAceptnc'];
+      AppLog.d(
+          'fetchCstmrCardLadAceptncInfoDataSource > landAceptnc : $data');
+
+      var cstmrcardLadAceptncDatasourceModel = <CstmrcardLadAceptncDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardLadAceptncDatasourceKeyValue(data, cstmrcardLadAceptncDatasourceModel, length);
+
+      cstmrcardLadAceptncDatasource.value =
+          CstmrcardLadAceptncDatasource(items: cstmrcardLadAceptncDatasourceModel);
+    }
+  }
+
+  // [고객카드 > 수요재결 (지장물)] 조회
+  fetchCstmrCardObstAceptncInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['obstAceptnc'];
+      AppLog.d(
+          'fetchCstmrCardObstAceptncInfoDataSource > obstAceptnc : $data');
+
+      var cstmrcardObstAceptncDatasourceModel = <CstmrcardObstAceptncDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardObstAceptncDatasourceKeyValue(data, cstmrcardObstAceptncDatasourceModel, length);
+
+      cstmrcardObstAceptncDatasource.value =
+          CstmrcardObstAceptncDatasource(items: cstmrcardObstAceptncDatasourceModel);
+
     }
   }
 

@@ -705,6 +705,11 @@ class lpScreen extends GetView<LpController> {
           // 협의내역
           controller.fetchCstmrCardLadCmpnstnInfoDataSource(ownerNum);
 
+          // 수용재결 (토지)
+          controller.fetchCstmrCardLadAceptncInfoDataSource(ownerNum);
+          // 수용재결 (지장물)
+          controller.fetchCstmrCardObstAceptncInfoDataSource(ownerNum);
+
         }
 
       }),
