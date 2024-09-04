@@ -720,6 +720,9 @@ class lpScreen extends GetView<LpController> {
           // 소송 (지장물)
           controller.fetchCstmrCardObstLwstInfoDataSource(ownerNum);
 
+          // 환매
+          controller.fetchCstmrCardReprchsInfoDataSource(ownerNum);
+
         }
 
       }),
