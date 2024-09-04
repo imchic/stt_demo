@@ -703,15 +703,8 @@ class lpScreen extends GetView<LpController> {
           controller.fetchCstmrCardObstPartcpntInfoDataSource(ownerNum);
 
           // 협의내역
-          // controller.fetchCstmrCardCmpnstnInfo(data);
-          // 수용재결
-          // controller.fetchCstmrCardAceptncInfo(data);
-          // 이의재결
-          // controller.fetchCstmrCardObjctnInfo(data);
-          // 소송
-          // controller.fetchCstmrCardLwstInfo(data);
-          // 환매
-          // controller.fetchCstmrCardReprchsInfo(data);
+          controller.fetchCstmrCardLadCmpnstnInfoDataSource(ownerNum);
+
         }
 
       }),

@@ -13,6 +13,7 @@ import 'package:ldi/screens/bsns/bsns_plan_model.dart';
 import 'package:ldi/screens/bsns/select/bsns_plan_select_area_model.dart';
 import 'package:ldi/screens/bsns/sqnc/bsns_accdtinvstg_sqnc_datasource.dart';
 import 'package:ldi/screens/bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
+import 'package:ldi/screens/cstmr/cmpnstn/model/cstmrcard_cmpnstn_datasource_model.dart';
 import 'package:ldi/screens/cstmr/partcpnt/model/cstmrcard_lad_partcpnt_datasource_model.dart';
 import 'package:ldi/screens/owner/datasource/model/owner_info_model.dart';
 import 'package:ldi/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
@@ -37,6 +38,7 @@ import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_owner_model.dart';
+import '../cstmr/cmpnstn/cstmrcard_cmpnstn_datasource.dart';
 import '../cstmr/partcpnt/cstmrcard_lad_partcpnt_datasource.dart';
 import '../cstmr/partcpnt/cstmrcard_obst_partcpnt_datasource.dart';
 import '../cstmr/partcpnt/model/cstmrcard_obst_partcpnt_datasource_model.dart';
@@ -238,8 +240,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final obstSttusInqireDataSource = ObstSttusInqireDatasource(items: []).obs;
 
   // 고객카드
-  final cstmrLadPartcpntDataSource = CstmrcardLadPartcpntDatasource(items: []).obs;
+  final cstmrcardLadPartcpntDataSource = CstmrcardLadPartcpntDatasource(items: []).obs;
   final cstmrcardObstPartcpntDatasource = CstmrcardObstPartcpntDatasource(items: []).obs;
+  final cstrmcardCmpnstnDatSource = CstmrcardCmpnstnDatasource(items: []).obs;
 
   /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
   RxInt radioValue = 0.obs;
@@ -1529,7 +1532,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       cstmrcardLadPartcpntDataSourceKeyValue(data, cstmrCardLadPartcpnt, length);
 
-      cstmrLadPartcpntDataSource.value =
+      cstmrcardLadPartcpntDataSource.value =
           CstmrcardLadPartcpntDatasource(items: cstmrCardLadPartcpnt);
     }
 
@@ -1561,6 +1564,34 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           CstmrcardObstPartcpntDatasource(items: cstmrCardObstPartcpnt);
     }
 
+  }
+
+  // [고객카드 > 협의내역 (토지)] 조회
+  fetchCstmrCardLadCmpnstnInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['cmpnstn'];
+      AppLog.d(
+          'fetchCstmrCardLadCmpnstnInfoDataSource > cmpnstn : $data');
+
+      var cstmrcardCmpnstn = <CstmrcardCmpnstnDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardCmpnstnDataSourceKeyValue(data, cstmrcardCmpnstn, length);
+
+      cstrmcardCmpnstnDatSource.value =
+          CstmrcardCmpnstnDatasource(items: cstmrcardCmpnstn);
+    }
   }
 
 
