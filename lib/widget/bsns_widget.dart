@@ -630,7 +630,17 @@ class BsnsWidget {
               SizedBox(height: 10.h),
               Divider(color: borderLine),
               SizedBox(height: 10.h),
-              Expanded(child: lpScreen().buildBsnsSqncDataGrid()),
+              Obx(() =>
+                Expanded(child: controller.bsnsAccdtinvstgSqncDataSource.value.rows.length == 0 ? Container(
+                  child: Center(
+                    child: AutoSizeText('실태조사차수가 없습니다.',
+                        style: TextStyle(
+                            fontSize: 32.sp,
+                            fontWeight: FontWeight.w500,
+                            color: tableTextColor)),
+                  ),
+                ) : lpScreen().buildBsnsSqncDataGrid()),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

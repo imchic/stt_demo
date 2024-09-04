@@ -21,44 +21,45 @@ import 'dart:convert';
 /// partcpntNm : "배방농협"
 /// partcpntAddr : null
 /// partcpntMbtlnum : null
-List cstmrcardLadPartcpntDataSourceKeyValue(dynamic str, List<dynamic> list, int length) {
+List cstmrcardObstPartcpntDataSourceKeyValue(dynamic str, List<dynamic> list, int length) {
   for (int i = 0; i < length; i++) {
-    var data = CstmrcardLadPartcpntDatasourceModel.fromJson(str[i]);
+    var data = CstmrcardObstPartcpntDatasourceModel.fromJson(str[i]);
     list.add(data);
   }
   return list;
 }
 
-CstmrcardLadPartcpntDatasourceModel cstmrcardLadPartcpntFromJson(String str) => CstmrcardLadPartcpntDatasourceModel.fromJson(json.decode(str));
-String cstmrcardLadPartcpntToJson(CstmrcardLadPartcpntDatasourceModel data) => json.encode(data.toJson());
-class CstmrcardLadPartcpntDatasourceModel {
-  CstmrcardLadPartcpntDatasourceModel({
-      this.bsnsNo,
-      this.bsnsZoneNo,
-      this.thingSerNo,
-      this.ownerNo,
-      this.lgdongCd,
-      this.lgdongNm,
-      this.lcrtsDivCd,
-      this.lcrtsDivNm,
-      this.mlnoLtno,
-      this.slnoLtno,
-      this.acqsPrpDivCd,
-      this.acqsPrpDivNm,
-      this.ofcbkLndcgrDivCd,
-      this.sttusLndcgrDivCd,
-      this.ofcbkAra,
-      this.incrprAra,
-      this.cmpnstnInvstgAra,
-      this.posesnShreNmrtrInfo,
-      this.posesnShreDnmntrInfo,
-      this.partcpntSeq,
-      this.cmpnstnPartcpntRsn,
-      this.partcpntNm,
-      this.partcpntAddr,
-      this.partcpntMbtlnum,});
+CstmrcardObstPartcpntDatasourceModel cstmrcardObstPartcpntFromJson(String str) => CstmrcardObstPartcpntDatasourceModel.fromJson(json.decode(str));
+String cstmrcardObstPartcpntToJson(CstmrcardObstPartcpntDatasourceModel data) => json.encode(data.toJson());
+class CstmrcardObstPartcpntDatasourceModel {
+  CstmrcardObstPartcpntDatasourceModel({
+    this.bsnsNo,
+    this.bsnsZoneNo,
+    this.thingSerNo,
+    this.ownerNo,
+    this.lgdongCd,
+    this.lgdongNm,
+    this.lcrtsDivCd,
+    this.lcrtsDivNm,
+    this.mlnoLtno,
+    this.slnoLtno,
+    this.acqsPrpDivCd,
+    this.acqsPrpDivNm,
+    this.cmpnstnThingKndDtls,
+    this.obstDivCd,
+    this.obstStrctStndrdInfo,
+    this.dtaPrcsSittnCtnt,
+    this.cmpnstnQtyAraVu,
+    this.cmpnstnThingUnitDivCd,
+    this.cmpnstnThingUnitDivNm,
+    this.partcpntSeq,
+    this.cmpnstnPartcpntRsn,
+    this.partcpntNm,
+    this.partcpntAddr,
+    this.partcpntMbtlnum,
+  });
 
-  CstmrcardLadPartcpntDatasourceModel.fromJson(dynamic json) {
+  CstmrcardObstPartcpntDatasourceModel.fromJson(dynamic json) {
     bsnsNo = json['bsnsNo'];
     bsnsZoneNo = json['bsnsZoneNo'];
     thingSerNo = json['thingSerNo'];
@@ -71,13 +72,13 @@ class CstmrcardLadPartcpntDatasourceModel {
     slnoLtno = json['slnoLtno'];
     acqsPrpDivCd = json['acqsPrpDivCd'];
     acqsPrpDivNm = json['acqsPrpDivNm'];
-    ofcbkLndcgrDivCd = json['ofcbkLndcgrDivCd'];
-    sttusLndcgrDivCd = json['sttusLndcgrDivCd'];
-    ofcbkAra = json['ofcbkAra'];
-    incrprAra = json['incrprAra'];
-    cmpnstnInvstgAra = json['cmpnstnInvstgAra'];
-    posesnShreNmrtrInfo = json['posesnShreNmrtrInfo'];
-    posesnShreDnmntrInfo = json['posesnShreDnmntrInfo'];
+    cmpnstnThingKndDtls = json['cmpnstnThingKndDtls'];
+    obstDivCd = json['obstDivCd'];
+    obstStrctStndrdInfo = json['obstStrctStndrdInfo'];
+    dtaPrcsSittnCtnt = json['dtaPrcsSittnCtnt'];
+    cmpnstnQtyAraVu = json['cmpnstnQtyAraVu'];
+    cmpnstnThingUnitDivCd = json['cmpnstnThingUnitDivCd'];
+    cmpnstnThingUnitDivNm = json['cmpnstnThingUnitDivNm'];
     partcpntSeq = json['partcpntSeq'];
     cmpnstnPartcpntRsn = json['cmpnstnPartcpntRsn'];
     partcpntNm = json['partcpntNm'];
@@ -96,16 +97,14 @@ class CstmrcardLadPartcpntDatasourceModel {
   String? slnoLtno;
   String? acqsPrpDivCd;
   String? acqsPrpDivNm;
-  String? ofcbkLndcgrDivCd;
-  String? ofcbkLndcgrDivNm;
-  String? sttusLndcgrDivCd;
-  String? sttusLndcgrDivNm;
-  num? ofcbkAra;
-  num? incrprAra;
-  num? cmpnstnInvstgAra;
-  String? posesnShreNmrtrInfo;
-  String? posesnShreDnmntrInfo;
-  num? partcpntSeq;
+  String? cmpnstnThingKndDtls;
+  String? obstDivCd;
+  String? obstStrctStndrdInfo;
+  String? dtaPrcsSittnCtnt;
+  String? cmpnstnQtyAraVu;
+  String? cmpnstnThingUnitDivCd;
+  String? cmpnstnThingUnitDivNm;
+  String? partcpntSeq;
   String? cmpnstnPartcpntRsn;
   String? partcpntNm;
   dynamic partcpntAddr;
@@ -124,13 +123,14 @@ class CstmrcardLadPartcpntDatasourceModel {
     map['mlnoLtno'] = mlnoLtno;
     map['slnoLtno'] = slnoLtno;
     map['acqsPrpDivCd'] = acqsPrpDivCd;
-    map['ofcbkLndcgrDivCd'] = ofcbkLndcgrDivCd;
-    map['sttusLndcgrDivCd'] = sttusLndcgrDivCd;
-    map['ofcbkAra'] = ofcbkAra;
-    map['incrprAra'] = incrprAra;
-    map['cmpnstnInvstgAra'] = cmpnstnInvstgAra;
-    map['posesnShreNmrtrInfo'] = posesnShreNmrtrInfo;
-    map['posesnShreDnmntrInfo'] = posesnShreDnmntrInfo;
+    map['acqsPrpDivNm'] = acqsPrpDivNm;
+    map['cmpnstnThingKndDtls'] = cmpnstnThingKndDtls;
+    map['obstDivCd'] = obstDivCd;
+    map['obstStrctStndrdInfo'] = obstStrctStndrdInfo;
+    map['dtaPrcsSittnCtnt'] = dtaPrcsSittnCtnt;
+    map['cmpnstnQtyAraVu'] = cmpnstnQtyAraVu;
+    map['cmpnstnThingUnitDivCd'] = cmpnstnThingUnitDivCd;
+    map['cmpnstnThingUnitDivNm'] = cmpnstnThingUnitDivNm;
     map['partcpntSeq'] = partcpntSeq;
     map['cmpnstnPartcpntRsn'] = cmpnstnPartcpntRsn;
     map['partcpntNm'] = partcpntNm;

@@ -246,7 +246,7 @@ class CstmrCardWidget {
                               height: 350.h,
                               child: lpScreen().buildOwnerObstInfoDataGrid()),
                         ),
-                        SizedBox(height: 44.h),
+                        SizedBox(height: 24.h),
                         Row(
                           children: [
                             CustomChip(

@@ -666,7 +666,7 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.ownerListDataSource.value,
       controller: controller.ownerListDataGridController,
       isSort: true,
-      columnWidthMode: ColumnWidthMode.auto,
+      columnWidthMode: ColumnWidthMode.fill,
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         AppLog.d(
@@ -680,6 +680,40 @@ class lpScreen extends GetView<LpController> {
         if (controller.selectedIndex.value == 1) {
           controller.bsnsOwnerTabController.animateTo(1);
         }
+
+        if(controller.selectedIndex.value == 4) {
+          /***
+           * 고객카드의 토지, 지장물, 고객정보를 조회한다.
+           * land - 토지,
+           * obst - 지장물,
+           * List - 내역,
+           * Partcpnt - 관계인,
+           * Cmpnstn - 협의내역,
+           * Aceptnc - 수용재결,
+           * Objc - 이의재결,
+           * Lwst - 소송,
+           * Reprchs - 환매,
+           * Confirm - 수용확인원,
+           * Fobjct - 이의신청
+           */
+
+          // 관계인 (토지)
+          controller.fetchCstmrCardLadPartcpntInfoDataSource(ownerNum);
+          // 관계인 (지장물)
+          controller.fetchCstmrCardObstPartcpntInfoDataSource(ownerNum);
+
+          // 협의내역
+          // controller.fetchCstmrCardCmpnstnInfo(data);
+          // 수용재결
+          // controller.fetchCstmrCardAceptncInfo(data);
+          // 이의재결
+          // controller.fetchCstmrCardObjctnInfo(data);
+          // 소송
+          // controller.fetchCstmrCardLwstInfo(data);
+          // 환매
+          // controller.fetchCstmrCardReprchsInfo(data);
+        }
+
       }),
       columns: [
         gridColumn('ownerNo', '소유자번호', width: 100),
@@ -772,36 +806,6 @@ class lpScreen extends GetView<LpController> {
 
         AppLog.i('buildOwnerLadInfoDataGrid > 선택된 토지 정보: ${data.toJson()}');
 
-        /***
-         * 고객카드의 토지, 지장물, 고객정보를 조회한다.
-         * land - 토지,
-         * obst - 지장물,
-         * List - 내역,
-         * Partcpnt - 관계인,
-         * Cmpnstn - 협의내역,
-         * Aceptnc - 수용재결,
-         * Objc - 이의재결,
-         * Lwst - 소송,
-         * Reprchs - 환매,
-         * Confirm - 수용확인원,
-         * Fobjct - 이의신청
-         */
-
-        // 관계인 (토지)
-        //controller.fetchCstmrCardLadPartcpntInfo(data);
-        // 관계인 (지장물)
-        //controller.fetchCstmrCardObstPartcpntInfo(data);
-
-        // 협의내역
-        // controller.fetchCstmrCardCmpnstnInfo(data);
-        // 수용재결
-        // controller.fetchCstmrCardAceptncInfo(data);
-        // 이의재결
-        // controller.fetchCstmrCardObjctnInfo(data);
-        // 소송
-        // controller.fetchCstmrCardLwstInfo(data);
-        // 환매
-        // controller.fetchCstmrCardReprchsInfo(data);
       }),
       columns: [
         gridColumn('lgdongNm', '소재지', width: 200),

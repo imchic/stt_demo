@@ -13,6 +13,7 @@ import 'package:ldi/screens/bsns/bsns_plan_model.dart';
 import 'package:ldi/screens/bsns/select/bsns_plan_select_area_model.dart';
 import 'package:ldi/screens/bsns/sqnc/bsns_accdtinvstg_sqnc_datasource.dart';
 import 'package:ldi/screens/bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
+import 'package:ldi/screens/cstmr/partcpnt/model/cstmrcard_lad_partcpnt_datasource_model.dart';
 import 'package:ldi/screens/owner/datasource/model/owner_info_model.dart';
 import 'package:ldi/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
 import 'package:ldi/screens/sttus/datasource/model/lad_sttus_inqire_model.dart';
@@ -36,6 +37,9 @@ import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
 import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_owner_model.dart';
+import '../cstmr/partcpnt/cstmrcard_lad_partcpnt_datasource.dart';
+import '../cstmr/partcpnt/cstmrcard_obst_partcpnt_datasource.dart';
+import '../cstmr/partcpnt/model/cstmrcard_obst_partcpnt_datasource_model.dart';
 import '../owner/datasource/owner_datasource.dart';
 import '../owner/datasource/model/owner_datasource_model.dart';
 import '../owner/lad/model/owner_lad_info_datasource_model.dart';
@@ -226,11 +230,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // 실태조사 > 지장물내역
   final accdtlnvstgObstDataSource = AccdtlnvstgObstDatasource(items: []).obs;
 
+  // 실태조사 > 지장물내역 > 소유자/관계인
   final accdtlnvstgObstOwnerDataSource = AccdtlnvstgObstOwnerDatasource(items: []).obs;
 
   // 통계정보 > 토지현황
   final ladSttusInqireDataSource = LadSttusInqireDatasource(items: []).obs;
   final obstSttusInqireDataSource = ObstSttusInqireDatasource(items: []).obs;
+
+  // 고객카드
+  final cstmrLadPartcpntDataSource = CstmrcardLadPartcpntDatasource(items: []).obs;
+  final cstmrcardObstPartcpntDatasource = CstmrcardObstPartcpntDatasource(items: []).obs;
 
   /// [Rx] 는 [GetxController] 에서 사용하는 반응형 변수이다.
   RxInt radioValue = 0.obs;
@@ -1498,6 +1507,63 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     }
   }
 
+  // [고객카드 > 관계인 (토지)] 조회
+  fetchCstmrCardLadPartcpntInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['landPartcpnt'];
+      AppLog.d('fetchCstmrCardLadPartcpntInfoDataSource > landPartcpnt : $data');
+
+      var cstmrCardLadPartcpnt = <CstmrcardLadPartcpntDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardLadPartcpntDataSourceKeyValue(data, cstmrCardLadPartcpnt, length);
+
+      cstmrLadPartcpntDataSource.value =
+          CstmrcardLadPartcpntDatasource(items: cstmrCardLadPartcpnt);
+    }
+
+  }
+
+  // [고객카드 > 관계인 (지장물)] 조회
+  fetchCstmrCardObstPartcpntInfoDataSource(ownerNo) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/lssom/selectCstmrCardLand.do');
+
+    var param = {
+      'shOwnerNo': ownerNo,
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['obstPartcpnt'];
+      AppLog.d('fetchCstmrCardObstPartcpntInfoDataSource > obstPartcpnt : $data');
+
+      var cstmrCardObstPartcpnt = <CstmrcardObstPartcpntDatasourceModel>[];
+      var length = data.length;
+
+      cstmrcardObstPartcpntDataSourceKeyValue(data, cstmrCardObstPartcpnt, length);
+
+      cstmrcardObstPartcpntDatasource.value =
+          CstmrcardObstPartcpntDatasource(items: cstmrCardObstPartcpnt);
+    }
+
+  }
+
+
   /// [차수] 선택
   getSelectOrder() async {
     DialogUtil.showBottomSheet(
@@ -1690,7 +1756,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
                 DialogUtil.showAlertDialog(
                   Get.context!,
-                  1.w > 1.h ? 960 : 1800,
+                  1.w > 1.h ? 1040 : 1800,
                   '선택이 완료되었습니다',
                   widget: Column(
                     children: [
@@ -1716,9 +1782,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                   bgColor: Color(0xFFFFF1E4),
                                   textColor: Color(0xFFFF8000)),
                               SizedBox(width: 6.w),
-                              LpController.to.selectBsnsPlan.value
-                                          .bsnsDivSclsNm ==
-                                      ''
+                              selectBsnsPlan.value.bsnsDivSclsNm == null
                                   ? SizedBox()
                                   : CustomBsnsBadge(
                                       text: LpController.to.selectBsnsPlan
@@ -1729,119 +1793,118 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                             ],
                           ),
                           SizedBox(height: 20.h),
-                          Container(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text:
-                                                '(${selectBsnsPlan.value.bsnsNo}) ',
-                                            style: TextStyle(
-                                              color: Color(0xFF1D1D1D),
-                                              fontSize:
-                                                  1.w > 1.h ? 32.sp : 52.sp,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w700,
-                                            ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              '(${selectBsnsPlan.value.bsnsNo}) ',
+                                          style: TextStyle(
+                                            color: Color(0xFF1D1D1D),
+                                            fontSize:
+                                                1.w > 1.h ? 32.sp : 52.sp,
+                                            fontFamily: 'Pretendard',
+                                            fontWeight: FontWeight.w700,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          TextSpan(
-                                            text: selectBsnsPlan.value.bsnsNm ??
-                                                '',
-                                            style: TextStyle(
-                                              color: Theme.of(Get.context!)
-                                                  .colorScheme
-                                                  .primary,
-                                              fontSize:
-                                                  1.w > 1.h ? 32.sp : 52.sp,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w700,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                        ),
+                                        TextSpan(
+                                          text: selectBsnsPlan.value.bsnsNm ??
+                                              '',
+                                          style: TextStyle(
+                                            color: Theme.of(Get.context!)
+                                                .colorScheme
+                                                .primary,
+                                            fontSize:
+                                                1.w > 1.h ? 32.sp : 52.sp,
+                                            fontFamily: 'Pretendard',
+                                            fontWeight: FontWeight.w700,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(width: 20.w),
-                                    Container(
-                                      width: 2.w,
-                                      height: 32.h,
-                                      decoration: BoxDecoration(
-                                          color: Color(0xFFD8D8D8)),
-                                    ),
-                                    SizedBox(width: 20.w),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: '${orderAutoController.text}',
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize:
-                                                  1.w > 1.h ? 32.sp : 52.sp,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w700,
-                                            ),
+                                  ),
+                                  SizedBox(width: 20.w),
+                                  Container(
+                                    width: 2.w,
+                                    height: 32.h,
+                                    decoration: BoxDecoration(
+                                        color: Color(0xFFD8D8D8)),
+                                  ),
+                                  SizedBox(width: 20.w),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: '${orderAutoController.text}',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize:
+                                                1.w > 1.h ? 32.sp : 52.sp,
+                                            fontFamily: 'Pretendard',
+                                            fontWeight: FontWeight.w700,
                                           ),
-                                          TextSpan(
-                                            text: '차조사',
-                                            style: TextStyle(
-                                              color: Color(0xFF1D1D1D),
-                                              fontSize:
-                                                  1.w > 1.h ? 32.sp : 52.sp,
-                                              fontFamily: 'Pretendard',
-                                              fontWeight: FontWeight.w700,
-                                            ),
+                                        ),
+                                        TextSpan(
+                                          text: '차조사',
+                                          style: TextStyle(
+                                            color: Color(0xFF1D1D1D),
+                                            fontSize:
+                                                1.w > 1.h ? 32.sp : 52.sp,
+                                            fontFamily: 'Pretendard',
+                                            fontWeight: FontWeight.w700,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                SizedBox(height: 20.h),
-                                Text(
-                                  selectBsnsPlan.value.bsnsLcinfo ?? '',
-                                  style: TextStyle(
-                                    color: tableTextColor,
-                                    fontSize: 1.w > 1.h ? 32.sp : 52.sp,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w500,
-                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  maxLines: 2,
+                                ],
+                              ),
+                              SizedBox(height: 20.h),
+                              Text(
+                                selectBsnsPlan.value.bsnsLcinfo ?? '',
+                                style: TextStyle(
+                                  color: tableTextColor,
+                                  fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w500,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                SizedBox(height: 10.h),
-                                // 시작일 ~ 종료일
-                                SizedBox(height: 10.h),
-                                Text(
-                                  '사업기간: ${orderStartDtController.text} ~ ${orderEndDtController.text}',
-                                  style: TextStyle(
-                                    color: Color(0xFF1D1D1D),
-                                    fontSize: 1.w > 1.h ? 32.sp : 50.sp,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                maxLines: 2,
+                              ),
+                              SizedBox(height: 10.h),
+                              // 시작일 ~ 종료일
+                              SizedBox(height: 10.h),
+                              Text(
+                                '사업기간: ${orderStartDtController.text} ~ ${orderEndDtController.text}',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 1.w > 1.h ? 32.sp : 50.sp,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                SizedBox(height: 48.h),
-                                Text(
-                                  '현장 실태조사를 시작하시겠습니까?',
-                                  style: TextStyle(
-                                    color: Color(0xFF1D1D1D),
-                                    fontSize: 1.w > 1.h ? 36.sp : 56.sp,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w400,
-                                    // 행간
-                                    height: 1.5,
-                                  ),
-                                )
-                              ],
-                            ),
+                              ),
+                              SizedBox(height: 48.h),
+                              Text(
+                                '현장 실태조사를 시작하시겠습니까?',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 1.w > 1.h ? 36.sp : 56.sp,
+                                  fontFamily: 'Pretendard',
+                                  fontWeight: FontWeight.w400,
+                                  // 행간
+                                  height: 1.5,
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       )

@@ -4,9 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'model/cstmrcard_lad_partcpnt_datasource_model.dart';
+import 'model/cstmrcard_obst_partcpnt_datasource_model.dart';
 
-class CstmrcardLadPartcpntDatasource extends DataGridSource {
-  CstmrcardLadPartcpntDatasource({required List<CstmrcardLadPartcpntDatasourceModel> items}) {
+class CstmrcardObstPartcpntDatasource extends DataGridSource {
+  CstmrcardObstPartcpntDatasource({required List<CstmrcardObstPartcpntDatasourceModel> items}) {
     _items = items
         .map<DataGridRow>((e) =>
         DataGridRow(cells: [
@@ -14,16 +15,6 @@ class CstmrcardLadPartcpntDatasource extends DataGridSource {
           DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivNm), // 특지
           DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno), // 본번
           DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno), // 부번
-          // 지목
-          DataGridCell<String>(columnName: 'ofcbkLndcgrDivNm', value: e.ofcbkLndcgrDivNm), // 공부지목
-          DataGridCell<String>(columnName: 'sttusLndcgrDivNm', value: e.sttusLndcgrDivNm), // 현황지
-          // 면적
-          DataGridCell<String>(columnName: 'ofcbkAra', value: e.ofcbkAra.toString()), // 공부
-          DataGridCell<String>(columnName: 'incrprAra', value: e.incrprAra.toString()), // 편입
-          DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: e.cmpnstnInvstgAra.toString()), // 보상
-
-          DataGridCell<String>(columnName: 'posesnShreNmrtrInfo', value: e.posesnShreNmrtrInfo), // 보유자
-          DataGridCell<String>(columnName: 'posesnShreDnmntrInfo', value: e.posesnShreDnmntrInfo), // 보유자
           DataGridCell<String>(columnName: 'partcpntSeq', value: e.partcpntSeq.toString()), // 참여자
           DataGridCell<String>(columnName: 'cmpnstnPartcpntRsn', value: e.cmpnstnPartcpntRsn), // 참여자
           DataGridCell<String>(columnName: 'partcpntNm', value: e.partcpntNm), // 참여자
@@ -42,15 +33,6 @@ class CstmrcardLadPartcpntDatasource extends DataGridSource {
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(cells: row.getCells().map<Widget>((dataGridCell) {
-
-      if (dataGridCell.columnName == 'accdtInvstgSqnc') {
-        return Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8.0),
-          child: Center(child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC)))),
-        );
-      }
-
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
