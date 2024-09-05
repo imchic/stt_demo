@@ -100,7 +100,7 @@ class BsnsWidget {
                                   controller: controller.bsnsNoSearchController,
                                   hintText: '사업번호를 입력해주세요',
                                   onChanged: (value) {
-                                    controller.searchBsnsName(value);
+                                    controller.searchBsnsNo(value);
                                   },
                                 ),
                               ),

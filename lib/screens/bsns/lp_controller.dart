@@ -2335,6 +2335,22 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     });
   }
 
+  /// [사업번호] 검색
+  Future<void> searchBsnsNo(String value) async {
+    AppLog.d('searchBsnsNo : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchBsnsPlanList.value = bsnsPlanList;
+      } else {
+        searchBsnsPlanList.value = bsnsPlanList
+            .where((element) => element.bsnsNo?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachBsnsPlanList : $searchBsnsPlanList');
+      }
+    });
+  }
+
   /// [차수 자동 입력]
   autoSqnc() async {
     var url = 'http://222.107.22.159:18080/lp/bsns/selectAccdtInvstgSqnc.do';
