@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -421,6 +422,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   RxList<BsnsPlanModel> searchBsnsPlanList = <BsnsPlanModel>[].obs;
 
   Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
+
+  late InAppWebViewController inAppWebViewController;
 
   @override
   Future<void> onInit() async {
@@ -954,13 +957,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         // Get.back();
         DialogUtil.showAlertDialog(
           Get.context!,
-          0,
+          840,
           '실태조사',
           widget: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 1.w > 1.h ? 32.sp : 52.sp, fontWeight: FontWeight.w500)),
+                Text('${selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 32.sp, fontWeight: FontWeight.w500)),
               ],
             ),
           ),
@@ -1940,7 +1946,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                         '차수등록',
                         style: TextStyle(
                           color: tableTextColor,
-                          fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1980,7 +1986,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                         '시작일',
                         style: TextStyle(
                           color: tableTextColor,
-                          fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -2043,7 +2049,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                           '종료일',
                           style: TextStyle(
                             color: tableTextColor,
-                            fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                            fontSize: 32.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -2156,7 +2162,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                           style: TextStyle(
                                             color: Color(0xFF1D1D1D),
                                             fontSize:
-                                                1.w > 1.h ? 32.sp : 52.sp,
+                                                32.sp,
                                             fontFamily: 'Pretendard',
                                             fontWeight: FontWeight.w700,
                                             overflow: TextOverflow.ellipsis,
@@ -2170,7 +2176,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                                 .colorScheme
                                                 .primary,
                                             fontSize:
-                                                1.w > 1.h ? 32.sp : 52.sp,
+                                                32.sp,
                                             fontFamily: 'Pretendard',
                                             fontWeight: FontWeight.w700,
                                             overflow: TextOverflow.ellipsis,
@@ -2195,7 +2201,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                           style: TextStyle(
                                             color: Colors.red,
                                             fontSize:
-                                                1.w > 1.h ? 32.sp : 52.sp,
+                                                32.sp,
                                             fontFamily: 'Pretendard',
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -2205,7 +2211,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                           style: TextStyle(
                                             color: Color(0xFF1D1D1D),
                                             fontSize:
-                                                1.w > 1.h ? 32.sp : 52.sp,
+                                                32.sp,
                                             fontFamily: 'Pretendard',
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -2220,7 +2226,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                 selectBsnsPlan.value.bsnsLcinfo ?? '',
                                 style: TextStyle(
                                   color: tableTextColor,
-                                  fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                  fontSize: 32.sp,
                                   fontFamily: 'Pretendard',
                                   fontWeight: FontWeight.w500,
                                   overflow: TextOverflow.ellipsis,
@@ -2295,7 +2301,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                               '저장',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                fontSize: 32.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),

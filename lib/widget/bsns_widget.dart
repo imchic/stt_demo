@@ -181,7 +181,7 @@ class BsnsWidget {
                                       '',
                                   style: TextStyle(
                                     color: Color(0xFF1D1D1D),
-                                    fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                    fontSize: 32.sp,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -201,7 +201,7 @@ class BsnsWidget {
                                     '-',
                                 style: TextStyle(
                                   color: Color(0xFF555555),
-                                  fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                  fontSize: 32.sp,
                                   fontFamily: 'Pretendard',
                                   fontWeight: FontWeight.w400,
                                   overflow: TextOverflow.ellipsis,

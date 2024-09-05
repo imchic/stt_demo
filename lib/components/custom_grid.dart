@@ -108,7 +108,7 @@ class _CustomGridState extends State<CustomGrid> {
         // },
         columnResizeMode: ColumnResizeMode.onResizeEnd,
         showColumnHeaderIconOnHover: true,
-        selectionMode: widget.isSelect ? SelectionMode.single : SelectionMode.none,
+        selectionMode: widget.isSelect ? SelectionMode.single : SelectionMode.singleDeselect,
         onSelectionChanged: widget.selectionEvent,
         footerHeight: 0,
       ),

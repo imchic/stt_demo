@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ldi/routes/app_route.dart';
 import 'package:ldi/screens/accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
 import 'package:ldi/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
 import 'package:ldi/utils/applog.dart';
@@ -35,6 +37,7 @@ class lpScreen extends GetView<LpController> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      drawerEnableOpenDragGesture: false, // 엣지 스와이프 비활성화
       body: SafeArea(
         child: Column(
           children: [
@@ -169,63 +172,22 @@ class lpScreen extends GetView<LpController> {
                       ),
                     ),
                   ),
-
-                  // // 오른쪽 뷰
-                  // Obx(() {
-                  //   return Expanded(
-                  //     flex: controller.isBsnsSelectFlag == true ? 4 : 0,
-                  //     child: Column(
-                  //       children: [
-                  //         if (controller.selectedIndex.value == 0)
-                  //
-                  //           // 사업구역
-                  //           controller.isBsnsSelectFlag == true
-                  //               ? BsnsWidget.buildBsnsSelectZoneContainer(controller)
-                  //               : Container(),
-                  //
-                  //           // 조사차수
-                  //           controller.isBsnsZoneSelectFlag == true
-                  //               ? BsnsWidget.buildBsnsSelectSqncContainer(controller)
-                  //               : Container(),
-                  //
-                  //       ],
-                  //     ),
-                  //   );
-                  // }),
-
                   /// 슬라이드 패널
-                  Builder(
-                    builder: (context) => InkWell(
-                      onTap: () {
-                        Scaffold.of(context).openEndDrawer();
-                      },
-                      child: Center(
-                        child: SvgPicture.asset(
-                          'assets/icons/ic_gis_open.svg',
-                        ),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed(AppRoute.gis);
+                    },
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/icons/ic_gis_open.svg',
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
             // right drawer
           ],
-        ),
-      ),
-      endDrawer: Drawer(
-        width: Get.width * 0.95,
-        child: NaverMap(
-          options: NaverMapViewOptions(
-            initialCameraPosition: NCameraPosition(
-              target: NLatLng(37.3595704, 127.105399),
-              zoom: 15,
-            ),
-            mapType: NMapType.hybrid,
-          ),
-          onMapReady: (controller) {
-            AppLog.d("네이버 맵 로딩됨!");
-          },
         ),
       ),
     );
@@ -235,7 +197,7 @@ class lpScreen extends GetView<LpController> {
   Widget lnbWidget() {
     return Obx(
       () => Container(
-        width: 1.w > 1.h ? 210.w : 308.w,
+        width: 210.w,
         decoration: BoxDecoration(
           color: lnbBg,
         ),
@@ -243,7 +205,7 @@ class lpScreen extends GetView<LpController> {
           children: [
             Container(
               //width: 208.w,
-              width: 1.w > 1.h ? 208.w : 308.w,
+              width: 208.w,
               height: 160.h,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
@@ -278,7 +240,7 @@ class lpScreen extends GetView<LpController> {
                           controller.pageController.jumpToPage(index);
                         },
                         child: Container(
-                          width: 1.w > 1.h ? 208.w : 308.w,
+                          width: 208.w,
                           height: 160.h,
                           padding: EdgeInsets.symmetric(horizontal: 40.w),
                           decoration: BoxDecoration(
@@ -292,19 +254,19 @@ class lpScreen extends GetView<LpController> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                width: 1.w > 1.h ? 40.w : 60.w,
-                                height: 1.w > 1.h ? 40.h : 60.h,
+                                width: 40.w,
+                                height: 40.h,
                                 child: SvgPicture.asset(
                                     'assets/icons/ic_menu_${index + 1}.svg',
-                                    width: 1.w > 1.h ? 40.w : 60.w,
-                                    height: 1.w > 1.h ? 40.h : 60.h,
+                                    // width: 1.w > 1.h ? 40.w : 60.w,
+                                    // height: 1.w > 1.h ? 40.h : 60.h,
                                     color: Colors.white),
                               ),
                               SizedBox(height: 8.h),
-                              AutoSizeText(controller.leftNavItems[index],
+                              Text(controller.leftNavItems[index],
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 1.w > 1.h ? 30.sp : 42.sp,
+                                      fontSize: 30.sp,
                                       fontWeight: FontWeight.w500),
                                   //overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.center),
@@ -349,7 +311,7 @@ class lpScreen extends GetView<LpController> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF1D1D1D),
-                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontSize: 30.sp,
                       fontWeight: FontWeight.w700,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -365,7 +327,7 @@ class lpScreen extends GetView<LpController> {
                     controller.selectBsnsPlan.value.gztNtfcNoDtls ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                      fontSize: 32.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -389,7 +351,7 @@ class lpScreen extends GetView<LpController> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF1D1D1D),
-                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontSize: 30.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   )),
@@ -404,7 +366,7 @@ class lpScreen extends GetView<LpController> {
                     controller.selectBsnsPlan.value.enfcMthDtls ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                      fontSize: 32.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -428,7 +390,7 @@ class lpScreen extends GetView<LpController> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFF1D1D1D),
-                        fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                        fontSize: 30.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -443,7 +405,7 @@ class lpScreen extends GetView<LpController> {
                     controller.selectBsnsPlan.value.bsnsPurpsDtls ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                      fontSize: 32.sp,
                       fontFamily: 'Pretendard',
                       fontWeight: FontWeight.w400,
                     ),
@@ -468,7 +430,7 @@ class lpScreen extends GetView<LpController> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF1D1D1D),
-                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontSize: 30.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   )),
@@ -482,7 +444,7 @@ class lpScreen extends GetView<LpController> {
                     controller.selectBsnsPlan.value.bsnsScaleInfo ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                      fontSize: 32.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -506,7 +468,7 @@ class lpScreen extends GetView<LpController> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF1D1D1D),
-                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontSize: 30.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   )),
@@ -520,7 +482,7 @@ class lpScreen extends GetView<LpController> {
                     controller.selectBsnsPlan.value.bsnsBasisLawordInfo ?? '-',
                     style: TextStyle(
                       color: Color(0xFF555555),
-                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                      fontSize: 32.sp,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -560,6 +522,7 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.bsnsListDataSource.value,
       controller: controller.bsnsListDataGridController,
       isSort: false,
+      isSelect: false,
       columnWidthMode: ColumnWidthMode.fill,
       columns: [
         gridColumn('bsnsZoneNo', '사업구역번호'),
@@ -614,7 +577,7 @@ class lpScreen extends GetView<LpController> {
       controller: controller.bsnsOrderDataGridController,
       columnWidthMode: ColumnWidthMode.fill,
       isSort: false,
-      isSelect: true,
+      isSelect: false,
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         if (addedRows.isEmpty) return;
@@ -643,7 +606,6 @@ class lpScreen extends GetView<LpController> {
 
         controller.fetchAccdtlnvstgSearchDataSource();
         controller.fetchAccdtlnvstgObstDataSource();
-
       }),
       columns: [
         gridColumn('bsnsNo', '사업번호', isVisble: false),
@@ -681,7 +643,7 @@ class lpScreen extends GetView<LpController> {
           controller.bsnsOwnerTabController.animateTo(1);
         }
 
-        if(controller.selectedIndex.value == 4) {
+        if (controller.selectedIndex.value == 4) {
           /***
            * 고객카드의 토지, 지장물, 고객정보를 조회한다.
            * land - 토지,
@@ -729,9 +691,7 @@ class lpScreen extends GetView<LpController> {
 
           // 이의신청
           controller.fetchCstmrCardFobjctInfoDataSource(ownerNum);
-
         }
-
       }),
       columns: [
         gridColumn('ownerNo', '소유자번호', width: 100),
@@ -823,7 +783,6 @@ class lpScreen extends GetView<LpController> {
         );
 
         AppLog.i('buildOwnerLadInfoDataGrid > 선택된 토지 정보: ${data.toJson()}');
-
       }),
       columns: [
         gridColumn('lgdongNm', '소재지', width: 200),
@@ -973,24 +932,24 @@ class lpScreen extends GetView<LpController> {
           );
 
           controller.selectedOwnerLadOwnerData.value = data;
-          controller.accdtlnvstgLadSearchDataSource.value = AccdtlnvstgLadDatasource(items: [data]);
+          controller.accdtlnvstgLadSearchDataSource.value =
+              AccdtlnvstgLadDatasource(items: [data]);
 
           AppLog.i('buildLadAccdtlnvstgDataGrid > 선택된 토지 정보: ${data.toJson()}');
 
           controller.handleAccdtlnvstgLadTabSelected(1);
 
-          if(controller.accdtlnvstgTabLadSelected[1] == true) {
+          if (controller.accdtlnvstgTabLadSelected[1] == true) {
             controller.fetchAccdtlnvstgLadOwnerDataSource(data.thingSerNo);
           }
-
         }));
   }
 
   // 실태조사 -> 토지 -> 토지 검색 결과
   Widget buildLadAccdtlnvstgSearchDataGrid() {
     return CustomGrid(
-      dataSource: controller.accdtlnvstgLadSearchDataSource.value,
-      controller: controller.accdtlnvstgLadDataSearchGridController,
+        dataSource: controller.accdtlnvstgLadSearchDataSource.value,
+        controller: controller.accdtlnvstgLadDataSearchGridController,
         isSort: false,
         columnWidthMode: ColumnWidthMode.auto,
         freezeColumnCount: 5,
@@ -1034,24 +993,24 @@ class lpScreen extends GetView<LpController> {
                         )))),
           ]),
         ],
-      columns: [
-        gridColumn('thingSerNo', '물건일련번호', isVisble: false),
-        gridColumn('lgdongNm', '소재지'),
-        gridColumn('lcrtsDivCdNm', '특지', width: 40),
-        gridColumn('mlnoLtno', '본번', width: 50),
-        gridColumn('slnoLtno', '부번', width: 50),
-        gridColumn('ofcbkLndcgrDivNm', '공부', width: 60),
-        gridColumn('sttusLndcgrDivNm', '현황', width: 60),
-        gridColumn('ofcbkAra', '공부', width: 60),
-        gridColumn('incrprAra', '편입', width: 60),
-        gridColumn('cmpnstnInvstgAra', '조사', width: 60),
-        gridColumn('acqsPrpDivNm', '취득용도', width: 80),
-        gridColumn('aceptncUseDivNm', '수용/사용', width: 60),
-        gridColumn('accdtInvstgSqnc', '조사차수', width: 50),
-        gridColumn('invstgDt', '조사일', width: 90),
-        gridColumn('cmpnstnStepDivNm', '보상진행단계', width: 90),
-        gridColumn('accdtInvstgRm', '비고', width: 90),
-      ]);
+        columns: [
+          gridColumn('thingSerNo', '물건일련번호', isVisble: false),
+          gridColumn('lgdongNm', '소재지'),
+          gridColumn('lcrtsDivCdNm', '특지', width: 40),
+          gridColumn('mlnoLtno', '본번', width: 50),
+          gridColumn('slnoLtno', '부번', width: 50),
+          gridColumn('ofcbkLndcgrDivNm', '공부', width: 60),
+          gridColumn('sttusLndcgrDivNm', '현황', width: 60),
+          gridColumn('ofcbkAra', '공부', width: 60),
+          gridColumn('incrprAra', '편입', width: 60),
+          gridColumn('cmpnstnInvstgAra', '조사', width: 60),
+          gridColumn('acqsPrpDivNm', '취득용도', width: 80),
+          gridColumn('aceptncUseDivNm', '수용/사용', width: 60),
+          gridColumn('accdtInvstgSqnc', '조사차수', width: 50),
+          gridColumn('invstgDt', '조사일', width: 90),
+          gridColumn('cmpnstnStepDivNm', '보상진행단계', width: 90),
+          gridColumn('accdtInvstgRm', '비고', width: 90),
+        ]);
   }
 
   /// 실태조사 -> 토지 -> 소유자/관계인 -> 소유자 현황
@@ -1073,10 +1032,12 @@ class lpScreen extends GetView<LpController> {
         gridColumn('ownerTelno', '전화번호'),
         gridColumn('ownerMbtlnum', '휴대폰'),
       ],
-      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+      selectionEvent:
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         if (addedRows.isEmpty) return;
 
-        final index = controller.accdtlnvstgLadOwnerDataSource.value.rows.indexOf(addedRows.first);
+        final index = controller.accdtlnvstgLadOwnerDataSource.value.rows
+            .indexOf(addedRows.first);
         var getRow = controller.accdtlnvstgLadOwnerDataSource.value.rows[index];
 
         var ownerNo = getRow.getCells()[0].value;
@@ -1112,10 +1073,12 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.accdtlnvstgObstDataSource.value,
       controller: controller.accdtlnvstgObstDataGridController,
       isSort: false,
-      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+      selectionEvent:
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         if (addedRows.isEmpty) return;
 
-        final index = controller.accdtlnvstgObstDataSource.value.rows.indexOf(addedRows.first);
+        final index = controller.accdtlnvstgObstDataSource.value.rows
+            .indexOf(addedRows.first);
         var getRow = controller.accdtlnvstgObstDataSource.value.rows[index];
 
         var thingSerNo = getRow.getCells()[0].value;
@@ -1144,11 +1107,14 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.accdtlnvstgObstOwnerDataSource.value,
       controller: controller.accdtlnvstgObstOwnerDataGridController,
       isSort: false,
-      selectionEvent: ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+      selectionEvent:
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         if (addedRows.isEmpty) return;
 
-        final index = controller.accdtlnvstgObstOwnerDataSource.value.rows.indexOf(addedRows.first);
-        var getRow = controller.accdtlnvstgObstOwnerDataSource.value.rows[index];
+        final index = controller.accdtlnvstgObstOwnerDataSource.value.rows
+            .indexOf(addedRows.first);
+        var getRow =
+            controller.accdtlnvstgObstOwnerDataSource.value.rows[index];
 
         var thingSerNo = getRow.getCells()[0].value;
         AppLog.d('선택된 지장물 번호: $thingSerNo');
@@ -1584,8 +1550,7 @@ class lpScreen extends GetView<LpController> {
           gridColumn('cmpnstnDscssPdInfo', '협의기간'),
           gridColumn('cmpnstnDscssPlaceDtls', '협의장소'),
           gridColumn('cmpnstnEraMthPrcdrCtnt', '시간방법 및 절차'),
-        ]
-    );
+        ]);
   }
 
   /// [buildBsnsRadio] 라디오 버튼
@@ -1606,7 +1571,7 @@ class lpScreen extends GetView<LpController> {
                 child: AutoSizeText('사업구분',
                     style: TextStyle(
                         color: tableTextColor,
-                        fontSize: 1.w > 1.h ? 32.sp : 22.sp,
+                        fontSize: 32.sp,
                         fontWeight: FontWeight.w500))),
             SizedBox(width: 20.w),
             CustomRadio(

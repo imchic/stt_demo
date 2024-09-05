@@ -221,7 +221,7 @@ class AccdtInvstgObstWidget {
                                                                                 title: AutoSizeText(controller.accdtlnvstgAcqstnPrpsList[index],
                                                                                     style: TextStyle(
                                                                                       color: tableTextColor,
-                                                                                      fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                                                                      fontSize: 32.sp,
                                                                                       fontWeight: FontWeight.w500,
                                                                                     )),
                                                                                 onTap: () {

@@ -19,6 +19,7 @@
     <application
         android:label="K-water 모바일 토지보상시스템"
         android:name="${applicationName}"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

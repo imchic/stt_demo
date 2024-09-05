@@ -74,7 +74,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                       '홍길동 대리',
                                       style: TextStyle(
                                         color: Color(0xFF1D1D1D),
-                                        fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                                        fontSize: 32.sp,
                                         fontFamily: 'Pretendard',
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -113,7 +113,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                                   '로그아웃',
                                   widget: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text('로그아웃 하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 1.w > 1.h ? 32.sp : 52.sp, fontWeight: FontWeight.w500)),
+                                    child: Text('로그아웃 하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 32.sp, fontWeight: FontWeight.w500)),
                                   ),
                                   onOk: () {
                                     Get.back();
@@ -171,7 +171,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                 '선택된 사업명이 없습니다.',
                 style: TextStyle(
                   color: Color(0xFF555555),
-                  fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                  fontSize: 32.sp,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -211,7 +211,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                         LpController.to.selectBsnsPlan.value.bsnsNm ?? '',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
-                          fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.w700,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -227,7 +227,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                         LpController.to.selectedBsnsSelectArea.value.bsnsZoneNm ?? '',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
-                          fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.w700,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -243,7 +243,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                         LpController.to.selectSqnc.value.accdtInvstgSqnc == null ? '' : '${LpController.to.selectSqnc.value.accdtInvstgSqnc}차',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
-                          fontSize: 1.w > 1.h ? 32.sp : 52.sp,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.w700,
                           overflow: TextOverflow.ellipsis,
                         ),
