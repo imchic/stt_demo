@@ -30,7 +30,7 @@ class CstmrcardConfirmDatasource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: row.getCells().map<Widget>((dataGridCell) {
+    return DataGridRowAdapter(color: Colors.white, cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),

@@ -34,7 +34,7 @@ class AccdtlnvstgLadOwnerDatasource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: row.getCells().map<Widget>((dataGridCell) {
+    return DataGridRowAdapter(color: Colors.white, cells: row.getCells().map<Widget>((dataGridCell) {
 
       if(dataGridCell.columnName == 'ownerRrnEnc') {
         return Container(
