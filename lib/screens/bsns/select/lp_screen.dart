@@ -1553,6 +1553,312 @@ class lpScreen extends GetView<LpController> {
         ]);
   }
 
+  Widget buildCstmrcardLadAceptncDataGrid() {
+    return CustomGrid(
+      dataSource: controller.cstmrcardLadAceptncDatasource.value,
+      controller: controller.cstmrCardLadAceptncDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
+      columns: [
+        gridColumn('lgdongNm', '토지소재지'),
+        gridColumn('lcrtsDivNm', '특지'),
+        gridColumn('mlnoLtno', '본번'),
+        gridColumn('slnoLtno', '부번'),
+        gridColumn('acqsPrpDivNm', '취득용도'),
+        gridColumn('ofcbkLndcgrDivNm', '공부지목'),
+        gridColumn('sttusLndcgrDivNm', '현황지목'),
+        gridColumn('ofcbkAra', '공부면적'),
+        gridColumn('incrprAra', '편입면적'),
+        gridColumn('cmpnstnInvstgAra', '조사면적'),
+        gridColumn('posesnShreNmrtrInfo', '지분분자'),
+        gridColumn('posesnShreDnmntrInfo', '지분분모'),
+        gridColumn('aceptncUseBeginDe', '수용/사용개실일'),
+        gridColumn('aceptncAdjdcDt', '재결일자'),
+        gridColumn('aceptncAdjdcUpc', '재결단가'),
+        gridColumn('aceptncAdjdcAmt', '재결금액'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardObstAceptncDataGrid() {
+    return CustomGrid(
+      dataSource: controller.cstmrcardObstAceptncDatasource.value,
+      controller: controller.cstmrCardObstAceptncDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
+      columns: [
+        gridColumn('lgdongNm', '지장물소재지'),
+        gridColumn('lcrtsDivNm', '특지'),
+        gridColumn('mlnoLtno', '본번'),
+        gridColumn('slnoLtno', '부번'),
+        gridColumn('acqsPrpDivNm', '취득용도'),
+        gridColumn('cmpnstnThingKndDtls', '물건종류'),
+        gridColumn('obstDivNm', '물건구분'),
+        gridColumn('obstStrctStndrdInfo', '구조및규격'),
+        gridColumn('cmpnstnQtyAraVu', '수량및면적'),
+        gridColumn('cmpnstnThingUnitDivNm', '단위'),
+        gridColumn('aceptncUseBeginDe', '수용/사용개실일'),
+        gridColumn('aceptncAdjdcDt', '재결일자'),
+        gridColumn('aceptncAdjdcUpc', '재결단가'),
+        gridColumn('aceptncAdjdcAmt', '재결금액'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardLadObjcDataGrid() {
+    return CustomGrid(
+      dataSource: controller.cstmrcardLadObjcDatasource.value,
+      controller: controller.cstmrCardLadObjcDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
+      columns: [
+        gridColumn('lgdongNm', '토지소재지'),
+        gridColumn('lcrtsDivNm', '특지'),
+        gridColumn('mlnoLtno', '본번'),
+        gridColumn('slnoLtno', '부번'),
+        gridColumn('acqsPrpDivNm', '취득용도'),
+        gridColumn('ofcbkLndcgrDivNm', '공부지목'),
+        gridColumn('sttusLndcgrDivNm', '현황지목'),
+        gridColumn('ofcbkAra', '공부면적'),
+        gridColumn('incrprAra', '편입면적'),
+        gridColumn('cmpnstnInvstgAra', '조사면적'),
+        gridColumn('posesnShreNmrtrInfo', '지분분자'),
+        gridColumn('posesnShreDnmntrInfo', '지분분모'),
+        gridColumn('objcLdgmntDe', '공탁일자'),
+        gridColumn('objcLdgmntAmt', '공탁금액'),
+        gridColumn('obadUpc', '재결단가'),
+        gridColumn('objcRstAmt', '재결금액'),
+        gridColumn('objcIrsdAmt', '증액금액'),
+        gridColumn('objcAdjdcDt', '재결일자'),
+        gridColumn('objcLdgmntPrrgDe', '공탁예정일'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardObstObjcDataGrid() {
+    return CustomGrid(
+      dataSource: controller.cstmrcardObstObjcDatasource.value,
+      controller: controller.cstmrCardObstObjcDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
+      columns: [
+        gridColumn('lgdongNm', '지장물소재지'),
+        gridColumn('lcrtsDivNm', '특지'),
+        gridColumn('mlnoLtno', '본번'),
+        gridColumn('slnoLtno', '부번'),
+        gridColumn('acqsPrpDivNm', '취득용도'),
+        gridColumn('cmpnstnThingKndDtls', '물건종류'),
+        gridColumn('obstDivNm', '물건구분'),
+        gridColumn('obstStrctStndrdInfo', '구조및규격'),
+        gridColumn('cmpnstnQtyAraVu', '수량및면적'),
+        gridColumn('cmpnstnThingUnitDivNm', '단위'),
+        gridColumn('objcLdgmntDe', '공탁일자'),
+        gridColumn('objcLdgmntAmt', '공탁금액'),
+        gridColumn('obadUpc', '재결단가'),
+        gridColumn('objcRstAmt', '재결금액'),
+        gridColumn('objcIrsdAmt', '증액금액'),
+        gridColumn('objcAdjdcDt', '재결일자'),
+        gridColumn('objcLdgmntPrrgDe', '공탁예정일'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardLadLwstDataGrid() {
+    return CustomGrid(
+      dataSource: controller.cstmrcardLadLwstDatasource.value,
+      controller: controller.cstmrCardLadLwstDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
+      columns: [
+        gridColumn('lgdongNm', '토지소재지'),
+        gridColumn('lcrtsDivNm', '특지'),
+        gridColumn('mlnoLtno', '본번'),
+        gridColumn('slnoLtno', '부번'),
+        gridColumn('acqsPrpDivNm', '취득용도'),
+        gridColumn('ofcbkLndcgrDivNm', '공부지목'),
+        gridColumn('sttusLndcgrDivNm', '현황지목'),
+        gridColumn('ofcbkAra', '공부면적'),
+        gridColumn('incrprAra', '편입면적'),
+        gridColumn('cmpnstnInvstgAra', '조사면적'),
+        gridColumn('posesnShreNmrtrInfo', '지분분자'),
+        gridColumn('posesnShreDnmntrInfo', '지분분모'),
+        gridColumn('lwstApelStepDivNm', '상소단계'),
+        gridColumn('trl01LwstSlipNo', '전표번호'),
+        gridColumn('judmnPymntDe', '지급일자'),
+        gridColumn('trl01LwstPymamt', '지급급액'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardObstLwstDataGrid() {
+    return CustomGrid(
+      dataSource: controller.cstmrcardObstLwstDatasource.value,
+      controller: controller.cstmrCardObstLwstDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
+      columns: [
+        gridColumn('lgdongNm', '지장물소재지'),
+        gridColumn('lcrtsDivNm', '특지'),
+        gridColumn('mlnoLtno', '본번'),
+        gridColumn('slnoLtno', '부번'),
+        gridColumn('acqsPrpDivNm', '취득용도'),
+        gridColumn('cmpnstnThingKndDtls', '물건종류'),
+        gridColumn('obstDivNm', '물건구분'),
+        gridColumn('obstStrctStndrdInfo', '구조및규격'),
+        gridColumn('cmpnstnQtyAraVu', '수량및면적'),
+        gridColumn('cmpnstnThingUnitDivNm', '단위'),
+        gridColumn('lwstApelStepDivNm', '상소단계'),
+        gridColumn('trl01LwstSlipNo', '전표번호'),
+        gridColumn('judmnPymntDe', '지급일자'),
+        gridColumn('trl01LwstPymamt', '지급급액'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardReprchstDataGrid() {
+    return CustomGrid(
+      dataSource: controller.cstmrcardReprchsDatasource.value,
+      controller: controller.cstmrCardReprchsDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
+      stackedHeaderRows: [
+        StackedHeaderRow(cells: [
+          StackedHeaderCell(
+              columnNames: ['ofcbkLndcgrDivNm', 'sttusLndcgrDivNm'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('지목',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D))))),
+          StackedHeaderCell(
+              columnNames: ['ofcbkAra', 'incrprAra'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('면적(㎡)',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D))))),
+          StackedHeaderCell(
+              columnNames: ['posesnShreNmrtrInfo', 'posesnShreDnmntrInfo'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('지분',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D))))),
+          StackedHeaderCell(
+              columnNames: ['apasmtInsttEvlUpc1', 'apasmtInsttEvlAmt1'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('A평가 기관',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D))))),
+          StackedHeaderCell(
+              columnNames: ['apasmtInsttEvlUpc2', 'apasmtInsttEvlAmt2'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('B평가 기관',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D))))),
+          StackedHeaderCell(
+              columnNames: ['reprchsCmptnUpc', 'reprchsCmptnAmt'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('산정액',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D))))),
+          StackedHeaderCell(
+              columnNames: ['reprchsRctcDivCd', 'rctcAmt', 'rctcDe'],
+              child: Container(
+                  alignment: Alignment.center,
+                  child: AutoSizeText('수납내역',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30.sp,
+                          color: Color(0xFF1D1D1D))))),
+        ]),
+      ],
+      columns: [
+        gridColumn('lgdongNm', '토지소재지'),
+        gridColumn('lcrtsDivNm', '특지'),
+        gridColumn('mlnoLtno', '본번'),
+        gridColumn('slnoLtno', '부번'),
+        gridColumn('acqsPrpDivNm', '취득용도'),
+        gridColumn('ofcbkLndcgrDivNm', '공부'),
+        gridColumn('sttusLndcgrDivNm', '현황'),
+        gridColumn('ofcbkAra', '공부면적'),
+        gridColumn('incrprAra', '편입면적'),
+        gridColumn('posesnShreNmrtrInfo', '분자'),
+        gridColumn('posesnShreDnmntrInfo', '분모'),
+        gridColumn('cpsmn', '보상금액'),
+        gridColumn('ownerNm', '소유자명'),
+        gridColumn('reprchsNotieRecptDe', '환매통지일'),
+        gridColumn('reprchsOpinionAnswerDe', '의사표시일'),
+        gridColumn('apasmtReqestDt', '감정평가의뢰일'),
+        gridColumn('apasmtSqnc', '평가차수'),
+        gridColumn('prcPnttmDe', '가격시점'),
+        gridColumn('apasmtInsttEvlUpc1', '단가'),
+        gridColumn('apasmtInsttEvlAmt1', '금액'),
+        gridColumn('apasmtInsttEvlUpc2', '단가'),
+        gridColumn('apasmtInsttEvlAmt2', '금액'),
+        gridColumn('reprchsCmptnUpc', '단가'),
+        gridColumn('reprchsCmptnAmt', '금액'),
+        gridColumn('sanctnDe', '산정결재일\n(기안일)'),
+        gridColumn('reprchsRctcDivCd', '수납구분'),
+        gridColumn('rctcAmt', '금액'),
+        gridColumn('rctcDe', '일자'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardConfirmDataGrid(){
+    return CustomGrid(
+      dataSource: controller.cstmrcardConfirmDatasource.value,
+      controller: controller.cstmrCardConfirmDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.fill,
+      columns: [
+        gridColumn('issNo', '발급차수'),
+        gridColumn('isuDt', '발급일'),
+        gridColumn('bondIsuDe', '채권수령일'),
+        gridColumn('prchasCnfrmnIsuDivNm', '발급용도'),
+        gridColumn('pymntSumAmt', '총보상금'),
+        gridColumn('prchasCnfrmnIssAmt', '(기)발급금액'),
+        gridColumn('delamt', '소멸액'),
+        gridColumn('janamt', '발급가능금액'),
+      ],
+    );
+  }
+
+  Widget buildCstmrcardFobjctDataGrid(){
+    return CustomGrid(
+      dataSource: controller.cstmrcardFobjctDatasource.value,
+      controller: controller.cstmrCardFobjctDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.fill,
+      columns: [
+        gridColumn('rqstDe', '신청일자'),
+        gridColumn('fobjctPrgstsDivNm', '진행상태'),
+        gridColumn('applcntNm', '신청인'),
+        gridColumn('applcntTelno', '신청인연락처'),
+        gridColumn('fobjctApplcntRelInfo', '소유자와의관계'),
+        gridColumn('objcRqstDtls', '이의신청내용'),
+        gridColumn('actnDtls', '조치내용'),
+        gridColumn('actnDt', '조치일자'),
+      ],
+    );
+  }
+
   /// [buildBsnsRadio] 라디오 버튼
   Widget buildBsnsRadio() {
     return Container(

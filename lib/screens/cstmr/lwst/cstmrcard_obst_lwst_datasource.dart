@@ -18,7 +18,7 @@ class CstmrcardObstLwstDatasource extends DataGridSource {
           DataGridCell<String>(columnName: 'cmpnstnThingKndDtls', value: e.cmpnstnThingKndDtls),
           DataGridCell<String>(columnName: 'obstDivNm', value: e.obstDivNm),
           DataGridCell<String>(columnName: 'obstStrctStndrdInfo', value: e.obstStrctStndrdInfo),
-          DataGridCell<String>(columnName: 'dtaPrcsSittnCtnt', value: e.dtaPrcsSittnCtnt),
+          // DataGridCell<String>(columnName: 'dtaPrcsSittnCtnt', value: e.dtaPrcsSittnCtnt),
           DataGridCell<String>(columnName: 'cmpnstnQtyAraVu', value: e.cmpnstnQtyAraVu.toString()),
           DataGridCell<String>(columnName: 'cmpnstnThingUnitDivNm', value: e.cmpnstnThingUnitDivNm),
           DataGridCell<String>(columnName: 'lwstApelStepDivNm', value: e.lwstApelStepDivNm.toString()),

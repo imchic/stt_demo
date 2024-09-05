@@ -315,6 +315,7 @@ class CstmrCardWidget {
                           ],
                         ),
                         SizedBox(height: 20.h),
+                        // 관계인 (토지)
                         Visibility(
                           visible: controller.customerCardDetailTabIsSelected[0],
                           child: controller.cstmrcardLadPartcpntDataSource.value.rows.isEmpty
@@ -344,6 +345,7 @@ class CstmrCardWidget {
                               child: lpScreen().buildCstmrcardLadParcpntDataGrid()),
                         ),
                         SizedBox(height: 20.h),
+                        // 관계인 (지장물)
                         Visibility(
                           visible: controller.customerCardDetailTabIsSelected[0],
                           child: controller.cstmrcardObstPartcpntDatasource.value.rows.isEmpty
@@ -376,6 +378,7 @@ class CstmrCardWidget {
                                 ],
                               )),
                         ),
+                        // 협의내역
                         Visibility(
                           visible: controller.customerCardDetailTabIsSelected[1],
                           child: controller.cstrmcardCmpnstnDatSource.value.rows.isEmpty
@@ -405,6 +408,312 @@ class CstmrCardWidget {
                               child: Column(
                                 children: [
                                   lpScreen().buildCstmrcardCmpnstnDataGrid(),
+                                ],
+                              )),
+                        ),
+                        // 수용재결 (토지)
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[2],
+                          child: controller.cstmrcardLadAceptncDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '토지정보 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              child: Column(
+                                children: [
+                                  lpScreen().buildCstmrcardLadAceptncDataGrid(),
+                                ],
+                              )),
+                        ),
+                        SizedBox(height: 20.h),
+                        // 수용재결 (지장물)
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[2],
+                          child: controller.cstmrcardObstAceptncDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '지장물정보 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              child: Column(
+                                children: [
+                                  lpScreen().buildCstmrcardObstAceptncDataGrid(),
+                                ],
+                              )),
+                        ),
+                        // 이의재결 (토지)
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[3],
+                          child: controller.cstmrcardLadObjcDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '토지정보 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              child: Column(
+                                children: [
+                                  lpScreen().buildCstmrcardLadObjcDataGrid(),
+                                ],
+                              )),
+                        ),
+                        SizedBox(height: 20.h),
+                        // 이의재결 (지장물)
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[3],
+                          child: controller.cstmrcardObstObjcDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '지장물정보 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              child: Column(
+                                children: [
+                                  lpScreen().buildCstmrcardObstObjcDataGrid(),
+                                ],
+                              )),
+                        ),
+                        // 소송 (토지)
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[4],
+                          child: controller.cstmrcardLadLwstDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '토지정보 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      height: 300.h,
+                                      child: lpScreen().buildCstmrcardLadLwstDataGrid()
+                                  ),
+                                ],
+                              )),
+                        ),
+                        SizedBox(height: 20.h),
+                        // 소송 (지장물)
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[4],
+                          child: controller.cstmrcardObstLwstDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '지장물정보 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      height: 300.h,
+                                      child: lpScreen().buildCstmrcardObstLwstDataGrid()
+                                  ),
+                                ],
+                              )),
+                        ),
+                        // 환매
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[5],
+                          child: controller.cstmrcardReprchsDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '환매 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      height: 300.h,
+                                      child: lpScreen().buildCstmrcardReprchstDataGrid()
+                                  ),
+                                ],
+                              )),
+                        ),
+                        // 토지수용확인원
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[6],
+                          child: controller.cstmrcardConfirmDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '토지수용확인원 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      height: 300.h,
+                                      child: lpScreen().buildCstmrcardConfirmDataGrid()
+                                  ),
+                                ],
+                              )),
+                        ),
+                        // 이의신청
+                        Visibility(
+                          visible: controller.customerCardDetailTabIsSelected[7],
+                          child: controller.cstmrcardFobjctDatasource.value.rows.isEmpty
+                              ? Container(
+                            width: Get.width,
+                            height: 200.h,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                '이의신청 데이터가 없습니다.',
+                                style: TextStyle(
+                                  color: Color(0xFF1D1D1D),
+                                  fontSize: 30.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                              : SizedBox(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      height: 300.h,
+                                      child: lpScreen().buildCstmrcardFobjctDataGrid()
+                                  ),
                                 ],
                               )),
                         ),

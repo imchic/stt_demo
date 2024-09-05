@@ -22,9 +22,9 @@ class CstmrcardLadLwstDatasource extends DataGridSource {
           DataGridCell<String>(columnName: 'posesnShreNmrtrInfo', value: e.posesnShreNmrtrInfo.toString()),
           DataGridCell<String>(columnName: 'posesnShreDnmntrInfo', value: e.posesnShreDnmntrInfo.toString()),
           DataGridCell<String>(columnName: 'lwstApelStepDivNm', value: e.lwstApelStepDivNm.toString()),
-          DataGridCell<String>(columnName: 'trl01LwstPymamt', value: e.trl01LwstPymamt.toString()),
           DataGridCell<String>(columnName: 'trl01LwstSlipNo', value: e.trl01LwstSlipNo.toString()),
           DataGridCell<String>(columnName: 'judmnPymntDe', value: e.judmnPymntDe.toString()),
+          DataGridCell<String>(columnName: 'trl01LwstPymamt', value: e.trl01LwstPymamt.toString()),
         ]))
         .toList();
   }

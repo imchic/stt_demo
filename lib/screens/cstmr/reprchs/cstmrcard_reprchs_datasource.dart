@@ -18,9 +18,10 @@ class CstmrcardReprchsDatasource extends DataGridSource {
           DataGridCell<String>(columnName: 'sttusLndcgrDivNm', value: e.sttusLndcgrDivNm),
           DataGridCell<String>(columnName: 'ofcbkAra', value: e.ofcbkAra.toString()),
           DataGridCell<String>(columnName: 'incrprAra', value: e.incrprAra.toString()),
-          DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: e.cmpnstnInvstgAra.toString()),
+          // DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: e.cmpnstnInvstgAra.toString()),
           DataGridCell<String>(columnName: 'posesnShreNmrtrInfo', value: e.posesnShreNmrtrInfo.toString()),
           DataGridCell<String>(columnName: 'posesnShreDnmntrInfo', value: e.posesnShreDnmntrInfo.toString()),
+
           DataGridCell<String>(columnName: 'cpsmn', value: e.cpsmn.toString()),
           DataGridCell<String>(columnName: 'ownerNm', value: e.ownerNm),
           DataGridCell<String>(columnName: 'reprchsNotieRecptDe', value: e.reprchsNotieRecptDe.toString()),

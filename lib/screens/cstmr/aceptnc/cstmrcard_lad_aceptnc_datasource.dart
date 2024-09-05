@@ -25,8 +25,8 @@ class CstmrcardLadAceptncDatasource extends DataGridSource {
           DataGridCell<String>(columnName: 'aceptncAdjdcDt', value: e.aceptncAdjdcDt.toString()),
           DataGridCell<String>(columnName: 'aceptncAdjdcUpc', value: e.aceptncAdjdcUpc.toString()),
           DataGridCell<String>(columnName: 'aceptncAdjdcAmt', value: e.aceptncAdjdcAmt.toString()),
-          DataGridCell<String>(columnName: 'adjdcRqstSqnc', value: e.adjdcRqstSqnc.toString()),
-          DataGridCell<String>(columnName: 'cpsmnPymntStepDivCd', value: e.cpsmnPymntStepDivCd.toString()),
+          // DataGridCell<String>(columnName: 'adjdcRqstSqnc', value: e.adjdcRqstSqnc.toString()),
+          // DataGridCell<String>(columnName: 'cpsmnPymntStepDivCd', value: e.cpsmnPymntStepDivCd.toString()),
 
         ]))
         .toList();

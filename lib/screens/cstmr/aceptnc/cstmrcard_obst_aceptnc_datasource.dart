@@ -18,15 +18,15 @@ class CstmrcardObstAceptncDatasource extends DataGridSource {
           DataGridCell<String>(columnName: 'cmpnstnThingKndDtls', value: e.cmpnstnThingKndDtls),
           DataGridCell<String>(columnName: 'obstDivNm', value: e.obstDivNm),
           DataGridCell<String>(columnName: 'obstStrctStndrdInfo', value: e.obstStrctStndrdInfo),
-          DataGridCell<String>(columnName: 'dtaPrcsSittnCtnt', value: e.dtaPrcsSittnCtnt),
+          // DataGridCell<String>(columnName: 'dtaPrcsSittnCtnt', value: e.dtaPrcsSittnCtnt),
           DataGridCell<String>(columnName: 'cmpnstnQtyAraVu', value: e.cmpnstnQtyAraVu.toString()),
           DataGridCell<String>(columnName: 'cmpnstnThingUnitDivNm', value: e.cmpnstnThingUnitDivNm),
           DataGridCell<String>(columnName: 'aceptncUseBeginDe', value: e.aceptncUseBeginDe),
           DataGridCell<String>(columnName: 'aceptncAdjdcDt', value: e.aceptncAdjdcDt),
           DataGridCell<String>(columnName: 'aceptncAdjdcUpc', value: e.aceptncAdjdcUpc),
           DataGridCell<String>(columnName: 'aceptncAdjdcAmt', value: e.aceptncAdjdcAmt.toString()),
-          DataGridCell<String>(columnName: 'adjdcRqstSqnc', value: e.adjdcRqstSqnc.toString()),
-          DataGridCell<String>(columnName: 'cpsmnPymntStepDivCd', value: e.cpsmnPymntStepDivCd),
+          // DataGridCell<String>(columnName: 'adjdcRqstSqnc', value: e.adjdcRqstSqnc.toString()),
+          // DataGridCell<String>(columnName: 'cpsmnPymntStepDivCd', value: e.cpsmnPymntStepDivCd),
         ]))
         .toList();
   }
