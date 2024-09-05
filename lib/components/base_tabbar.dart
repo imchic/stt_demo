@@ -50,39 +50,38 @@ class _BaseTabBarState extends State<BaseTabBar> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            child: TabBar(
-              controller: widget.controller,
-              labelColor: widget.labelColor ?? Color(0xFF1D1D1D),
-              indicatorColor: widget.indicatorColor ?? Color(0xFF1D1D1D),
-              //indicatorWeight: 4.w,
-              //indicatorPadding: 1.w > 1.h ? EdgeInsets.only(left: 20.w, right: 20.w) : EdgeInsets.only(left: 30.w, right: 30.w),
-              isScrollable: widget.isScrollable ?? true,
-              tabs: widget.tabItems,
-              labelStyle: TextStyle(
-                fontSize: 1.w > 1.h ? 40.sp : 50.sp,
-                fontWeight: FontWeight.w500,
-                color: widget.activeTextColor ?? Color(0xFF1D1D1D),
-              ),
-              unselectedLabelStyle: TextStyle(
-                fontSize: 1.w > 1.h ? 40.sp : 50.sp,
-                fontWeight: FontWeight.w500,
-                color: widget.unActiveTextColor ?? Color(0xFF555555),
-              ),
-              unselectedLabelColor: widget.unActiveColor ?? Color(0xFF555555),
-              onTap: (index) {
-                AppLog.d('TabBar index: $index');
-                if(widget.controller == LpController.to.bsnsOwnerTabController){
-                  if(index > 0){
-                    if(LpController.to.ownerLadInfoDataSource.value.rows.isEmpty){
-                      DialogUtil.showSnackBar(context, '소유자관리', '소유자 정보가 없습니다.');
-                      LpController.to.bsnsOwnerTabController.index = 0;
-                      return;
-                    }
+          TabBar(
+            controller: widget.controller,
+            labelColor: widget.labelColor ?? Color(0xFF1D1D1D),
+            indicatorColor: widget.indicatorColor ?? Color(0xFF1D1D1D),
+            //indicatorWeight: 4.w,
+            //indicatorPadding: 1.w > 1.h ? EdgeInsets.only(left: 20.w, right: 20.w) : EdgeInsets.only(left: 30.w, right: 30.w),
+            isScrollable: widget.isScrollable ?? true,
+            tabs: widget.tabItems,
+            labelStyle: TextStyle(
+              //fontSize: 1.w > 1.h ? 40.sp : 50.sp,
+              fontSize: 40.sp,
+              fontWeight: FontWeight.w500,
+              color: widget.activeTextColor ?? Color(0xFF1D1D1D),
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontSize: 40.sp,
+              fontWeight: FontWeight.w500,
+              color: widget.unActiveTextColor ?? Color(0xFF555555),
+            ),
+            unselectedLabelColor: widget.unActiveColor ?? Color(0xFF555555),
+            onTap: (index) {
+              AppLog.d('TabBar index: $index');
+              if(widget.controller == LpController.to.bsnsOwnerTabController){
+                if(index > 0){
+                  if(LpController.to.ownerLadInfoDataSource.value.rows.isEmpty){
+                    DialogUtil.showSnackBar(context, '소유자관리', '소유자 정보가 없습니다.');
+                    LpController.to.bsnsOwnerTabController.index = 0;
+                    return;
                   }
                 }
-              },
-            ),
+              }
+            },
           ),
           //SizedBox(height: 20.h),
           Divider(

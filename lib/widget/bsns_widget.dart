@@ -55,6 +55,7 @@ class BsnsWidget {
                               SizedBox(
                                 width: 120.w,
                                 child: AutoSizeText(
+                                  maxFontSize: 20,
                                   '사업명',
                                   style: TextStyle(
                                     color: tableTextColor,
@@ -86,6 +87,7 @@ class BsnsWidget {
                               SizedBox(
                                 //width: 120.w,
                                 child: AutoSizeText(
+                                  maxFontSize: 20,
                                   '사업번호',
                                   style: TextStyle(
                                     color: tableTextColor,
@@ -177,6 +179,7 @@ class BsnsWidget {
                             Expanded(
                               child: SizedBox(
                                 child: AutoSizeText(
+                                  maxFontSize: 20,
                                   controller.searchBsnsPlanList[index].bsnsNm ??
                                       '',
                                   style: TextStyle(
@@ -197,6 +200,7 @@ class BsnsWidget {
                           children: [
                             Expanded(
                               child: AutoSizeText(
+                                maxFontSize: 20,
                                 controller.searchBsnsPlanList[index].bsnsLcinfo ??
                                     '-',
                                 style: TextStyle(
@@ -252,14 +256,14 @@ class BsnsWidget {
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          AutoSizeText('사업시작일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
+                                                          AutoSizeText(maxFontSize: 20, '사업시작일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
                                                           SizedBox(width: 6.w),
                                                           ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsStrtDe,),
                                                         ],
                                                       ),
                                                     ),
                                                     SizedBox(width: 6.w),
-                                                    AutoSizeText('~', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
+                                                    AutoSizeText(maxFontSize: 20, '~', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
                                                     SizedBox(width: 6.w),
                                                     Container(
                                                       child: Row(
@@ -267,7 +271,7 @@ class BsnsWidget {
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          AutoSizeText('사업종료일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
+                                                          AutoSizeText(maxFontSize: 20, '사업종료일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
                                                           SizedBox(width: 6.w),
                                                           ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsEndDe,),
                                                         ],
@@ -289,7 +293,7 @@ class BsnsWidget {
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          AutoSizeText('승인일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
+                                                          AutoSizeText(maxFontSize: 20, '승인일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
                                                           SizedBox(width: 6.w),
                                                           ConvertDatetimeText(value: controller.searchBsnsPlanList[index].aprvDe,),
                                                         ],
@@ -302,7 +306,7 @@ class BsnsWidget {
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          AutoSizeText('관보고시일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
+                                                          AutoSizeText(maxFontSize: 20, '관보고시일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
                                                           SizedBox(width: 6.w),
                                                           ConvertDatetimeText(value: controller.searchBsnsPlanList[index].gztNtfcDe,),
                                                         ],
@@ -315,7 +319,7 @@ class BsnsWidget {
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          AutoSizeText('준공일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
+                                                          AutoSizeText(maxFontSize: 20, '준공일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
                                                           SizedBox(width: 6.w),
                                                           ConvertDatetimeText(value: controller.searchBsnsPlanList[index].competDe,),
                                                         ],
@@ -361,6 +365,7 @@ class BsnsWidget {
                                                     ),
                                                     const SizedBox(width: 8),
                                                     AutoSizeText(
+                                                      maxFontSize: 20,
                                                       '1차 고시문',
                                                       style: TextStyle(
                                                         color: Color(0xFF555555),
@@ -397,6 +402,7 @@ class BsnsWidget {
                                                     ),
                                                     const SizedBox(width: 8),
                                                     AutoSizeText(
+                                                      maxFontSize: 20,
                                                       '2차 고시문',
                                                       style: TextStyle(
                                                         color: Color(0xFF555555),
@@ -431,6 +437,7 @@ class BsnsWidget {
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                               ),
                               child: AutoSizeText(
+                                maxFontSize: 20,
                                 controller.searchBsnsPlanList[index].head ?? '-',
                                 style: TextStyle(
                                   color: Color(0xFF555555),
@@ -443,6 +450,7 @@ class BsnsWidget {
                             ),
                             SizedBox(width: 24.w),
                             AutoSizeText(
+                              maxFontSize: 20,
                               controller.searchBsnsPlanList[index].dept ?? '-',
                               style: TextStyle(
                                 color: Color(0xFF555555),
@@ -461,6 +469,7 @@ class BsnsWidget {
                             ),
                             SizedBox(width: 16.w),
                             AutoSizeText(
+                              maxFontSize: 20,
                               controller.searchBsnsPlanList[index].team ?? '-',
                               style: TextStyle(
                                 color: Color(0xFF555555),
@@ -478,6 +487,7 @@ class BsnsWidget {
                             ),
                             SizedBox(width: 16.w),
                             AutoSizeText(
+                              maxFontSize: 20,
                               controller.searchBsnsPlanList[index].plans ?? '-',
                               style: TextStyle(
                                 color: Color(0xFF555555),
@@ -491,6 +501,7 @@ class BsnsWidget {
                             SizedBox(width: 16.w),
                             Expanded(
                               child: AutoSizeText(
+                                maxFontSize: 20,
                                 controller.searchBsnsPlanList[index].korname ?? '-',
                                 style: TextStyle(
                                   color: Color(0xFF555555),
@@ -583,6 +594,7 @@ class BsnsWidget {
                       child: Icon(Icons.arrow_back_ios,
                           size: 30.sp, color: Color(0xff2d2d2d))),
                   AutoSizeText('사업구역 선택',
+                      maxFontSize: 20,
                       style: TextStyle(
                           fontSize: 32.sp,
                           fontWeight: FontWeight.w500,
@@ -621,6 +633,7 @@ class BsnsWidget {
                       child: Icon(Icons.arrow_back_ios,
                           size: 30.sp, color: Color(0xff2d2d2d))),
                   AutoSizeText('조사차수',
+                      maxFontSize: 20,
                       style: TextStyle(
                           fontSize: 32.sp,
                           fontWeight: FontWeight.w500,
@@ -634,6 +647,7 @@ class BsnsWidget {
                 Expanded(child: controller.bsnsAccdtinvstgSqncDataSource.value.rows.length == 0 ? Container(
                   child: Center(
                     child: AutoSizeText('실태조사차수가 없습니다.',
+                        maxFontSize: 20,
                         style: TextStyle(
                             fontSize: 32.sp,
                             fontWeight: FontWeight.w500,
@@ -656,6 +670,7 @@ class BsnsWidget {
                       ),
                     ),
                     child: AutoSizeText('차수등록',
+                        maxFontSize: 20,
                         style: TextStyle(
                             fontSize: 30.sp,
                             color: Colors.white,

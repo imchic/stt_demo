@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -263,7 +261,8 @@ class lpScreen extends GetView<LpController> {
                                     color: Colors.white),
                               ),
                               SizedBox(height: 8.h),
-                              Text(controller.leftNavItems[index],
+                              AutoSizeText(controller.leftNavItems[index],
+                                  maxFontSize: 20,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 30.sp,
@@ -1875,6 +1874,7 @@ class lpScreen extends GetView<LpController> {
             SizedBox(
                 width: 120.w,
                 child: AutoSizeText('사업구분',
+                    maxFontSize: 20,
                     style: TextStyle(
                         color: tableTextColor,
                         fontSize: 32.sp,

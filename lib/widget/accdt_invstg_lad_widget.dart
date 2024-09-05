@@ -668,6 +668,8 @@ class AccdtInvstgLadWidget {
                                                   .all(8.0),
                                               child:
                                               CustomTextField(
+                                                controller: controller
+                                                    .accdtlnvstgLadPartcpntController,
                                                 isReadOnly: true,
                                                 hintText: '입회자명',
                                                 onChanged: (value) {
@@ -752,6 +754,8 @@ class AccdtInvstgLadWidget {
                                                   .all(8.0),
                                               child:
                                               CustomTextField(
+                                                controller: controller
+                                                    .accdtlnvstgLadPartcpntController,
                                                 isReadOnly: true,
                                                 hintText: '주소',
                                                 onChanged: (value) {
@@ -837,6 +841,8 @@ class AccdtInvstgLadWidget {
                                                   .all(8.0),
                                               child:
                                               CustomTextField(
+                                                controller: controller
+                                                    .accdtlnvstgLadPartcpntController,
                                                 isReadOnly: true,
                                                 hintText: '특이사항',
                                                 onChanged: (value) {

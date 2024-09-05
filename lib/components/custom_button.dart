@@ -76,6 +76,7 @@ class _CustomButtonState extends State<CustomButton> {
                   widget.prefixIcon!,
                   SizedBox(width: 8.w),
                   AutoSizeText(
+                    maxFontSize: 20,
                     widget.text ?? 'Button',
                     style: TextStyle(
                       color: widget.textColor ?? Colors.white,

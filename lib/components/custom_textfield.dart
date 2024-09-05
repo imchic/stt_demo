@@ -1,3 +1,4 @@
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,14 +45,15 @@ class CustomTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: borderLine, width: 1.w),
       ),
-      child: TextField(
+      child: AutoSizeTextField(
+        maxFontSize: 20,
         controller: controller,
         readOnly: isDateTime ? true : isReadOnly,
         obscureText: isPassword,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: isDateTime ? 'YYYY-MM-DD' : hintText,
-          hintStyle: TextStyle(fontSize: 1.w > 1.h ? 32.sp : 40.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
+          //hintStyle: TextStyle(fontSize: 1.w > 1.h ? 32.sp : 40.sp, fontWeight: FontWeight.w400, color: Color(0xff8E8E8E)),
           isDense: true,
           contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
           enabledBorder: InputBorder.none,

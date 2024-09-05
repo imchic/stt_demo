@@ -625,12 +625,14 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           SizedBox(
                             width: 144.w,
-                            child: CustomTextField(hintText: '본번', onChanged: (value) {  },),
+                            child: CustomTextField(controller: controller
+                                .ownerLctnSearchController, hintText: '본번', onChanged: (value) {  },),
                           ),
                           SizedBox(width: 12.w),
                           SizedBox(
                             width: 144.w,
-                            child: CustomTextField(hintText: '부번', onChanged: (value) {  },),
+                            child: CustomTextField(controller: controller
+                                .ownerLctnSearchController,hintText: '부번', onChanged: (value) {  },),
                           ),
                         ],
                       ),
@@ -1064,12 +1066,14 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           SizedBox(
                             width: 144.w,
-                            child: CustomTextField(hintText: '본번', onChanged: (value) {  },),
+                            child: CustomTextField(controller: controller
+                                .ownerLctnSearchController,hintText: '본번', onChanged: (value) {  },),
                           ),
                           SizedBox(width: 12.w),
                           SizedBox(
                             width: 144.w,
-                            child: CustomTextField(hintText: '부번', onChanged: (value) {  },),
+                            child: CustomTextField(controller: controller
+                                .ownerLctnSearchController,hintText: '부번', onChanged: (value) {  },),
                           ),
                         ],
                       ),

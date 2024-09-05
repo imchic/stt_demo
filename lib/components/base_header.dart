@@ -23,7 +23,7 @@ class _BaseHeaderState extends State<BaseHeader> {
       children: [
         Container(
           width: double.infinity,
-          height: 1.w > 1.h ? 112.h : 92.h,
+          height: 112.h,
           padding: EdgeInsets.symmetric(horizontal: 48.w),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -70,7 +70,8 @@ class _BaseHeaderState extends State<BaseHeader> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
+                                    AutoSizeText(
+                                      maxFontSize: 20,
                                       '홍길동 대리',
                                       style: TextStyle(
                                         color: Color(0xFF1D1D1D),
@@ -167,7 +168,8 @@ class _BaseHeaderState extends State<BaseHeader> {
             Container(
               width: Get.width,
               margin: EdgeInsets.only(left: 24.w),
-              child: Text(
+              child: AutoSizeText(
+                maxFontSize: 20,
                 '선택된 사업명이 없습니다.',
                 style: TextStyle(
                   color: Color(0xFF555555),
@@ -208,6 +210,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                   child: Row(
                     children: [
                       AutoSizeText(
+                        maxFontSize: 20,
                         LpController.to.selectBsnsPlan.value.bsnsNm ?? '',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
@@ -224,6 +227,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                       ),
                       SizedBox(width: 20.w),
                       AutoSizeText(
+                        maxFontSize: 20,
                         LpController.to.selectedBsnsSelectArea.value.bsnsZoneNm ?? '',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
@@ -240,6 +244,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                       ),
                       SizedBox(width: 20.w),
                       AutoSizeText(
+                        maxFontSize: 20,
                         LpController.to.selectSqnc.value.accdtInvstgSqnc == null ? '' : '${LpController.to.selectSqnc.value.accdtInvstgSqnc}차',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),

@@ -15,9 +15,14 @@ class LoginController extends GetxController
   late TabController loginTypeTabController;
   RxBool isAutoLogin = false.obs;
 
+  late TextEditingController idController;
+  late TextEditingController pwController;
+
   @override
   void onInit() {
     loginTypeTabController = TabController(length: loginTypeTabItems.length, vsync: this);
+    idController = TextEditingController();
+    pwController = TextEditingController();
     super.onInit();
   }
 

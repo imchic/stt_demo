@@ -338,54 +338,15 @@ class LoginScreen extends GetView<LoginController> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              /*Container(
-                                                width: double.infinity,
-                                                height: 88.h,
-                                                padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: ShapeDecoration(
-                                                  color: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(width: 2, color: Color(0xFFD8D8D8)),
-                                                    borderRadius: BorderRadius.circular(12.r),
-                                                  ),
-                                                ),
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      width: 40.w,
-                                                      height: 40.h,
-                                                      child: SvgPicture.asset(
-                                                        'assets/icons/ic_account.svg',
-                                                        fit: BoxFit.fitHeight,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 20.w),
-                                                    Expanded(
-                                                      child: SizedBox(
-                                                        child: Text(
-                                                          '아이디(사번)',
-                                                          style: TextStyle(
-                                                            color: Color(0xFF8E8E8E),
-                                                            fontSize: 30.sp,
-                                                            fontFamily: 'Pretendard',
-                                                            fontWeight: FontWeight.w400,
-                                                            //height: 0.05,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),*/
-                                              CustomTextField(hintText: '아이디(사번)', prefixIcon: 'assets/icons/ic_account.svg', onChanged: (value) {
+                                              CustomTextField(hintText: '아이디(사번)',
+                                                  controller: controller.idController,
+                                                  prefixIcon: 'assets/icons/ic_account.svg', onChanged: (value) {
                                                 //controller.id.value = value;
                                               }),
                                               SizedBox(height: 20.h),
-                                              CustomTextField(hintText: '비밀번호', prefixIcon: 'assets/icons/ic_lock.svg', isPassword: true, onChanged: (value) {
+                                              CustomTextField(hintText: '비밀번호',
+                                                  controller: controller.pwController,
+                                                  prefixIcon: 'assets/icons/ic_lock.svg', isPassword: true, onChanged: (value) {
                                                 //controller.password.value = value;
                                               }),
                                               /*Container(

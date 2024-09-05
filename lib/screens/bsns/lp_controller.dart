@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ldi/components/custom_bsns_badge.dart';
@@ -81,6 +80,13 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController bsnsNameSearchController; // 사업명 검색
   late TextEditingController bsnsNoSearchController; // 사업번호 검색
 
+
+  // 소유자관리 소유자 명 검색
+  late TextEditingController ownerNameSearchController;
+
+  // 소유자관리 소유자 등록번호 검색
+  late TextEditingController ownerRegisterNoSearchController;
+
   // 소유자관리 소재지 검색
   late TextEditingController ownerLctnSearchController;
 
@@ -104,18 +110,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController orderEndDtController;
   late TextEditingController orderController;
 
-  // 소유자 관리
-  late TextEditingController ownerNameSearchController;
-  late TextEditingController ownerRegisterNoSearchController;
-
   // 실태조사
   late TextEditingController accdtlnvstgAcqstnPrpsController;
+  late TextEditingController accdtlnvstgLadPartcpntController;
 
   late PageController pageController; // 페이지 컨트롤러
   late ScrollController bsnsListScrollController;
-
-  // navermap controller
-  late NaverMapController naverMapController;
 
   // debounce
   Timer? _debounce;
@@ -441,12 +441,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     ownerNameSearchController = TextEditingController();
     ownerRegisterNoSearchController = TextEditingController();
 
+    ownerNameSearchController = TextEditingController();
+    ownerRegisterNoSearchController = TextEditingController();
+
     ownerLctnSearchController = TextEditingController();
     ownerMlnoLtnoSearchController = TextEditingController();
     ownerSlnoLtnoSearchController = TextEditingController();
     ownerEtcController = TextEditingController();
 
     accdtlnvstgAcqstnPrpsController = TextEditingController();
+    accdtlnvstgLadPartcpntController = TextEditingController();
 
     sttusInqireAcqstnPrpsController = TextEditingController();
     sttusInqireBsnsSqncController = TextEditingController();

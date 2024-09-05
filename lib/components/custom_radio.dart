@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,7 +43,8 @@ class _CustomRadioState extends State<CustomRadio> {
             ),
           ),
         ),
-        Text(
+        AutoSizeText(
+          maxFontSize: 20,
           widget.label,
           style: TextStyle(
             color: Color(0xFF1D1D1D),

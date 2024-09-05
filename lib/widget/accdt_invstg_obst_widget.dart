@@ -391,6 +391,8 @@ class AccdtInvstgObstWidget {
                                                                                   SizedBox(width: 60.w, child: AutoSizeText('성명', style: TextStyle(color: tableTextColor, fontSize: 30.sp, fontWeight: FontWeight.w700))),
                                                                                   Expanded(
                                                                                     child: CustomTextField(
+                                                                                        controller: controller
+                                                                                            .ownerLctnSearchController,
                                                                                         hintText: '',
                                                                                         onChanged: (value) {
                                                                                           //controller.searchBsnsName(value);
@@ -409,6 +411,8 @@ class AccdtInvstgObstWidget {
                                                                                   SizedBox(width: 60.w, child: AutoSizeText('등록번호', style: TextStyle(color: tableTextColor, fontSize: 30.sp, fontWeight: FontWeight.w700))),
                                                                                   Expanded(
                                                                                     child: CustomTextField(
+                                                                                        controller: controller
+                                                                                            .ownerLctnSearchController,
                                                                                         hintText: '',
                                                                                         onChanged: (value) {
                                                                                           //controller.searchBsnsName(value);
@@ -1184,6 +1188,8 @@ class AccdtInvstgObstWidget {
                                                   .all(8.0),
                                               child:
                                               CustomTextField(
+                                                controller: controller
+                                                    .ownerLctnSearchController,
                                                 isReadOnly: true,
                                                 hintText:
                                                 '선택/저장된 정보',
@@ -1259,6 +1265,8 @@ class AccdtInvstgObstWidget {
                                                   .all(8.0),
                                               child:
                                               CustomTextField(
+                                                controller: controller
+                                                    .ownerLctnSearchController,
                                                 isReadOnly: true,
                                                 hintText:
                                                 '선택/저장된 정보',
@@ -1352,6 +1360,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -1372,6 +1382,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -1392,6 +1404,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -1482,6 +1496,8 @@ class AccdtInvstgObstWidget {
                                                   .all(8.0),
                                               child:
                                               CustomTextField(
+                                                controller: controller
+                                                    .ownerLctnSearchController,
                                                 isReadOnly: true,
                                                 hintText: '',
                                                 onChanged: (value) {
@@ -1568,6 +1584,8 @@ class AccdtInvstgObstWidget {
                                                   .all(8.0),
                                               child:
                                               CustomTextField(
+                                                controller: controller
+                                                    .ownerLctnSearchController,
                                                 isReadOnly: true,
                                                 hintText: '선택된 정보',
                                                 onChanged: (value) {
@@ -1642,6 +1660,8 @@ class AccdtInvstgObstWidget {
                                                   .all(8.0),
                                               child:
                                               CustomTextField(
+                                                controller: controller
+                                                    .ownerLctnSearchController,
                                                 isReadOnly: true,
                                                 hintText: '',
                                                 onChanged: (value) {
@@ -1715,6 +1735,8 @@ class AccdtInvstgObstWidget {
                                                   .all(8.0),
                                               child:
                                               CustomTextField(
+                                                controller: controller
+                                                    .ownerLctnSearchController,
                                                 isReadOnly: true,
                                                 hintText: '',
                                                 onChanged: (value) {
@@ -1803,6 +1825,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -1901,6 +1925,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -1999,6 +2025,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -2097,6 +2125,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -2195,6 +2225,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -2294,6 +2326,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -2382,6 +2416,8 @@ class AccdtInvstgObstWidget {
                                                   Expanded(
                                                     child:
                                                     CustomTextField(
+                                                      controller: controller
+                                                          .ownerLctnSearchController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
