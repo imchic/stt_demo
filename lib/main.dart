@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ldi/routes/app_route.dart';
@@ -66,14 +67,13 @@ class KwaterLdiApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         initialRoute: AppRoute.login,
         getPages: AppRoute.routes,
-        // localizationsDelegates: const [
-        //   GlobalMaterialLocalizations.delegate,
-        //   GlobalWidgetsLocalizations.delegate,
-        //   GlobalCupertinoLocalizations.delegate,
-        // ],
-        // supportedLocales: [
-        //   const Locale('ko','KR'),
-        // ],
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('ko', 'KR'),
+        ],
       ),
       // material 3 버전에서는 아래와 같이 사용
     );

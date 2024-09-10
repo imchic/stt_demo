@@ -1,7 +1,13 @@
 import 'dart:convert';
 
-BsnsPlanSelectAreaModel bsnsPlanSelectAreaModelFromJson(String str) => BsnsPlanSelectAreaModel.fromJson(json.decode(str));
 String bsnsPlanSelectAreaModelToJson(BsnsPlanSelectAreaModel data) => json.encode(data.toJson());
+List bsnsPlanSelectAreaModelFromJson(dynamic str, List<dynamic> list, int length) {
+  for (int i = 0; i < length; i++) {
+    var data = BsnsPlanSelectAreaModel.fromJson(str[i]);
+    list.add(data);
+  }
+  return list;
+}
 
 class BsnsPlanSelectAreaModel {
   BsnsPlanSelectAreaModel({
@@ -13,12 +19,12 @@ class BsnsPlanSelectAreaModel {
       this.bsnsReadngPblancDe,});
 
   BsnsPlanSelectAreaModel.fromJson(dynamic json) {
-    bsnsNo = json['bsnsNo'];
-    bsnsZoneNm = json['bsnsZoneNm'];
-    bsnsZoneNo = json['bsnsZoneNo'];
-    lotCnt = json['lotCnt'];
-    bsnsAra = json['bsnsAra'];
-    bsnsReadngPblancDe = json['bsnsReadngPblancDe'];
+    bsnsNo = num.parse(json['bsnsNo'].toString());
+    bsnsZoneNm = json['bsnsZoneNm'] ?? '';
+    bsnsZoneNo = json['bsnsZoneNo'] ?? 0;
+    lotCnt = num.parse(json['lotCnt'].toString()).toString();
+    bsnsAra = num.parse(json['bsnsAra'].toString()).toString();
+    bsnsReadngPblancDe = json['bsnsReadngPblancDe'] ?? '';
   }
   num? bsnsNo;
   String? bsnsZoneNm;

@@ -42,6 +42,14 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(color: Colors.white, cells: row.getCells().map<Widget>((dataGridCell) {
 
+      if(dataGridCell.columnName == 'lgdongNm') {
+        return Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(CommonUtil.maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+        );
+      }
+
       if (dataGridCell.columnName == 'invstgDt') {
         return Container(
           alignment: Alignment.centerRight,
@@ -55,6 +63,8 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
         padding: const EdgeInsets.all(8.0),
         child: AutoSizeText(dataGridCell.value.toString(),
                 overflow: TextOverflow.ellipsis,
+                maxFontSize: 20,
+                maxLines: 2,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 30.sp)),
           );

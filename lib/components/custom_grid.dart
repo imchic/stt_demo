@@ -92,12 +92,12 @@ class _CustomGridState extends State<CustomGrid> {
         },
         onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
           setState(() {
-            LpController.to.columnWidths[details.column.columnName] = details.width;
+            //LpController.to.columnWidths[details.column.columnName] = details.width;
           });
           return true;
         },
         onColumnResizeEnd: (ColumnResizeEndDetails details) {
-          LpController.to.columnWidths[details.column.columnName] = details.width;
+          //LpController.to.columnWidths[details.column.columnName] = details.width;
         },
         // onQueryRowHeight: (details) {
         //   return details.getIntrinsicRowHeight(details.rowIndex,

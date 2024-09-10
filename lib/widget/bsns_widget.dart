@@ -256,24 +256,19 @@ class BsnsWidget {
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          AutoSizeText(maxFontSize: 20, '사업시작일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
+                                                          SizedBox(
+                                                              width: 120.w,
+                                                              child: AutoSizeText(maxFontSize: 20, '사업기간', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),)),
                                                           SizedBox(width: 6.w),
-                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsStrtDe,),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 6.w),
-                                                    AutoSizeText(maxFontSize: 20, '~', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
-                                                    SizedBox(width: 6.w),
-                                                    Container(
-                                                      child: Row(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          AutoSizeText(maxFontSize: 20, '사업종료일', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontWeight: FontWeight.w700,),),
-                                                          SizedBox(width: 6.w),
-                                                          ConvertDatetimeText(value: controller.searchBsnsPlanList[index].bsnsEndDe,),
+                                                          Row(
+                                                            children: [
+                                                              ConvertDatetimeText(value: '${controller.searchBsnsPlanList[index].bsnsStrtDe}'),
+                                                              SizedBox(width: 6.w),
+                                                              AutoSizeText(maxFontSize: 20, '~', style: TextStyle(color: Color(0xFF1D1D1D), fontSize: 1.w > 1.h ? 30.sp : 50.sp, fontFamily: 'Pretendard', fontWeight: FontWeight.w700,),),
+                                                              SizedBox(width: 6.w),
+                                                              ConvertDatetimeText(value: '${controller.searchBsnsPlanList[index].bsnsEndDe}'),
+                                                            ],
+                                                          ),
                                                         ],
                                                       ),
                                                     ),

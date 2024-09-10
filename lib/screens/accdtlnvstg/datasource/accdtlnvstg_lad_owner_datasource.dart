@@ -36,6 +36,14 @@ class AccdtlnvstgLadOwnerDatasource extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(color: Colors.white, cells: row.getCells().map<Widget>((dataGridCell) {
 
+      if(dataGridCell.columnName == 'ownerRgsbukAddr') {
+        return Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(CommonUtil.maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+        );
+      }
+
       if(dataGridCell.columnName == 'ownerRrnEnc') {
         return Container(
           alignment: Alignment.center,

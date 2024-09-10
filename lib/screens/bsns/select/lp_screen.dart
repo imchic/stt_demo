@@ -70,7 +70,7 @@ class lpScreen extends GetView<LpController> {
 
                           if (index == 1 || index == 4) {
                             /// [소유자 및 관리인] 조회
-                            controller.fetchBsnsOwnerDataSource();
+                            controller.fetchOwnerDataSource();
                           }
 
                           if (index == 3) {
@@ -139,9 +139,21 @@ class lpScreen extends GetView<LpController> {
                           Column(
                             children: [
                               BaseHeader(),
-                              Expanded(
-                                  child: AccdtInvstgWidget.buildAccdtInvstgView(
-                                      controller)),
+                              controller.selectSqnc.value.accdtInvstgSqnc != null
+                                  ? Expanded(
+                                      child: AccdtInvstgWidget
+                                          .buildAccdtInvstgView(controller))
+                                  : Expanded(
+                                      child: Center(
+                                        child: AutoSizeText(
+                                          '조사차수를 선택해주세요.',
+                                          style: TextStyle(
+                                              color: Color(0xFF1D1D1D),
+                                              fontSize: 40.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ),
                             ],
                           ),
 
@@ -498,21 +510,23 @@ class lpScreen extends GetView<LpController> {
   GridColumn gridColumn(String columnName, String label,
       {bool? isVisble, double? width}) {
     return GridColumn(
-        //width: controller.columnWidths[columnName ?? ''] ?? 80,
-        //width: controller.columnWidths[columnName] ?? width ?? 80,
         width: width ?? double.nan,
         columnName: columnName,
         visible: isVisble ?? true,
-        label: Container(
-            color: Color(0xFFE5E8ED),
-            child: Center(
-                child: AutoSizeText(label,
-                    maxLines: 2,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        overflow: TextOverflow.ellipsis,
-                        color: tableTextColor)))));
+        label: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            AutoSizeText(label,
+                maxFontSize: 20,
+                maxLines: 2,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.sp,
+                    overflow: TextOverflow.ellipsis,
+                    color: tableTextColor)),
+          ],
+        ));
   }
 
   ///  사업선택 -> 사업구역 선택
@@ -560,7 +574,7 @@ class lpScreen extends GetView<LpController> {
           bsnsReadngPblancDe: bsnsReadngPblancDe,
         );
 
-        controller.fetchBsnsOwnerDataSource();
+        controller.fetchOwnerDataSource();
         await controller.autoSqnc();
 
         controller.isBsnsZoneSelectFlag.value = true;
@@ -732,7 +746,7 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.ownerLadInfoDataSource.value,
       controller: controller.ownerLadInfoDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.auto,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
@@ -994,7 +1008,7 @@ class lpScreen extends GetView<LpController> {
         ],
         columns: [
           gridColumn('thingSerNo', '물건일련번호', isVisble: false),
-          gridColumn('lgdongNm', '소재지'),
+          gridColumn('lgdongNm', '소재지', width: 200),
           gridColumn('lcrtsDivCdNm', '특지', width: 40),
           gridColumn('mlnoLtno', '본번', width: 50),
           gridColumn('slnoLtno', '부번', width: 50),
@@ -1018,18 +1032,19 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.accdtlnvstgLadOwnerDataSource.value,
       controller: controller.accdtlnvstgLadOwnerDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.auto,
+      freezeColumnCount: 3,
       columns: [
         gridColumn('ownerNo', '소유자번호'),
         gridColumn('ownerNm', '성명'),
-        gridColumn('posesnDivNm', '소유구분'),
-        gridColumn('posesnShreDnmntrInfo', '지분분자'),
-        gridColumn('posesnShreNmrtrInfo', '지분분모'),
-        gridColumn('ownerRrnEnc', '등록번호'),
-        gridColumn('ownerRgsbukAddr', '주소'),
-        gridColumn('rgsbukZip', '우편번호'),
-        gridColumn('ownerTelno', '전화번호'),
-        gridColumn('ownerMbtlnum', '휴대폰'),
+        gridColumn('posesnDivNm', '소유구분', width: 70),
+        gridColumn('posesnShreDnmntrInfo', '분자', width: 70),
+        gridColumn('posesnShreNmrtrInfo', '분모', width: 70),
+        gridColumn('ownerRrnEnc', '등록번호', width: 130),
+        gridColumn('ownerRgsbukAddr', '주소', width: 250),
+        gridColumn('rgsbukZip', '우편번호', width: 100),
+        gridColumn('ownerTelno', '전화번호', width: 130),
+        gridColumn('ownerMbtlnum', '휴대폰', width: 130),
       ],
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
@@ -1072,6 +1087,7 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.accdtlnvstgObstDataSource.value,
       controller: controller.accdtlnvstgObstDataGridController,
       isSort: false,
+      columnWidthMode: ColumnWidthMode.auto,
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         if (addedRows.isEmpty) return;
@@ -1086,15 +1102,15 @@ class lpScreen extends GetView<LpController> {
         controller.fetchAccdtlnvstgObstOwnerDataSource(thingSerNo);
       }),
       columns: [
-        gridColumn('thingSerNo', '물건일련번호'),
-        gridColumn('cmpnstnObstNo', '지장물순번'),
-        gridColumn('obstDivNm', '지장물구분'),
+        gridColumn('thingSerNo', '물건일련번호', isVisble: false),
+        gridColumn('cmpnstnObstNo', '지장물\n순번', width: 80.w),
+        gridColumn('obstDivNm', '지장물\n구분', width: 200.w),
         gridColumn('cmpnstnThingKndDtls', '물건의종류'),
-        gridColumn('obstStrctStndrdInfo', '구조 및 규격'),
-        gridColumn('cmpnstnQtyAraVu', '수량(면적)'),
-        gridColumn('cmpnstnThingUnitDivNm', '단위'),
+        gridColumn('obstStrctStndrdInfo', '구조 및 규격', width: 400.w),
+        gridColumn('cmpnstnQtyAraVu', '수량(면적)', width: 150.w),
+        gridColumn('cmpnstnThingUnitDivNm', '단위', width: 100.w),
         gridColumn('lgdongNm', '주소'),
-        gridColumn('acddtInvstgSqnc', '조사차수'),
+        gridColumn('acddtInvstgSqnc', '조사차수', width: 90.w),
         gridColumn('invstgDt', '조사일'),
         gridColumn('spcitm', '비고'),
       ],

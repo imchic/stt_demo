@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,6 +31,7 @@ import 'package:ldi/screens/owner/datasource/model/owner_info_model.dart';
 import 'package:ldi/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
 import 'package:ldi/screens/sttus/datasource/model/lad_sttus_inqire_model.dart';
 import 'package:ldi/screens/sttus/datasource/model/obst_sttus_inqire_model.dart';
+import 'package:ldi/services/api_connect.dart';
 import 'package:ldi/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -69,48 +71,50 @@ import '../sttus/datasource/obst_sttus_inqire_datasource.dart';
 import 'datasource/bsns_select_area_datasource.dart';
 import 'datasource/model/bsns_select_area_datasource_model.dart';
 import 'select/bsns_select_model.dart';
-import 'sqnc/bsns_sqnc_datasource.dart';
-import 'sqnc/model/bsns_sqnc_datasource_model.dart';
 
 import 'package:http/http.dart' as http;
 
 class LpController extends GetxController with GetTickerProviderStateMixin {
   static LpController get to => Get.find();
 
+  final api = ApiConnect();
+
+  // 사업선택
   late TextEditingController bsnsNameSearchController; // 사업명 검색
   late TextEditingController bsnsNoSearchController; // 사업번호 검색
 
+  // 소유자
+  late TextEditingController ownerNameSearchController; // 소유자관리 소유자 명 검색
+  late TextEditingController ownerRegisterNoSearchController; // 소유자관리 소유자 등록번호 검색
 
-  // 소유자관리 소유자 명 검색
-  late TextEditingController ownerNameSearchController;
+  // 통계
+  late TextEditingController sttusInqireAcqstnPrpsController; // 통계정보 > 토지현황 > 취득용도
+  late TextEditingController sttusInqireBsnsSqncController; // 통계정보 > 토지현황 > 조사차수
 
-  // 소유자관리 소유자 등록번호 검색
-  late TextEditingController ownerRegisterNoSearchController;
+  // 조사차수
+  late TextEditingController sqncAutoController;
+  late TextEditingController sqncStartDtController;
+  late TextEditingController sqncEndDtController;
+  late TextEditingController sqncController;
 
-  // 소유자관리 소재지 검색
-  late TextEditingController ownerLctnSearchController;
+  // 실태조사 (토지)
+  late TextEditingController accdtlnvstgLadAddrController; // 소재지
+  late TextEditingController accdtlnvstgLadMlnoLtnoController; // 본번
+  late TextEditingController accdtlnvstgLadSlnoLtnoController; // 부반
+  late TextEditingController accdtlnvstgLadAcqsPrpDivNmController; // 취득용도
 
-  // 소유자관리 본번 검색
-  late TextEditingController ownerMlnoLtnoSearchController;
+  // 실태조사 (토지 현실이용현황 입력)
+  late TextEditingController accdtlnvstgLadRealUseEditController; // 현실이용현황 -> 지목선택
+  late TextEditingController accdtlnvstgLadRealUseEdit2Controller; // 현실이용현황 -> 면적
+  late TextEditingController accdtlnvstgLadRealUseEdit3Controller; // 현실이용현황 -> 용지지구 및 지역
 
-  // 소유자관리 부번 검색
-  late TextEditingController ownerSlnoLtnoSearchController;
+  // 실태조사 (지장물)
+  late TextEditingController accdtlnvstgObstAddrController; // 소재지
+  late TextEditingController accdtlnvstgObstMlnoLtnoController; // 본번
+  late TextEditingController accdtlnvstgObstSlnoLtnoController; // 부반
+  late TextEditingController accdtlnvstgObstAcqsPrpDivNmController; // 취득용도
 
-  // 소유자관리 정보변경 특이사항
-  late TextEditingController ownerEtcController;
 
-  // 통계정보 > 토지현황 > 취득용도
-  late TextEditingController sttusInqireAcqstnPrpsController;
-
-  // 통계정보 > 토지현황 > 조사차수
-  late TextEditingController sttusInqireBsnsSqncController;
-
-  late TextEditingController orderAutoController;
-  late TextEditingController orderStartDtController;
-  late TextEditingController orderEndDtController;
-  late TextEditingController orderController;
-
-  // 실태조사
   late TextEditingController accdtlnvstgAcqstnPrpsController;
   late TextEditingController accdtlnvstgLadPartcpntController;
 
@@ -121,11 +125,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   Timer? _debounce;
 
   // 사업선택 탭 아이템
-  final bsnsSelectTabItems = [
-    Tab(text: '사업선택'),
-    // Tab(text: '사업구역'),
-    // Tab(text: '조사차수')
-  ];
+  final bsnsSelectTabItems = [Tab(text: '사업선택'),];
 
   final bsnsSelectTabIsSelected = [true, false, false].obs;
   final bsnsOwnerTabIsSelected = [true, false, false, false].obs;
@@ -134,18 +134,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgTabObstSelected = [true, false].obs;
 
   // 통계정보 탭 아이템 선택 여부
-  final sttusInqireTabIsSelected = [
-    true,
-    true,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ].obs;
+  final sttusInqireTabIsSelected = [true, true, false, false, false, false, false, false, false, false].obs;
 
   // 고객카드 탭 아이템 선택 여부
   final customerCardTabIsSelected = [true, false].obs;
@@ -165,11 +154,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgTabItems = [Tab(text: '토지조사'), Tab(text: '지장물 조사')];
 
   // 실태조사 토지조서 탭 아이템
-  final accdtlnvstgLadTabItems = [
-    Tab(text: '토지검색'),
-    Tab(text: '소유자/관계인'),
-    Tab(text: '조사내용')
-  ];
+  final accdtlnvstgLadTabItems = [Tab(text: '토지검색'), Tab(text: '소유자/관계인'), Tab(text: '조사내용')];
 
   // 실태조사 지장물 조사 탭 아이템
   final accdtlnvstgObstTabItems = [Tab(text: '지장물검색'), Tab(text: '조사내용')];
@@ -229,9 +214,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       OwnerLadInfoDatasource(items: []).obs; // 소유자 및 관계인
   final ownerObstInfoDataSource =
       OwnerObstInfoDatasource(items: []).obs; // 지장물정보
-
-  final bsnsSqncDataSource = BsnsSqncDatasource(items: []).obs; // 조사차수
-  RxList<BsnsSqncDatasourceModel> bsnsSqnc = <BsnsSqncDatasourceModel>[].obs;
 
   final selectSqnc = BsnsAccdtinvstgSqncModel().obs;
 
@@ -315,82 +297,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // select order
   RxInt selectOrder = 0.obs;
 
-  RxMap<String, double> columnWidths = {
-    'bsnsZoneNo': double.nan,
-    'bsnsZoneNm': double.nan,
-    'lotCnt': double.nan,
-    'bsnsAra': double.nan,
-    'bsnsReadngPblancDe': double.nan,
-    'surveyDate': double.nan,
-    'surveyOrder': double.nan,
-    'location': double.nan,
-    'mainNumber': double.nan,
-    'subNumber': double.nan,
-    'publicLandType': double.nan,
-    'gdongNm': double.nan,
-    'gdongCd': double.nan,
-    'crtsDivCd': double.nan,
-    'lnoLtno': double.nan,
-    'lnoLtno': double.nan,
-    'bstSeq': double.nan,
-    'bstDivCd': double.nan,
-    'mpnstnThingKndDtls': double.nan,
-    'bstStrctStndrdInfo': double.nan,
-    'mpnstnQtyAraVu': double.nan,
-    'mpnstnThingUnitDivCd': double.nan,
-    'ttusLndcgrDivCd': double.nan,
-    'cqsPrpDivCd': double.nan,
-    'ceptncUseDivCd': double.nan,
-    'ccdtInvstgSqnc': double.nan,
-    'nvstgDt': double.nan,
-    'mpnstnStepDivCd': double.nan,
-    'pcitm': double.nan,
-    'bsnsSqnc': double.nan,
-    'bsnsStrtDe': double.nan,
-    'bsnsEndDe': double.nan,
-    'ownerNo': double.nan,
-    'ownerName': double.nan,
-    'ladLdgrOwnerNm': double.nan,
-    'ladLdgrPosesnDivCd': double.nan,
-    'ownerTypeDetail': double.nan,
-    'ownerDetail2': double.nan,
-    'ownerRegisterNo': double.nan,
-    'ownerTelNo': double.nan,
-    'ownerPhoneNo': double.nan,
-    'lgdongNm': double.nan,
-    'lcrtsDivCd': double.nan,
-    'mlnoLtno': double.nan,
-    'slnoLtno': double.nan,
-    'ofcbkLndcgrDivCd': double.nan,
-    'sttusLndcgrDivCd': double.nan,
-    'ofcbkAra': double.nan,
-    'incrprAra': double.nan,
-    'cmpnstnInvstgAra': double.nan,
-    'acqsPrpDivCd': double.nan,
-    'aceptncPrpDivCd': double.nan,
-    'accdtInvstgSqnc': double.nan,
-    'invstgDt': double.nan,
-    'cmpnstnDtaChnStatDivCd': double.nan,
-    'etc': double.nan,
-    'obstSeq': double.nan,
-    'obstDivCd': double.nan,
-    'cmpnstnThingKndDtls': double.nan,
-    'obstStrctStndrdInfo': double.nan,
-    'cmpnstnQtyAraVu': double.nan,
-    'cmpnstnThingUnitDivCd': double.nan,
-    'sttusLndcgrDivCd': double.nan,
-    'acqsPrpDivCd': double.nan,
-    'aceptncUseDivCd': double.nan,
-    'accdtInvstgSqnc': double.nan,
-    'invstgDt': double.nan,
-    'cmpnstnStepDivCd': double.nan,
-    'spcitm': double.nan,
-  }.obs;
-
   RxString selectedPurpose = '단지구역'.obs;
 
   // purpose list
   RxList<String> accdtlnvstgAcqstnPrpsList = [
+    '전체',
     '단지구역',
     '토취장',
     '진입도로',
@@ -421,6 +332,15 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   RxList<BsnsPlanModel> bsnsPlanList = <BsnsPlanModel>[].obs;
   RxList<BsnsPlanModel> searchBsnsPlanList = <BsnsPlanModel>[].obs;
 
+  List<OwnerDataSourceModel> ownerList = <OwnerDataSourceModel>[].obs;
+  List<OwnerDataSourceModel> searchOwnerList = <OwnerDataSourceModel>[].obs;
+
+  List<AccdtlnvstgLadModel> accdtlnvstgLadList = <AccdtlnvstgLadModel>[].obs;
+  List<AccdtlnvstgLadModel> searchAccdtlnvstgLadList = <AccdtlnvstgLadModel>[].obs;
+
+  List<AccdtlnvstgObstModel> accdtlnvstgObstList = <AccdtlnvstgObstModel>[].obs;
+  List<AccdtlnvstgObstModel> searchAccdtlnvstgObstList = <AccdtlnvstgObstModel>[].obs;
+
   Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
 
   late InAppWebViewController inAppWebViewController;
@@ -434,9 +354,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     bsnsNameSearchController = TextEditingController();
     bsnsNoSearchController = TextEditingController();
 
-    orderAutoController = TextEditingController();
-    orderStartDtController = TextEditingController();
-    orderEndDtController = TextEditingController();
+    sqncAutoController = TextEditingController();
+    sqncStartDtController = TextEditingController();
+    sqncEndDtController = TextEditingController();
 
     ownerNameSearchController = TextEditingController();
     ownerRegisterNoSearchController = TextEditingController();
@@ -444,10 +364,19 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     ownerNameSearchController = TextEditingController();
     ownerRegisterNoSearchController = TextEditingController();
 
-    ownerLctnSearchController = TextEditingController();
-    ownerMlnoLtnoSearchController = TextEditingController();
-    ownerSlnoLtnoSearchController = TextEditingController();
-    ownerEtcController = TextEditingController();
+    accdtlnvstgLadAddrController = TextEditingController();
+    accdtlnvstgLadMlnoLtnoController = TextEditingController();
+    accdtlnvstgLadSlnoLtnoController = TextEditingController();
+    accdtlnvstgLadAcqsPrpDivNmController = TextEditingController();
+
+    accdtlnvstgObstAddrController = TextEditingController();
+    accdtlnvstgObstMlnoLtnoController = TextEditingController();
+    accdtlnvstgObstSlnoLtnoController = TextEditingController();
+    accdtlnvstgObstAcqsPrpDivNmController = TextEditingController();
+
+    accdtlnvstgLadRealUseEditController = TextEditingController();
+    accdtlnvstgLadRealUseEdit2Controller = TextEditingController();
+    accdtlnvstgLadRealUseEdit3Controller = TextEditingController();
 
     accdtlnvstgAcqstnPrpsController = TextEditingController();
     accdtlnvstgLadPartcpntController = TextEditingController();
@@ -455,20 +384,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     sttusInqireAcqstnPrpsController = TextEditingController();
     sttusInqireBsnsSqncController = TextEditingController();
 
-    accdtlnvstgTabController =
-        TabController(length: accdtlnvstgTabItems.length, vsync: this);
-    bsnsTabController =
-        TabController(length: bsnsSelectTabItems.length, vsync: this);
-    bsnsOwnerTabController =
-        TabController(length: bsnsOwnerTabItems.length, vsync: this);
-    accdtlnvstgLadTabController =
-        TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
-    accdtlnvstgObstTabController =
-        TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
-    sttusTabController =
-        TabController(length: sttusTabItems.length, vsync: this);
+    accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
+    bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
+    bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
+    accdtlnvstgLadTabController = TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
+    accdtlnvstgObstTabController = TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
+    sttusTabController = TabController(length: sttusTabItems.length, vsync: this);
 
-    orderController = TextEditingController();
+    sqncController = TextEditingController();
 
     bsnsListScrollController = ScrollController();
 
@@ -531,8 +454,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     });
 
     bsnsListScrollController.addListener(() {
-      AppLog.d(
-          'bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
+      AppLog.d('bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
     });
 
     /// [사업목록] 조회
@@ -571,10 +493,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         visible: isVisble ?? true,
         label: SizedBox(
             child: Center(
-                child: Text(label,
+                child: AutoSizeText(label,
+                    maxFontSize: 20,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
+                        fontSize: 24.sp,
                         color: tableTextColor)))));
   }
 
@@ -631,24 +554,22 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   /// [사업목록] 조회
   fetchBsnsList() async {
-    var url =
-        Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsPlan.do');
-    var response = await http.post(url);
+
+    var response = await api.fetchBsnsList();
 
     bsnsPlanList.clear();
     searchBsnsPlanList.clear();
 
     if (response.statusCode == 200) {
-      var res = JsonDecoder().convert(response.body)['list'];
+
       List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
 
-      AppLog.d('fetchBsnsList > data : $res');
-
-      var length = res.length;
-      bsnsPlanModelFromJson(res, dataList, length);
+      var length = response.body['list'].length;
+      bsnsPlanModelFromJson(response.body['list'], dataList, length);
 
       bsnsPlanList = dataList.obs;
       searchBsnsPlanList = dataList.obs;
+
     } else {
       AppLog.e('Failed to load post');
       DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
@@ -657,112 +578,122 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     return bsnsPlanList;
   }
 
-  /// [사업구역선택] 조회
+  // fetchBsnsSelectAreaGridDataSource() async {
+  //   var url =
+  //   Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsZone.do');
+  //
+  //   // param
+  //   var param = {
+  //     'bsnsNo': selectBsnsPlan.value.bsnsNo,
+  //   };
+  //
+  //   var response = await http.post(url, body: param);
+  //
+  //   if (response.statusCode == 200) {
+  //     var data = JsonDecoder().convert(response.body)['list'];
+  //     AppLog.d('fetchBsnsSelectAreaGridDataSource > data : $data');
+  //
+  //     var bsnsPlanSelectAreaModel = <BsnsPlanSelectAreaModel>[];
+  //
+  //     for (var i = 0; i < data.length; i++) {
+  //       var bsnsZoneNo = data[i]['bsnsZoneNo'];
+  //       AppLog.d(
+  //           'fetchBsnsSelectAreaGridDataSource > bsnsZoneNo : $bsnsZoneNo');
+  //
+  //       bsnsPlanSelectAreaModel.add(BsnsPlanSelectAreaModel(
+  //           bsnsNo: num.parse(data[i]['bsnsNo']),
+  //           bsnsZoneNo: data[i]['bsnsZoneNo'],
+  //           bsnsZoneNm: data[i]['bsnsZoneNm'],
+  //           lotCnt: CommonUtil.comma3(data[i]['lotCnt']),
+  //           bsnsAra: CommonUtil.comma3(data[i]['bsnsAra']),
+  //           bsnsReadngPblancDe: data[i]['bsnsReadngPblancDe'] == null
+  //               ? '-'
+  //               : CommonUtil.convertToDateTime(data[i]['bsnsReadngPblancDe'])));
+  //     }
+  //
+  //     bsnsListDataSource.value =
+  //         BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
+  //   } else {
+  //     AppLog.e('Failed to load post');
+  //   }
+  // }
+
   fetchBsnsSelectAreaGridDataSource() async {
-    var url =
-        Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsZone.do');
 
-    // param
-    var param = {
-      'bsnsNo': selectBsnsPlan.value.bsnsNo,
-    };
+    var response = await api.fetchBsnsSelectAreaGridDataSource(selectBsnsPlan.value.bsnsNo);
 
-    var response = await http.post(url, body: param);
+    if(response.statusCode == 200) {
+      AppLog.d('fetchBsnsSelectAreaGridDataSource > response : ${response.body['list']}');
 
-    if (response.statusCode == 200) {
-      var data = JsonDecoder().convert(response.body)['list'];
-      AppLog.d('fetchBsnsSelectAreaGridDataSource > data : $data');
+      List<BsnsPlanSelectAreaModel> dataList = <BsnsPlanSelectAreaModel>[];
+      var length = response.body['list'].length;
 
-      var bsnsPlanSelectAreaModel = <BsnsPlanSelectAreaModel>[];
-
-      for (var i = 0; i < data.length; i++) {
-        var bsnsZoneNo = data[i]['bsnsZoneNo'];
-        AppLog.d(
-            'fetchBsnsSelectAreaGridDataSource > bsnsZoneNo : $bsnsZoneNo');
-
-        bsnsPlanSelectAreaModel.add(BsnsPlanSelectAreaModel(
-            bsnsNo: num.parse(data[i]['bsnsNo']),
-            bsnsZoneNo: data[i]['bsnsZoneNo'],
-            bsnsZoneNm: data[i]['bsnsZoneNm'],
-            lotCnt: CommonUtil.comma3(data[i]['lotCnt']),
-            bsnsAra: CommonUtil.comma3(data[i]['bsnsAra']),
-            bsnsReadngPblancDe: data[i]['bsnsReadngPblancDe'] == null
-                ? '-'
-                : CommonUtil.convertToDateTime(data[i]['bsnsReadngPblancDe'])));
-      }
+      bsnsPlanSelectAreaModelFromJson(response.body['list'], dataList, length);
 
       bsnsListDataSource.value =
-          BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
-    } else {
-      AppLog.e('Failed to load post');
+          BsnsSelectAreaDataSource(items: dataList);
+
     }
   }
 
   /// [소유자 및 관리인] 조회
-  fetchBsnsOwnerDataSource() async {
-    DialogUtil.showLoading(Get.context!);
+  fetchOwnerDataSource() async {
 
-    var url =
-        Uri.parse('http://222.107.22.159:18080/lp/owner/selectOwnList.do');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
 
-    var param = {
-      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
-      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
-    };
+      DialogUtil.showLoading(Get.context!);
 
-    AppLog.d('fetchBsnsOwnerDataSource > param : $param');
+      var url =
+      Uri.parse('http://222.107.22.159:18080/lp/owner/selectOwnList.do');
 
-    var response = await http.post(url, body: param);
+      var param = {
+        'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+        'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+      };
 
-    if (response.statusCode == 200) {
+      AppLog.d('fetchBsnsOwnerDataSource > param : $param');
 
-      var data = JsonDecoder().convert(response.body)['list'];
-      AppLog.d('fetchBsnsOwnerDataSource > data : $data');
+      var response = await http.post(url, body: param);
 
-      var length = data.length;
-      var list = <OwnerDataSourceModel>[];
+      if (response.statusCode == 200) {
 
-      // for (var i = 0; i < data.length; i++) {
-      //   res.add(OwnerDataSourceModel(
-      //     ownerNo: data[i]['ownerNo'] ?? '',
-      //     ownerNm: data[i]['ownerNm'] ?? '',
-      //     posesnDivCd: data[i]['posesnDivCd'] ?? '',
-      //     posesnDivNm: data[i]['posesnDivNm'] ?? '',
-      //     bsnsNo: data[i]['bsnsNo'] ?? '',
-      //     bsnsZoneNo: data[i]['bsnsZoneNo'] ?? '',
-      //     ownerRrnEnc: data[i]['ownerRrnEnc'] ?? '',
-      //     oldRegno: data[i]['oldRegno'] ?? '',
-      //     //ownerTelno: data[i]['ownerTelno'] ?? '',
-      //     ownerTelno: CommonUtil.phoneHyphen(data[i]['ownerTelno'] ?? ''),
-      //     //ownerMbtlnum: data[i]['ownerMbtlnum'] ?? '',
-      //     ownerMbtlnum: CommonUtil.phoneHyphen(data[i]['ownerMbtlnum'] ?? ''),
-      //     rgsbukZip: data[i]['rgsbukZip'] ?? '',
-      //     delvyZip: data[i]['delvyZip'] ?? '',
-      //     moisZip: data[i]['moisZip'] ?? '',
-      //     ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
-      //     ownerDelvyAddr: data[i]['ownerDelvyAddr'] ?? '',
-      //     ownerMoisAddr: data[i]['ownerMoisAddr'] ?? '',
-      //     accdtInvstgRm: data[i]['accdtInvstgRm'] ?? '',
-      //     frstRgstrId: data[i]['frstRgstrId'] ?? '',
-      //     frstRegistDt: data[i]['frstRegistDt'] ?? '',
-      //     lastUpdusrId: data[i]['lastUpdusrId'] ?? '',
-      //     lastUpdtDt: data[i]['lastUpdtDt'] ?? '',
-      //     conectIp: data[i]['conectIp'] ?? '',
-      //     thingCnt: data[i]['thingCnt'] ?? '',
-      //     bsnsCnt: data[i]['bsnsCnt'] ?? '',
-      //     realOwnerNo: data[i]['realOwnerNo'] ?? '',
-      //     ownerDivCd: data[i]['ownerDivCd'] ?? '',
-      //     ownerRgsbukAddrFull: data[i]['ownerRgsbukAddrFull'] ?? '',
-      //     ownerDelvyAddrFull: data[i]['ownerDelvyAddrFull'] ?? '',
-      //     ownerMoisAddrFull: data[i]['ownerMoisAddrFull'] ?? '',
-      //   ));
-      // }
+        var data = JsonDecoder().convert(response.body)['list'];
+        AppLog.d('fetchBsnsOwnerDataSource > data : $data');
 
-      ownerDataSourceKeyValue(data, list, length);
+        var length = data.length;
+        var list = <OwnerDataSourceModel>[];
 
-      ownerListDataSource.value = OwnerDatasource(items: list);
-      Get.back();
-    }
+        ownerDataSourceKeyValue(data, list, length);
+
+        ownerList = list;
+        searchOwnerList = list;
+
+        // 소유자 이름 검색
+        if (ownerNameSearchController.text.isNotEmpty) {
+          searchOwnerList = list
+              .where((element) => element.ownerNm!
+              .contains(ownerNameSearchController.text))
+              .toList();
+        }
+
+        // 소유자 등록번호 검색
+        if (ownerRegisterNoSearchController.text.isNotEmpty) {
+          searchOwnerList = list
+              .where((element) => element.ownerRrnEnc!
+              .contains(ownerRegisterNoSearchController.text))
+              .toList();
+        }
+
+        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
+        Get.back();
+
+      } else {
+        AppLog.e('Failed to load post');
+        DialogUtil.showSnackBar(Get.context!, '소유자', '소유자를 조회할 수 없습니다.');
+      }
+
+    });
   }
 
   /// [소유자관리 > 토지정보] 조회
@@ -946,6 +877,33 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       accdtlnvstgLadDataSourceKeyValue(data, list, length);
 
+      accdtlnvstgLadList = list;
+      searchAccdtlnvstgLadList = list;
+
+      // 소재지 검색
+      if (accdtlnvstgLadAddrController.text.isNotEmpty) {
+        searchAccdtlnvstgLadList = list
+            .where((element) => element.lgdongNm!
+            .contains(accdtlnvstgLadAddrController.text))
+            .toList();
+      }
+
+      // 본번 검색
+      if (accdtlnvstgLadMlnoLtnoController.text.isNotEmpty) {
+        searchAccdtlnvstgLadList = list
+            .where((element) => element.mlnoLtno!
+            .contains(accdtlnvstgLadMlnoLtnoController.text))
+            .toList();
+      }
+
+      // 부번 검색
+      if (accdtlnvstgLadSlnoLtnoController.text.isNotEmpty) {
+        searchAccdtlnvstgLadList = list
+            .where((element) => element.slnoLtno!
+            .contains(accdtlnvstgLadSlnoLtnoController.text))
+            .toList();
+      }
+
       accdtlnvstgLadDataSource.value =
           AccdtlnvstgLadDatasource(items: list);
 
@@ -970,7 +928,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 32.sp, fontWeight: FontWeight.w500)),
+                AutoSizeText(maxFontSize: 20, '${selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 32.sp, fontWeight: FontWeight.w500)),
               ],
             ),
           ),
@@ -1074,6 +1032,35 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       var length = data.length;
 
       accdtlnvstgObstDataSourceKeyValue(data, accdtlnvstgObst, length);
+
+      accdtlnvstgObstList = accdtlnvstgObst;
+      searchAccdtlnvstgObstList = accdtlnvstgObst;
+
+      // 소재지 검색
+      if (accdtlnvstgObstAddrController.text.isNotEmpty) {
+        searchAccdtlnvstgObstList = accdtlnvstgObst
+            .where((element) => element.lgdongNm!
+            .contains(accdtlnvstgObstAddrController.text))
+            .toList();
+      }
+
+      // 본번 검색
+      if (accdtlnvstgObstMlnoLtnoController.text.isNotEmpty) {
+        searchAccdtlnvstgObstList = accdtlnvstgObst
+            .where((element) => element.mlnoLtno!
+            .contains(accdtlnvstgObstMlnoLtnoController.text))
+            .toList();
+      }
+
+      // 부번 검색
+      if (accdtlnvstgObstSlnoLtnoController.text.isNotEmpty) {
+        searchAccdtlnvstgObstList = accdtlnvstgObst
+            .where((element) => element.slnoLtno!
+            .contains(accdtlnvstgObstSlnoLtnoController.text))
+            .toList();
+      }
+
+
 
       accdtlnvstgObstDataSource.value =
           AccdtlnvstgObstDatasource(items: accdtlnvstgObst);
@@ -1958,8 +1945,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                     SizedBox(width: 32.w),
                     Expanded(
                       child: CustomTextField(
-                        controller: orderAutoController,
-                        hintText: orderAutoController.text,
+                        controller: sqncAutoController,
+                        hintText: sqncAutoController.text,
                         isPassword: false,
                         isReadOnly: true,
                         textColor: tableTextColor,
@@ -1998,8 +1985,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                     SizedBox(width: 32.w),
                     Expanded(
                       child: CustomTextField(
-                        controller: orderStartDtController,
-                        hintText: orderStartDtController.text,
+                        controller: sqncStartDtController,
+                        hintText: sqncStartDtController.text,
                         isPassword: false,
                         isReadOnly: true,
                         textColor: tableTextColor,
@@ -2009,9 +1996,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                         onTap: () {
                           showDatePicker(
                             context: Get.context!,
-                            initialDate: orderStartDtController.text.isEmpty
+                            initialDate: sqncStartDtController.text.isEmpty
                                 ? DateTime.now()
-                                : DateTime.parse(orderStartDtController.text),
+                                : DateTime.parse(sqncStartDtController.text),
                             firstDate: DateTime(2024),
                             lastDate: DateTime(2034),
                             initialDatePickerMode: DatePickerMode.day,
@@ -2024,7 +2011,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                             var day =
                                 value.day < 10 ? '0${value.day}' : value.day;
                       
-                            orderStartDtController.text = '$year-$month-$day';
+                            sqncStartDtController.text = '$year-$month-$day';
                           });
                         },
                       ),
@@ -2061,8 +2048,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                       SizedBox(width: 32.w),
                       Expanded(
                         child: CustomTextField(
-                          controller: orderEndDtController,
-                          hintText: orderEndDtController.text,
+                          controller: sqncEndDtController,
+                          hintText: sqncEndDtController.text,
                           isPassword: false,
                           isReadOnly: true,
                           textColor: tableTextColor,
@@ -2072,9 +2059,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                           onTap: () {
                             showDatePicker(
                               context: Get.context!,
-                              initialDate: orderEndDtController.text.isEmpty
+                              initialDate: sqncEndDtController.text.isEmpty
                                   ? DateTime.now()
-                                  : DateTime.parse(orderEndDtController.text),
+                                  : DateTime.parse(sqncEndDtController.text),
                               firstDate: DateTime(2024),
                               lastDate: DateTime(2034),
                               initialDatePickerMode: DatePickerMode.day,
@@ -2087,7 +2074,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                               var day =
                                   value.day < 10 ? '0${value.day}' : value.day;
                         
-                              orderEndDtController.text = '$year-$month-$day';
+                              sqncEndDtController.text = '$year-$month-$day';
                             });
                           },
                         ),
@@ -2101,12 +2088,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
             InkWell(
               onTap: () {
                 Get.back();
-                if (orderStartDtController.text == "") {
+                if (sqncStartDtController.text == "") {
                   return DialogUtil.showSnackBar(
                       Get.context!, '실태조사', '시작일을 입력해주세요.');
                 }
 
-                if (orderEndDtController.text == "") {
+                if (sqncEndDtController.text == "") {
                   return DialogUtil.showSnackBar(
                       Get.context!, '실태조사', '종료일을 입력해주세요.');
                 }
@@ -2201,7 +2188,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: '${orderAutoController.text}',
+                                          text: '${sqncAutoController.text}',
                                           style: TextStyle(
                                             color: Colors.red,
                                             fontSize:
@@ -2241,7 +2228,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                               // 시작일 ~ 종료일
                               SizedBox(height: 10.h),
                               Text(
-                                '사업기간: ${orderStartDtController.text} ~ ${orderEndDtController.text}',
+                                '사업기간: ${sqncStartDtController.text} ~ ${sqncEndDtController.text}',
                                 style: TextStyle(
                                   color: Color(0xFF1D1D1D),
                                   fontSize: 1.w > 1.h ? 32.sp : 50.sp,
@@ -2355,6 +2342,175 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     });
   }
 
+  /// [소유자 이름] 검색
+  Future<void> searchOwnerName(String value) async {
+    AppLog.d('searchOwnerName : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchOwnerList = ownerList;
+        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
+      } else {
+        searchOwnerList = ownerList
+            .where((element) => element.ownerNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachOwnerList : $searchOwnerList');
+        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
+      }
+    });
+  }
+
+  /// [소유자 등록 번호] 검색
+  Future<void> searchOwnerRrnEnc(String value) async {
+    AppLog.d('searchOwnerNo : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchOwnerList = ownerList;
+        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
+      } else {
+        searchOwnerList = ownerList
+            .where((element) => element.ownerRrnEnc?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachOwnerList : $searchOwnerList');
+        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
+      }
+    });
+  }
+
+
+  /// [실태조사 (토지)] 소재지 검색
+  Future<void> searchAccdtlnvstgLadAddr(String value) async {
+    AppLog.d('searchAccdtlnvstgLadAddr : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      } else {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList
+            .where((element) => element.lgdongNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      }
+    });
+  }
+
+  /// [실태조사 (지장물)] 소재지 검색
+  Future<void> searchAccdtlnvstgObstAddr(String value) async {
+    AppLog.d('searchAccdtlnvstgObstAddr : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList;
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      } else {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList
+            .where((element) => element.lgdongNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgObstList : $searchAccdtlnvstgObstList');
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      }
+    });
+  }
+
+  /// [실태조사 (토지)] 본번 검색
+  Future<void> searchAccdtlnvstgLadMlnoLtno(String value) async {
+    AppLog.d('searchLadMainNo : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      } else {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList
+            .where((element) => element.mlnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      }
+    });
+  }
+
+  /// [실태조사 (토지)] 부번 검색
+  Future<void> searchAccdtlnvstgSlnoLtno(String value) async {
+    AppLog.d('searchLadSubNo : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      } else {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList
+            .where((element) => element.slnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      }
+    });
+  }
+
+  /// [실태조사 (토지)] 취득용도 검색
+  Future<void> searchAccdtlnvstgLadPurps(String value) async {
+    AppLog.d('searchLadPurps : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      } else {
+
+        if(value == '전체') {
+          searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        } else {
+          searchAccdtlnvstgLadList = accdtlnvstgLadList
+              .where((element) => element.acqsPrpDivNm?.contains(value) ?? false)
+              .toList();
+        }
+
+        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      }
+    });
+  }
+
+  // [실태조사 (지장물)] 취득용도 검색
+  Future<void> searchAccdtlnvstgObstPurps(String value) async {
+    AppLog.d('searchObstPurps : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList;
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      } else {
+
+        if(value == '전체') {
+          searchAccdtlnvstgObstList = accdtlnvstgObstList;
+        } else {
+          searchAccdtlnvstgObstList = accdtlnvstgObstList
+              .where((element) => element.acqsPrpDivNm?.contains(value) ?? false)
+              .toList();
+        }
+
+        AppLog.d('serachAccdtlnvstgObstList : $searchAccdtlnvstgObstList');
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      }
+    });
+  }
+
   /// [차수 자동 입력]
   autoSqnc() async {
     var url = 'http://222.107.22.159:18080/lp/bsns/selectAccdtInvstgSqnc.do';
@@ -2398,14 +2554,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       // 마지막 차수 + 1
 
       if (bsnsAccdtinvstgSqncModel.isEmpty) {
-        orderAutoController.text = '1';
+        sqncAutoController.text = '1';
       } else {
         num lastSqnc = bsnsAccdtinvstgSqncModel.first.accdtInvstgSqnc ?? 0 + 1;
         AppLog.d('lastSqnc : $lastSqnc');
 
         num last = lastSqnc == 0 ? 1 : lastSqnc + 1;
 
-        orderAutoController.text = last.toString();
+        sqncAutoController.text = last.toString();
       }
 
       bsnsAccdtinvstgSqncDataSource.value =
@@ -2507,6 +2663,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                        children: [
                          Expanded(
                            child: CustomTextField(
+                             controller: accdtlnvstgLadRealUseEditController,
                              hintText: '내용',
                              isPassword: false,
                              isReadOnly: true,
@@ -2582,6 +2739,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                         children: [
                           Expanded(
                             child: CustomTextField(
+                              controller: accdtlnvstgLadRealUseEdit2Controller,
                               hintText: '내용',
                               isPassword: false,
                               isReadOnly: true,
@@ -2648,6 +2806,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                         children: [
                           Expanded(
                             child: CustomTextField(
+                              controller: accdtlnvstgLadRealUseEdit3Controller,
                               hintText: '내용',
                               isPassword: false,
                               isReadOnly: true,

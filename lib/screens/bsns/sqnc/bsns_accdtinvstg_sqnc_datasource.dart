@@ -37,7 +37,7 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText('${dataGridCell.value.toString()}차',
+          child: AutoSizeText(maxFontSize: 20, '${dataGridCell.value.toString()}차',
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
         );
@@ -46,7 +46,7 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(dataGridCell.value.toString(),
+          child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(),
               overflow: TextOverflow.ellipsis,
               maxLines: 3,
               style: TextStyle(fontSize: 30.sp)),
@@ -56,7 +56,7 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText('${dataGridCell.value.toString()}차',
+          child: AutoSizeText(maxFontSize: 20, '${dataGridCell.value.toString()}차',
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
         );
@@ -65,7 +65,7 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(dataGridCell.value.toString(),
+          child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(),
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 30.sp)),
         );
@@ -74,7 +74,7 @@ class BsnsAccdtinvstgSqncDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+          child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
         );
       }
 

@@ -67,7 +67,7 @@ class CstmrCardWidget {
                                           Expanded(
                                             child: CustomTextField(
                                               controller: controller
-                                                  .ownerLctnSearchController,
+                                                  .sqncController,
                                               hintText: '',
                                               onChanged: (value) {},
                                             ),
@@ -104,7 +104,7 @@ class CstmrCardWidget {
                                           Expanded(
                                             child: CustomTextField(
                                               controller: controller
-                                                  .ownerLctnSearchController,
+                                                  .sqncController,
                                               hintText: '',
                                               onChanged: (value) {},
                                             ),
@@ -142,7 +142,7 @@ class CstmrCardWidget {
                                           Expanded(
                                             child: CustomTextField(
                                               controller: controller
-                                                  .ownerLctnSearchController,
+                                                  .sqncController,
                                               hintText: '',
                                               onChanged: (value) {},
                                             ),

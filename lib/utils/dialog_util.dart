@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -74,7 +75,8 @@ class DialogUtil {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
+                              AutoSizeText(
+                                maxFontSize: 20,
                                 title,
                                 style: TextStyle(
                                   color: tableTextColor,
@@ -131,8 +133,9 @@ class DialogUtil {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Text(
+                                      AutoSizeText(
                                         //'취소',
+                                        maxFontSize: 20,
                                         textCancel ?? '취소',
                                         style: TextStyle(
                                           color: Colors.white,
@@ -163,7 +166,8 @@ class DialogUtil {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Text(
+                                      AutoSizeText(
+                                        maxFontSize: 20,
                                         textOk ?? '확인',
                                         style: TextStyle(
                                           color: Colors.white,
@@ -222,7 +226,8 @@ class DialogUtil {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      AutoSizeText(
+                        maxFontSize: 20,
                         title,
                         style: TextStyle(
                           color: tableTextColor,

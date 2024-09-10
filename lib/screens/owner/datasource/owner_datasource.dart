@@ -61,7 +61,7 @@ class OwnerDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
+          child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC))),
         );
       }
 
@@ -69,7 +69,7 @@ class OwnerDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp)),
+          child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp)),
         );
       }
 
@@ -77,7 +77,7 @@ class OwnerDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.topLeft,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 3, style: TextStyle(fontSize: 30.sp)),
+          child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 3, style: TextStyle(fontSize: 30.sp)),
         );
       }
       
@@ -85,7 +85,7 @@ class OwnerDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(CommonUtil.maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+          child: AutoSizeText(maxFontSize: 20, CommonUtil.maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
         );
       }
       
@@ -93,7 +93,7 @@ class OwnerDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(CommonUtil.phoneHyphen(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp)),
+          child: AutoSizeText(maxFontSize: 20, CommonUtil.phoneHyphen(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp)),
         );
       }
 
@@ -114,7 +114,7 @@ class OwnerDatasource extends DataGridSource {
                   ? Color(0xffFF4500)
                   : Color(0xffFF69B4),
               borderRadius: BorderRadius.circular(5.0),
-            ), child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w400, color: Colors.white)),
+            ), child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w400, color: Colors.white)),
           ),
         );
       }
@@ -122,7 +122,7 @@ class OwnerDatasource extends DataGridSource {
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w400)),
+        child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w400)),
       );
     }).toList());
   }

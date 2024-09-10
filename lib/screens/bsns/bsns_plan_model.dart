@@ -56,10 +56,13 @@ List bsnsPlanModelFromJson(dynamic str, List<dynamic> list, int length) {
   return list;
 }
 
-
 String bsnsPlanModelToJson(BsnsPlanModel data) => json.encode(data.toJson());
 
 class BsnsPlanModel {
+
+  // fromJsonList
+  List<BsnsPlanModel> fromJsonList(String str) => List<BsnsPlanModel>.from(json.decode(str).map((x) => BsnsPlanModel.fromJson(x)));
+
   BsnsPlanModel({
       this.bsnsNo, 
       this.bsnsNm, 

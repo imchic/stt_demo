@@ -80,8 +80,8 @@ class OwnerWidget {
             pinned: false,
             floating : true,
             delegate: CustomSliverPersistentHeaderDelegate(
-              minHeight: 200.h,
-              maxHeight: 200.h,
+              minHeight: 150.h,
+              maxHeight: 150.h,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,15 +89,19 @@ class OwnerWidget {
                   Column(children: [
                     Row(
                       children: [
-                        lpScreen().buildOwnerMngRadio(),
-                        SizedBox(width: 32.w),
-                        Expanded(child: CustomTextField(controller: controller.ownerNameSearchController, hintText: '소유자명을 입력해주세요', onChanged: (value) {})),
+                        //lpScreen().buildOwnerMngRadio(),
+                        //SizedBox(width: 32.w),
+                        Expanded(child: CustomTextField(controller: controller.ownerNameSearchController, hintText: '소유자명을 입력해주세요', onChanged: (value) {
+                          controller.searchOwnerName(value);
+                        })),
                         SizedBox(width: 12.w),
-                        Expanded(child: CustomTextField(controller: controller.ownerRegisterNoSearchController, hintText: '등록번호', onChanged: (value) {})),
+                        Expanded(child: CustomTextField(controller: controller.ownerRegisterNoSearchController, hintText: '등록번호', onChanged: (value) {
+                          controller.searchOwnerRrnEnc(value);
+                        })),
                       ],
                     ),
-                    SizedBox(height: 32.h),
-                    Row(
+                    //SizedBox(height: 32.h),
+                    /*Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -110,7 +114,7 @@ class OwnerWidget {
                         SizedBox(width: 12.w),
                         CustomButton().refreshButton()
                       ],
-                    ),
+                    ),*/
                   ]),
                 ],
               ),

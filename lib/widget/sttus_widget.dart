@@ -616,7 +616,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             hintText: '읍면동을 입력해주세요.',
                             onChanged: (value) {
                               //controller.searchBsnsName(value);
@@ -626,13 +626,13 @@ class SttusWidget {
                           SizedBox(
                             width: 144.w,
                             child: CustomTextField(controller: controller
-                                .ownerLctnSearchController, hintText: '본번', onChanged: (value) {  },),
+                                .sqncController, hintText: '본번', onChanged: (value) {  },),
                           ),
                           SizedBox(width: 12.w),
                           SizedBox(
                             width: 144.w,
                             child: CustomTextField(controller: controller
-                                .ownerLctnSearchController,hintText: '부번', onChanged: (value) {  },),
+                                .sqncController,hintText: '부번', onChanged: (value) {  },),
                           ),
                         ],
                       ),
@@ -658,7 +658,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             hintText: '소유자명을 입력해주세요.',
                             onChanged: (value) {
                               //controller.searchBsnsName(value);
@@ -693,7 +693,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             hintText: '취득용도',
                             onChanged: (value) {
                               //controller.searchBsnsName(value);
@@ -730,7 +730,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             hintText: '조사차수',
                             onChanged: (value) {
                               //controller.searchBsnsName(value);
@@ -772,7 +772,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             isDateTime: true,
                             hintText: '',
                             onChanged: (value) {
@@ -803,7 +803,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             isDateTime: true,
                             hintText: '',
                             onChanged: (value) {
@@ -839,7 +839,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             isDateTime: true,
                             hintText: '',
                             onChanged: (value) {
@@ -870,7 +870,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             isDateTime: true,
                             hintText: '',
                             onChanged: (value) {
@@ -906,7 +906,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             hintText: '진행단계',
                             onChanged: (value) {
                               //controller.searchBsnsName(value);
@@ -943,7 +943,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             hintText: '평가구분',
                             onChanged: (value) {
                               //controller.searchBsnsName(value);
@@ -985,7 +985,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.ownerLctnSearchController,
+                            controller: controller.sqncController,
                             hintText: '평가차수',
                             onChanged: (value) {
                               //controller.searchBsnsName(value);
@@ -1057,7 +1057,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 hintText: '읍면동을 입력해주세요.',
                                 onChanged: (value) {
                                   //controller.searchBsnsName(value);
@@ -1067,13 +1067,13 @@ class SttusWidget {
                           SizedBox(
                             width: 144.w,
                             child: CustomTextField(controller: controller
-                                .ownerLctnSearchController,hintText: '본번', onChanged: (value) {  },),
+                                .sqncController,hintText: '본번', onChanged: (value) {  },),
                           ),
                           SizedBox(width: 12.w),
                           SizedBox(
                             width: 144.w,
                             child: CustomTextField(controller: controller
-                                .ownerLctnSearchController,hintText: '부번', onChanged: (value) {  },),
+                                .sqncController,hintText: '부번', onChanged: (value) {  },),
                           ),
                         ],
                       ),
@@ -1099,7 +1099,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 hintText: '소유자명을 입력해주세요.',
                                 onChanged: (value) {
                                   //controller.searchBsnsName(value);
@@ -1134,7 +1134,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 hintText: '지장물구분',
                                 onChanged: (value) {
                                   //controller.searchBsnsName(value);
@@ -1171,7 +1171,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 hintText: '조사차수',
                                 onChanged: (value) {
                                   //controller.searchBsnsName(value);
@@ -1213,7 +1213,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 isDateTime: true,
                                 hintText: '',
                                 onChanged: (value) {
@@ -1244,7 +1244,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 isDateTime: true,
                                 hintText: '',
                                 onChanged: (value) {
@@ -1280,7 +1280,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 isDateTime: true,
                                 hintText: '',
                                 onChanged: (value) {
@@ -1311,7 +1311,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 isDateTime: true,
                                 hintText: '',
                                 onChanged: (value) {
@@ -1347,7 +1347,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 hintText: '진행단계',
                                 onChanged: (value) {
                                   //controller.searchBsnsName(value);
@@ -1384,7 +1384,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                                controller: controller.ownerLctnSearchController,
+                                controller: controller.sqncController,
                                 hintText: '평가차수',
                                 onChanged: (value) {
                                   //controller.searchBsnsName(value);

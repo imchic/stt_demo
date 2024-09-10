@@ -56,7 +56,7 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     return SizedBox(
 
-      height: 1.w > 1.h ? 72.h : 52.h,
+      height: 72.h,
       child: TextButton(
         onPressed: widget.onPressed,
         style: ButtonStyle(
@@ -80,7 +80,7 @@ class _CustomButtonState extends State<CustomButton> {
                     widget.text ?? 'Button',
                     style: TextStyle(
                       color: widget.textColor ?? Colors.white,
-                      fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+                      fontSize:30.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -91,7 +91,7 @@ class _CustomButtonState extends State<CustomButton> {
           widget.text ?? 'Button',
           style: TextStyle(
             color: widget.textColor ?? Colors.white,
-            fontSize: 1.w > 1.h ? 30.sp : 50.sp,
+            fontSize: 30.sp,
             fontWeight: FontWeight.w500,
           ),
         ),
