@@ -106,7 +106,7 @@ class AccdtlnvstgLadModel {
     lotMergeDivsDivCd = json['lotMergeDivsDivCd'];
     invstgDt = json['invstgDt'];
     cmpnstnStepDivNm = json['cmpnstnStepDivNm'];
-    accdtInvstgRm = json['accdtInvstgRm'];
+    accdtInvstgRm = json['accdtInvstgRm'] ?? '';
     frstRgstrId = json['frstRgstrId'];
     frstRegistDt = json['frstRegistDt'];
     lastUpdusrId = json['lastUpdusrId'];

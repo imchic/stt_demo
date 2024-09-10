@@ -221,6 +221,11 @@ class AccdtInvstgLadWidget {
                                                                             onTap:
                                                                                 () {
                                                                               controller.accdtlnvstgLadAcqsPrpDivNmController.text = controller.accdtlnvstgAcqstnPrpsList[index];
+                                                                              controller
+                                                                                  .searchAccdtlnvstgLadPurps(
+                                                                                  controller
+                                                                                      .accdtlnvstgLadAcqsPrpDivNmController
+                                                                                      .text);
                                                                               Get.back();
                                                                             },
                                                                           );
@@ -233,21 +238,6 @@ class AccdtInvstgLadWidget {
                                                     },
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: 12.w,
-                                                ),
-                                                CustomButton(
-                                                  color: Color(0XFFE5E8ED),
-                                                  text: '조회',
-                                                  textColor: Color(0xFF1D1D1D),
-                                                  onPressed: () {
-                                                    controller
-                                                        .searchAccdtlnvstgLadPurps(
-                                                            controller
-                                                                .accdtlnvstgLadAcqsPrpDivNmController
-                                                                .text);
-                                                  },
-                                                )
                                               ])),
                                         ],
                                       ),
@@ -268,7 +258,23 @@ class AccdtInvstgLadWidget {
                                   length: controller.accdtlnvstgLadDataSource
                                       .value.rows.length),
                               SizedBox(height: 20.h),
-                              lpScreen().buildLadAccdtlnvstgDataGrid(),
+                              Obx(() {
+                                return controller
+                                        .accdtlnvstgLadDataSource.value.rows
+                                        .isEmpty
+                                    ? Center(
+                                      child: AutoSizeText(
+                                          '검색된 데이터가 없습니다.',
+                                          style: TextStyle(
+                                              color: tableTextColor,
+                                              fontSize: 1.w > 1.h
+                                                  ? 36.sp
+                                                  : 56.sp,
+                                              fontWeight: FontWeight.w700)),
+                                    )
+                                    : lpScreen()
+                                        .buildLadAccdtlnvstgDataGrid();
+                              }),
                             ],
                           ),
                         )),

@@ -458,7 +458,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     });
 
     /// [사업목록] 조회
-    await fetchBsnsList();
+    await fetchBsnsListDataSource();
 
     /**
      * 소유자
@@ -552,8 +552,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     tabSelected[index] = true;
   }
 
-  /// [사업목록] 조회
-  fetchBsnsList() async {
+  fetchBsnsListDataSource() async {
 
     var response = await api.fetchBsnsList();
 
@@ -578,46 +577,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     return bsnsPlanList;
   }
 
-  // fetchBsnsSelectAreaGridDataSource() async {
-  //   var url =
-  //   Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsZone.do');
-  //
-  //   // param
-  //   var param = {
-  //     'bsnsNo': selectBsnsPlan.value.bsnsNo,
-  //   };
-  //
-  //   var response = await http.post(url, body: param);
-  //
-  //   if (response.statusCode == 200) {
-  //     var data = JsonDecoder().convert(response.body)['list'];
-  //     AppLog.d('fetchBsnsSelectAreaGridDataSource > data : $data');
-  //
-  //     var bsnsPlanSelectAreaModel = <BsnsPlanSelectAreaModel>[];
-  //
-  //     for (var i = 0; i < data.length; i++) {
-  //       var bsnsZoneNo = data[i]['bsnsZoneNo'];
-  //       AppLog.d(
-  //           'fetchBsnsSelectAreaGridDataSource > bsnsZoneNo : $bsnsZoneNo');
-  //
-  //       bsnsPlanSelectAreaModel.add(BsnsPlanSelectAreaModel(
-  //           bsnsNo: num.parse(data[i]['bsnsNo']),
-  //           bsnsZoneNo: data[i]['bsnsZoneNo'],
-  //           bsnsZoneNm: data[i]['bsnsZoneNm'],
-  //           lotCnt: CommonUtil.comma3(data[i]['lotCnt']),
-  //           bsnsAra: CommonUtil.comma3(data[i]['bsnsAra']),
-  //           bsnsReadngPblancDe: data[i]['bsnsReadngPblancDe'] == null
-  //               ? '-'
-  //               : CommonUtil.convertToDateTime(data[i]['bsnsReadngPblancDe'])));
-  //     }
-  //
-  //     bsnsListDataSource.value =
-  //         BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
-  //   } else {
-  //     AppLog.e('Failed to load post');
-  //   }
-  // }
-
   fetchBsnsSelectAreaGridDataSource() async {
 
     var response = await api.fetchBsnsSelectAreaGridDataSource(selectBsnsPlan.value.bsnsNo);
@@ -633,6 +592,66 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       bsnsListDataSource.value =
           BsnsSelectAreaDataSource(items: dataList);
 
+    }
+  }
+
+  /// [차수 자동 입력]
+  fetchBsnsSelectAreaGetSqncDataSource() async {
+    var url = 'http://222.107.22.159:18080/lp/bsns/selectAccdtInvstgSqnc.do';
+    //'?shBsnsNo=2101&shBsnsZoneNo=2';
+
+    AppLog.d('shBsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
+    AppLog.d('shBsnsZoneNo : ${selectedBsnsSelectArea.value.bsnsZoneNo}');
+
+    var response = await http.post(Uri.parse(url), body: {
+      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
+      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    });
+    AppLog.d('response : ${response.statusCode}');
+
+    var responseUrl = response.request!.url;
+    AppLog.d('responseUrl : $responseUrl');
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      AppLog.d('fetchBsnsSelectAreaGridDataSource > data : $data');
+
+      var bsnsAccdtinvstgSqncModel = <BsnsAccdtinvstgSqncModel>[];
+
+      for (var i = 0; i < data.length; i++) {
+        bsnsAccdtinvstgSqncModel.add(
+          BsnsAccdtinvstgSqncModel(
+            bsnsNo: data[i]['bsnsNo'] ?? '',
+            bsnsZoneNo: data[i]['bsnsZoneNo'] ?? 0,
+            accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? 0,
+            accdtInvstgNm: data[i]['accdtInvstgNm'] ?? '',
+            delYn: data[i]['delYn'] ?? '',
+            frstRgstrId: data[i]['frstRgstrId'] ?? '',
+            frstRegistDt: CommonUtil.convertToDateTime(data[i]['frstRegistDt']),
+            lastUpdusrId: data[i]['lastUpdusrId'] ?? '',
+            lastUpdtDt: CommonUtil.convertToDateTime(data[i]['lastUpdtDt']),
+            conectIp: data[i]['conectIp'],
+          ),
+        );
+      }
+
+      // 마지막 차수 + 1
+
+      if (bsnsAccdtinvstgSqncModel.isEmpty) {
+        sqncAutoController.text = '1';
+      } else {
+        num lastSqnc = bsnsAccdtinvstgSqncModel.first.accdtInvstgSqnc ?? 0 + 1;
+        AppLog.d('lastSqnc : $lastSqnc');
+
+        num last = lastSqnc == 0 ? 1 : lastSqnc + 1;
+
+        sqncAutoController.text = last.toString();
+      }
+
+      bsnsAccdtinvstgSqncDataSource.value =
+          BsnsAccdtinvstgSqncDatasource(items: bsnsAccdtinvstgSqncModel);
+    } else {
+      AppLog.d('error');
     }
   }
 
@@ -2462,6 +2481,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [실태조사 (토지)] 취득용도 검색
   Future<void> searchAccdtlnvstgLadPurps(String value) async {
     AppLog.d('searchLadPurps : $value');
+    DialogUtil.showLoading(Get.context!);
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 200), () async {
       if (value.isEmpty) {
@@ -2481,6 +2501,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
         accdtlnvstgLadDataSource.value =
             AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+
+        Get.back();
       }
     });
   }
@@ -2509,66 +2531,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
             AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
       }
     });
-  }
-
-  /// [차수 자동 입력]
-  autoSqnc() async {
-    var url = 'http://222.107.22.159:18080/lp/bsns/selectAccdtInvstgSqnc.do';
-    //'?shBsnsNo=2101&shBsnsZoneNo=2';
-
-    AppLog.d('shBsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
-    AppLog.d('shBsnsZoneNo : ${selectedBsnsSelectArea.value.bsnsZoneNo}');
-
-    var response = await http.post(Uri.parse(url), body: {
-      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
-      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
-    });
-    AppLog.d('response : ${response.statusCode}');
-
-    var responseUrl = response.request!.url;
-    AppLog.d('responseUrl : $responseUrl');
-
-    if (response.statusCode == 200) {
-      var data = JsonDecoder().convert(response.body)['list'];
-      AppLog.d('fetchBsnsSelectAreaGridDataSource > data : $data');
-
-      var bsnsAccdtinvstgSqncModel = <BsnsAccdtinvstgSqncModel>[];
-
-      for (var i = 0; i < data.length; i++) {
-        bsnsAccdtinvstgSqncModel.add(
-          BsnsAccdtinvstgSqncModel(
-            bsnsNo: data[i]['bsnsNo'] ?? '',
-            bsnsZoneNo: data[i]['bsnsZoneNo'] ?? 0,
-            accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? 0,
-            accdtInvstgNm: data[i]['accdtInvstgNm'] ?? '',
-            delYn: data[i]['delYn'] ?? '',
-            frstRgstrId: data[i]['frstRgstrId'] ?? '',
-            frstRegistDt: CommonUtil.convertToDateTime(data[i]['frstRegistDt']),
-            lastUpdusrId: data[i]['lastUpdusrId'] ?? '',
-            lastUpdtDt: CommonUtil.convertToDateTime(data[i]['lastUpdtDt']),
-            conectIp: data[i]['conectIp'],
-          ),
-        );
-      }
-
-      // 마지막 차수 + 1
-
-      if (bsnsAccdtinvstgSqncModel.isEmpty) {
-        sqncAutoController.text = '1';
-      } else {
-        num lastSqnc = bsnsAccdtinvstgSqncModel.first.accdtInvstgSqnc ?? 0 + 1;
-        AppLog.d('lastSqnc : $lastSqnc');
-
-        num last = lastSqnc == 0 ? 1 : lastSqnc + 1;
-
-        sqncAutoController.text = last.toString();
-      }
-
-      bsnsAccdtinvstgSqncDataSource.value =
-          BsnsAccdtinvstgSqncDatasource(items: bsnsAccdtinvstgSqncModel);
-    } else {
-      AppLog.d('error');
-    }
   }
 
   /// 실태조사 -> 토지조사 -> 토지검색

@@ -575,7 +575,7 @@ class lpScreen extends GetView<LpController> {
         );
 
         controller.fetchOwnerDataSource();
-        await controller.autoSqnc();
+        await controller.fetchBsnsSelectAreaGetSqncDataSource();
 
         controller.isBsnsZoneSelectFlag.value = true;
         controller.isBsnsSqncSelectFlag.value = false;
@@ -588,7 +588,7 @@ class lpScreen extends GetView<LpController> {
     return CustomGrid(
       dataSource: controller.bsnsAccdtinvstgSqncDataSource.value,
       controller: controller.bsnsOrderDataGridController,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.auto,
       isSort: false,
       isSelect: false,
       selectionEvent:
@@ -624,13 +624,13 @@ class lpScreen extends GetView<LpController> {
         gridColumn('bsnsNo', '사업번호', isVisble: false),
         gridColumn('bsnsZoneNo', '사업구역번호', isVisble: false),
         gridColumn('accdtInvstgSqnc', '차수', width: 60),
-        gridColumn('accdtInvstgNm', '조사명', width: double.nan),
+        gridColumn('accdtInvstgNm', '조사명', width: 250),
         gridColumn('delYn', '삭제여부', isVisble: false),
         gridColumn('frstRgstrId', '최초등록자', isVisble: false),
-        gridColumn('frstRegistDt', '등록일'),
+        gridColumn('frstRegistDt', '등록일', width: 100),
         gridColumn('lastUpdusrId', '최종수정자', isVisble: false),
         gridColumn('lastUpdtDt', '수정일'),
-        gridColumn('conectIp', '접속IP', isVisble: false),
+        gridColumn('conectIp', '접속IP', isVisble: false, width: 100),
       ],
     );
   }

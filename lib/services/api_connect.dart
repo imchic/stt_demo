@@ -13,7 +13,9 @@ class ApiConnect extends GetConnect {
     httpClient.timeout = Duration(seconds: 10);
   }
 
-  /// [사업선택] 사업목록 조회
+  /**
+   * [사업선택] 사업목록 조회
+   */
   Future<Response> fetchBsnsList() async {
     final response = await post('/lp/bsns/selectBsnsPlan.do', {});
     if (response.status.hasError) {
@@ -24,7 +26,9 @@ class ApiConnect extends GetConnect {
     }
   }
 
-  /// [사업선택] 사업구역선택 조회
+  /**
+   * [사업선택] 사업구역 선탵ㄱ
+   */
   Future<Response> fetchBsnsSelectAreaGridDataSource(bsnsNo) async {
 
     // using query
@@ -36,6 +40,23 @@ class ApiConnect extends GetConnect {
     } else {
       return response;
     }
-
   }
+
+  /**
+   * [사업선택] 사업구역 내 차수 조회
+   */
+
+  Future<Response> fetchBsnsSelectAreaGetSqncDataSource(bsnsNo, bsnsZoneNo) async {
+    final response = await post('/lp/bsns/selectAccdtInvstgSqnc.do',
+        {'shBsnsNo': bsnsNo, 'shBsnsZoneNo': bsnsZoneNo},
+        query: {'shBsnsNo': bsnsNo, 'shBsnsZoneNo': bsnsZoneNo});
+
+    if (response.status.hasError) {
+      DialogUtil.showSnackBar(Get.context!, 'error', 'error');
+      return Future.error(response.statusText ?? 'error');
+    } else {
+      return response;
+    }
+  }
+
 }

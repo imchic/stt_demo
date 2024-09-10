@@ -10,7 +10,13 @@ import 'dart:convert';
 /// lastUpdtDt : 1501772771000
 /// conectIp : "172.20.85.20"
 
-BsnsAccdtinvstgSqncModel bsnsAccdtinvstgSqncModelFromJson(String str) => BsnsAccdtinvstgSqncModel.fromJson(json.decode(str));
+List bsnsAccdtinvstgSqncModelFromJson(dynamic str, List<dynamic> list, int length) {
+  for (int i = 0; i < length; i++) {
+    var data = BsnsAccdtinvstgSqncModel.fromJson(str[i]);
+    list.add(data);
+  }
+  return list;
+}
 String bsnsAccdtinvstgSqncModelToJson(BsnsAccdtinvstgSqncModel data) => json.encode(data.toJson());
 class BsnsAccdtinvstgSqncModel {
   BsnsAccdtinvstgSqncModel({
