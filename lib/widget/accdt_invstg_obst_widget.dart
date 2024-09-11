@@ -268,8 +268,23 @@ class AccdtInvstgObstWidget {
                                         .rows
                                         .length),
                                 SizedBox(height: 20.h),
-                                lpScreen()
-                                    .buildAccdtlnvstgObstDataGrid(),
+                                Obx(() {
+                                  return controller
+                                      .accdtlnvstgObstDataSource.value.rows
+                                      .isEmpty
+                                      ? Center(
+                                    child: AutoSizeText(
+                                        '검색된 데이터가 없습니다.',
+                                        style: TextStyle(
+                                            color: tableTextColor,
+                                            fontSize: 1.w > 1.h
+                                                ? 36.sp
+                                                : 56.sp,
+                                            fontWeight: FontWeight.w700)),
+                                  )
+                                      : lpScreen()
+                                      .buildLadAccdtlnvstgSearchDataGrid();
+                                }),
                               ],
                             )),
                         // 조사내용
@@ -291,10 +306,23 @@ class AccdtInvstgObstWidget {
                                         fontWeight:
                                         FontWeight.w700)),
                                 SizedBox(height: 20.h),
-                                SizedBox(
-                                    height: 300.h,
-                                    child: lpScreen()
-                                        .buildLadAccdtlnvstgSearchDataGrid()),
+                                Obx(() {
+                                  return controller
+                                      .accdtlnvstgObstDataSource.value.rows
+                                      .isEmpty
+                                      ? Center(
+                                    child: AutoSizeText(
+                                        '검색된 데이터가 없습니다.',
+                                        style: TextStyle(
+                                            color: tableTextColor,
+                                            fontSize: 1.w > 1.h
+                                                ? 36.sp
+                                                : 56.sp,
+                                            fontWeight: FontWeight.w700)),
+                                  )
+                                      : lpScreen()
+                                      .buildLadAccdtlnvstgSearchDataGrid();
+                                }),
                                 SizedBox(height: 20.h),
                                 Column(
                                   mainAxisSize: MainAxisSize.min,

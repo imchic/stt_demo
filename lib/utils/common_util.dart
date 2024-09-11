@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 class CommonUtil {
 
   /// [formatDate] DateTime yyyy-MM-dd로 변환
@@ -38,6 +40,24 @@ class CommonUtil {
       return '${ownerRegisterNo.substring(0, 7)}-1${'*' * 6}';
     }
     return ownerRegisterNo;
+  }
+
+  static Color getBadgeColor(String value) {
+    if (value.startsWith('감정')) {
+      return Color(0xff102C57);
+    } else if (value.startsWith('보상')) {
+      return Color(0xff405D72);
+    } else if (value.startsWith('수용')) {
+      return Color(0xff295F98);
+    } else if (value.startsWith('이의')) {
+      return Color(0xffCDC2A5);
+    } else if (value.startsWith('판결')) {
+      return Color(0xffFCDE70);
+    } else if (value.startsWith('소송')) {
+      return Color(0xff185519);
+    } else {
+      return Color(0xff708871);
+    }
   }
 
 }

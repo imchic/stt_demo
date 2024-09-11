@@ -26,13 +26,12 @@ class SttusWidget {
             BaseTabBar(
               controller: controller.sttusTabController,
               tabItems: controller.sttusTabItems,
-              labelColor: Colors.black,
-              indicatorColor: Colors.black,
+              labelColor: Color(0xFF2287EF),
+              indicatorColor: Color(0xFF2287EF),
               isScrollable: true,
-              activeColor: Colors.black,
+              activeColor: Color(0xFF2287EF),
               unActiveTextColor: Color(0xFF555555),
               activeTextColor: Colors.black,
-              //unActiveColor: Colors.transparent,
             ),
             Expanded(
                 child: TabBarView(

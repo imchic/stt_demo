@@ -41,14 +41,22 @@ class AccdtInvstgLadWidget {
                   title: '소유자/관계인',
                   isSelected: controller.accdtlnvstgTabLadSelected[1] == true,
                   onTap: () {
-                    controller.handleAccdtlnvstgLadTabSelected(1);
+                    if(controller.accdtlnvstgLadSearchDataSource.value.rows.isNotEmpty){
+                      controller.handleAccdtlnvstgLadTabSelected(1);
+                    } else {
+                      DialogUtil.showSnackBar(Get.context!, '알림', '토지검색을 먼저 진행해주세요.');
+                    }
                   }),
               SizedBox(width: 12.w),
               CustomChip(
                   title: '조사내용',
                   isSelected: controller.accdtlnvstgTabLadSelected[2] == true,
                   onTap: () {
-                    controller.handleAccdtlnvstgLadTabSelected(2);
+                    if(controller.accdtlnvstgLadSearchDataSource.value.rows.isNotEmpty){
+                      controller.handleAccdtlnvstgLadTabSelected(2);
+                    } else {
+                      DialogUtil.showSnackBar(Get.context!, '알림', '토지검색을 먼저 진행해주세요.');
+                    }
                   }),
             ],
           ),
@@ -296,11 +304,28 @@ class AccdtInvstgLadWidget {
                                     fontWeight: FontWeight.w700,
                                   )),
                               SizedBox(height: 20.h),
-                              Container(
-                                height: 300.h,
-                                child: lpScreen()
-                                    .buildLadAccdtlnvstgSearchDataGrid(),
-                              ),
+                              // Container(
+                              //   height: 300.h,
+                              //   child: lpScreen()
+                              //       .buildLadAccdtlnvstgSearchDataGrid(),
+                              // ),
+                              Obx(() {
+                                return controller
+                                    .accdtlnvstgLadSearchDataSource.value.rows
+                                    .isEmpty
+                                    ? Center(
+                                  child: AutoSizeText(
+                                      '검색된 데이터가 없습니다.',
+                                      style: TextStyle(
+                                          color: tableTextColor,
+                                          fontSize: 1.w > 1.h
+                                              ? 36.sp
+                                              : 56.sp,
+                                          fontWeight: FontWeight.w700)),
+                                )
+                                    : lpScreen()
+                                    .buildLadAccdtlnvstgSearchDataGrid();
+                              }),
                               SizedBox(height: 40.h),
                               AutoSizeText('소유자 현황',
                                   style: TextStyle(

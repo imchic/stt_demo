@@ -75,7 +75,7 @@ class OwnerDatasource extends DataGridSource {
 
       if(dataGridCell.columnName == 'ownerRgsbukAddr') {
         return Container(
-          alignment: Alignment.topLeft,
+          alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 3, style: TextStyle(fontSize: 30.sp)),
         );

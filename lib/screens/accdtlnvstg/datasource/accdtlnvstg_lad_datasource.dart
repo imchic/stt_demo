@@ -67,7 +67,7 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
               alignment: Alignment.center,
               height: 80.h,
               decoration: BoxDecoration(
-                color: getBadgeColor(dataGridCell.value.toString()),
+                color: CommonUtil.getBadgeColor(dataGridCell.value.toString()),
                 borderRadius: BorderRadius.circular(5.0),
               ), child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500, color: Colors.white)),
             ));
@@ -84,24 +84,6 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
                 style: TextStyle(fontSize: 30.sp)),
           );
     }).toList());
-  }
-
-  Color getBadgeColor(String value) {
-    if (value.startsWith('감정')) {
-      return Color(0xff102C57);
-    } else if (value.startsWith('보상')) {
-      return Color(0xff1679AB);
-    } else if (value.startsWith('수용')) {
-      return Color(0xff295F98);
-    } else if (value.startsWith('이의')) {
-      return Color(0xffCDC2A5);
-    } else if (value.startsWith('판결')) {
-      return Color(0xffFCDE70);
-    } else if (value.startsWith('소송')) {
-      return Color(0xff185519);
-    } else {
-      return Color(0xff708871);
-    }
   }
 
 }

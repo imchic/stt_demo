@@ -268,8 +268,6 @@ class lpScreen extends GetView<LpController> {
                                 height: 40.h,
                                 child: SvgPicture.asset(
                                     'assets/icons/ic_menu_${index + 1}.svg',
-                                    // width: 1.w > 1.h ? 40.w : 60.w,
-                                    // height: 1.w > 1.h ? 40.h : 60.h,
                                     color: Colors.white),
                               ),
                               SizedBox(height: 8.h),
@@ -513,19 +511,15 @@ class lpScreen extends GetView<LpController> {
         width: width ?? double.nan,
         columnName: columnName,
         visible: isVisble ?? true,
-        label: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            AutoSizeText(label,
-                maxFontSize: 20,
-                maxLines: 2,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24.sp,
-                    overflow: TextOverflow.ellipsis,
-                    color: tableTextColor)),
-          ],
+        label: Center(
+          child: AutoSizeText(label,
+              maxFontSize: 20,
+              maxLines: 2,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24.sp,
+                  overflow: TextOverflow.ellipsis,
+                  color: tableTextColor)),
         ));
   }
 
@@ -693,7 +687,6 @@ class lpScreen extends GetView<LpController> {
           // 소송 (토지)
           controller.fetchCstmrCardLadLwstInfoDataSource(ownerNum);
           // 소송 (지장물)
-          AppLog.d('소송 조회');
           controller.fetchCstmrCardObstLwstInfoDataSource(ownerNum);
 
           // 환매

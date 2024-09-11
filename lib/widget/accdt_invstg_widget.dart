@@ -23,15 +23,16 @@ class AccdtInvstgWidget {
             BaseTabBar(
               controller: controller.accdtlnvstgTabController,
               tabItems: controller.accdtlnvstgTabItems,
-              labelColor: Colors.black,
-              indicatorColor: Colors.black,
+              labelColor: Color(0xFF2287EF),
+              indicatorColor: Color(0xFF2287EF),
               isScrollable: true,
-              activeColor: Colors.black,
+              activeColor: Color(0xFF2287EF),
               unActiveTextColor: Color(0xFF555555),
               activeTextColor: Colors.black,
             ),
             Expanded(
               child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: controller.accdtlnvstgTabController,
                   children: [
                     /**
@@ -41,8 +42,7 @@ class AccdtInvstgWidget {
                     /**
                      * 지장물
                      */
-                    AccdtInvstgObstWidget.buildAccdtInvstgObstWidget(
-                        controller),
+                    AccdtInvstgObstWidget.buildAccdtInvstgObstWidget(controller),
                   ]),
             )
           ],

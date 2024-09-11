@@ -51,11 +51,10 @@ class _BaseTabBarState extends State<BaseTabBar> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TabBar(
+            physics: NeverScrollableScrollPhysics(),
             controller: widget.controller,
             labelColor: widget.labelColor ?? Color(0xFF1D1D1D),
             indicatorColor: widget.indicatorColor ?? Color(0xFF1D1D1D),
-            //indicatorWeight: 4.w,
-            //indicatorPadding: 1.w > 1.h ? EdgeInsets.only(left: 20.w, right: 20.w) : EdgeInsets.only(left: 30.w, right: 30.w),
             isScrollable: widget.isScrollable ?? true,
             tabs: widget.tabItems,
             labelStyle: TextStyle(

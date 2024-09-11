@@ -189,6 +189,20 @@ class LadSttusInqireDatasource extends DataGridSource {
             );
           }
 
+          if (dataGridCell.columnName == 'cmpnstnStepDivNm') {
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                alignment: Alignment.center,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 80.h,
+                  decoration: BoxDecoration(
+                    color: CommonUtil.getBadgeColor(dataGridCell.value.toString()),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ), child: AutoSizeText(maxFontSize: 20, dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500, color: Colors.white)),
+                ));
+          }
+
           if(dataGridCell.columnName == 'ownerRgsbukAddr'){
             return Container(
               alignment: Alignment.centerLeft,

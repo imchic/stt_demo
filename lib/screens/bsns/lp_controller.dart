@@ -457,29 +457,19 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       AppLog.d('bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
     });
 
+    accdtlnvstgLadTabController.addListener(() {
+      if(accdtlnvstgLadTabController.index == 1){
+        if(accdtlnvstgOwnerLadDataSource.value.rows.isEmpty){
+          accdtlnvstgLadTabController.index = 0;
+          // 탭 이동
+          accdtlnvstgLadTabController.animateTo(0);
+          return;
+        }
+      }
+    });
+
     /// [사업목록] 조회
     await fetchBsnsListDataSource();
-
-    /**
-     * 소유자
-     */
-
-    /// [소유자 검색] 조회
-    // await fetchAccdtlnvstgSearchDataSource();
-
-    /**
-     * 실태조사
-     */
-
-    // [실태조사 > 토지 정보] 조회
-    // await fetchAccdtlnvstgOwnerDataSource();
-
-    /// [실태조사 > 지장물 정보] 조회
-    // await fetchAccdtlnvstgObstDataSource();
-
-    /**
-     * 통계
-     */
   }
 
   /// [gridColumn] 데이터그리드 컬럼
@@ -1406,15 +1396,15 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     obstSttusInqireColumns.value = [
       gridColumn('lgdongNm', '소재지'),
-      gridColumn('lcrtsDivCd', '특지', width: 40),
-      gridColumn('mlnoLtno', '본번', width: 40),
-      gridColumn('slnoLtno', '부번', width: 40),
+      gridColumn('lcrtsDivCd', '특지', width: 60),
+      gridColumn('mlnoLtno', '본번', width: 60),
+      gridColumn('slnoLtno', '부번', width: 60),
 
       gridColumn('cmpnstnStepDivCd', '진행단계', width: 100),
-      gridColumn('acqsPrpDivCd', '취득용도'),
+      gridColumn('acqsPrpDivCd', '취득용도', width: 80),
 
       gridColumn('rqestNo', '청구번호',
-          isVisble: isLadSttusInqireGridTab1.value),
+          isVisble: isLadSttusInqireGridTab1.value, width: 70),
       gridColumn('invstgDe', '조사일',
           isVisble: isLadSttusInqireGridTab1.value),
       gridColumn('accdtInvstgSqnc', '차수',
