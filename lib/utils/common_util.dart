@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class CommonUtil {
 
   /// [formatDate] DateTime yyyy-MM-dd로 변환
@@ -56,7 +58,7 @@ class CommonUtil {
     } else if (value.startsWith('소송')) {
       return Color(0xff185519);
     } else {
-      return Color(0xff708871);
+      return Colors.transparent;
     }
   }
 

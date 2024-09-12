@@ -145,9 +145,13 @@ class ApiConnect extends GetConnect {
    */
 
   Future<Response> fetchLandApasmtSqncList(shbsnsNo, shbsnsZoneNo) async {
-    final response = await post('/lp/lssom/selectLandApasmtSqnc.do',
-        {'shBsnsNo': shbsnsNo.toString(), 'shBsnsZoneNo': shbsnsZoneNo.toString()},
-        query: {'shBsnsNo': shbsnsNo.toString(), 'shBsnsZoneNo': shbsnsZoneNo.toString()});
+    final response = await post('/lp/lssom/selectLandApasmtSqnc.do', {
+      'shBsnsNo': shbsnsNo.toString(),
+      'shBsnsZoneNo': shbsnsZoneNo.toString()
+    }, query: {
+      'shBsnsNo': shbsnsNo.toString(),
+      'shBsnsZoneNo': shbsnsZoneNo.toString()
+    });
 
     if (response.status.hasError) {
       DialogUtil.showSnackBar(Get.context!, 'error', 'error');
@@ -156,4 +160,40 @@ class ApiConnect extends GetConnect {
       return response;
     }
   }
+
+  /**
+   * 지장물 감정평가차수 목록
+   */
+
+  Future<Response> fetchObstApasmtSqncList(shbsnsNo, shbsnsZoneNo) async {
+    final response = await post('/lp/lssom/selectObstApasmtSqnc.do', {
+      'shBsnsNo': shbsnsNo.toString(),
+      'shBsnsZoneNo': shbsnsZoneNo.toString()
+    }, query: {
+      'shBsnsNo': shbsnsNo.toString(),
+      'shBsnsZoneNo': shbsnsZoneNo.toString()
+    });
+
+    if (response.status.hasError) {
+      DialogUtil.showSnackBar(Get.context!, 'error', 'error');
+      return Future.error(response.statusText ?? 'error');
+    } else {
+      return response;
+    }
+  }
+
+  /**
+   * 지장물 구분 목록
+   */
+  Future<Response> fetchObstDivList() async {
+    final response = await post('/lp/lssom/selectObstSe.do', {});
+
+    if (response.status.hasError) {
+      DialogUtil.showSnackBar(Get.context!, 'error', 'error');
+      return Future.error(response.statusText ?? 'error');
+    } else {
+      return response;
+    }
+  }
+
 }

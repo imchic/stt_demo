@@ -688,7 +688,7 @@ class SttusWidget {
                           SizedBox(
                             width: 144.w,
                             child: CustomTextField(
-                              controller: controller.sttusMlnoLtnoController,
+                              controller: controller.sttusLadMlnoLtnoController,
                               hintText: '본번',
                               onChanged: (value) {
                                 controller.searchSttusInqireLadMlnoLtno(value);
@@ -699,7 +699,7 @@ class SttusWidget {
                           SizedBox(
                             width: 144.w,
                             child: CustomTextField(
-                              controller: controller.sttusSlnoLtnoController,
+                              controller: controller.sttusLadSlnoLtnoController,
                               hintText: '부번',
                               onChanged: (value) {
                                 controller.searchSttusInqireLadSlnoLtno(value);
@@ -805,7 +805,7 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.sttusLadOwnerSqncController,
+                            controller: controller.sttusLadSqncController,
                             isReadOnly: true,
                             hintText: '조사차수',
                             onChanged: (value) {},
@@ -1121,28 +1121,32 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.sqncController,
+                            controller: controller.sttusObstAddrController,
                             hintText: '읍면동을 입력해주세요.',
                             onChanged: (value) {
-                              //controller.searchBsnsName(value);
+                              controller.searchSttusInqireObstAddr(value);
                             },
                           )),
                           SizedBox(width: 12.w),
                           SizedBox(
                             width: 144.w,
                             child: CustomTextField(
-                              controller: controller.sqncController,
+                              controller: controller.sttusObstMlnoLtnoController,
                               hintText: '본번',
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                controller.searchSttusInqireObstMlnoLtno(value);
+                              },
                             ),
                           ),
                           SizedBox(width: 12.w),
                           SizedBox(
                             width: 144.w,
                             child: CustomTextField(
-                              controller: controller.sqncController,
+                              controller: controller.sttusObstSlnoLtnoController,
                               hintText: '부번',
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                controller.searchSttusInqireObstSlnoLtno(value);
+                              },
                             ),
                           ),
                         ],
@@ -1169,10 +1173,10 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.sqncController,
+                            controller: controller.sttusObstOwnerNameController,
                             hintText: '소유자명을 입력해주세요.',
                             onChanged: (value) {
-                              //controller.searchBsnsName(value);
+                              controller.searchSttusInqireObstOwnerNm(value);
                             },
                           )),
                         ],
@@ -1204,18 +1208,18 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.sqncController,
+                            controller: controller.sttusObstDivController,
                             hintText: '지장물구분',
-                            onChanged: (value) {
-                              //controller.searchBsnsName(value);
-                            },
+                            onChanged: (value) {},
                           )),
                           SizedBox(width: 12.w),
                           CustomButton(
                             color: Color(0XFFE5E8ED),
                             text: '조회',
                             textColor: Color(0xFF1D1D1D),
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.fetchObstDivList();
+                            },
                           )
                         ],
                       ),
@@ -1241,18 +1245,18 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.sqncController,
+                            controller: controller.sttusObstSqncController,
                             hintText: '조사차수',
-                            onChanged: (value) {
-                              //controller.searchBsnsName(value);
-                            },
+                            onChanged: (value) {},
                           )),
                           SizedBox(width: 12.w),
                           CustomButton(
                             color: Color(0XFFE5E8ED),
                             text: '조회',
                             textColor: Color(0xFF1D1D1D),
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.fetchAccdtInvstgSqncList();
+                            },
                           )
                         ],
                       ),
@@ -1261,7 +1265,7 @@ class SttusWidget {
                 ],
               ),
 
-              // 가격시점, 실태조사일
+              // 가격시점, 실태조사일, 지급요청일, 수용재결일
               Row(
                 children: [
                   Expanded(
@@ -1294,7 +1298,7 @@ class SttusWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 80.w),
+                  SizedBox(width: 60.w),
                   Expanded(
                     child: Container(
                       height: 100.h,
@@ -1325,12 +1329,7 @@ class SttusWidget {
                       ),
                     ),
                   ),
-                ],
-              ),
-
-              // 지급요청일, 수용재결일
-              Row(
-                children: [
+                  SizedBox(width: 60.w),
                   Expanded(
                     child: Container(
                       height: 100.h,
@@ -1350,18 +1349,18 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.sqncController,
-                            isDateTime: true,
-                            hintText: '',
-                            onChanged: (value) {
-                              //controller.searchBsnsName(value);
-                            },
-                          )),
+                                controller: controller.sqncController,
+                                isDateTime: true,
+                                hintText: '',
+                                onChanged: (value) {
+                                  //controller.searchBsnsName(value);
+                                },
+                              )),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(width: 80.w),
+                  SizedBox(width: 60.w),
                   Expanded(
                     child: Container(
                       height: 100.h,
@@ -1381,13 +1380,13 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.sqncController,
-                            isDateTime: true,
-                            hintText: '',
-                            onChanged: (value) {
-                              //controller.searchBsnsName(value);
-                            },
-                          )),
+                                controller: controller.sqncController,
+                                isDateTime: true,
+                                hintText: '',
+                                onChanged: (value) {
+                                  //controller.searchBsnsName(value);
+                                },
+                              )),
                         ],
                       ),
                     ),
@@ -1417,18 +1416,18 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.sqncController,
+                            controller: controller.sttusObstCmpnstnStepDivNmController,
                             hintText: '진행단계',
-                            onChanged: (value) {
-                              //controller.searchBsnsName(value);
-                            },
+                            onChanged: (value) {},
                           )),
                           SizedBox(width: 12.w),
                           CustomButton(
                             color: Color(0XFFE5E8ED),
                             text: '조회',
                             textColor: Color(0xFF1D1D1D),
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.fetchCmpnstnStepList();
+                            },
                           )
                         ],
                       ),
@@ -1454,10 +1453,10 @@ class SttusWidget {
                           SizedBox(width: 12.w),
                           Expanded(
                               child: CustomTextField(
-                            controller: controller.sqncController,
+                            controller: controller.sttusObstApasmtSqncController,
                             hintText: '평가차수',
                             onChanged: (value) {
-                              //controller.searchBsnsName(value);
+                              controller.fetchLandApasmtSqncList();
                             },
                           )),
                           SizedBox(width: 12.w),
@@ -1465,7 +1464,9 @@ class SttusWidget {
                             color: Color(0XFFE5E8ED),
                             text: '조회',
                             textColor: Color(0xFF1D1D1D),
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.fetchObstApasmtSqncList();
+                            },
                           )
                         ],
                       ),

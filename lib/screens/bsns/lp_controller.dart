@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -94,13 +92,24 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController sttusInqireBsnsSqncController; // 통계정보 > 토지현황 > 조사차수
 
   late TextEditingController sttusLadAddrController;
-  late TextEditingController sttusMlnoLtnoController;
-  late TextEditingController sttusSlnoLtnoController;
+  late TextEditingController sttusLadMlnoLtnoController;
+  late TextEditingController sttusLadSlnoLtnoController;
   late TextEditingController sttusLadOwnerNameController;
-  late TextEditingController sttusLadOwnerSqncController;
+  late TextEditingController sttusLadSqncController;
   late TextEditingController sttusLadCmpnstnStepDivNmController;
   late TextEditingController sttusLadfetchApasmtReqestDivNmController;
   late TextEditingController sttusLadApasmtSqncController;
+
+  late TextEditingController sttusObstAddrController;
+  late TextEditingController sttusObstMlnoLtnoController;
+  late TextEditingController sttusObstSlnoLtnoController;
+  late TextEditingController sttusObstOwnerNameController;
+  late TextEditingController sttusObstSqncController;
+  late TextEditingController sttusObstCmpnstnStepDivNmController;
+  late TextEditingController sttusObstfetchApasmtReqestDivNmController;
+  late TextEditingController sttusObstApasmtSqncController;
+  late TextEditingController sttusObstDivController;
+
 
   // 조사차수
   late TextEditingController sqncAutoController;
@@ -375,6 +384,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   List<LadSttusInqireModel> ladSttusInqireList = <LadSttusInqireModel>[].obs;
   List<LadSttusInqireModel> searchLadSttusInqireList = <LadSttusInqireModel>[].obs;
+  List<ObstSttusInqireModel> obstSttusInqireList = <ObstSttusInqireModel>[].obs;
+  List<ObstSttusInqireModel> searchObstSttusInqireList = <ObstSttusInqireModel>[].obs;
 
   Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
 
@@ -420,14 +431,26 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     // 토지현황 소재지, 본번, 부번
     sttusInqireAcqstnPrpsController = TextEditingController();
+
     sttusLadAddrController = TextEditingController();
-    sttusMlnoLtnoController = TextEditingController();
-    sttusSlnoLtnoController = TextEditingController();
+    sttusLadMlnoLtnoController = TextEditingController();
+    sttusLadSlnoLtnoController = TextEditingController();
     sttusLadOwnerNameController = TextEditingController();
-    sttusLadOwnerSqncController = TextEditingController();
+    sttusLadSqncController = TextEditingController();
     sttusLadCmpnstnStepDivNmController = TextEditingController();
     sttusLadfetchApasmtReqestDivNmController = TextEditingController();
     sttusLadApasmtSqncController = TextEditingController();
+
+    sttusObstAddrController = TextEditingController();
+    sttusObstMlnoLtnoController = TextEditingController();
+    sttusObstSlnoLtnoController = TextEditingController();
+    sttusObstOwnerNameController = TextEditingController();
+    sttusObstSqncController = TextEditingController();
+    sttusObstCmpnstnStepDivNmController = TextEditingController();
+    sttusObstfetchApasmtReqestDivNmController = TextEditingController();
+    sttusObstApasmtSqncController = TextEditingController();
+    sttusObstApasmtSqncController = TextEditingController();
+    sttusObstDivController = TextEditingController();
 
     accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
     bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
@@ -1334,7 +1357,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       ladSttusInqireDataSource.value = LadSttusInqireDatasource(items: res);
 
-      ladSttusInqireScrollController.animateTo(2800.0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+      //ladSttusInqireScrollController.animateTo(2800.0, duration: Duration(milliseconds: 500), curve: Curves.ease);
 
       // close loading bar
       Get.back();
@@ -1529,13 +1552,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         ));
       }
 
+      obstSttusInqireList = res;
+      searchObstSttusInqireList = res;
+
       obstSttusInqireDataSource.value = ObstSttusInqireDatasource(items: res);
     }
 
     obstSttusInqireColumns.value = [];
 
     obstSttusInqireColumns.value = [
-      gridColumn('lgdongNm', '소재지'),
+      gridColumn('lgdongNm', '소재지', width: 250),
       gridColumn('lcrtsDivCd', '특지', width: 60),
       gridColumn('mlnoLtno', '본번', width: 60),
       gridColumn('slnoLtno', '부번', width: 60),
@@ -1554,6 +1580,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           isVisble: isLadSttusInqireGridTab2.value, width: 40),
       gridColumn('ownerNm', '소유자명', isVisble: isLadSttusInqireGridTab2.value),
       gridColumn('ownerRgsbukAddr', '등기부주소',
+          width: 250,
           isVisble: isLadSttusInqireGridTab2.value),
       gridColumn('posesnShreNmrtrInfo', '분자',
           isVisble: isLadSttusInqireGridTab2.value, width: 40),
@@ -1569,6 +1596,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       // a평가법인
       gridColumn('apasmtInsttNm1', '법인명',
+          width: 150,
           isVisble: isLadSttusInqireGridTab3.value),
       gridColumn('apasmtInsttEvlUpc1', '단가',
           isVisble: isLadSttusInqireGridTab3.value),
@@ -1577,6 +1605,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       // b평가법인
       gridColumn('apasmtInsttNm2', '법인명',
+          width: 150,
           isVisble: isLadSttusInqireGridTab3.value),
       gridColumn('apasmtInsttEvlUpc2', '단가',
           isVisble: isLadSttusInqireGridTab3.value),
@@ -1585,6 +1614,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       // c평가법인
       gridColumn('apasmtInsttNm3', '법인명',
+          width: 150,
           isVisble: isLadSttusInqireGridTab3.value),
       gridColumn('apasmtInsttEvlUpc3', '단가',
           isVisble: isLadSttusInqireGridTab3.value),
@@ -1671,6 +1701,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     if (response.statusCode == 200) {
       AppLog.d('fetchAccdtInvstgSqncList > data : ${response.body}');
 
+      // 0번째 전체
+      response.body['list'].insert(0, {'accdtInvstgSqnc': '전체'});
+
       var data = response.body['list'];
       DialogUtil.showBottomSheet(
           Get.context!,
@@ -1683,9 +1716,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                 return ListTile(
                   title: Text(data[index]['accdtInvstgSqnc'].toString()),
                   onTap: () {
-                    sttusInqireBsnsSqncController.text =
-                        data[index]['accdtInvstgSqnc'].toString();
-                    searchSttusInqireLadSqnc(data[index]['accdtInvstgSqnc'].toString());
+                    sttusLadSqncController.text = data[index]['accdtInvstgSqnc'].toString();
+                    sttusObstSqncController.text = data[index]['accdtInvstgSqnc'].toString();
+                    searchSttusInqireSqnc(data[index]['accdtInvstgSqnc'].toString());
                     Get.back();
                   },
                 );
@@ -1719,6 +1752,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                   title: Text(data[index]['cmmnCdNm']),
                   onTap: () {
                     sttusLadCmpnstnStepDivNmController.text = data[index]['cmmnCdNm'];
+                    sttusObstCmpnstnStepDivNmController.text = data[index]['cmmnCdNm'];
                     searchSttusInqireLadCmpnstnStep(data[index]['cmmnCdNm']);
                     Get.back();
                   },
@@ -1791,6 +1825,77 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                   onTap: () {
                     sttusLadApasmtSqncController.text = data[index]['apasmtSqnc'];
                     searchSttusInqireLadApasmtSqnc(data[index]['apasmtSqnc']);
+                    Get.back();
+                  },
+                );
+              },
+            ),
+          ));
+    }
+  }
+
+  /// [통계정보 > 지장물현황 > 감정평가차수] 조회
+  fetchObstApasmtSqncList() async {
+    var response = await api.fetchObstApasmtSqncList(
+      selectBsnsPlan.value.bsnsNo,
+      selectedBsnsSelectArea.value.bsnsZoneNo,
+    );
+
+    if (response.statusCode == 200) {
+      AppLog.d('fetchObstApasmtSqncList > data : ${response.body['list']}');
+
+      var data = response.body['list'];
+
+      // 0번째 전체
+      data.insert(0, {'apasmtSqnc': '전체'});
+
+      DialogUtil.showBottomSheet(
+          Get.context!,
+          '감정평가차수',
+          Container(
+            height: 500.h,
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(data[index]['apasmtSqnc'] == null ? '전체' : data[index]['apasmtSqnc'].toString()),
+                  onTap: () {
+                    sttusObstApasmtSqncController.text = data[index]['apasmtSqnc'].toString();
+                    searchSttusInqireObstApasmtSqnc(data[index]['apasmtSqnc'].toString());
+                    Get.back();
+                  },
+                );
+              },
+            ),
+          ));
+    }
+  }
+
+  /// [통계정보 > 지장물현황 > 지장물구분목록] 조회
+  Future<void> fetchObstDivList() async {
+    var response = await api.fetchObstDivList();
+
+    if (response.statusCode == 200) {
+      AppLog.d('fetchObstDivList > data : ${response.body['list']}');
+
+      var data = response.body['list'];
+
+      // 0번째 전체
+      data.insert(0, {'cmmnCdNm': '전체'});
+
+      DialogUtil.showBottomSheet(
+          Get.context!,
+          '지장물구분',
+          Container(
+            height: 500.h,
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(data[index]['cmmnCdNm']),
+                  onTap: () {
+                    sttusObstDivController.text = data[index]['cmmnCdNm'];
+                    searchSttusInqireObstDiv(data[index]['cmmnCdNm']);
                     Get.back();
                   },
                 );
@@ -2251,6 +2356,26 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     });
   }
 
+  /// [통계 정보 > 지장물현황 > 소유자] 조회
+  Future<void> searchSttusInqireObstAddr(String value) async {
+    AppLog.d('searchSttusInqireObstAddr : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchObstSttusInqireList = obstSttusInqireList;
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      } else {
+        searchObstSttusInqireList = obstSttusInqireList
+            .where((element) => element.lgdongNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachLadSttusInqireList : $searchObstSttusInqireList');
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      }
+    });
+  }
+
   /// [실태조사 (지장물)] 소재지 검색
   Future<void> searchAccdtlnvstgObstAddr(String value) async {
     AppLog.d('searchAccdtlnvstgObstAddr : $value');
@@ -2311,6 +2436,26 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     });
   }
 
+  /// [통계 정보 > 지장물현황 > 본번] 조회
+  Future<void> searchSttusInqireObstMlnoLtno(String value) async {
+    AppLog.d('searchSttusInqireObstMlnoLtno : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchObstSttusInqireList = obstSttusInqireList;
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      } else {
+        searchObstSttusInqireList = obstSttusInqireList
+            .where((element) => element.mlnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('searchObstSttusInqireList : $searchObstSttusInqireList');
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      }
+    });
+  }
+
   /// [실태조사 (토지)] 부번 검색
   Future<void> searchAccdtlnvstgSlnoLtno(String value) async {
     AppLog.d('searchLadSubNo : $value');
@@ -2347,6 +2492,26 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         AppLog.d('serachLadSttusInqireList : $searchLadSttusInqireList');
         ladSttusInqireDataSource.value =
             LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계 정보 > 지장물현황 > 부번] 조회
+  Future<void> searchSttusInqireObstSlnoLtno(String value) async {
+    AppLog.d('searchSttusInqireObstSlnoLtno : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchObstSttusInqireList = obstSttusInqireList;
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      } else {
+        searchObstSttusInqireList = obstSttusInqireList
+            .where((element) => element.slnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('searchObstSttusInqireList : $searchObstSttusInqireList');
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       }
     });
   }
@@ -2391,22 +2556,50 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     });
   }
 
-  /// [통계정보 > 토지현황 > 조사차수] 조회
-  Future<void> searchSttusInqireLadSqnc(String value) async {
-    AppLog.d('searchSttusInqireLadSqnc : $value');
+  /// [통계정보 > 지장물현황 > 소유자명] 조회
+  Future<void> searchSttusInqireObstOwnerNm(String value) async {
+    AppLog.d('searchSttusInqireObstOwnerNm : $value');
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 200), () async {
       if (value.isEmpty) {
+        searchObstSttusInqireList = obstSttusInqireList;
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      } else {
+        searchObstSttusInqireList = obstSttusInqireList
+            .where((element) => element.ownerNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('searchObstSttusInqireList : $searchObstSttusInqireList');
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계정보 > 조사차수] 조회
+  Future<void> searchSttusInqireSqnc(String value) async {
+    AppLog.d('searchSttusInqireSqnc : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty || value == '전체') {
         searchLadSttusInqireList = ladSttusInqireList;
+        searchObstSttusInqireList = obstSttusInqireList;
         ladSttusInqireDataSource.value =
             LadSttusInqireDatasource(items: searchLadSttusInqireList);
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       } else {
         searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.accdtInvstgSqnc.toString().contains(value))
+            .toList();
+        searchObstSttusInqireList = obstSttusInqireList
             .where((element) => element.accdtInvstgSqnc.toString().contains(value))
             .toList();
         AppLog.d('searchSttusInqireLadSqnc : $searchLadSttusInqireList');
         ladSttusInqireDataSource.value =
             LadSttusInqireDatasource(items: searchLadSttusInqireList);
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       }
     });
   }
@@ -2418,8 +2611,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     _debounce = Timer(const Duration(milliseconds: 200), () async {
       if (value.isEmpty || value == '전체') {
         searchLadSttusInqireList = ladSttusInqireList;
+        searchObstSttusInqireList = obstSttusInqireList;
         ladSttusInqireDataSource.value =
             LadSttusInqireDatasource(items: searchLadSttusInqireList);
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       } else {
 
         // 두자리만 가져오기
@@ -2428,9 +2624,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         searchLadSttusInqireList = ladSttusInqireList
             .where((element) => element.cmpnstnStepDivNm?.startsWith(value) ?? false)
             .toList();
+        searchObstSttusInqireList = obstSttusInqireList
+            .where((element) => element.cmpnstnStepDivNm?.startsWith(value) ?? false)
+            .toList();
         AppLog.d('searchSttusInqireLadCmpnstnStep : $searchLadSttusInqireList');
         ladSttusInqireDataSource.value =
             LadSttusInqireDatasource(items: searchLadSttusInqireList);
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       }
     });
   }
@@ -2455,7 +2656,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     });
   }
 
-  /// [통계정보 > 토지현황 > 토지 감정평가목록] 조회
+  /// [통계정보 > 토지현황 > 토지 감정평가차수] 조회
   Future<void> searchSttusInqireLadApasmtSqnc(String value) async {
     AppLog.d('searchSttusInqireLadApasmtSqncList : $value');
     if (_debounce?.isActive ?? false) _debounce!.cancel();
@@ -2471,6 +2672,46 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         AppLog.d('searchSttusInqireLadApasmtSqncList : $searchLadSttusInqireList');
         ladSttusInqireDataSource.value =
             LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계정보 > 지장물현황 > 지장물 감정평가차수] 조회
+  Future<void> searchSttusInqireObstApasmtSqnc(String value) async {
+    AppLog.d('searchSttusInqireObstApasmtSqncList : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty || value == '전체') {
+        searchObstSttusInqireList = obstSttusInqireList;
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      } else {
+        searchObstSttusInqireList = obstSttusInqireList
+            .where((element) => element.apasmtSqnc.toString().contains(value))
+            .toList();
+        AppLog.d('searchSttusInqireObstApasmtSqncList : $searchObstSttusInqireList');
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계정보 > 지장물현황 > 지장물 구분목록] 조회
+  Future<void> searchSttusInqireObstDiv(String value) async {
+    AppLog.d('searchSttusInqireObstDiv : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty || value == '전체') {
+        searchObstSttusInqireList = obstSttusInqireList;
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
+      } else {
+        searchObstSttusInqireList = obstSttusInqireList;
+            // .where((element) => element?.contains(value) ?? false)
+            // .toList();
+        AppLog.d('searchSttusInqireObstDiv : $searchObstSttusInqireList');
+        obstSttusInqireDataSource.value =
+            ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       }
     });
   }
