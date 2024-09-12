@@ -22,8 +22,8 @@ class BsnsPlanSelectAreaModel {
     bsnsNo = num.parse(json['bsnsNo'].toString());
     bsnsZoneNm = json['bsnsZoneNm'] ?? '';
     bsnsZoneNo = json['bsnsZoneNo'] ?? 0;
-    lotCnt = num.parse(json['lotCnt'].toString()).toString();
-    bsnsAra = num.parse(json['bsnsAra'].toString()).toString();
+    lotCnt = json['lotCnt'] ?? '';
+    bsnsAra = json['bsnsAra'] ?? '';
     bsnsReadngPblancDe = json['bsnsReadngPblancDe'] ?? '';
   }
   num? bsnsNo;

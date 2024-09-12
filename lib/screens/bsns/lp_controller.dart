@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -85,11 +86,21 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   // 소유자
   late TextEditingController ownerNameSearchController; // 소유자관리 소유자 명 검색
-  late TextEditingController ownerRegisterNoSearchController; // 소유자관리 소유자 등록번호 검색
+  late TextEditingController
+      ownerRegisterNoSearchController; // 소유자관리 소유자 등록번호 검색
 
   // 통계
   late TextEditingController sttusInqireAcqstnPrpsController; // 통계정보 > 토지현황 > 취득용도
   late TextEditingController sttusInqireBsnsSqncController; // 통계정보 > 토지현황 > 조사차수
+
+  late TextEditingController sttusLadAddrController;
+  late TextEditingController sttusMlnoLtnoController;
+  late TextEditingController sttusSlnoLtnoController;
+  late TextEditingController sttusLadOwnerNameController;
+  late TextEditingController sttusLadOwnerSqncController;
+  late TextEditingController sttusLadCmpnstnStepDivNmController;
+  late TextEditingController sttusLadfetchApasmtReqestDivNmController;
+  late TextEditingController sttusLadApasmtSqncController;
 
   // 조사차수
   late TextEditingController sqncAutoController;
@@ -104,9 +115,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController accdtlnvstgLadAcqsPrpDivNmController; // 취득용도
 
   // 실태조사 (토지 현실이용현황 입력)
-  late TextEditingController accdtlnvstgLadRealUseEditController; // 현실이용현황 -> 지목선택
-  late TextEditingController accdtlnvstgLadRealUseEdit2Controller; // 현실이용현황 -> 면적
-  late TextEditingController accdtlnvstgLadRealUseEdit3Controller; // 현실이용현황 -> 용지지구 및 지역
+  late TextEditingController
+      accdtlnvstgLadRealUseEditController; // 현실이용현황 -> 지목선택
+  late TextEditingController
+      accdtlnvstgLadRealUseEdit2Controller; // 현실이용현황 -> 면적
+  late TextEditingController
+      accdtlnvstgLadRealUseEdit3Controller; // 현실이용현황 -> 용지지구 및 지역
 
   // 실태조사 (지장물)
   late TextEditingController accdtlnvstgObstAddrController; // 소재지
@@ -114,18 +128,21 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController accdtlnvstgObstSlnoLtnoController; // 부반
   late TextEditingController accdtlnvstgObstAcqsPrpDivNmController; // 취득용도
 
-
   late TextEditingController accdtlnvstgAcqstnPrpsController;
   late TextEditingController accdtlnvstgLadPartcpntController;
 
   late PageController pageController; // 페이지 컨트롤러
+
   late ScrollController bsnsListScrollController;
+  late ScrollController ladSttusInqireScrollController;
 
   // debounce
   Timer? _debounce;
 
   // 사업선택 탭 아이템
-  final bsnsSelectTabItems = [Tab(text: '사업선택'),];
+  final bsnsSelectTabItems = [
+    Tab(text: '사업선택'),
+  ];
 
   final bsnsSelectTabIsSelected = [true, false, false].obs;
   final bsnsOwnerTabIsSelected = [true, false, false, false].obs;
@@ -134,13 +151,15 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgTabObstSelected = [true, false].obs;
 
   // 통계정보 탭 아이템 선택 여부
-  final sttusInqireTabIsSelected = [true, true, false, false, false, false, false, false, false, false].obs;
+  final sttusInqireTabIsSelected =
+      [true, true, false, false, false, false, false, false, false, false].obs;
 
   // 고객카드 탭 아이템 선택 여부
   final customerCardTabIsSelected = [true, false].obs;
 
   // 고객카드 상세 탭 아이템 선택 여부
-  final customerCardDetailTabIsSelected = [true, false, false, false, false, false, false, false].obs;
+  final customerCardDetailTabIsSelected =
+      [true, false, false, false, false, false, false, false].obs;
 
   // 소유자 관리 탭 아이템
   final bsnsOwnerTabItems = [
@@ -154,7 +173,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgTabItems = [Tab(text: '토지조사'), Tab(text: '지장물 조사')];
 
   // 실태조사 토지조서 탭 아이템
-  final accdtlnvstgLadTabItems = [Tab(text: '토지검색'), Tab(text: '소유자/관계인'), Tab(text: '조사내용')];
+  final accdtlnvstgLadTabItems = [
+    Tab(text: '토지검색'),
+    Tab(text: '소유자/관계인'),
+    Tab(text: '조사내용')
+  ];
 
   // 실태조사 지장물 조사 탭 아이템
   final accdtlnvstgObstTabItems = [Tab(text: '지장물검색'), Tab(text: '조사내용')];
@@ -169,6 +192,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   late TabController bsnsOwnerTabController;
   late TabController sttusTabController;
+
+  late ScrollController ladSttusScrollController;
+  RxDouble ladSttusScrollControllerOffset = 0.0.obs;
 
   /// [DataGridController] 는 데이터 그리드의 상태를 제어하는 컨트롤러 클래스이다.
 
@@ -224,7 +250,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgLadDataSource = AccdtlnvstgLadDatasource(items: []).obs;
 
   // 실태조사 > 선택 토지 내역
-  final accdtlnvstgLadSearchDataSource = AccdtlnvstgLadDatasource(items: []).obs;
+  final accdtlnvstgLadSearchDataSource =
+      AccdtlnvstgLadDatasource(items: []).obs;
 
   // 실태조사 > 소유자/관계인 > 토지
   final accdtlnvstgOwnerLadDataSource = OwnerLadInfoDatasource(items: []).obs;
@@ -235,8 +262,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgLadOwnerDataSource =
       AccdtlnvstgLadOwnerDatasource(items: []).obs;
 
-  Rx<AccdtlnvstgLadModel> selectedOwnerLadOwnerData =
-      AccdtlnvstgLadModel().obs;
+  Rx<AccdtlnvstgLadModel> selectedOwnerLadOwnerData = AccdtlnvstgLadModel().obs;
 
   // 실태조사 > 소유자/관계인 > 소유자별 관계인 현황
   final accdtlnvstgLadPartcpntDataSource =
@@ -246,22 +272,29 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgObstDataSource = AccdtlnvstgObstDatasource(items: []).obs;
 
   // 실태조사 > 지장물내역 > 소유자/관계인
-  final accdtlnvstgObstOwnerDataSource = AccdtlnvstgObstOwnerDatasource(items: []).obs;
+  final accdtlnvstgObstOwnerDataSource =
+      AccdtlnvstgObstOwnerDatasource(items: []).obs;
 
   // 통계정보 > 토지현황
   final ladSttusInqireDataSource = LadSttusInqireDatasource(items: []).obs;
   final obstSttusInqireDataSource = ObstSttusInqireDatasource(items: []).obs;
 
   // 고객카드
-  final cstmrcardLadPartcpntDataSource = CstmrcardLadPartcpntDatasource(items: []).obs;
-  final cstmrcardObstPartcpntDatasource = CstmrcardObstPartcpntDatasource(items: []).obs;
+  final cstmrcardLadPartcpntDataSource =
+      CstmrcardLadPartcpntDatasource(items: []).obs;
+  final cstmrcardObstPartcpntDatasource =
+      CstmrcardObstPartcpntDatasource(items: []).obs;
   final cstrmcardCmpnstnDatSource = CstmrcardCmpnstnDatasource(items: []).obs;
-  final cstmrcardLadAceptncDatasource = CstmrcardLadAceptncDatasource(items: []).obs;
-  final cstmrcardObstAceptncDatasource = CstmrcardObstAceptncDatasource(items: []).obs;
+  final cstmrcardLadAceptncDatasource =
+      CstmrcardLadAceptncDatasource(items: []).obs;
+  final cstmrcardObstAceptncDatasource =
+      CstmrcardObstAceptncDatasource(items: []).obs;
   final cstmrcardLadObjcDatasource = CstmrcardLadObjcDatasource(items: []).obs;
-  final cstmrcardObstObjcDatasource = CstmrcardObstObjcDatasource(items: []).obs;
+  final cstmrcardObstObjcDatasource =
+      CstmrcardObstObjcDatasource(items: []).obs;
   final cstmrcardLadLwstDatasource = CstmrcardLadLwstDatasource(items: []).obs;
-  final cstmrcardObstLwstDatasource = CstmrcardObstLwstDatasource(items: []).obs;
+  final cstmrcardObstLwstDatasource =
+      CstmrcardObstLwstDatasource(items: []).obs;
   final cstmrcardReprchsDatasource = CstmrcardReprchsDatasource(items: []).obs;
   final cstmrcardConfirmDatasource = CstmrcardConfirmDatasource(items: []).obs;
   final cstmrcardFobjctDatasource = CstmrcardFobjctDatasource(items: []).obs;
@@ -284,7 +317,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // 사업선택
   Rx<BsnsSelectModel> selectedBsns = BsnsSelectModel().obs;
   Rx<OwnerInfoModel> selectedOwner = OwnerInfoModel().obs;
-  RxList<LadSttusInqireModel> ladSttusInqireList = <LadSttusInqireModel>[].obs;
 
   Rx<BsnsSelectAreaDataSourceModel> bsnsSelectAreaDataSource =
       BsnsSelectAreaDataSourceModel().obs;
@@ -341,6 +373,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   List<AccdtlnvstgObstModel> accdtlnvstgObstList = <AccdtlnvstgObstModel>[].obs;
   List<AccdtlnvstgObstModel> searchAccdtlnvstgObstList = <AccdtlnvstgObstModel>[].obs;
 
+  List<LadSttusInqireModel> ladSttusInqireList = <LadSttusInqireModel>[].obs;
+  List<LadSttusInqireModel> searchLadSttusInqireList = <LadSttusInqireModel>[].obs;
+
   Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
 
   late InAppWebViewController inAppWebViewController;
@@ -381,8 +416,18 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     accdtlnvstgAcqstnPrpsController = TextEditingController();
     accdtlnvstgLadPartcpntController = TextEditingController();
 
+    sttusInqireBsnsSqncController = TextEditingController(); // 토지현황 조사차수
+
+    // 토지현황 소재지, 본번, 부번
     sttusInqireAcqstnPrpsController = TextEditingController();
-    sttusInqireBsnsSqncController = TextEditingController();
+    sttusLadAddrController = TextEditingController();
+    sttusMlnoLtnoController = TextEditingController();
+    sttusSlnoLtnoController = TextEditingController();
+    sttusLadOwnerNameController = TextEditingController();
+    sttusLadOwnerSqncController = TextEditingController();
+    sttusLadCmpnstnStepDivNmController = TextEditingController();
+    sttusLadfetchApasmtReqestDivNmController = TextEditingController();
+    sttusLadApasmtSqncController = TextEditingController();
 
     accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
     bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
@@ -394,6 +439,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     sqncController = TextEditingController();
 
     bsnsListScrollController = ScrollController();
+    ladSttusScrollController = ScrollController();
+    ladSttusInqireScrollController = ScrollController();
 
     /// [DataGridController] 는 데이터 그리드의 상태를 제어하는 컨트롤러 클래스이다.
     bsnsListDataGridController = DataGridController();
@@ -454,12 +501,24 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     });
 
     bsnsListScrollController.addListener(() {
-      AppLog.d('bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
+      AppLog.d(
+          'bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
+    });
+
+    ladSttusScrollController.addListener(() {
+      AppLog.d(
+          'ladSttusScrollController.offset : ${ladSttusScrollController.offset}');
+      ladSttusScrollControllerOffset.value = ladSttusScrollController.offset;
+    });
+
+    ladSttusInqireScrollController.addListener(() {
+      AppLog.d(
+          'ladSttusInqireScrollController.offset : ${ladSttusInqireScrollController.offset}');
     });
 
     accdtlnvstgLadTabController.addListener(() {
-      if(accdtlnvstgLadTabController.index == 1){
-        if(accdtlnvstgOwnerLadDataSource.value.rows.isEmpty){
+      if (accdtlnvstgLadTabController.index == 1) {
+        if (accdtlnvstgOwnerLadDataSource.value.rows.isEmpty) {
           accdtlnvstgLadTabController.index = 0;
           // 탭 이동
           accdtlnvstgLadTabController.animateTo(0);
@@ -478,7 +537,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     return GridColumn(
         //width: controller.columnWidths[columnName ?? ''] ?? 80,
         //width: columnWidths[columnName] ?? width ?? 80,
-        width: width ?? double.nan,
+        width: width ?? 100,
         columnName: columnName,
         visible: isVisble ?? true,
         label: SizedBox(
@@ -544,21 +603,67 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   fetchBsnsListDataSource() async {
 
-    var response = await api.fetchBsnsList();
+    // if(Platform.isWindows) {
+    //   var url =
+    //   Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsPlan.do');
+    //   var response = await http.post(url);
+    //
+    //   bsnsPlanList.clear();
+    //   searchBsnsPlanList.clear();
+    //
+    //   if (response.statusCode == 200) {
+    //     var res = JsonDecoder().convert(response.body)['list'];
+    //     List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
+    //
+    //     AppLog.d('fetchBsnsList > data : $res');
+    //
+    //     var length = res.length;
+    //     bsnsPlanModelFromJson(res, dataList, length);
+    //
+    //     bsnsPlanList = dataList.obs;
+    //     searchBsnsPlanList = dataList.obs;
+    //   } else {
+    //     AppLog.e('Failed to load post');
+    //     DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
+    //   }
+    // } else {
+    //   var response = await api.fetchBsnsList();
+    //
+    //   bsnsPlanList.clear();
+    //   searchBsnsPlanList.clear();
+    //
+    //   if (response.statusCode == 200) {
+    //     List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
+    //
+    //     var length = response.body['list'].length;
+    //     bsnsPlanModelFromJson(response.body['list'], dataList, length);
+    //
+    //     bsnsPlanList = dataList.obs;
+    //     searchBsnsPlanList = dataList.obs;
+    //   } else {
+    //     AppLog.e('Failed to load post');
+    //     DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
+    //   }
+    // }
+
+    var url =
+    Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsPlan.do');
+    var response = await http.post(url);
 
     bsnsPlanList.clear();
     searchBsnsPlanList.clear();
 
     if (response.statusCode == 200) {
-
+      var res = JsonDecoder().convert(response.body)['list'];
       List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
 
-      var length = response.body['list'].length;
-      bsnsPlanModelFromJson(response.body['list'], dataList, length);
+      AppLog.d('fetchBsnsList > data : $res');
+
+      var length = res.length;
+      bsnsPlanModelFromJson(res, dataList, length);
 
       bsnsPlanList = dataList.obs;
       searchBsnsPlanList = dataList.obs;
-
     } else {
       AppLog.e('Failed to load post');
       DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
@@ -567,21 +672,60 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     return bsnsPlanList;
   }
 
+  // fetchBsnsSelectAreaGridDataSource() async {
+  //   var response = await api
+  //       .fetchBsnsSelectAreaGridDataSource(selectBsnsPlan.value.bsnsNo);
+  //
+  //   if (response.statusCode == 200) {
+  //     AppLog.d(
+  //         'fetchBsnsSelectAreaGridDataSource > response : ${response.body['list']}');
+  //
+  //     List<BsnsPlanSelectAreaModel> dataList = <BsnsPlanSelectAreaModel>[];
+  //     var length = response.body['list'].length;
+  //
+  //     bsnsPlanSelectAreaModelFromJson(response.body['list'], dataList, length);
+  //
+  //     bsnsListDataSource.value = BsnsSelectAreaDataSource(items: dataList);
+  //   }
+  // }
+
   fetchBsnsSelectAreaGridDataSource() async {
+    var url =
+    Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsZone.do');
 
-    var response = await api.fetchBsnsSelectAreaGridDataSource(selectBsnsPlan.value.bsnsNo);
+    // param
+    var param = {
+      'bsnsNo': selectBsnsPlan.value.bsnsNo,
+    };
 
-    if(response.statusCode == 200) {
-      AppLog.d('fetchBsnsSelectAreaGridDataSource > response : ${response.body['list']}');
+    var response = await http.post(url, body: param);
 
-      List<BsnsPlanSelectAreaModel> dataList = <BsnsPlanSelectAreaModel>[];
-      var length = response.body['list'].length;
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      AppLog.d('fetchBsnsSelectAreaGridDataSource > data : $data');
 
-      bsnsPlanSelectAreaModelFromJson(response.body['list'], dataList, length);
+      var bsnsPlanSelectAreaModel = <BsnsPlanSelectAreaModel>[];
+
+      for (var i = 0; i < data.length; i++) {
+        var bsnsZoneNo = data[i]['bsnsZoneNo'];
+        AppLog.d(
+            'fetchBsnsSelectAreaGridDataSource > bsnsZoneNo : $bsnsZoneNo');
+
+        bsnsPlanSelectAreaModel.add(BsnsPlanSelectAreaModel(
+            bsnsNo: num.parse(data[i]['bsnsNo']),
+            bsnsZoneNo: data[i]['bsnsZoneNo'],
+            bsnsZoneNm: data[i]['bsnsZoneNm'],
+            lotCnt: data[i]['lotCnt'].toString(),
+            bsnsAra:data[i]['bsnsAra'].toString(),
+            bsnsReadngPblancDe: data[i]['bsnsReadngPblancDe'] == null
+                ? '-'
+                : CommonUtil.convertToDateTime(data[i]['bsnsReadngPblancDe'])));
+      }
 
       bsnsListDataSource.value =
-          BsnsSelectAreaDataSource(items: dataList);
-
+          BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
+    } else {
+      AppLog.e('Failed to load post');
     }
   }
 
@@ -647,14 +791,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   /// [소유자 및 관리인] 조회
   fetchOwnerDataSource() async {
-
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 200), () async {
-
       DialogUtil.showLoading(Get.context!);
 
       var url =
-      Uri.parse('http://222.107.22.159:18080/lp/owner/selectOwnList.do');
+          Uri.parse('http://222.107.22.159:18080/lp/owner/selectOwnList.do');
 
       var param = {
         'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -666,7 +808,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       var response = await http.post(url, body: param);
 
       if (response.statusCode == 200) {
-
         var data = JsonDecoder().convert(response.body)['list'];
         AppLog.d('fetchBsnsOwnerDataSource > data : $data');
 
@@ -681,8 +822,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         // 소유자 이름 검색
         if (ownerNameSearchController.text.isNotEmpty) {
           searchOwnerList = list
-              .where((element) => element.ownerNm!
-              .contains(ownerNameSearchController.text))
+              .where((element) =>
+                  element.ownerNm!.contains(ownerNameSearchController.text))
               .toList();
         }
 
@@ -690,18 +831,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         if (ownerRegisterNoSearchController.text.isNotEmpty) {
           searchOwnerList = list
               .where((element) => element.ownerRrnEnc!
-              .contains(ownerRegisterNoSearchController.text))
+                  .contains(ownerRegisterNoSearchController.text))
               .toList();
         }
 
         ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
         Get.back();
-
       } else {
         AppLog.e('Failed to load post');
         DialogUtil.showSnackBar(Get.context!, '소유자', '소유자를 조회할 수 없습니다.');
       }
-
     });
   }
 
@@ -747,7 +886,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           //ofcbkAra: data[i]['ofcbkAra'] ?? '',
           ofcbkAra: CommonUtil.comma3(data[i]['ofcbkAra'] ?? ''),
           incrprAra: CommonUtil.comma3(data[i]['incrprAra'] ?? ''),
-          cmpnstnInvstgAra: CommonUtil.comma3(data[i]['cmpnstnInvstgAra'] ?? ''),
+          cmpnstnInvstgAra:
+              CommonUtil.comma3(data[i]['cmpnstnInvstgAra'] ?? ''),
           acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
           acqsPrpDivNm: data[i]['acqsPrpDivNm'] ?? '',
           aceptncUseDivCd: data[i]['aceptncUseDivCd'] ?? '',
@@ -863,7 +1003,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   /// [실태조사 > 토지내역] 조회
   fetchAccdtlnvstgSearchDataSource() async {
-
     var url = Uri.parse(
         'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgLad.do');
 
@@ -892,8 +1031,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       // 소재지 검색
       if (accdtlnvstgLadAddrController.text.isNotEmpty) {
         searchAccdtlnvstgLadList = list
-            .where((element) => element.lgdongNm!
-            .contains(accdtlnvstgLadAddrController.text))
+            .where((element) =>
+                element.lgdongNm!.contains(accdtlnvstgLadAddrController.text))
             .toList();
       }
 
@@ -901,7 +1040,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       if (accdtlnvstgLadMlnoLtnoController.text.isNotEmpty) {
         searchAccdtlnvstgLadList = list
             .where((element) => element.mlnoLtno!
-            .contains(accdtlnvstgLadMlnoLtnoController.text))
+                .contains(accdtlnvstgLadMlnoLtnoController.text))
             .toList();
       }
 
@@ -909,15 +1048,13 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       if (accdtlnvstgLadSlnoLtnoController.text.isNotEmpty) {
         searchAccdtlnvstgLadList = list
             .where((element) => element.slnoLtno!
-            .contains(accdtlnvstgLadSlnoLtnoController.text))
+                .contains(accdtlnvstgLadSlnoLtnoController.text))
             .toList();
       }
 
-      accdtlnvstgLadDataSource.value =
-          AccdtlnvstgLadDatasource(items: list);
+      accdtlnvstgLadDataSource.value = AccdtlnvstgLadDatasource(items: list);
 
-
-      if(accdtlnvstgLadDataSource.value.rows.length == 0) {
+      if (accdtlnvstgLadDataSource.value.rows.length == 0) {
         DialogUtil.showSnackBar(Get.context!, '실태조사', '실태조사 내역이 없습니다.');
       } else {
         // AppLog.d('실태조사 시작');
@@ -937,7 +1074,13 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AutoSizeText(maxFontSize: 20, '${selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?', style: TextStyle(color: Color(0xFF2C2C2C), fontSize: 32.sp, fontWeight: FontWeight.w500)),
+                AutoSizeText(
+                    maxFontSize: 20,
+                    '${selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?',
+                    style: TextStyle(
+                        color: Color(0xFF2C2C2C),
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w500)),
               ],
             ),
           ),
@@ -953,14 +1096,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           },
         );
       }
-
     }
-
   }
 
   /// [실태조사 > 토지 > 소유자 ] 조회
   fetchAccdtlnvstgLadOwnerDataSource(thingSerNo) async {
-
     var url = Uri.parse(
         'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgLadOwner.do');
 
@@ -986,17 +1126,15 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       accdtlnvstgLadOwnerDataSource.value =
           AccdtlnvstgLadOwnerDatasource(items: list);
     }
-
   }
 
   /// [실태조사 > 토지 > 관계인] 조회
   fetchAccdtlnvstgLadPartcpntStatusDataSource(ownerNo) async {
-
     var url = Uri.parse(
         'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgLadOwnerPartcpnt.do');
 
     var param = {
-      'shOwnerNo' : ownerNo,
+      'shOwnerNo': ownerNo,
       'shThingSerNo': selectedOwnerLadOwnerData.value.thingSerNo,
       'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
       'bsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -1006,7 +1144,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     var response = await http.post(url, body: param);
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['list'];
       AppLog.d('fetchAccdtlnvstgLadPartcpntStatusDataSource > data : $data');
 
@@ -1014,10 +1152,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       var list = <AccdtlnvstgLadPartcpntModel>[];
 
       accdtlnvstgLadPartcpntDataSourceKeyValue(data, list, length);
-      accdtlnvstgLadPartcpntDataSource.value = AccdtlnvstgLadPartcpntDatasource(items: list);
+      accdtlnvstgLadPartcpntDataSource.value =
+          AccdtlnvstgLadPartcpntDatasource(items: list);
     }
-
-
   }
 
   /// [실태조사 > 지장물 정보] 조회
@@ -1048,8 +1185,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       // 소재지 검색
       if (accdtlnvstgObstAddrController.text.isNotEmpty) {
         searchAccdtlnvstgObstList = accdtlnvstgObst
-            .where((element) => element.lgdongNm!
-            .contains(accdtlnvstgObstAddrController.text))
+            .where((element) =>
+                element.lgdongNm!.contains(accdtlnvstgObstAddrController.text))
             .toList();
       }
 
@@ -1057,7 +1194,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       if (accdtlnvstgObstMlnoLtnoController.text.isNotEmpty) {
         searchAccdtlnvstgObstList = accdtlnvstgObst
             .where((element) => element.mlnoLtno!
-            .contains(accdtlnvstgObstMlnoLtnoController.text))
+                .contains(accdtlnvstgObstMlnoLtnoController.text))
             .toList();
       }
 
@@ -1065,11 +1202,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       if (accdtlnvstgObstSlnoLtnoController.text.isNotEmpty) {
         searchAccdtlnvstgObstList = accdtlnvstgObst
             .where((element) => element.slnoLtno!
-            .contains(accdtlnvstgObstSlnoLtnoController.text))
+                .contains(accdtlnvstgObstSlnoLtnoController.text))
             .toList();
       }
-
-
 
       accdtlnvstgObstDataSource.value =
           AccdtlnvstgObstDatasource(items: accdtlnvstgObst);
@@ -1098,14 +1233,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       var accdtlnvstgObstOwner = <AccdtlnvstgObstOwnerModel>[];
       var length = data.length;
 
-      accdtlnvstgObstOwnerDataSourceKeyValue(data, accdtlnvstgObstOwner, length);
+      accdtlnvstgObstOwnerDataSourceKeyValue(
+          data, accdtlnvstgObstOwner, length);
 
       accdtlnvstgObstOwnerDataSource.value =
           AccdtlnvstgObstOwnerDatasource(items: accdtlnvstgObstOwner);
 
       handleAccdtlnvstgObstTabSelected(1);
     }
-
   }
 
   /// [통계정보 > 토지현황] 조회
@@ -1194,7 +1329,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         ));
       }
 
+      ladSttusInqireList = res;
+      searchLadSttusInqireList = res;
+
       ladSttusInqireDataSource.value = LadSttusInqireDatasource(items: res);
+
+      ladSttusInqireScrollController.animateTo(2800.0, duration: Duration(milliseconds: 500), curve: Curves.ease);
 
       // close loading bar
       Get.back();
@@ -1217,47 +1357,50 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       gridColumn('ofcbkAra', '공부', width: 60),
       gridColumn('incrprAra', '편입', width: 60),
 
-      gridColumn('aceptncUseDivNm', '수용/사용', width: 60,
-          isVisble: isLadSttusInqireGridTab1.value),
-      gridColumn('invstgDt', '조사일',
-          isVisble: isLadSttusInqireGridTab1.value),
-      gridColumn('accdtInvstgSqnc', '차수', width: 40,
-          isVisble: isLadSttusInqireGridTab1.value),
+      gridColumn('aceptncUseDivNm', '수용/사용',
+          width: 60, isVisble: isLadSttusInqireGridTab1.value),
+      gridColumn('invstgDt', '조사일', isVisble: isLadSttusInqireGridTab1.value),
+      gridColumn('accdtInvstgSqnc', '차수',
+          width: 40, isVisble: isLadSttusInqireGridTab1.value),
 
-      gridColumn('ownerNo', '소유자번호',
-          isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('ownerNo', '소유자번호', isVisble: isLadSttusInqireGridTab2.value),
       gridColumn('posesnDivNm', '구분',
           isVisble: isLadSttusInqireGridTab2.value, width: 60),
-      gridColumn('ownerNm', '소유자명',
-          isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('ownerNm', '소유자명', isVisble: isLadSttusInqireGridTab2.value),
       gridColumn('ownerRgsbukAddr', '등기부주소',
           isVisble: isLadSttusInqireGridTab2.value),
-      gridColumn('posesnShreNmrtrInfo', '분자', width: 60,
-          isVisble: isLadSttusInqireGridTab2.value),
-      gridColumn('posesnShreDnmntrInfo', '분모', width: 60,
-          isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('posesnShreNmrtrInfo', '분자',
+          width: 60, isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('posesnShreDnmntrInfo', '분모',
+          width: 60, isVisble: isLadSttusInqireGridTab2.value),
 
-      gridColumn('apasmtReqestDivNm', '평가구분', width: 60,
-          isVisble: isLadSttusInqireGridTab3.value),
-      gridColumn('apasmtSqnc', '평가차수', width: 60,
-          isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('apasmtReqestDivNm', '평가구분',
+          width: 60, isVisble: isLadSttusInqireGridTab3.value),
+      gridColumn('apasmtSqnc', '평가차수',
+          width: 60, isVisble: isLadSttusInqireGridTab3.value),
       gridColumn('prcPnttmDe', '가격시점',
           isVisble: isLadSttusInqireGridTab3.value),
 
       // a평가법인
       gridColumn('apasmtInsttNm1', '법인명',
+          width: 100,
           isVisble: isLadSttusInqireGridTab3.value),
       gridColumn('apasmtInsttEvlUpc1', '단가',
+          width: 100,
           isVisble: isLadSttusInqireGridTab3.value),
       gridColumn('apasmtInsttEvlAmt1', '금액',
+          width: 100,
           isVisble: isLadSttusInqireGridTab3.value),
 
       // b평가법인
       gridColumn('apasmtInsttNm2', '법인명',
+          width: 100,
           isVisble: isLadSttusInqireGridTab3.value),
       gridColumn('apasmtInsttEvlUpc2', '단가',
+          width: 100,
           isVisble: isLadSttusInqireGridTab3.value),
       gridColumn('apasmtInsttEvlAmt2', '금액',
+          width: 100,
           isVisble: isLadSttusInqireGridTab3.value),
 
       // c평가법인
@@ -1281,8 +1424,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           isVisble: isLadSttusInqireGridTab5.value),
       gridColumn('cmpnstnDscssTotAmt', '지급금액',
           isVisble: isLadSttusInqireGridTab5.value),
-      gridColumn('caRgistDt', '등기일자',
-          isVisble: isLadSttusInqireGridTab5.value),
+      gridColumn('caRgistDt', '등기일자', isVisble: isLadSttusInqireGridTab5.value),
 
       // 수용재결
       gridColumn('aceptncAdjdcUpc', '재결단가',
@@ -1295,14 +1437,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           isVisble: isLadSttusInqireGridTab6.value),
       gridColumn('ldPymntRequstDe', '지급요청일자',
           isVisble: isLadSttusInqireGridTab6.value),
-      gridColumn('ldRgistDt', '등기일자',
-          isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('ldRgistDt', '등기일자', isVisble: isLadSttusInqireGridTab6.value),
       gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁',
           isVisble: isLadSttusInqireGridTab6.value),
 
       // 이의재결
-      gridColumn('obadUpc', '재결단가',
-          isVisble: isLadSttusInqireGridTab7.value),
+      gridColumn('obadUpc', '재결단가', isVisble: isLadSttusInqireGridTab7.value),
       gridColumn('objcRstAmt', '재결금액',
           isVisble: isLadSttusInqireGridTab7.value),
       gridColumn('objcAdjdcDt', '재결일자',
@@ -1405,17 +1545,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
       gridColumn('rqestNo', '청구번호',
           isVisble: isLadSttusInqireGridTab1.value, width: 70),
-      gridColumn('invstgDe', '조사일',
-          isVisble: isLadSttusInqireGridTab1.value),
+      gridColumn('invstgDe', '조사일', isVisble: isLadSttusInqireGridTab1.value),
       gridColumn('accdtInvstgSqnc', '차수',
           isVisble: isLadSttusInqireGridTab1.value, width: 40),
 
-      gridColumn('ownerNo', '소유자번호',
-          isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('ownerNo', '소유자번호', isVisble: isLadSttusInqireGridTab2.value),
       gridColumn('posesnDivCd', '구분',
           isVisble: isLadSttusInqireGridTab2.value, width: 40),
-      gridColumn('ownerNm', '소유자명',
-          isVisble: isLadSttusInqireGridTab2.value),
+      gridColumn('ownerNm', '소유자명', isVisble: isLadSttusInqireGridTab2.value),
       gridColumn('ownerRgsbukAddr', '등기부주소',
           isVisble: isLadSttusInqireGridTab2.value),
       gridColumn('posesnShreNmrtrInfo', '분자',
@@ -1469,12 +1606,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           isVisble: isLadSttusInqireGridTab5.value),
 
       // 수용재결
-      gridColumn('dcsUpc', '재결단가',
-          isVisble: isLadSttusInqireGridTab6.value),
-      gridColumn('dcsAmt', '재결금액',
-          isVisble: isLadSttusInqireGridTab6.value),
-      gridColumn('dcsDt', '재결일자',
-          isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('dcsUpc', '재결단가', isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('dcsAmt', '재결금액', isVisble: isLadSttusInqireGridTab6.value),
+      gridColumn('dcsDt', '재결일자', isVisble: isLadSttusInqireGridTab6.value),
       gridColumn('aceptncUseBeginDe', '수용/사용개시일',
           isVisble: isLadSttusInqireGridTab6.value),
       gridColumn('ldPymntRequstDe', '지급요청일자',
@@ -1483,12 +1617,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           isVisble: isLadSttusInqireGridTab6.value),
 
       // 이의재결
-      gridColumn('proUpc', '재결단가',
-          isVisble: isLadSttusInqireGridTab7.value),
-      gridColumn('proAmt', '재결금액',
-          isVisble: isLadSttusInqireGridTab7.value),
-      gridColumn('proDt', '재결일자',
-          isVisble: isLadSttusInqireGridTab7.value),
+      gridColumn('proUpc', '재결단가', isVisble: isLadSttusInqireGridTab7.value),
+      gridColumn('proAmt', '재결금액', isVisble: isLadSttusInqireGridTab7.value),
+      gridColumn('proDt', '재결일자', isVisble: isLadSttusInqireGridTab7.value),
       gridColumn('proPymntRequstDe', '지급요청일자',
           isVisble: isLadSttusInqireGridTab7.value),
       gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁',
@@ -1496,17 +1627,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     ];
   }
 
-  // [통계정보 > 취득용도] 조회
-  fetchAcqsPrpDivCdDataSource() async {
-    var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lssom/selectAcqsPrp.do');
-
-    var response = await http.post(url);
+  /// [통계정보 > 토지현황 > 취득용도목록] 조회
+  fetchAcqsPrpList() async {
+    var response = await api.fetchAcqPrpList();
 
     if (response.statusCode == 200) {
-      var data = JsonDecoder().convert(response.body)['list'];
-      AppLog.d('fetchAcqsPrpDivCdDataSource > data : $data');
+      AppLog.d('fetchAcqsPrpDivCdDataSource > data : ${response.body['list']}');
 
+      var data = response.body['list'];
       DialogUtil.showBottomSheet(
           Get.context!,
           '취득용도',
@@ -1518,8 +1646,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                 return ListTile(
                   title: Text(data[index]['cmmnCdNm']),
                   onTap: () {
-                    sttusInqireAcqstnPrpsController.text =
-                        data[index]['cmmnCdNm'];
+                    sttusInqireAcqstnPrpsController.text = data[index]['cmmnCdNm'];
+                    searchSttusInqireLadPurps(data[index]['cmmnCdNm']);
                     Get.back();
                   },
                 );
@@ -1529,36 +1657,140 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     }
   }
 
-  // [ 통계정보 > 토지현황 > 조사 차수] 조회
-  fetchLadSttusInqireSqncDataSource() async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectLandApasmtSqnc.do');
+  /// [통계정보 > 토지현황 > 조사 차수] 조회
+  fetchAccdtInvstgSqncList() async {
 
-    var param = {
-      'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
-      'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
-    };
+    AppLog.d('fetchAccdtInvstgSqncList > bsnsNo : ${selectBsnsPlan.value.bsnsNo}');
+    AppLog.d('fetchAccdtInvstgSqncList > bsnsZoneNo : ${selectedBsnsSelectArea.value.bsnsZoneNo}');
 
-    var response = await http.post(url, body: param);
+    var response = await api.fetchAccdtInvstgSqncList(
+      shbsnsNo: selectBsnsPlan.value.bsnsNo,
+      shbsnsZoneNo: selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
+    );
 
     if (response.statusCode == 200) {
-      var data = JsonDecoder().convert(response.body)['list'];
-      AppLog.d('fetchLadSttusInqireSqncDataSource > data : $data');
+      AppLog.d('fetchAccdtInvstgSqncList > data : ${response.body}');
 
+      var data = response.body['list'];
       DialogUtil.showBottomSheet(
           Get.context!,
           '조사 차수',
+          Container(
+            height: 300.h,
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(data[index]['accdtInvstgSqnc'].toString()),
+                  onTap: () {
+                    sttusInqireBsnsSqncController.text =
+                        data[index]['accdtInvstgSqnc'].toString();
+                    searchSttusInqireLadSqnc(data[index]['accdtInvstgSqnc'].toString());
+                    Get.back();
+                  },
+                );
+              },
+            ),
+          ));
+    }
+  }
+
+  /// [통계정보 > 토지현황 > 보상 진행 단계] 조회
+  fetchCmpnstnStepList() async {
+    var response = await api.fetchCmpnstnStepList();
+
+    if (response.statusCode == 200) {
+      AppLog.d('fetchCmpnstnStepList > data : ${response.body['list']}');
+
+      var data = response.body['list'];
+
+      // 0번째 전체
+      data.insert(0, {'cmmnCdNm': '전체'});
+
+      DialogUtil.showBottomSheet(
+          Get.context!,
+          '보상 진행 단계',
           Container(
             height: 500.h,
             child: ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  //title: Text(data[index]['accdtInvstgSqnc']),
-                  title: Text('${data[index]['apasmtSqnc']}차'),
+                  title: Text(data[index]['cmmnCdNm']),
                   onTap: () {
-                    sttusInqireBsnsSqncController.text =
-                        data[index]['apasmtSqnc'].toString();
+                    sttusLadCmpnstnStepDivNmController.text = data[index]['cmmnCdNm'];
+                    searchSttusInqireLadCmpnstnStep(data[index]['cmmnCdNm']);
+                    Get.back();
+                  },
+                );
+              },
+            ),
+          ));
+    }
+  }
+
+  /// [통계정보 > 토지현황 > 평가구분] 조회
+  fetchApasmtReqestDivList() async {
+    var response = await api.fetchApasmtReqestList();
+
+    if (response.statusCode == 200) {
+      AppLog.d('fetchApasmtReqestDivList > data : ${response.body['list']}');
+
+      var data = response.body['list'];
+
+      // 0번째 전체
+      data.insert(0, {'cmmnCdNm': '전체'});
+
+      DialogUtil.showBottomSheet(
+          Get.context!,
+          '평가구분',
+          Container(
+            height: 500.h,
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(data[index]['cmmnCdNm']),
+                  onTap: () {
+                    sttusLadfetchApasmtReqestDivNmController.text = data[index]['cmmnCdNm'];
+                    searchSttusInqireLadApasmtReqestDiv(data[index]['cmmnCdNm']);
+                    Get.back();
+                  },
+                );
+              },
+            ),
+          ));
+    }
+  }
+
+  /// [통계정보 > 토지현황 > 감정평가차수] 조회
+  fetchLandApasmtSqncList() async {
+    var response = await api.fetchLandApasmtSqncList(
+      selectBsnsPlan.value.bsnsNo,
+      selectedBsnsSelectArea.value.bsnsZoneNo,
+    );
+
+    if (response.statusCode == 200) {
+      AppLog.d('fetchLandApasmtSqncList > data : ${response.body['list']}');
+
+      var data = response.body['list'];
+
+      // 0번째 전체
+      data.insert(0, {'apasmtSqnc': '전체'});
+
+      DialogUtil.showBottomSheet(
+          Get.context!,
+          '감정평가차수',
+          Container(
+            height: 500.h,
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(data[index]['apasmtSqnc'] == null ? '전체' : data[index]['apasmtSqnc'].toString()),
+                  onTap: () {
+                    sttusLadApasmtSqncController.text = data[index]['apasmtSqnc'];
+                    searchSttusInqireLadApasmtSqnc(data[index]['apasmtSqnc']);
                     Get.back();
                   },
                 );
@@ -1570,8 +1802,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   // [고객카드 > 관계인 (토지)] 조회
   fetchCstmrCardLadPartcpntInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1583,23 +1815,24 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['landPartcpnt'];
-      AppLog.d('fetchCstmrCardLadPartcpntInfoDataSource > landPartcpnt : $data');
+      AppLog.d(
+          'fetchCstmrCardLadPartcpntInfoDataSource > landPartcpnt : $data');
 
       var cstmrCardLadPartcpnt = <CstmrcardLadPartcpntDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardLadPartcpntDataSourceKeyValue(data, cstmrCardLadPartcpnt, length);
+      cstmrcardLadPartcpntDataSourceKeyValue(
+          data, cstmrCardLadPartcpnt, length);
 
       cstmrcardLadPartcpntDataSource.value =
           CstmrcardLadPartcpntDatasource(items: cstmrCardLadPartcpnt);
     }
-
   }
 
   // [고객카드 > 관계인 (지장물)] 조회
   fetchCstmrCardObstPartcpntInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1611,23 +1844,24 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['obstPartcpnt'];
-      AppLog.d('fetchCstmrCardObstPartcpntInfoDataSource > obstPartcpnt : $data');
+      AppLog.d(
+          'fetchCstmrCardObstPartcpntInfoDataSource > obstPartcpnt : $data');
 
       var cstmrCardObstPartcpnt = <CstmrcardObstPartcpntDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardObstPartcpntDataSourceKeyValue(data, cstmrCardObstPartcpnt, length);
+      cstmrcardObstPartcpntDataSourceKeyValue(
+          data, cstmrCardObstPartcpnt, length);
 
       cstmrcardObstPartcpntDatasource.value =
           CstmrcardObstPartcpntDatasource(items: cstmrCardObstPartcpnt);
     }
-
   }
 
   // [고객카드 > 협의내역 (토지)] 조회
   fetchCstmrCardLadCmpnstnInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1639,8 +1873,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['cmpnstn'];
-      AppLog.d(
-          'fetchCstmrCardLadCmpnstnInfoDataSource > cmpnstn : $data');
+      AppLog.d('fetchCstmrCardLadCmpnstnInfoDataSource > cmpnstn : $data');
 
       var cstmrcardCmpnstn = <CstmrcardCmpnstnDatasourceModel>[];
       var length = data.length;
@@ -1654,8 +1887,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   // [고객카드 > 수요재결 (토지)] 조회
   fetchCstmrCardLadAceptncInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1667,23 +1900,24 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['landAceptnc'];
-      AppLog.d(
-          'fetchCstmrCardLadAceptncInfoDataSource > landAceptnc : $data');
+      AppLog.d('fetchCstmrCardLadAceptncInfoDataSource > landAceptnc : $data');
 
-      var cstmrcardLadAceptncDatasourceModel = <CstmrcardLadAceptncDatasourceModel>[];
+      var cstmrcardLadAceptncDatasourceModel =
+          <CstmrcardLadAceptncDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardLadAceptncDatasourceKeyValue(data, cstmrcardLadAceptncDatasourceModel, length);
+      cstmrcardLadAceptncDatasourceKeyValue(
+          data, cstmrcardLadAceptncDatasourceModel, length);
 
-      cstmrcardLadAceptncDatasource.value =
-          CstmrcardLadAceptncDatasource(items: cstmrcardLadAceptncDatasourceModel);
+      cstmrcardLadAceptncDatasource.value = CstmrcardLadAceptncDatasource(
+          items: cstmrcardLadAceptncDatasourceModel);
     }
   }
 
   // [고객카드 > 수요재결 (지장물)] 조회
   fetchCstmrCardObstAceptncInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1695,24 +1929,24 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['obstAceptnc'];
-      AppLog.d(
-          'fetchCstmrCardObstAceptncInfoDataSource > obstAceptnc : $data');
+      AppLog.d('fetchCstmrCardObstAceptncInfoDataSource > obstAceptnc : $data');
 
-      var cstmrcardObstAceptncDatasourceModel = <CstmrcardObstAceptncDatasourceModel>[];
+      var cstmrcardObstAceptncDatasourceModel =
+          <CstmrcardObstAceptncDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardObstAceptncDatasourceKeyValue(data, cstmrcardObstAceptncDatasourceModel, length);
+      cstmrcardObstAceptncDatasourceKeyValue(
+          data, cstmrcardObstAceptncDatasourceModel, length);
 
-      cstmrcardObstAceptncDatasource.value =
-          CstmrcardObstAceptncDatasource(items: cstmrcardObstAceptncDatasourceModel);
-
+      cstmrcardObstAceptncDatasource.value = CstmrcardObstAceptncDatasource(
+          items: cstmrcardObstAceptncDatasourceModel);
     }
   }
 
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardLadObjcInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1724,24 +1958,23 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['landObjc'];
-      AppLog.d(
-          'fetchCstmrCardLadObjcInfoDataSource > landObjc : $data');
+      AppLog.d('fetchCstmrCardLadObjcInfoDataSource > landObjc : $data');
 
       var cstmrcardLadObjcDatasourceModel = <CstmrcardLadObjcDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardLadObjcDataSourceKeyValue(data, cstmrcardLadObjcDatasourceModel, length);
+      cstmrcardLadObjcDataSourceKeyValue(
+          data, cstmrcardLadObjcDatasourceModel, length);
 
       cstmrcardLadObjcDatasource.value =
           CstmrcardLadObjcDatasource(items: cstmrcardLadObjcDatasourceModel);
-
     }
   }
 
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardObstObjcInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1753,24 +1986,24 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['obstObjc'];
-      AppLog.d(
-          'fetchCstmrCardObstObjcInfoDataSource > obstObjc : $data');
+      AppLog.d('fetchCstmrCardObstObjcInfoDataSource > obstObjc : $data');
 
-      var cstmrcardObstObjcDatasourceModel = <CstmrcardObstObjcDatasourceModel>[];
+      var cstmrcardObstObjcDatasourceModel =
+          <CstmrcardObstObjcDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardObstObjcDataSourceKeyValue(data, cstmrcardObstObjcDatasourceModel, length);
+      cstmrcardObstObjcDataSourceKeyValue(
+          data, cstmrcardObstObjcDatasourceModel, length);
 
       cstmrcardObstObjcDatasource.value =
           CstmrcardObstObjcDatasource(items: cstmrcardObstObjcDatasourceModel);
-
     }
   }
 
   // [고객카드 > 소송 (토지)] 조회
   fetchCstmrCardLadLwstInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1782,27 +2015,25 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['landLwst'];
-      AppLog.d(
-          'fetchCstmrCardLadLwstInfoDataSource > landLwst : $data');
+      AppLog.d('fetchCstmrCardLadLwstInfoDataSource > landLwst : $data');
 
       var cstmrcardLadLwstDatasourceModel = <CstmrcardLadLwstDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardLadLwstDataSourceKeyValue(data, cstmrcardLadLwstDatasourceModel, length);
+      cstmrcardLadLwstDataSourceKeyValue(
+          data, cstmrcardLadLwstDatasourceModel, length);
 
       cstmrcardLadLwstDatasource.value =
           CstmrcardLadLwstDatasource(items: cstmrcardLadLwstDatasourceModel);
-
     }
   }
 
   // [고객카드 > 소송 (지장물)] 조회
   fetchCstmrCardObstLwstInfoDataSource(ownerNo) async {
-
     print('fetchCstmrCardObstLwstInfoDataSource > ownerNo : $ownerNo');
 
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1814,25 +2045,24 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['obstLwst'];
-      AppLog.d(
-          'fetchCstmrCardObstLwstInfoDataSource > obstLwst : $data');
+      AppLog.d('fetchCstmrCardObstLwstInfoDataSource > obstLwst : $data');
 
-      var cstmrcardObstLwstDatasourceModel = <CstmrcardObstLwstDatasourceModel>[];
+      var cstmrcardObstLwstDatasourceModel =
+          <CstmrcardObstLwstDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardObstLwstDataSourceKeyValue(data, cstmrcardObstLwstDatasourceModel, length);
+      cstmrcardObstLwstDataSourceKeyValue(
+          data, cstmrcardObstLwstDatasourceModel, length);
 
       cstmrcardObstLwstDatasource.value =
           CstmrcardObstLwstDatasource(items: cstmrcardObstLwstDatasourceModel);
-
     }
   }
 
-
   // [고객카드 > 환매 ] 조회
   fetchCstmrCardReprchsInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1844,24 +2074,23 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['reprchs'];
-      AppLog.d(
-          'fetchCstmrCardReprchsInfoDataSource > reprchs : $data');
+      AppLog.d('fetchCstmrCardReprchsInfoDataSource > reprchs : $data');
 
       var cstmrcardReprchsDatasourceModel = <CstmrcardReprchsDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardReprchsDataSourceKeyValue(data, cstmrcardReprchsDatasourceModel, length);
+      cstmrcardReprchsDataSourceKeyValue(
+          data, cstmrcardReprchsDatasourceModel, length);
 
       cstmrcardReprchsDatasource.value =
           CstmrcardReprchsDatasource(items: cstmrcardReprchsDatasourceModel);
-
     }
   }
 
   // [고객카드 > 토지수용확인원 ] 조회
   fetchCstmrCardConfirmInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1873,24 +2102,23 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['confirm'];
-      AppLog.d(
-          'fetchCstmrCardConfirmInfoDataSource > confirm : $data');
+      AppLog.d('fetchCstmrCardConfirmInfoDataSource > confirm : $data');
 
       var cstmrcardConfirmDatasourceModel = <CstmrcardConfirmDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardConfirmDataSourceKeyValue(data, cstmrcardConfirmDatasourceModel, length);
+      cstmrcardConfirmDataSourceKeyValue(
+          data, cstmrcardConfirmDatasourceModel, length);
 
       cstmrcardConfirmDatasource.value =
           CstmrcardConfirmDatasource(items: cstmrcardConfirmDatasourceModel);
-
     }
   }
 
   // [고객카드 > 이의신청 ] 조회
   fetchCstmrCardFobjctInfoDataSource(ownerNo) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+    var url =
+        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1902,20 +2130,675 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['fobjct'];
-      AppLog.d(
-          'fetchCstmrCardFobjctInfoDataSource > fobjct : $data');
+      AppLog.d('fetchCstmrCardFobjctInfoDataSource > fobjct : $data');
 
       var cstmrcardFobjectDatasourceModel = <CstmrcardFobjectDatasourceModel>[];
       var length = data.length;
 
-      cstmrcardFobjctDataSourceKeyValue(data, cstmrcardFobjectDatasourceModel, length);
+      cstmrcardFobjctDataSourceKeyValue(
+          data, cstmrcardFobjectDatasourceModel, length);
 
       cstmrcardFobjctDatasource.value =
           CstmrcardFobjctDatasource(items: cstmrcardFobjectDatasourceModel);
-
     }
   }
 
+  /// [사업명] 검색
+  Future<void> searchBsnsName(String value) async {
+    AppLog.d('searchBsnsName : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchBsnsPlanList.value = bsnsPlanList;
+      } else {
+        searchBsnsPlanList.value = bsnsPlanList
+            .where((element) => element.bsnsNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachBsnsPlanList : $searchBsnsPlanList');
+      }
+    });
+  }
+
+  /// [사업번호] 검색
+  Future<void> searchBsnsNo(String value) async {
+    AppLog.d('searchBsnsNo : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchBsnsPlanList.value = bsnsPlanList;
+      } else {
+        searchBsnsPlanList.value = bsnsPlanList
+            .where((element) => element.bsnsNo?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachBsnsPlanList : $searchBsnsPlanList');
+      }
+    });
+  }
+
+  /// [소유자 이름] 검색
+  Future<void> searchOwnerName(String value) async {
+    AppLog.d('searchOwnerName : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchOwnerList = ownerList;
+        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
+      } else {
+        searchOwnerList = ownerList
+            .where((element) => element.ownerNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachOwnerList : $searchOwnerList');
+        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
+      }
+    });
+  }
+
+  /// [소유자 등록 번호] 검색
+  Future<void> searchOwnerRrnEnc(String value) async {
+    AppLog.d('searchOwnerNo : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchOwnerList = ownerList;
+        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
+      } else {
+        searchOwnerList = ownerList
+            .where((element) => element.ownerRrnEnc?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachOwnerList : $searchOwnerList');
+        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
+      }
+    });
+  }
+
+  /// [실태조사 (토지)] 소재지 검색
+  Future<void> searchAccdtlnvstgLadAddr(String value) async {
+    AppLog.d('searchAccdtlnvstgLadAddr : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      } else {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList
+            .where((element) => element.lgdongNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      }
+    });
+  }
+
+  /// [통계 정보 > 토지현황 > 소유자] 조회
+  Future<void> searchSttusInqireLadAddr(String value) async {
+    AppLog.d('searchSttusLadAddr : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchLadSttusInqireList = ladSttusInqireList;
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      } else {
+        searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.lgdongNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachLadSttusInqireList : $searchLadSttusInqireList');
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [실태조사 (지장물)] 소재지 검색
+  Future<void> searchAccdtlnvstgObstAddr(String value) async {
+    AppLog.d('searchAccdtlnvstgObstAddr : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList;
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      } else {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList
+            .where((element) => element.lgdongNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgObstList : $searchAccdtlnvstgObstList');
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      }
+    });
+  }
+
+  /// [실태조사 (토지)] 본번 검색
+  Future<void> searchAccdtlnvstgLadMlnoLtno(String value) async {
+    AppLog.d('searchLadMainNo : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      } else {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList
+            .where((element) => element.mlnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      }
+    });
+  }
+
+  /// [통계 정보 > 토지현황 > 본번] 조회
+  Future<void> searchSttusInqireLadMlnoLtno(String value) async {
+    AppLog.d('searchSttusInqireLadMlnoLtno : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchLadSttusInqireList = ladSttusInqireList;
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      } else {
+        searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.mlnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachLadSttusInqireList : $searchLadSttusInqireList');
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [실태조사 (토지)] 부번 검색
+  Future<void> searchAccdtlnvstgSlnoLtno(String value) async {
+    AppLog.d('searchLadSubNo : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      } else {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList
+            .where((element) => element.slnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      }
+    });
+  }
+
+  /// [통계 정보 > 토지현황 > 부번] 조회
+  Future<void> searchSttusInqireLadSlnoLtno(String value) async {
+    AppLog.d('searchSttusInqireLadSlnoLtno : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchLadSttusInqireList = ladSttusInqireList;
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      } else {
+        searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.slnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachLadSttusInqireList : $searchLadSttusInqireList');
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계정보 > 토지현황 > 취득용도] 조회
+  Future<void> searchSttusInqireLadPurps(String value) async {
+    AppLog.d('searchSttusLadPurps : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchLadSttusInqireList = ladSttusInqireList;
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      } else {
+        searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.acqsPrpDivNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachLadSttusInqireList : $searchLadSttusInqireList');
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계정보 > 토지현황 > 소유자명] 조회
+  Future<void> searchSttusInqireLadOwnerNm(String value) async {
+    AppLog.d('searchSttusLadOwnerNm : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchLadSttusInqireList = ladSttusInqireList;
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      } else {
+        searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.ownerNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachLadSttusInqireList : $searchLadSttusInqireList');
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계정보 > 토지현황 > 조사차수] 조회
+  Future<void> searchSttusInqireLadSqnc(String value) async {
+    AppLog.d('searchSttusInqireLadSqnc : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchLadSttusInqireList = ladSttusInqireList;
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      } else {
+        searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.accdtInvstgSqnc.toString().contains(value))
+            .toList();
+        AppLog.d('searchSttusInqireLadSqnc : $searchLadSttusInqireList');
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계정보 > 토지현황 > 진행단계] 조회
+  Future<void> searchSttusInqireLadCmpnstnStep(String value) async {
+    AppLog.d('searchSttusInqireLadCmpnstnStep : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty || value == '전체') {
+        searchLadSttusInqireList = ladSttusInqireList;
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      } else {
+
+        // 두자리만 가져오기
+        value = value.substring(0, 2);
+
+        searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.cmpnstnStepDivNm?.startsWith(value) ?? false)
+            .toList();
+        AppLog.d('searchSttusInqireLadCmpnstnStep : $searchLadSttusInqireList');
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계정보 > 토지현황 > 평가구분] 조회
+  Future<void> searchSttusInqireLadApasmtReqestDiv(String value) async {
+    AppLog.d('searchSttusInqireLadApasmtReqestDiv : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty || value == '전체') {
+        searchLadSttusInqireList = ladSttusInqireList;
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      } else {
+        searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.apasmtReqestDivNm?.contains(value) ?? false)
+            .toList();
+        AppLog.d('searchSttusInqireLadEvalDiv : $searchLadSttusInqireList');
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [통계정보 > 토지현황 > 토지 감정평가목록] 조회
+  Future<void> searchSttusInqireLadApasmtSqnc(String value) async {
+    AppLog.d('searchSttusInqireLadApasmtSqncList : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty || value == '전체') {
+        searchLadSttusInqireList = ladSttusInqireList;
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      } else {
+        searchLadSttusInqireList = ladSttusInqireList
+            .where((element) => element.apasmtSqnc.toString().contains(value))
+            .toList();
+        AppLog.d('searchSttusInqireLadApasmtSqncList : $searchLadSttusInqireList');
+        ladSttusInqireDataSource.value =
+            LadSttusInqireDatasource(items: searchLadSttusInqireList);
+      }
+    });
+  }
+
+  /// [실태조사 (토지)] 취득용도 검색
+  Future<void> searchAccdtlnvstgLadPurps(String value) async {
+    AppLog.d('searchLadPurps : $value');
+    DialogUtil.showLoading(Get.context!);
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      } else {
+        if (value == '전체') {
+          searchAccdtlnvstgLadList = accdtlnvstgLadList;
+        } else {
+          searchAccdtlnvstgLadList = accdtlnvstgLadList
+              .where(
+                  (element) => element.acqsPrpDivNm?.contains(value) ?? false)
+              .toList();
+        }
+
+        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
+        accdtlnvstgLadDataSource.value =
+            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+
+        Get.back();
+      }
+    });
+  }
+
+  // [실태조사 (지장물)] 취득용도 검색
+  Future<void> searchAccdtlnvstgObstPurps(String value) async {
+    AppLog.d('searchObstPurps : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList;
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      } else {
+        if (value == '전체') {
+          searchAccdtlnvstgObstList = accdtlnvstgObstList;
+        } else {
+          searchAccdtlnvstgObstList = accdtlnvstgObstList
+              .where(
+                  (element) => element.acqsPrpDivNm?.contains(value) ?? false)
+              .toList();
+        }
+
+        AppLog.d('serachAccdtlnvstgObstList : $searchAccdtlnvstgObstList');
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      }
+    });
+  }
+
+  /// 실태조사 -> 토지조사 -> 토지검색
+  void handleAccdtlnvstgLadTabSelected(int index) {
+    for (var i = 0; i < accdtlnvstgTabLadSelected.length; i++) {
+      accdtlnvstgTabLadSelected[i] = false;
+    }
+    accdtlnvstgTabLadSelected[index] = true;
+  }
+
+  /// 실태조사 -> 지장물조사 -> 지장물검색
+  void handleAccdtlnvstgObstTabSelected(int index) {
+    for (var i = 0; i < accdtlnvstgTabObstSelected.length; i++) {
+      accdtlnvstgTabObstSelected[i] = false;
+    }
+    accdtlnvstgTabObstSelected[index] = true;
+  }
+
+  /// 통계정보 탭 선택 핸들러
+  Future<void> handleSttusInqireTabSelected(int index) async {
+    sttusInqireTabIsSelected[index] = !sttusInqireTabIsSelected[index];
+    AppLog.d('ladSttusInqireTabIsSelected : $sttusInqireTabIsSelected');
+  }
+
+  /// 고객카드 탭 선택 핸들러
+  Future<void> handleCustomerCardTabSelected(int index) async {
+    for (var i = 0; i < customerCardTabIsSelected.length; i++) {
+      customerCardTabIsSelected[i] = false;
+    }
+    customerCardTabIsSelected[index] = true;
+  }
+
+  /// 고객카드 상세 탭 선택 핸들러
+  Future<void> handleCustomerCardDetailTabSelected(int index) async {
+    for (var i = 0; i < customerCardDetailTabIsSelected.length; i++) {
+      customerCardDetailTabIsSelected[i] = false;
+    }
+    customerCardDetailTabIsSelected[index] = true;
+  }
+
+  void addBsns() {
+    DialogUtil.showAlertDialog(Get.context!, 1040, '토지 현실이용현황 조회 및 입력',
+        widget: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 200.w,
+                  height: 104.h,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: Color(0xFFD8D8D8)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          child: Text(
+                            '지목선택',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF1D1D1D),
+                              fontSize: 30.sp,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 104.h,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        border: Border(
+                      top: BorderSide(color: Color(0xFFD8D8D8)),
+                      bottom: BorderSide(color: Color(0xFFD8D8D8)),
+                    )),
+                    child: Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CustomTextField(
+                              controller: accdtlnvstgLadRealUseEditController,
+                              hintText: '내용',
+                              isPassword: false,
+                              isReadOnly: true,
+                              textColor: tableTextColor,
+                              onChanged: (value) {
+                                AppLog.d(
+                                    'sttusInqireBsnsSelectController : $value');
+                              },
+                              onTap: () {},
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          SizedBox(
+                            width: 100.w,
+                            child: CustomButton(
+                              text: '조회',
+                              textColor: tableTextColor,
+                              color: Color(0xFFE5E8ED),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 1.h),
+            Row(
+              children: [
+                Container(
+                  width: 200.w,
+                  height: 104.h,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: Color(0xFFD8D8D8)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          child: Text(
+                            '면적(㎡)',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF1D1D1D),
+                              fontSize: 30.sp,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 104.h,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        border: Border(
+                      bottom: BorderSide(color: Color(0xFFD8D8D8)),
+                    )),
+                    child: Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CustomTextField(
+                              controller: accdtlnvstgLadRealUseEdit2Controller,
+                              hintText: '내용',
+                              isPassword: false,
+                              isReadOnly: true,
+                              textColor: tableTextColor,
+                              onChanged: (value) {
+                                AppLog.d(
+                                    'sttusInqireBsnsSelectController : $value');
+                              },
+                              onTap: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 1.h),
+            Row(
+              children: [
+                Container(
+                  width: 200.w,
+                  height: 122.h,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE5E8ED),
+                    border: Border.all(color: Color(0xFFD8D8D8)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          child: Text(
+                            '용도지구\n및 지역',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF1D1D1D),
+                              fontSize: 30.sp,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 104.h,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        border: Border(
+                      bottom: BorderSide(color: Color(0xFFD8D8D8)),
+                    )),
+                    child: Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CustomTextField(
+                              controller: accdtlnvstgLadRealUseEdit3Controller,
+                              hintText: '내용',
+                              isPassword: false,
+                              isReadOnly: true,
+                              textColor: tableTextColor,
+                              onChanged: (value) {
+                                AppLog.d(
+                                    'sttusInqireBsnsSelectController : $value');
+                              },
+                              onTap: () {},
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          CustomMicrophonewithpenButton(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ), onOk: () {
+      debugPrint('토지 현실이용현황 조회 및 입력');
+      isBsnsSelectFlag.value = false;
+      isBsnsSqncSelectFlag.value = false;
+      isBsnsZoneSelectFlag.value = false;
+      pageController.jumpToPage(2);
+      Get.back();
+    }, onCancel: () {
+      Get.back();
+    });
+  }
 
   /// [차수] 선택
   getSelectOrder() async {
@@ -2018,8 +2901,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                 ? '0${value.month}'
                                 : value.month;
                             var day =
-                                value.day < 10 ? '0${value.day}' : value.day;
-                      
+                            value.day < 10 ? '0${value.day}' : value.day;
+
                             sqncStartDtController.text = '$year-$month-$day';
                           });
                         },
@@ -2081,8 +2964,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                   ? '0${value.month}'
                                   : value.month;
                               var day =
-                                  value.day < 10 ? '0${value.day}' : value.day;
-                        
+                              value.day < 10 ? '0${value.day}' : value.day;
+
                               sqncEndDtController.text = '$year-$month-$day';
                             });
                           },
@@ -2123,14 +3006,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                             children: [
                               CustomBsnsBadge(
                                   text: LpController.to.selectBsnsPlan.value
-                                          .bsnsDivLclsNm ??
+                                      .bsnsDivLclsNm ??
                                       '',
                                   bgColor: Color(0xFFEFF5FF),
                                   textColor: Color(0xFF1D58BC)),
                               SizedBox(width: 6.w),
                               CustomBsnsBadge(
                                   text: LpController.to.selectBsnsPlan.value
-                                          .bsnsDivMclsNm ??
+                                      .bsnsDivMclsNm ??
                                       '',
                                   bgColor: Color(0xFFFFF1E4),
                                   textColor: Color(0xFFFF8000)),
@@ -2138,11 +3021,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                               selectBsnsPlan.value.bsnsDivSclsNm == null
                                   ? SizedBox()
                                   : CustomBsnsBadge(
-                                      text: LpController.to.selectBsnsPlan
-                                              .value.bsnsDivSclsNm ??
-                                          '',
-                                      bgColor: Color(0xFFFFF1E4),
-                                      textColor: Color(0xFFFF8000)),
+                                  text: LpController.to.selectBsnsPlan.value
+                                      .bsnsDivSclsNm ??
+                                      '',
+                                  bgColor: Color(0xFFFFF1E4),
+                                  textColor: Color(0xFFFF8000)),
                             ],
                           ),
                           SizedBox(height: 20.h),
@@ -2158,25 +3041,23 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                       children: [
                                         TextSpan(
                                           text:
-                                              '(${selectBsnsPlan.value.bsnsNo}) ',
+                                          '(${selectBsnsPlan.value.bsnsNo}) ',
                                           style: TextStyle(
                                             color: Color(0xFF1D1D1D),
-                                            fontSize:
-                                                32.sp,
+                                            fontSize: 32.sp,
                                             fontFamily: 'Pretendard',
                                             fontWeight: FontWeight.w700,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                         TextSpan(
-                                          text: selectBsnsPlan.value.bsnsNm ??
-                                              '',
+                                          text:
+                                          selectBsnsPlan.value.bsnsNm ?? '',
                                           style: TextStyle(
                                             color: Theme.of(Get.context!)
                                                 .colorScheme
                                                 .primary,
-                                            fontSize:
-                                                32.sp,
+                                            fontSize: 32.sp,
                                             fontFamily: 'Pretendard',
                                             fontWeight: FontWeight.w700,
                                             overflow: TextOverflow.ellipsis,
@@ -2189,8 +3070,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                   Container(
                                     width: 2.w,
                                     height: 32.h,
-                                    decoration: BoxDecoration(
-                                        color: Color(0xFFD8D8D8)),
+                                    decoration:
+                                    BoxDecoration(color: Color(0xFFD8D8D8)),
                                   ),
                                   SizedBox(width: 20.w),
                                   RichText(
@@ -2200,8 +3081,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                           text: '${sqncAutoController.text}',
                                           style: TextStyle(
                                             color: Colors.red,
-                                            fontSize:
-                                                32.sp,
+                                            fontSize: 32.sp,
                                             fontFamily: 'Pretendard',
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -2210,8 +3090,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                           text: '차조사',
                                           style: TextStyle(
                                             color: Color(0xFF1D1D1D),
-                                            fontSize:
-                                                32.sp,
+                                            fontSize: 32.sp,
                                             fontFamily: 'Pretendard',
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -2319,676 +3198,4 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     );
   }
 
-  /// [사업명] 검색
-  Future<void> searchBsnsName(String value) async {
-    AppLog.d('searchBsnsName : $value');
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchBsnsPlanList.value = bsnsPlanList;
-      } else {
-        searchBsnsPlanList.value = bsnsPlanList
-            .where((element) => element.bsnsNm?.contains(value) ?? false)
-            .toList();
-        AppLog.d('serachBsnsPlanList : $searchBsnsPlanList');
-      }
-    });
-  }
-
-  /// [사업번호] 검색
-  Future<void> searchBsnsNo(String value) async {
-    AppLog.d('searchBsnsNo : $value');
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchBsnsPlanList.value = bsnsPlanList;
-      } else {
-        searchBsnsPlanList.value = bsnsPlanList
-            .where((element) => element.bsnsNo?.contains(value) ?? false)
-            .toList();
-        AppLog.d('serachBsnsPlanList : $searchBsnsPlanList');
-      }
-    });
-  }
-
-  /// [소유자 이름] 검색
-  Future<void> searchOwnerName(String value) async {
-    AppLog.d('searchOwnerName : $value');
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchOwnerList = ownerList;
-        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
-      } else {
-        searchOwnerList = ownerList
-            .where((element) => element.ownerNm?.contains(value) ?? false)
-            .toList();
-        AppLog.d('serachOwnerList : $searchOwnerList');
-        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
-      }
-    });
-  }
-
-  /// [소유자 등록 번호] 검색
-  Future<void> searchOwnerRrnEnc(String value) async {
-    AppLog.d('searchOwnerNo : $value');
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchOwnerList = ownerList;
-        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
-      } else {
-        searchOwnerList = ownerList
-            .where((element) => element.ownerRrnEnc?.contains(value) ?? false)
-            .toList();
-        AppLog.d('serachOwnerList : $searchOwnerList');
-        ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
-      }
-    });
-  }
-
-
-  /// [실태조사 (토지)] 소재지 검색
-  Future<void> searchAccdtlnvstgLadAddr(String value) async {
-    AppLog.d('searchAccdtlnvstgLadAddr : $value');
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchAccdtlnvstgLadList = accdtlnvstgLadList;
-        accdtlnvstgLadDataSource.value =
-            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
-      } else {
-        searchAccdtlnvstgLadList = accdtlnvstgLadList
-            .where((element) => element.lgdongNm?.contains(value) ?? false)
-            .toList();
-        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
-        accdtlnvstgLadDataSource.value =
-            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
-      }
-    });
-  }
-
-  /// [실태조사 (지장물)] 소재지 검색
-  Future<void> searchAccdtlnvstgObstAddr(String value) async {
-    AppLog.d('searchAccdtlnvstgObstAddr : $value');
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchAccdtlnvstgObstList = accdtlnvstgObstList;
-        accdtlnvstgObstDataSource.value =
-            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
-      } else {
-        searchAccdtlnvstgObstList = accdtlnvstgObstList
-            .where((element) => element.lgdongNm?.contains(value) ?? false)
-            .toList();
-        AppLog.d('serachAccdtlnvstgObstList : $searchAccdtlnvstgObstList');
-        accdtlnvstgObstDataSource.value =
-            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
-      }
-    });
-  }
-
-  /// [실태조사 (토지)] 본번 검색
-  Future<void> searchAccdtlnvstgLadMlnoLtno(String value) async {
-    AppLog.d('searchLadMainNo : $value');
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchAccdtlnvstgLadList = accdtlnvstgLadList;
-        accdtlnvstgLadDataSource.value =
-            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
-      } else {
-        searchAccdtlnvstgLadList = accdtlnvstgLadList
-            .where((element) => element.mlnoLtno?.contains(value) ?? false)
-            .toList();
-        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
-        accdtlnvstgLadDataSource.value =
-            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
-      }
-    });
-  }
-
-  /// [실태조사 (토지)] 부번 검색
-  Future<void> searchAccdtlnvstgSlnoLtno(String value) async {
-    AppLog.d('searchLadSubNo : $value');
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchAccdtlnvstgLadList = accdtlnvstgLadList;
-        accdtlnvstgLadDataSource.value =
-            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
-      } else {
-        searchAccdtlnvstgLadList = accdtlnvstgLadList
-            .where((element) => element.slnoLtno?.contains(value) ?? false)
-            .toList();
-        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
-        accdtlnvstgLadDataSource.value =
-            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
-      }
-    });
-  }
-
-  /// [실태조사 (토지)] 취득용도 검색
-  Future<void> searchAccdtlnvstgLadPurps(String value) async {
-    AppLog.d('searchLadPurps : $value');
-    DialogUtil.showLoading(Get.context!);
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchAccdtlnvstgLadList = accdtlnvstgLadList;
-        accdtlnvstgLadDataSource.value =
-            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
-      } else {
-
-        if(value == '전체') {
-          searchAccdtlnvstgLadList = accdtlnvstgLadList;
-        } else {
-          searchAccdtlnvstgLadList = accdtlnvstgLadList
-              .where((element) => element.acqsPrpDivNm?.contains(value) ?? false)
-              .toList();
-        }
-
-        AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
-        accdtlnvstgLadDataSource.value =
-            AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
-
-        Get.back();
-      }
-    });
-  }
-
-  // [실태조사 (지장물)] 취득용도 검색
-  Future<void> searchAccdtlnvstgObstPurps(String value) async {
-    AppLog.d('searchObstPurps : $value');
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
-        searchAccdtlnvstgObstList = accdtlnvstgObstList;
-        accdtlnvstgObstDataSource.value =
-            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
-      } else {
-
-        if(value == '전체') {
-          searchAccdtlnvstgObstList = accdtlnvstgObstList;
-        } else {
-          searchAccdtlnvstgObstList = accdtlnvstgObstList
-              .where((element) => element.acqsPrpDivNm?.contains(value) ?? false)
-              .toList();
-        }
-
-        AppLog.d('serachAccdtlnvstgObstList : $searchAccdtlnvstgObstList');
-        accdtlnvstgObstDataSource.value =
-            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
-      }
-    });
-  }
-
-  /// 실태조사 -> 토지조사 -> 토지검색
-  void handleAccdtlnvstgLadTabSelected(int index) {
-    for (var i = 0; i < accdtlnvstgTabLadSelected.length; i++) {
-      accdtlnvstgTabLadSelected[i] = false;
-    }
-    accdtlnvstgTabLadSelected[index] = true;
-  }
-
-  /// 실태조사 -> 지장물조사 -> 지장물검색
-  void handleAccdtlnvstgObstTabSelected(int index) {
-    for (var i = 0; i < accdtlnvstgTabObstSelected.length; i++) {
-      accdtlnvstgTabObstSelected[i] = false;
-    }
-    accdtlnvstgTabObstSelected[index] = true;
-  }
-
-  /// 통계정보 탭 선택 핸들러
-  Future<void> handleSttusInqireTabSelected(int index) async {
-    sttusInqireTabIsSelected[index] = !sttusInqireTabIsSelected[index];
-    AppLog.d('ladSttusInqireTabIsSelected : $sttusInqireTabIsSelected');
-  }
-
-  /// 고객카드 탭 선택 핸들러
-  Future<void> handleCustomerCardTabSelected(int index) async {
-    for (var i = 0; i < customerCardTabIsSelected.length; i++) {
-      customerCardTabIsSelected[i] = false;
-    }
-    customerCardTabIsSelected[index] = true;
-  }
-
-  /// 고객카드 상세 탭 선택 핸들러
-  Future<void> handleCustomerCardDetailTabSelected(int index) async {
-    for (var i = 0; i < customerCardDetailTabIsSelected.length; i++) {
-      customerCardDetailTabIsSelected[i] = false;
-    }
-    customerCardDetailTabIsSelected[index] = true;
-  }
-
-  void addBsns() {
-    DialogUtil.showAlertDialog(Get.context!, 1040, '토지 현실이용현황 조회 및 입력',
-        widget: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 200.w,
-                  height: 104.h,
-                  padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFE5E8ED),
-                    border: Border.all(color: Color(0xFFD8D8D8)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          child: Text(
-                            '지목선택',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF1D1D1D),
-                              fontSize: 30.sp,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 104.h,
-                    padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(color: Color(0xFFD8D8D8)),
-                        bottom: BorderSide(color: Color(0xFFD8D8D8)),
-                      )
-                    ),
-                    child: Expanded(
-                      child: Row(
-                       children: [
-                         Expanded(
-                           child: CustomTextField(
-                             controller: accdtlnvstgLadRealUseEditController,
-                             hintText: '내용',
-                             isPassword: false,
-                             isReadOnly: true,
-                             textColor: tableTextColor,
-                             onChanged: (value) {
-                               AppLog.d('sttusInqireBsnsSelectController : $value');
-                             },
-                             onTap: () {
-                  
-                             },
-                           ),
-                         ),
-                         SizedBox(width: 12.w),
-                         SizedBox(
-                           width: 100.w,
-                           child: CustomButton(
-                             text: '조회',
-                             textColor: tableTextColor,
-                             color: Color(0xFFE5E8ED),
-                           ),
-                         ),
-                       ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 1.h),
-            Row(
-              children: [
-                Container(
-                  width: 200.w,
-                  height: 104.h,
-                  padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFE5E8ED),
-                    border: Border.all(color: Color(0xFFD8D8D8)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          child: Text(
-                            '면적(㎡)',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF1D1D1D),
-                              fontSize: 30.sp,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 104.h,
-                    padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Color(0xFFD8D8D8)),
-                        )
-                    ),
-                    child: Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CustomTextField(
-                              controller: accdtlnvstgLadRealUseEdit2Controller,
-                              hintText: '내용',
-                              isPassword: false,
-                              isReadOnly: true,
-                              textColor: tableTextColor,
-                              onChanged: (value) {
-                                AppLog.d('sttusInqireBsnsSelectController : $value');
-                              },
-                              onTap: () {
-
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 1.h),
-            Row(
-              children: [
-                Container(
-                  width: 200.w,
-                  height: 122.h,
-                  padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFE5E8ED),
-                    border: Border.all(color: Color(0xFFD8D8D8)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          child: Text(
-                            '용도지구\n및 지역',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF1D1D1D),
-                              fontSize: 30.sp,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 104.h,
-                    padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Color(0xFFD8D8D8)),
-                        )
-                    ),
-                    child: Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CustomTextField(
-                              controller: accdtlnvstgLadRealUseEdit3Controller,
-                              hintText: '내용',
-                              isPassword: false,
-                              isReadOnly: true,
-                              textColor: tableTextColor,
-                              onChanged: (value) {
-                                AppLog.d('sttusInqireBsnsSelectController : $value');
-                              },
-                              onTap: () {
-
-                              },
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          CustomMicrophonewithpenButton(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ), onOk: () {
-      debugPrint('토지 현실이용현황 조회 및 입력');
-      isBsnsSelectFlag.value = false;
-      isBsnsSqncSelectFlag.value = false;
-      isBsnsZoneSelectFlag.value = false;
-      pageController.jumpToPage(2);
-      Get.back();
-    }, onCancel: () {
-      Get.back();
-    });
-  }
-
-  randomName() {
-    var names = [
-      '김덕수',
-      '김덕순',
-      '김덕자',
-      '김덕영',
-      '김덕희',
-      '김덕호',
-      '김덕준',
-      '김덕중',
-      '김덕철',
-      '김덕훈',
-    ];
-
-    return names[Random().nextInt(names.length)];
-  }
-
-  randomLdgrPosesnDivCd() {
-    var names = [
-      '개인',
-      '법인',
-      '기타',
-    ];
-
-    return names[Random().nextInt(names.length)];
-  }
-
-  randomBirth() {
-    var names = [
-      '891208',
-      '910101',
-      '920202',
-      '930303',
-      '940404',
-      '950505',
-      '960606',
-      '970707',
-      '980808',
-      '990909',
-    ];
-
-    return names[Random().nextInt(names.length)];
-  }
-
-  randomPhoneNo() {
-    var names = [
-      '010-0000-0000',
-      '010-1111-1111',
-      '010-2222-2222',
-      '010-3333-3333',
-      '010-4444-4444',
-      '010-5555-5555',
-      '010-6666-6666',
-      '010-7777-7777',
-      '010-8888-8888',
-      '010-9999-9999',
-    ];
-
-    return names[Random().nextInt(names.length)];
-  }
-
-  randomTelNo() {
-    var names = [
-      '042-000-0000',
-      '042-111-1111',
-      '042-222-2222',
-      '042-333-3333',
-      '042-444-4444',
-      '042-555-5555',
-      '042-666-6666',
-      '042-777-7777',
-      '042-888-8888',
-      '042-999-9999',
-    ];
-
-    return names[Random().nextInt(names.length)];
-  }
-
-  randomLndcgrDivCd() {
-    var names = [
-      '미등록',
-      '전',
-      '답',
-      '과수원',
-      '목장용지',
-      '없음',
-      '광천지',
-      '염전',
-      '대',
-      '공장용지',
-      '학교용지',
-      '도로',
-      '철도용지',
-      '하천',
-      '제방',
-      '구거',
-      '유지',
-      '수도용지',
-      '공원',
-      '체육용지',
-      '보상비산정',
-      '종교용지',
-      '사적지',
-      '묘지',
-      '보상비산정완료',
-      '주차장',
-      '주유소용지',
-      '창고용지',
-      '양어장',
-      '지적도',
-      '(無)',
-      '임야',
-      '유원지',
-      '잡종지',
-      '묵답',
-      '묵전',
-      '수',
-      '전,답',
-      '학',
-      '기타'
-    ];
-
-    return names[Random().nextInt(names.length)];
-  }
-
-  randomObstDivCd() {
-    var names = [
-      '건축물'
-          '공작물'
-          '과수 등',
-      '입목',
-      '묘목',
-      '농작물'
-          '농기구'
-          '축산보상',
-      '분묘',
-      '개간비',
-      '영업보상',
-      '광업권',
-      '어업보상',
-      '영농손실액',
-      '이사비'
-          '주거이전비',
-      '(소유자)'
-          '이주정착금',
-      '이주정착지원금'
-          '생활안정지원금',
-      '가산보상',
-      '토지사용료',
-      '이농/이어비',
-      '휴직/실직보상',
-      '주거이전비(세입자)',
-      '분묘이장보조비',
-      '동산이전비',
-      '구축물',
-      '물사용권',
-      '기타',
-    ];
-
-    return names[Random().nextInt(names.length)];
-  }
-
-  randomCmpnstnThingKndDtls() {
-    var names = [
-      '건축물',
-      '공작물',
-      '과수 등',
-      '입목',
-      '묘목',
-      '농작물',
-      '농기구',
-      '축산보상',
-      '분묘',
-      '개간비',
-      '영업보상',
-      '광업권',
-      '어업보상',
-      '영농손실액',
-      '이사비',
-      '주거이전비',
-      '(소유자)',
-      '이주정착금',
-      '이주정착지원금',
-      '생활안정지원금',
-      '가산보상',
-      '토지사용료',
-      '이농/이어비',
-      '휴직/실직보상',
-      '주거이전비(세입자)',
-      '분묘이장보조비',
-      '동산이전비',
-      '구축물',
-      '물사용권',
-      '기타',
-    ];
-
-    return names[Random().nextInt(names.length)];
-  }
 }

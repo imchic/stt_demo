@@ -304,11 +304,6 @@ class AccdtInvstgLadWidget {
                                     fontWeight: FontWeight.w700,
                                   )),
                               SizedBox(height: 20.h),
-                              // Container(
-                              //   height: 300.h,
-                              //   child: lpScreen()
-                              //       .buildLadAccdtlnvstgSearchDataGrid(),
-                              // ),
                               Obx(() {
                                 return controller
                                     .accdtlnvstgLadSearchDataSource.value.rows
@@ -323,8 +318,11 @@ class AccdtInvstgLadWidget {
                                               : 56.sp,
                                           fontWeight: FontWeight.w700)),
                                 )
-                                    : lpScreen()
-                                    .buildLadAccdtlnvstgSearchDataGrid();
+                                    : SizedBox(
+                                      height: 300.h,
+                                      child: lpScreen()
+                                      .buildLadAccdtlnvstgSearchDataGrid(),
+                                    );
                               }),
                               SizedBox(height: 40.h),
                               AutoSizeText('소유자 현황',

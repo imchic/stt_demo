@@ -31,6 +31,7 @@ class CustomGrid extends StatefulWidget {
   List<StackedHeaderRow> stackedHeaderRows = [];
   int freezeColumnCount = 0;
   bool isSelect = true;
+  ScrollController? horizontalScrollController;
 
   CustomGrid({
     required this.dataSource,
@@ -42,7 +43,8 @@ class CustomGrid extends StatefulWidget {
     this.selectionEvent = _selectionEvent,
     this.stackedHeaderRows = const [],
     this.freezeColumnCount = 0,
-    this.isSelect = true
+    this.isSelect = true,
+    this.horizontalScrollController
   });
 
   static void _selectionEvent(List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
@@ -87,6 +89,7 @@ class _CustomGridState extends State<CustomGrid> {
         allowSorting: widget.isSort,
         allowColumnsResizing: true,
         // allowFiltering: true,
+        horizontalScrollController: widget.horizontalScrollController,
         onColumnResizeStart: (ColumnResizeStartDetails details) {
           return true;
         },

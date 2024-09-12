@@ -1152,7 +1152,7 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.ladSttusInqireDataSource.value,
       controller: controller.ladSttusInqireDataGridController,
       columnWidthMode: ColumnWidthMode.auto,
-      // isSort: true,
+      horizontalScrollController: controller.ladSttusInqireScrollController,
       freezeColumnCount: 4,
       stackedHeaderRows: [
         StackedHeaderRow(cells: [
