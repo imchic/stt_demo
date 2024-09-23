@@ -1345,7 +1345,7 @@ class lpScreen extends GetView<LpController> {
               columnNames: ['lgdongNm', 'lcrtsDivCd', 'mlnoLtno', 'slnoLtno'],
               child: Container(
                   alignment: Alignment.center,
-                  child: AutoSizeText('토지기본정보',
+                  child: AutoSizeText('지장물기본정보',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,

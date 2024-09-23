@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ldi/screens/bsns/lp_controller.dart';
 
 import '../components/custom_button.dart';
@@ -795,22 +796,30 @@ class AccdtInvstgLadWidget {
                                                     fontWeight:
                                                         FontWeight.w700)),
                                             SizedBox(height: 10.h),
-                                            Container(
-                                              width: 72.w,
-                                              height: 72.h,
-                                              margin:
-                                                  EdgeInsets.only(bottom: 10.h),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xFFFFFFFF),
-                                                  borderRadius:
-                                                      BorderRadius.circular(6.r),
-                                                  border: Border.all(
-                                                      color: borderLine)),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: SvgPicture.asset(
-                                                  'assets/icons/ic_camera.svg',
+                                            InkWell(
+                                              onTap: () {
+                                                // image picker
+                                                final ImagePicker _picker = ImagePicker();
+                                                // camera
+                                                controller.takePhoto();
+                                              },
+                                              child: Container(
+                                                width: 72.w,
+                                                height: 72.h,
+                                                margin:
+                                                    EdgeInsets.only(bottom: 10.h),
+                                                decoration: BoxDecoration(
+                                                    color: Color(0xFFFFFFFF),
+                                                    borderRadius:
+                                                        BorderRadius.circular(6.r),
+                                                    border: Border.all(
+                                                        color: borderLine)),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SvgPicture.asset(
+                                                    'assets/icons/ic_camera.svg',
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -836,43 +845,22 @@ class AccdtInvstgLadWidget {
                                         ),
                                         alignment: Alignment.center,
                                         height: 192.h,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
+                                        child: Obx(() =>
+                                          Row(
                                             children: [
-                                              Image.asset(
-                                                  'assets/images/sample.png'),
-                                              SizedBox(width: 10.w),
-                                              Image.asset(
-                                                  'assets/images/sample.png'),
-                                              SizedBox(width: 10.w),
-                                              Image.asset(
-                                                  'assets/images/sample.png'),
-                                              SizedBox(width: 10.w),
-                                              Image.asset(
-                                                  'assets/images/sample.png'),
-                                              SizedBox(width: 10.w),
-                                              Image.asset(
-                                                  'assets/images/sample.png'),
-                                              SizedBox(width: 10.w),
-                                              Image.asset(
-                                                  'assets/images/sample.png'),
-                                              SizedBox(width: 10.w),
-                                              Image.asset(
-                                                  'assets/images/sample.png'),
-                                              SizedBox(width: 10.w),
-                                              Image.asset(
-                                                  'assets/images/sample.png'),
-                                              SizedBox(width: 10.w),
-                                              Image.asset(
-                                                  'assets/images/sample.png'),
-                                              SizedBox(width: 10.w),
-                                              AutoSizeText('...',
-                                                  style: TextStyle(
-                                                      color: tableTextColor,
-                                                      fontSize: 30.sp,
-                                                      fontWeight:
-                                                          FontWeight.w700)),
+                                              for (var i = 0; i < controller.images.length; i++)
+                                                Container(
+                                                  height: 300.h,
+                                                  margin: EdgeInsets.only(right: 10.w),
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xFFFFFFFF),
+                                                      borderRadius: BorderRadius.circular(6.r),
+                                                      border: Border.all(color: borderLine)),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Image.file(controller.files[i]),
+                                                  ),
+                                                ),
                                             ],
                                           ),
                                         ),

@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ldi/components/custom_bsns_badge.dart';
 import 'package:ldi/components/custom_microphonewithpen_button.dart';
 import 'package:ldi/screens/bsns/bsns_plan_model.dart';
@@ -84,8 +86,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   // 소유자
   late TextEditingController ownerNameSearchController; // 소유자관리 소유자 명 검색
-  late TextEditingController
-      ownerRegisterNoSearchController; // 소유자관리 소유자 등록번호 검색
+  late TextEditingController ownerRegisterNoSearchController; // 소유자관리 소유자 등록번호 검색
 
   // 통계
   late TextEditingController sttusInqireAcqstnPrpsController; // 통계정보 > 토지현황 > 취득용도
@@ -109,7 +110,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController sttusObstfetchApasmtReqestDivNmController;
   late TextEditingController sttusObstApasmtSqncController;
   late TextEditingController sttusObstDivController;
-
 
   // 조사차수
   late TextEditingController sqncAutoController;
@@ -391,6 +391,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   late InAppWebViewController inAppWebViewController;
 
+  List<File> files = <File>[];
+  RxList<Image> images = <Image>[].obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -521,6 +524,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       if (bsnsTabController.index == 0) {
         selectedBsns.value = BsnsSelectModel();
       }
+
     });
 
     bsnsListScrollController.addListener(() {
@@ -1493,90 +1497,47 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
+
       var data = JsonDecoder().convert(response.body)['list'];
       AppLog.d('fetchObstSttusInqireDataSource > data : $data');
 
-      var res = <ObstSttusInqireModel>[];
-      for (var i = 0; i < data.length; i++) {
-        res.add(ObstSttusInqireModel(
-          lgdongNm: data[i]['lgdongNm'] ?? '',
-          lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
-          lcrtsDivNm: data[i]['lcrtsDivNm'] ?? '',
-          mlnoLtno: data[i]['mlnoLtno'] ?? '',
-          slnoLtno: data[i]['slnoLtno'] ?? '',
-          cmpnstnStepDivCd: data[i]['cmpnstnStepDivCd'] ?? '',
-          cmpnstnStepDivNm: data[i]['cmpnstnStepDivNm'] ?? '',
-          acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
-          acqsPrpDivNm: data[i]['acqsPrpDivNm'] ?? '',
-          rqestNo: data[i]['rqestNo'] ?? '',
-          invstgDe: data[i]['invstgDe'] ?? '',
-          accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? '',
-          ownerNo: data[i]['ownerNo'] ?? '',
-          posesnDivCd: data[i]['posesnDivCd'] ?? '',
-          posesnDivNm: data[i]['posesnDivNm'] ?? '',
-          ownerNm: data[i]['ownerNm'] ?? '',
-          ownerRgsbukAddr: data[i]['ownerRgsbukAddr'] ?? '',
-          posesnShreNmrtrInfo: data[i]['posesnShreNmrtrInfo'] ?? '',
-          posesnShreDnmntrInfo: data[i]['posesnShreDnmntrInfo'] ?? '',
-          apasmtReqestDivCd: data[i]['apasmtReqestDivCd'] ?? '',
-          apasmtReqestDivNm: data[i]['apasmtReqestDivNm'] ?? '',
-          apasmtSqnc: data[i]['apasmtSqnc'] ?? 0,
-          prcPnttmDe: data[i]['prcPnttmDe'] ?? '',
-          apasmtInsttNm1: data[i]['apasmtInsttNm1'] ?? '',
-          apasmtInsttEvlUpc1: data[i]['apasmtInsttEvlUpc1'] ?? 0,
-          apasmtInsttEvamt1: data[i]['apasmtInsttEvamt1'] ?? 0,
-          apasmtInsttNm2: data[i]['apasmtInsttNm2'] ?? '',
-          apasmtInsttEvlUpc2: data[i]['apasmtInsttEvlUpc2'] ?? 0,
-          apasmtInsttEvamt2: data[i]['apasmtInsttEvamt2'] ?? 0,
-          apasmtInsttNm3: data[i]['apasmtInsttNm3'] ?? '',
-          apasmtInsttEvlUpc3: data[i]['apasmtInsttEvlUpc3'] ?? 0,
-          apasmtInsttEvamt3: data[i]['apasmtInsttEvamt3'] ?? 0,
-          cmpnstnCmptnUpc: data[i]['cmpnstnCmptnUpc'] ?? 0,
-          cpsmnCmptnAmt: data[i]['cpsmnCmptnAmt'] ?? 0,
-          caPymntRequstDe: data[i]['caPymntRequstDe'] ?? '',
-          cmpnstnDscssUpc: data[i]['cmpnstnDscssUpc'] ?? 0,
-          cmpnstnDscssTotAmt: data[i]['cmpnstnDscssTotAmt'] ?? 0,
-          dcsUpc: data[i]['dcsUpc'] ?? 0,
-          dcsAmt: data[i]['dcsAmt'] ?? 0,
-          dcsDt: data[i]['dcsDt'] ?? '',
-          aceptncUseBeginDe: data[i]['aceptncUseBeginDe'] ?? '',
-          ldPymntRequstDe: data[i]['ldPymntRequstDe'] ?? '',
-          ldCpsmnPymntLdgmntDivCd: data[i]['ldCpsmnPymntLdgmntDivCd'] ?? '',
-          ldCpsmnPymntLdgmntDivNm: data[i]['ldCpsmnPymntLdgmntDivNm'] ?? '',
-          proUpc: data[i]['proUpc'] ?? 0,
-          proAmt: data[i]['proAmt'] ?? 0,
-          proDt: data[i]['proDt'] ?? '',
-          proPymntRequstDe: data[i]['proPymntRequstDe'] ?? '',
-          proCpsmnPymntLdgmntDivCd: data[i]['proCpsmnPymntLdgmntDivCd'] ?? '',
-          proCpsmnPymntLdgmntDivNm: data[i]['proCpsmnPymntLdgmntDivNm'] ?? '',
-        ));
-      }
+      var obstSttusInqireModel = <ObstSttusInqireModel>[];
+      var length = data.length;
 
-      obstSttusInqireList = res;
-      searchObstSttusInqireList = res;
+      obstSttusInqireDataSourceKeyValue(data, obstSttusInqireModel, length);
 
-      obstSttusInqireDataSource.value = ObstSttusInqireDatasource(items: res);
+      obstSttusInqireList = obstSttusInqireModel;
+      searchObstSttusInqireList = obstSttusInqireModel;
+
+      obstSttusInqireDataSource.value = ObstSttusInqireDatasource(items: obstSttusInqireModel);
     }
 
     obstSttusInqireColumns.value = [];
 
     obstSttusInqireColumns.value = [
       gridColumn('lgdongNm', '소재지', width: 250),
-      gridColumn('lcrtsDivCd', '특지', width: 60),
+      gridColumn('lcrtsDivNm', '특지', width: 60),
       gridColumn('mlnoLtno', '본번', width: 60),
       gridColumn('slnoLtno', '부번', width: 60),
 
-      gridColumn('cmpnstnStepDivCd', '진행단계', width: 100),
-      gridColumn('acqsPrpDivCd', '취득용도', width: 80),
+      gridColumn('cmpnstnStepDivNm', '진행단계', width: 100),
+      gridColumn('acqsPrpDivNm', '취득용도', width: 80),
 
-      gridColumn('rqestNo', '청구번호',
-          isVisble: isLadSttusInqireGridTab1.value, width: 70),
+      gridColumn('obstDivNm', '물건구분', width: 60),
+      gridColumn('cmpnstnThingKndDtls', '물건종류', width: 60),
+      gridColumn('obstStrctStndrdInfo', '구조및규격', width: 60),
+      gridColumn('dtaPrcsSittnCtnt', '상황', width: 60),
+      gridColumn('cmpnstnQtyAraVu', '수량및면적', width: 60),
+      gridColumn('cmpnstnThingUnitDivMm', '단위', width: 60),
+      gridColumn('spcitm', '특이사항', width: 60),
+
+      gridColumn('rqestNo', '청구번호', isVisble: isLadSttusInqireGridTab1.value, width: 70),
       gridColumn('invstgDe', '조사일', isVisble: isLadSttusInqireGridTab1.value),
       gridColumn('accdtInvstgSqnc', '차수',
           isVisble: isLadSttusInqireGridTab1.value, width: 40),
 
       gridColumn('ownerNo', '소유자번호', isVisble: isLadSttusInqireGridTab2.value),
-      gridColumn('posesnDivCd', '구분',
+      gridColumn('posesnDivNm', '구분',
           isVisble: isLadSttusInqireGridTab2.value, width: 40),
       gridColumn('ownerNm', '소유자명', isVisble: isLadSttusInqireGridTab2.value),
       gridColumn('ownerRgsbukAddr', '등기부주소',
@@ -1587,73 +1548,73 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       gridColumn('posesnShreDnmntrInfo', '분모',
           isVisble: isLadSttusInqireGridTab2.value, width: 40),
 
-      gridColumn('apasmtReqestDivCd', '평가구분',
-          isVisble: isLadSttusInqireGridTab3.value, width: 60),
-      gridColumn('apasmtSqnc', '평가차수',
-          isVisble: isLadSttusInqireGridTab3.value, width: 60),
-      gridColumn('prcPnttmDe', '가격시점',
-          isVisble: isLadSttusInqireGridTab3.value),
-
-      // a평가법인
-      gridColumn('apasmtInsttNm1', '법인명',
-          width: 150,
-          isVisble: isLadSttusInqireGridTab3.value),
-      gridColumn('apasmtInsttEvlUpc1', '단가',
-          isVisble: isLadSttusInqireGridTab3.value),
-      gridColumn('apasmtInsttEvlAmt1', '금액',
-          isVisble: isLadSttusInqireGridTab3.value),
-
-      // b평가법인
-      gridColumn('apasmtInsttNm2', '법인명',
-          width: 150,
-          isVisble: isLadSttusInqireGridTab3.value),
-      gridColumn('apasmtInsttEvlUpc2', '단가',
-          isVisble: isLadSttusInqireGridTab3.value),
-      gridColumn('apasmtInsttEvlAmt2', '금액',
-          isVisble: isLadSttusInqireGridTab3.value),
-
-      // c평가법인
-      gridColumn('apasmtInsttNm3', '법인명',
-          width: 150,
-          isVisble: isLadSttusInqireGridTab3.value),
-      gridColumn('apasmtInsttEvlUpc3', '단가',
-          isVisble: isLadSttusInqireGridTab3.value),
-      gridColumn('apasmtInsttEvlAmt3', '금액',
-          isVisble: isLadSttusInqireGridTab3.value),
-
-      // 보상비산정
-      gridColumn('cmpnstnCmptnUpc', '산정단가',
-          isVisble: isLadSttusInqireGridTab4.value),
-      gridColumn('cpsmnCmptnAmt', '산정금액',
-          isVisble: isLadSttusInqireGridTab4.value),
-
-      // 보상비지급
-      gridColumn('caPymntRequstDe', '지급요청일',
-          isVisble: isLadSttusInqireGridTab5.value),
-      gridColumn('cmpnstnDscssUpc', '지급단가',
-          isVisble: isLadSttusInqireGridTab5.value),
-      gridColumn('cmpnstnDscssTotAmt', '지급금액',
-          isVisble: isLadSttusInqireGridTab5.value),
-
-      // 수용재결
-      gridColumn('dcsUpc', '재결단가', isVisble: isLadSttusInqireGridTab6.value),
-      gridColumn('dcsAmt', '재결금액', isVisble: isLadSttusInqireGridTab6.value),
-      gridColumn('dcsDt', '재결일자', isVisble: isLadSttusInqireGridTab6.value),
-      gridColumn('aceptncUseBeginDe', '수용/사용개시일',
-          isVisble: isLadSttusInqireGridTab6.value),
-      gridColumn('ldPymntRequstDe', '지급요청일자',
-          isVisble: isLadSttusInqireGridTab6.value),
-      gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁',
-          isVisble: isLadSttusInqireGridTab6.value),
-
-      // 이의재결
-      gridColumn('proUpc', '재결단가', isVisble: isLadSttusInqireGridTab7.value),
-      gridColumn('proAmt', '재결금액', isVisble: isLadSttusInqireGridTab7.value),
-      gridColumn('proDt', '재결일자', isVisble: isLadSttusInqireGridTab7.value),
-      gridColumn('proPymntRequstDe', '지급요청일자',
-          isVisble: isLadSttusInqireGridTab7.value),
-      gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁',
-          isVisble: isLadSttusInqireGridTab7.value),
+      // gridColumn('apasmtReqestDivCd', '평가구분',
+      //     isVisble: isLadSttusInqireGridTab3.value, width: 60),
+      // gridColumn('apasmtSqnc', '평가차수',
+      //     isVisble: isLadSttusInqireGridTab3.value, width: 60),
+      // gridColumn('prcPnttmDe', '가격시점',
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      //
+      // // a평가법인
+      // gridColumn('apasmtInsttNm1', '법인명',
+      //     width: 150,
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      // gridColumn('apasmtInsttEvlUpc1', '단가',
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      // gridColumn('apasmtInsttEvlAmt1', '금액',
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      //
+      // // b평가법인
+      // gridColumn('apasmtInsttNm2', '법인명',
+      //     width: 150,
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      // gridColumn('apasmtInsttEvlUpc2', '단가',
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      // gridColumn('apasmtInsttEvlAmt2', '금액',
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      //
+      // // c평가법인
+      // gridColumn('apasmtInsttNm3', '법인명',
+      //     width: 150,
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      // gridColumn('apasmtInsttEvlUpc3', '단가',
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      // gridColumn('apasmtInsttEvlAmt3', '금액',
+      //     isVisble: isLadSttusInqireGridTab3.value),
+      //
+      // // 보상비산정
+      // gridColumn('cmpnstnCmptnUpc', '산정단가',
+      //     isVisble: isLadSttusInqireGridTab4.value),
+      // gridColumn('cpsmnCmptnAmt', '산정금액',
+      //     isVisble: isLadSttusInqireGridTab4.value),
+      //
+      // // 보상비지급
+      // gridColumn('caPymntRequstDe', '지급요청일',
+      //     isVisble: isLadSttusInqireGridTab5.value),
+      // gridColumn('cmpnstnDscssUpc', '지급단가',
+      //     isVisble: isLadSttusInqireGridTab5.value),
+      // gridColumn('cmpnstnDscssTotAmt', '지급금액',
+      //     isVisble: isLadSttusInqireGridTab5.value),
+      //
+      // // 수용재결
+      // gridColumn('dcsUpc', '재결단가', isVisble: isLadSttusInqireGridTab6.value),
+      // gridColumn('dcsAmt', '재결금액', isVisble: isLadSttusInqireGridTab6.value),
+      // gridColumn('dcsDt', '재결일자', isVisble: isLadSttusInqireGridTab6.value),
+      // gridColumn('aceptncUseBeginDe', '수용/사용개시일',
+      //     isVisble: isLadSttusInqireGridTab6.value),
+      // gridColumn('ldPymntRequstDe', '지급요청일자',
+      //     isVisble: isLadSttusInqireGridTab6.value),
+      // gridColumn('ldCpsmnPymntLdgmntDivCd', '지급/공탁',
+      //     isVisble: isLadSttusInqireGridTab6.value),
+      //
+      // // 이의재결
+      // gridColumn('proUpc', '재결단가', isVisble: isLadSttusInqireGridTab7.value),
+      // gridColumn('proAmt', '재결금액', isVisble: isLadSttusInqireGridTab7.value),
+      // gridColumn('proDt', '재결일자', isVisble: isLadSttusInqireGridTab7.value),
+      // gridColumn('proPymntRequstDe', '지급요청일자',
+      //     isVisble: isLadSttusInqireGridTab7.value),
+      // gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁',
+      //     isVisble: isLadSttusInqireGridTab7.value),
     ];
   }
 
@@ -3437,6 +3398,47 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  /// [사진촬영]
+  takePhoto() async {
+
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera, imageQuality: 50, maxHeight: 480, maxWidth: 640);
+
+    if (pickedFile != null) {
+      final File file = File(pickedFile.path);
+      final String fileName = file.path.split('/').last;
+      final String filePath = file.path;
+
+      AppLog.d('fileName : $fileName');
+      AppLog.d('filePath : $filePath');
+
+      await Future.delayed(Duration(seconds: 1));
+
+      // 사진 미리보기
+      final image = Image.file(file);
+      DialogUtil.showAlertDialog(Get.context!, 1040, '사진촬영', widget: image, onOk: () {
+        images.add(image);
+        files.add(file);
+        Get.back();
+      }, onCancel: () {
+        Get.back();
+      });
+
+      // 파일 업로드
+      // final response = await FileUploadService.uploadFile(filePath, fileName);
+      // AppLog.d('response : $response');
+      //
+      // if (response != null) {
+      //   DialogUtil.showSnackBar(Get.context!, '사진촬영', '사진을 촬영하였습니다.');
+      // } else {
+      //   DialogUtil.showSnackBar(Get.context!, '사진촬영', '사진을 촬영하지 못했습니다.');
+      // }
+
+    } else {
+      DialogUtil.showSnackBar(Get.context!, '사진촬영', '사진을 촬영하지 않았습니다.');
+    }
   }
 
 }

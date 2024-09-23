@@ -26,7 +26,7 @@ class CstmrCardWidget {
             child: CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: [
-                SliverPersistentHeader(
+                /*SliverPersistentHeader(
                     pinned: false,
                     floating: true,
                     delegate: CustomSliverPersistentHeaderDelegate(
@@ -157,10 +157,10 @@ class CstmrCardWidget {
                               ],
                             ),
                           ),
-                        ))),
+                        ))),*/
                 SliverToBoxAdapter(
                   child: Container(
-                    margin: EdgeInsets.only(top: 64.h),
+                    margin: EdgeInsets.only(top: 24.h),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -173,7 +173,7 @@ class CstmrCardWidget {
                         ),
                         SizedBox(height: 20.h),
                         Container(
-                          height: 330.h,
+                          height: 500.h,
                           color: Colors.white,
                           child: lpScreen().buildOwnerListDataGrid(),
                         ),

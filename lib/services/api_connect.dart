@@ -16,17 +16,8 @@ class ApiConnect extends GetConnect {
     // cors 해제
     httpClient.addRequestModifier((Request request) async {
       request.headers['Access-Control-Allow-Origin'] = '*';
-      request.headers['Access-Control-Allow-Methods'] =
-          'GET, POST, PUT, DELETE, OPTIONS';
-      request.headers['Access-Control-Allow-Headers'] =
-          'Origin, Content-Type, X-Auth-Token';
-      request.headers['Access-Control-Allow-Credentials'] = 'true';
-      request.headers['Access-Control-Max-Age'] = '1728000';
-      request.headers['Content-Type'] = 'application/json';
-      request.headers['Accept'] = 'application/json';
-      // from origin 'http://222.107.22.159:19090' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
-      request.headers['Access-Control-Allow-Origin'] =
-          'http://222.107.22.159:19090';
+      request.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
+      request.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, X-Auth-Token';
       return request;
     });
   }

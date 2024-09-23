@@ -9,6 +9,16 @@ import 'dart:convert';
 /// acqsPrpDivCd : "D09"
 /// '공부면적x' : "공부면적x"
 /// '편입면적x'--실태조사 : "편입면적x"
+/// "cmpnstnObstNo": 3,
+/// "obstDivCd": "03",
+/// "obstDivNm": "과수 등",
+/// "cmpnstnThingKndDtls": "지주(포도나무용)",
+/// "obstStrctStndrdInfo": "철파이프(높이2m)",
+/// "dtaPrcsSittnCtnt": null,
+/// "cmpnstnQtyAraVu": 13,
+/// "cmpnstnThingUnitDivCd": "034",
+/// "cmpnstnThingUnitDivMm": "개",
+/// "spcitm": null,
 /// rqestNo : "2860"
 /// '수용,사용x' : "수용,사용x"
 /// invstgDe : "20070608"
@@ -49,6 +59,15 @@ import 'dart:convert';
 /// proDt : null
 /// proPymntRequstDe : "20100428"
 /// proCpsmnPymntLdgmntDivCd : "01"
+///
+
+List obstSttusInqireDataSourceKeyValue(dynamic str, List<dynamic> list, int length) {
+  for (int i = 0; i < length; i++) {
+    var data = ObstSttusInqireModel.fromJson(str[i]);
+    list.add(data);
+  }
+  return list;
+}
 
 ObstSttusInqireModel obstSttusInqireModelFromJson(String str) => ObstSttusInqireModel.fromJson(json.decode(str));
 String obstSttusInqireModelToJson(ObstSttusInqireModel data) => json.encode(data.toJson());
@@ -63,6 +82,16 @@ class ObstSttusInqireModel {
       this.cmpnstnStepDivNm,
       this.acqsPrpDivCd,
       this.acqsPrpDivNm,
+      this.cmpnstnObstNo,
+      this.obstDivCd,
+      this.obstDivNm,
+      this.cmpnstnThingKndDtls,
+      this.obstStrctStndrdInfo,
+      this.dtaPrcsSittnCtnt,
+      this.cmpnstnQtyAraVu,
+      this.cmpnstnThingUnitDivCd,
+      this.cmpnstnThingUnitDivMm,
+      this.spcitm,
       this.rqestNo,
       this.invstgDe,
       this.accdtInvstgSqnc,
@@ -109,13 +138,23 @@ class ObstSttusInqireModel {
   ObstSttusInqireModel.fromJson(dynamic json) {
     lgdongNm = json['lgdongNm'];
     lcrtsDivCd = json['lcrtsDivCd'];
-    lcrtsDivCd = json['lcrtsDivNm'];
+    lcrtsDivNm = json['lcrtsDivNm'];
     mlnoLtno = json['mlnoLtno'];
     slnoLtno = json['slnoLtno'];
     cmpnstnStepDivCd = json['cmpnstnStepDivCd'];
     cmpnstnStepDivNm = json['cmpnstnStepDivNm'];
     acqsPrpDivCd = json['acqsPrpDivCd'];
     acqsPrpDivNm = json['acqsPrpDivNm'];
+    cmpnstnObstNo = json['cmpnstnObstNo'].toString();
+    obstDivCd = json['obstDivCd'];
+    obstDivNm = json['obstDivNm'];
+    cmpnstnThingKndDtls = json['cmpnstnThingKndDtls'];
+    obstStrctStndrdInfo = json['obstStrctStndrdInfo'];
+    dtaPrcsSittnCtnt = json['dtaPrcsSittnCtnt'];
+    cmpnstnQtyAraVu = json['cmpnstnQtyAraVu'];
+    cmpnstnThingUnitDivCd = json['cmpnstnThingUnitDivCd'];
+    cmpnstnThingUnitDivMm = json['cmpnstnThingUnitDivMm'];
+    spcitm = json['spcitm'];
     rqestNo = json['rqestNo'];
     invstgDe = json['invstgDe'];
     accdtInvstgSqnc = json['accdtInvstgSqnc'];
@@ -158,6 +197,7 @@ class ObstSttusInqireModel {
     proCpsmnPymntLdgmntDivCd = json['proCpsmnPymntLdgmntDivCd'];
     proCpsmnPymntLdgmntDivNm = json['proCpsmnPymntLdgmntDivNm'];
   }
+
   String? lgdongNm;
   String? lcrtsDivCd;
   String? lcrtsDivNm;
@@ -167,6 +207,16 @@ class ObstSttusInqireModel {
   String? cmpnstnStepDivNm;
   String? acqsPrpDivCd;
   String? acqsPrpDivNm;
+  String? cmpnstnObstNo;
+  String? obstDivCd;
+  String? obstDivNm;
+  String? cmpnstnThingKndDtls;
+  String? obstStrctStndrdInfo;
+  dynamic dtaPrcsSittnCtnt;
+  num? cmpnstnQtyAraVu;
+  String? cmpnstnThingUnitDivCd;
+  String? cmpnstnThingUnitDivMm;
+  dynamic spcitm;
   String? rqestNo;
   String? invstgDe;
   num? accdtInvstgSqnc;
@@ -213,12 +263,22 @@ class ObstSttusInqireModel {
     final map = <String, dynamic>{};
     map['lgdongNm'] = lgdongNm;
     map['lcrtsDivCd'] = lcrtsDivCd;
-    map['acqsPrpDivNm'] = lcrtsDivNm;
+    map['lcrtsDivNm'] = lcrtsDivNm;
     map['mlnoLtno'] = mlnoLtno;
     map['slnoLtno'] = slnoLtno;
     map['cmpnstnStepDivCd'] = cmpnstnStepDivCd;
     map['acqsPrpDivCd'] = acqsPrpDivCd;
     map['acqsPrpDivNm'] = acqsPrpDivNm;
+    map['cmpnstnObstNo'] = cmpnstnObstNo;
+    map['obstDivCd'] = obstDivCd;
+    map['obstDivNm'] = obstDivNm;
+    map['cmpnstnThingKndDtls'] = cmpnstnThingKndDtls;
+    map['obstStrctStndrdInfo'] = obstStrctStndrdInfo;
+    map['dtaPrcsSittnCtnt'] = dtaPrcsSittnCtnt;
+    map['cmpnstnQtyAraVu'] = cmpnstnQtyAraVu;
+    map['cmpnstnThingUnitDivCd'] = cmpnstnThingUnitDivCd;
+    map['cmpnstnThingUnitDivMm'] = cmpnstnThingUnitDivMm;
+    map['spcitm'] = spcitm;
     map['rqestNo'] = rqestNo;
     map['invstgDe'] = invstgDe;
     map['accdtInvstgSqnc'] = accdtInvstgSqnc;
