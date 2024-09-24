@@ -261,7 +261,8 @@ class npScreen extends GetView<NpController> {
       isSort: false,
       columnWidthMode: ColumnWidthMode.fill,
       columns: [
-        lpScreen().gridColumn('usePrmisnPurpsSclsCd', '점유(사용)목적'),
+        lpScreen().gridColumn('plotUseNo', '대지사용번호', isVisble: false),
+        lpScreen().gridColumn('usePrmisnPurpsSclsNm', '점유(사용)목적'),
         lpScreen().gridColumn('prmisnRqstAra', '신청면적(㎡)'),
         lpScreen().gridColumn('useAprvAra', '승인면적(㎡)'),
       ],
@@ -276,8 +277,10 @@ class npScreen extends GetView<NpController> {
 
         // 대지사용번호
         var plotUseNo = getRow.getCells()[0].value;
+        AppLog.i('plotUseNo: $plotUseNo');
 
-        controller.fetchUsePrmisnCanclAprvDetailList(plotUseNo);
+        controller.fetchUsePrmisnCanclAprvDocList(plotUseNo);
+
       }),
     );
   }

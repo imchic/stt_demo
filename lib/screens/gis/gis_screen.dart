@@ -23,8 +23,8 @@ class _GisScreenState extends State<GisScreen> {
     // return WebViewWidget(controller: LpController.to.webViewController);
 
       return InAppWebView(
-      // initialUrlRequest: URLRequest(url: Uri.parse('http://222.107.22.159:18080/html/parcel.html')),
-      initialFile: 'assets/html/parcel.html',
+      initialUrlRequest: URLRequest(url: Uri.parse('http://222.107.22.159:18080/html/parcel.html')),
+      // initialFile: 'assets/html/parcel.html',
       onWebViewCreated: (controller) {
         LpController.to.inAppWebViewController = controller;
       },

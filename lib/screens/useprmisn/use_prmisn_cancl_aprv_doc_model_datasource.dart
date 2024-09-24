@@ -6,16 +6,15 @@ import 'package:ldi/utils/common_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'model/use_prmisn_cancl_aprv_detail_model.dart';
+import 'model/use_prmisn_cancl_aprv_doc_model.dart';
 
-class UsePrmisnCanclAprvDetailModelDataSource extends DataGridSource {
-  UsePrmisnCanclAprvDetailModelDataSource(
-      {required List<UsePrmisnCanclAprvDetailModel> items}) {
+class UsePrmisnCanclAprvDocModelDataSource extends DataGridSource {
+  UsePrmisnCanclAprvDocModelDataSource(
+      {required List<UsePrmisnCanclAprvDocModel> items}) {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: 'plotUseNo', value: e.plotUseNo),
-      DataGridCell<String>(columnName: 'usePrmisnPurpsSclsNm', value: e.usePrmisnPurpsSclsNm),
-      DataGridCell<String>(columnName: 'prmisnRqstAra', value: e.prmisnRqstAra.toString()),
-      DataGridCell<String>(columnName: 'useAprvAra', value: e.useAprvAra.toString()),
+      DataGridCell<String>(columnName: 'sanctnDocNo', value: e.sanctnDocNo),
+      DataGridCell<String>(columnName: 'sanctnDocNm', value: e.sanctnDocNm),
     ]))
         .toList();
   }
