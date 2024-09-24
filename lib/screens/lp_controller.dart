@@ -36,42 +36,43 @@ import 'package:ldi/services/api_connect.dart';
 import 'package:ldi/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../components/custom_button.dart';
-import '../../utils/colors.dart';
-import '../../utils/common_util.dart';
-import '../../utils/dialog_util.dart';
-import '../../components/custom_textfield.dart';
-import '../accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
-import '../accdtlnvstg/datasource/accdtlnvstg_lad_owner_datasource.dart';
-import '../accdtlnvstg/datasource/accdtlnvstg_lad_partcpnt_datasource.dart';
-import '../accdtlnvstg/datasource/accdtlnvstg_obst_datasource.dart';
-import '../accdtlnvstg/datasource/accdtlnvstg_obst_owner_datasource.dart';
-import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
-import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
-import '../accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
-import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
-import '../accdtlnvstg/datasource/model/accdtlnvstg_obst_owner_model.dart';
-import '../cstmr/aceptnc/cstmrcard_obst_aceptnc_datasource.dart';
-import '../cstmr/aceptnc/model/cstmrcard_lad_aceptnc_datasource_model.dart';
-import '../cstmr/cmpnstn/cstmrcard_cmpnstn_datasource.dart';
-import '../cstmr/lwst/cstmrcard_obst_lwst_datasource.dart';
-import '../cstmr/lwst/model/cstmrcard_obst_lwst_datasource_model.dart';
-import '../cstmr/objc/cstmrcard_lad_objc_datasource.dart';
-import '../cstmr/objc/cstmrcard_obst_objc_datasource.dart';
-import '../cstmr/partcpnt/cstmrcard_lad_partcpnt_datasource.dart';
-import '../cstmr/partcpnt/cstmrcard_obst_partcpnt_datasource.dart';
-import '../cstmr/partcpnt/model/cstmrcard_obst_partcpnt_datasource_model.dart';
-import '../owner/datasource/owner_datasource.dart';
-import '../owner/datasource/model/owner_datasource_model.dart';
-import '../owner/lad/model/owner_lad_info_datasource_model.dart';
-import '../owner/lad/owner_lad_info_datasource.dart';
-import '../owner/obst/model/owner_obst_info_datasource_model.dart';
-import '../owner/obst/owner_obst_info_datasource.dart';
-import '../sttus/datasource/obst_sttus_inqire_datasource.dart';
-import 'datasource/bsns_select_area_datasource.dart';
-import 'datasource/model/bsns_select_area_datasource_model.dart';
-import 'select/bsns_select_model.dart';
+import '../components/custom_button.dart';
+import '../utils/colors.dart';
+import '../utils/common_util.dart';
+import '../utils/dialog_util.dart';
+import '../components/custom_textfield.dart';
+import 'accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
+import 'accdtlnvstg/datasource/accdtlnvstg_lad_owner_datasource.dart';
+import 'accdtlnvstg/datasource/accdtlnvstg_lad_partcpnt_datasource.dart';
+import 'accdtlnvstg/datasource/accdtlnvstg_obst_datasource.dart';
+import 'accdtlnvstg/datasource/accdtlnvstg_obst_owner_datasource.dart';
+import 'accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
+import 'accdtlnvstg/datasource/model/accdtlnvstg_lad_owner_model.dart';
+import 'accdtlnvstg/datasource/model/accdtlnvstg_lad_partcpnt_model.dart';
+import 'accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
+import 'accdtlnvstg/datasource/model/accdtlnvstg_obst_owner_model.dart';
+import 'cstmr/aceptnc/cstmrcard_obst_aceptnc_datasource.dart';
+import 'cstmr/aceptnc/model/cstmrcard_lad_aceptnc_datasource_model.dart';
+import 'cstmr/cmpnstn/cstmrcard_cmpnstn_datasource.dart';
+import 'cstmr/lwst/cstmrcard_obst_lwst_datasource.dart';
+import 'cstmr/lwst/model/cstmrcard_obst_lwst_datasource_model.dart';
+import 'cstmr/objc/cstmrcard_lad_objc_datasource.dart';
+import 'cstmr/objc/cstmrcard_obst_objc_datasource.dart';
+import 'cstmr/partcpnt/cstmrcard_lad_partcpnt_datasource.dart';
+import 'cstmr/partcpnt/cstmrcard_obst_partcpnt_datasource.dart';
+import 'cstmr/partcpnt/model/cstmrcard_obst_partcpnt_datasource_model.dart';
+import 'owner/datasource/owner_datasource.dart';
+import 'owner/datasource/model/owner_datasource_model.dart';
+import 'owner/lad/model/owner_lad_info_datasource_model.dart';
+import 'owner/lad/owner_lad_info_datasource.dart';
+import 'owner/obst/model/owner_obst_info_datasource_model.dart';
+import 'owner/obst/owner_obst_info_datasource.dart';
+import 'sttus/datasource/obst_sttus_inqire_datasource.dart';
+import 'bsns/datasource/bsns_select_area_datasource.dart';
+import 'bsns/datasource/model/bsns_select_area_datasource_model.dart';
+import 'bsns/select/bsns_select_model.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -390,6 +391,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
 
   late InAppWebViewController inAppWebViewController;
+  late WebViewController webViewController;
 
   List<File> files = <File>[];
   RxList<Image> images = <Image>[].obs;
@@ -554,8 +556,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       }
     });
 
+    // webViewController = WebViewController()
+    //   ..loadFile(Uri.file('assets/html/parcel.html').toString())
+    //   // ..loadRequest(Uri.parse('http://222.107.22.159:18080/html/parcel.html'))
+    //   ..setJavaScriptMode(JavaScriptMode.unrestricted);
+
     /// [사업목록] 조회
     await fetchBsnsListDataSource();
+
+
+
   }
 
   /// [gridColumn] 데이터그리드 컬럼

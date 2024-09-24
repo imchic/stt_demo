@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ldi/components/custom_textfield.dart';
+import 'package:ldi/routes/app_route.dart';
 
 import '../../utils/applog.dart';
 import '../../utils/colors.dart';
@@ -196,7 +197,7 @@ class LoginScreen extends GetView<LoginController> {
                                       onTap: () {
                                         //controller.loginType.value = LoginType.onePass;
                                         controller.loginType.value = '국유재산';
-                                        print(controller.loginType.value);
+                                        AppLog.d(controller.loginType.value);
                                       },
                                       child: Obx(() =>
                                         Container(
@@ -398,6 +399,11 @@ class LoginScreen extends GetView<LoginController> {
                                         InkWell(
                                           onTap: () {
                                             controller.login();
+                                            if(controller.loginType.value == '토지보상') {
+                                              Get.offNamed(AppRoute.lp);
+                                            } else {
+                                              Get.offNamed(AppRoute.np);
+                                            }
                                           },
                                           child: Container(
                                             width: double.infinity,

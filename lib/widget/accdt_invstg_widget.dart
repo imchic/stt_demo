@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../components/base_tabbar.dart';
-import '../screens/bsns/lp_controller.dart';
+import '../screens/lp_controller.dart';
 import '../utils/colors.dart';
 import 'accdt_invstg_lad_widget.dart';
 import 'accdt_invstg_obst_widget.dart';

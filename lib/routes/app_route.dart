@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:ldi/screens/gis/gis_screen.dart';
+import 'package:ldi/screens/np_screen.dart';
 
 import '../screens/accdtlnvstg/accdtlnvstg_screen.dart';
-import '../screens/bsns/select/lp_screen.dart';
+import '../screens/lp_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/login/login_screen.dart';
 
@@ -20,7 +21,7 @@ class AppRoute {
     GetPage(name: login, page: () => LoginScreen()),
     GetPage(name: gis, page: () => GisScreen()),
     GetPage(name: lp, page: () => lpScreen()),
-    GetPage(name: np, page: () => Container()),
+    GetPage(name: np, page: () => npScreen()),
   ];
 
 }

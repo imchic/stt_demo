@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ldi/screens/bsns/lp_controller.dart';
+import 'package:ldi/screens/lp_controller.dart';
 import 'package:ldi/utils/dialog_util.dart';
 
 import '../utils/applog.dart';
@@ -44,7 +44,7 @@ class _BaseTabBarState extends State<BaseTabBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 48.h, left: 48.w, right: 48.w),
+      margin: EdgeInsets.only(left: 48.w, right: 48.w),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,

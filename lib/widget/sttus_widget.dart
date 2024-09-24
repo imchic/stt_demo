@@ -9,8 +9,8 @@ import 'package:ldi/utils/dialog_util.dart';
 import '../components/base_tabbar.dart';
 import '../components/custom_richtext.dart';
 import '../components/custom_textfield.dart';
-import '../screens/bsns/lp_controller.dart';
-import '../screens/bsns/select/lp_screen.dart';
+import '../screens/lp_controller.dart';
+import '../screens/lp_screen.dart';
 import '../utils/applog.dart';
 import '../utils/colors.dart';
 import '../components/custom_button.dart';
@@ -415,8 +415,7 @@ class SttusWidget {
                                             SizedBox(width: 10.w),
                                             CustomChip(
                                               title: '소유자정보',
-                                              isSelected: controller
-                                                  .sttusInqireTabIsSelected[1],
+                                              isSelected: controller.sttusInqireTabIsSelected[1],
                                               onTap: () {
                                                 controller
                                                     .handleSttusInqireTabSelected(
@@ -443,7 +442,7 @@ class SttusWidget {
                                                     .fetchObstSttusInqireDataSource();
                                               },
                                             ),
-                                            SizedBox(width: 10.w),
+                                            /*SizedBox(width: 10.w),
                                             CustomChip(
                                               title: '감정평가',
                                               isSelected: controller
@@ -597,7 +596,7 @@ class SttusWidget {
                                                 controller
                                                     .fetchObstSttusInqireDataSource();
                                               },
-                                            ),
+                                            ),*/
                                           ],
                                         )
                                       ],

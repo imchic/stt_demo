@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ldi/screens/bsns/lp_controller.dart';
+import 'package:ldi/screens/lp_controller.dart';
 
 import '../components/custom_button.dart';
 import '../components/custom_chip.dart';
 import '../components/custom_richtext.dart';
 import '../components/custom_textfield.dart';
-import '../screens/bsns/select/lp_screen.dart';
+import '../screens/lp_screen.dart';
 import '../utils/colors.dart';
 import '../utils/dialog_util.dart';
 

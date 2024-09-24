@@ -11,21 +11,18 @@ import '../screens/lp_controller.dart';
 import 'custom_bsns_badge.dart';
 import '../utils/dialog_util.dart';
 
-class BaseHeader extends StatefulWidget {
+class BaseNpHeader extends StatefulWidget {
   String? value;
 
-  BaseHeader(value, {super.key});
+  BaseNpHeader(value, {super.key});
 
   @override
-  State<BaseHeader> createState() => _BaseHeaderState();
+  State<BaseNpHeader> createState() => _BaseNpHeaderState();
 }
 
-class _BaseHeaderState extends State<BaseHeader> {
+class _BaseNpHeaderState extends State<BaseNpHeader> {
   @override
   Widget build(BuildContext context) {
-    Get.put(LoginController());
-    Get.put(NpController());
-
     return Column(
       children: [
         Container(
@@ -38,12 +35,11 @@ class _BaseHeaderState extends State<BaseHeader> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // 사업분류 및 사업명 출력
-              Expanded(child: buildLpContainer()),
+              Expanded(child: buildNpContainer()),
               // 사용자 정보 및 설정
               Container(
                 height: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                decoration: BoxDecoration(color: Colors.white),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -164,8 +160,7 @@ class _BaseHeaderState extends State<BaseHeader> {
     );
   }
 
-  /// [buildLpContainer] is a custom widget
-  Widget buildLpContainer() {
+  Widget buildNpContainer() {
     return Container(
       width: Get.width,
       height: 48.h,
@@ -174,22 +169,7 @@ class _BaseHeaderState extends State<BaseHeader> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Obx(() =>
-          LpController.to.selectBsnsPlan.value.bsnsNo == null?
-            Container(
-              width: Get.width,
-              margin: EdgeInsets.only(left: 24.w),
-              child: AutoSizeText(
-                maxFontSize: 20,
-                '선택된 사업명이 없습니다.',
-                style: TextStyle(
-                  color: Color(0xFF555555),
-                  fontSize: 32.sp,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            )
-            : Container(
+          Container(
             width: Get.width,
             height: 48.h,
             decoration: ShapeDecoration(
@@ -207,69 +187,55 @@ class _BaseHeaderState extends State<BaseHeader> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CustomBsnsBadge(text: LpController.to.selectBsnsPlan.value.bsnsDivLclsNm ?? '', bgColor: Color(0xFFEFF5FF), textColor: Color(0xFF1D58BC)),
-                    SizedBox(width: 6.w),
-                    CustomBsnsBadge(text: LpController.to.selectBsnsPlan.value.bsnsDivMclsNm ?? '', bgColor: Color(0xFFFFF1E4), textColor: Color(0xFFFF8000)),
-                    SizedBox(width: 6.w),
-                    LpController.to.selectBsnsPlan.value.bsnsDivSclsNm == null
-                        ? Container()
-                        : CustomBsnsBadge(text: LpController.to.selectBsnsPlan.value.bsnsDivSclsNm ?? '', bgColor: Color(0xFFE8F6F3), textColor: Color(0xFF00BFA5)),
+                   AutoSizeText(
+                      maxFontSize: 20,
+                      '사업분류',
+                      style: TextStyle(
+                        color: Color(0xFF1D1D1D),
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                    AutoSizeText(
+                      maxFontSize: 20,
+                      '사업명',
+                      style: TextStyle(
+                        color: Color(0xFF555555),
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(width: 20.w),
+                    Container(
+                      width: 2,
+                      height: 32,
+                      decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
+                    ),
+                    SizedBox(width: 20.w),
+                    AutoSizeText(
+                      maxFontSize: 20,
+                      '사용자',
+                      style: TextStyle(
+                        color: Color(0xFF1D1D1D),
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                    AutoSizeText(
+                      maxFontSize: 20,
+                      '홍길동',
+                      style: TextStyle(
+                        color: Color(0xFF555555),
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ],
-                ),
-                SizedBox(width: 20.w),
-                Expanded(
-                  child: Row(
-                    children: [
-                      AutoSizeText(
-                        maxFontSize: 20,
-                        LpController.to.selectBsnsPlan.value.bsnsNm ?? '',
-                        style: TextStyle(
-                          color: Color(0xFF1D1D1D),
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.w700,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      SizedBox(width: 20.w),
-                      Container(
-                        width: 2.w,
-                        height: 32.h,
-                        decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
-                      ),
-                      SizedBox(width: 20.w),
-                      AutoSizeText(
-                        maxFontSize: 20,
-                        LpController.to.selectedBsnsSelectArea.value.bsnsZoneNm ?? '',
-                        style: TextStyle(
-                          color: Color(0xFF1D1D1D),
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.w700,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      SizedBox(width: 20.w),
-                      Container(
-                        width: 2.w,
-                        height: 32.h,
-                        decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
-                      ),
-                      SizedBox(width: 20.w),
-                      AutoSizeText(
-                        maxFontSize: 20,
-                        LpController.to.selectSqnc.value.accdtInvstgSqnc == null ? '' : '${LpController.to.selectSqnc.value.accdtInvstgSqnc}차',
-                        style: TextStyle(
-                          color: Color(0xFF1D1D1D),
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.w700,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ],
             ),
-          ),
           ),
         ],
       ),

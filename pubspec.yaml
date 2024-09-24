@@ -50,6 +50,7 @@ dependencies:
 
   logger: ^2.4.0
   flutter_inappwebview: ^5.8.0
+  webview_flutter: ^4.9.0
   auto_size_text_field: ^2.2.4
   image_picker: ^1.1.2
 
@@ -78,6 +79,7 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/icons/
+    - assets/html/
 
   fonts:
 

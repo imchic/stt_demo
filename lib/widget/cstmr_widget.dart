@@ -6,10 +6,10 @@ import 'package:ldi/components/custom_button.dart';
 import 'package:ldi/components/custom_chip.dart';
 import 'package:ldi/components/custom_sliver_persistent_headerdelegate.dart';
 import 'package:ldi/components/custom_textfield.dart';
-import 'package:ldi/screens/bsns/select/lp_screen.dart';
+import 'package:ldi/screens/lp_screen.dart';
 import 'package:ldi/utils/colors.dart';
 
-import '../screens/bsns/lp_controller.dart';
+import '../screens/lp_controller.dart';
 
 /// 고객카드 위젯
 

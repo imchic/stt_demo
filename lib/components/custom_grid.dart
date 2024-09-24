@@ -6,7 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../screens/bsns/lp_controller.dart';
+import '../screens/lp_controller.dart';
 import '../utils/applog.dart';
 
 /// [CustomGrid] 는 [StatefulWidget] 를 상속받아 구현한 데이터 그리드 위젯이다.

@@ -10,8 +10,8 @@ import '../components/base_tabbar.dart';
 import '../components/convert_datetime_text.dart';
 import '../components/custom_bsns_badge.dart';
 import '../components/custom_textfield.dart';
-import '../screens/bsns/lp_controller.dart';
-import '../screens/bsns/select/lp_screen.dart';
+import '../screens/lp_controller.dart';
+import '../screens/lp_screen.dart';
 import '../utils/colors.dart';
 import '../utils/dialog_util.dart';
 

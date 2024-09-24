@@ -6,24 +6,25 @@ import 'package:get/get.dart';
 import 'package:ldi/routes/app_route.dart';
 import 'package:ldi/screens/accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
 import 'package:ldi/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
+import 'package:ldi/screens/login/login_controller.dart';
 import 'package:ldi/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../../components/base_header.dart';
-import '../../../components/custom_grid.dart';
-import '../../../components/custom_radio.dart';
-import '../../../utils/colors.dart';
-import '../../../utils/dialog_util.dart';
-import '../../../widget/accdt_invstg_widget.dart';
-import '../../../widget/bsns_widget.dart';
-import '../../../widget/cstmr_widget.dart';
-import '../../../widget/owner_widget.dart';
-import '../../../widget/sttus_widget.dart';
-import '../../owner/lad/model/owner_lad_info_datasource_model.dart';
-import '../lp_controller.dart';
-import '../sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
-import 'bsns_plan_select_area_model.dart';
+import '../components/base_header.dart';
+import '../components/custom_grid.dart';
+import '../components/custom_radio.dart';
+import '../utils/colors.dart';
+import '../utils/dialog_util.dart';
+import '../widget/accdt_invstg_widget.dart';
+import '../widget/bsns_widget.dart';
+import '../widget/cstmr_widget.dart';
+import '../widget/owner_widget.dart';
+import '../widget/sttus_widget.dart';
+import 'owner/lad/model/owner_lad_info_datasource_model.dart';
+import 'lp_controller.dart';
+import 'bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
+import 'bsns/select/bsns_plan_select_area_model.dart';
 
 /// [lpScreen] 사업선택 화면
 class lpScreen extends GetView<LpController> {
@@ -83,7 +84,9 @@ class lpScreen extends GetView<LpController> {
                           /// [사업선택] 화면
                           Column(
                             children: [
-                              BaseHeader(),
+                              BaseHeader(
+                                LoginController.to.loginType.value,
+                              ),
                               Expanded(
                                   child: Row(
                                 children: [
@@ -128,7 +131,9 @@ class lpScreen extends GetView<LpController> {
                           /// [소유자관리] 화면
                           Column(
                             children: [
-                              BaseHeader(),
+                              BaseHeader(
+                                LoginController.to.loginType.value,
+                              ),
                               Expanded(
                                   child:
                                       OwnerWidget.buildOwnerView(controller)),
@@ -138,7 +143,9 @@ class lpScreen extends GetView<LpController> {
                           /// [실태조사] 화면
                           Column(
                             children: [
-                              BaseHeader(),
+                              BaseHeader(
+                                LoginController.to.loginType.value,
+                              ),
                               controller.selectSqnc.value.accdtInvstgSqnc != null
                                   ? Expanded(
                                       child: AccdtInvstgWidget
@@ -161,7 +168,9 @@ class lpScreen extends GetView<LpController> {
                           //Center(child: AutoSizeText('통계정보 개발 준비중입니다 😃')),
                           Column(
                             children: [
-                              BaseHeader(),
+                              BaseHeader(
+                                LoginController.to.loginType.value,
+                              ),
                               Expanded(
                                   child:
                                       SttusWidget.buildSttusView(controller)),
@@ -172,7 +181,9 @@ class lpScreen extends GetView<LpController> {
                           // Center(child: AutoSizeText('고객카드 개발 준비중입니다 😃')),
                           Column(
                             children: [
-                              BaseHeader(),
+                              BaseHeader(
+                                LoginController.to.loginType.value,
+                              ),
                               Expanded(
                                   child: CstmrCardWidget.buildCstmrCard(
                                       controller))
@@ -196,7 +207,6 @@ class lpScreen extends GetView<LpController> {
                 ],
               ),
             ),
-            // right drawer
           ],
         ),
       ),
@@ -1373,115 +1383,6 @@ class lpScreen extends GetView<LpController> {
               child: Container(
                   alignment: Alignment.center,
                   child: AutoSizeText('소유자정보',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: ['apasmtReqestDivCd', 'apasmtSqnc', 'prcPnttmDe'],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('감정평가',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: [
-                'apasmtInsttNm1',
-                'apasmtInsttEvlUpc1',
-                'apasmtInsttEvlAmt1'
-              ],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('A평가법인',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: [
-                'apasmtInsttNm2',
-                'apasmtInsttEvlUpc2',
-                'apasmtInsttEvlAmt2'
-              ],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('B평가법인',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: [
-                'apasmtInsttNm3',
-                'apasmtInsttEvlUpc3',
-                'apasmtInsttEvlAmt3'
-              ],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('C평가법인',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: ['cmpnstnCmptnUpc', 'cpsmnCmptnAmt'],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('보상비산정',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: [
-                'caPymntRequstDe',
-                'cmpnstnDscssUpc',
-                'cmpnstnDscssTotAmt'
-              ],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('보상비지급',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: [
-                'dcsUpc',
-                'dcsAmt',
-                'dcsDt',
-                'aceptncUseBeginDe',
-                'ldPymntRequstDe',
-                'ldCpsmnPymntLdgmntDivCd'
-              ],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('수용재결',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
-                        color: Color(0xFF1D1D1D),
-                      )))),
-          StackedHeaderCell(
-              columnNames: [
-                'proUpc',
-                'proAmt',
-                'proDt',
-                'proPymntRequstDe',
-                'proCpsmnPymntLdgmntDivCd'
-              ],
-              child: Container(
-                  alignment: Alignment.center,
-                  child: AutoSizeText('이의재결',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.sp,

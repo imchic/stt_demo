@@ -10,8 +10,8 @@ import 'package:ldi/utils/common_util.dart';
 import '../components/base_tabbar.dart';
 import '../components/custom_richtext.dart';
 import '../components/custom_textfield.dart';
-import '../screens/bsns/lp_controller.dart';
-import '../screens/bsns/select/lp_screen.dart';
+import '../screens/lp_controller.dart';
+import '../screens/lp_screen.dart';
 import '../utils/colors.dart';
 
 /// 소유자 위젯
