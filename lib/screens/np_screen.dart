@@ -18,6 +18,7 @@ import '../routes/app_route.dart';
 import '../utils/applog.dart';
 import '../utils/colors.dart';
 import '../widget/selectLad_widget.dart';
+import '../widget/wtwk_accdt_invstg_widget.dart';
 import 'login/login_controller.dart';
 
 class npScreen extends GetView<NpController> {
@@ -111,8 +112,17 @@ class npScreen extends GetView<NpController> {
                                   ),
                                   Column(
                                     children: [
+                                      Obx(() =>
+                                        Expanded(
+                                          child: WtwkAccdtInvstgWidget.buildWtwkAccdtInvstg(controller),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
                                       Expanded(
-                                        child: SelectLadWidget.buildSelectLad(controller),
+                                        child: WtwkAccdtInvstgWidget.buildWtwkAccdtInvstg(controller),
                                       ),
                                     ],
                                   ),
@@ -282,6 +292,25 @@ class npScreen extends GetView<NpController> {
         controller.fetchUsePrmisnCanclAprvDocList(plotUseNo);
 
       }),
+    );
+  }
+
+  // [무단점유 정보] 실태조사현황
+  Widget buildWtwkAccdtInvstgDataGrid() {
+    return CustomGrid(
+      dataSource: controller.wtwkAccdtInvstgModelDataSource.value,
+      controller: controller.wtwkAccdtInvstgDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.fill,
+      columns: [
+        lpScreen().gridColumn('usePurpsLclsCd', '점유목적'),
+        lpScreen().gridColumn('squatAra', '점유면적(㎡)'),
+        lpScreen().gridColumn('dtlDtls', '상세내용'),
+        lpScreen().gridColumn('referMtt', '점유참고사항'),
+        lpScreen().gridColumn('etcMtt', '기타사항'),
+        lpScreen().gridColumn('possesnStrtDe', '점유시작일'),
+        lpScreen().gridColumn('possesnEndDe', '점유종료일'),
+      ],
     );
   }
 
