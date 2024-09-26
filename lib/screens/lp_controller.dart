@@ -2991,7 +2991,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                             ),
                           ),
                           SizedBox(width: 12.w),
-                          CustomMicrophonewithpenButton(),
+                          CustomMicrophonewithpenButton(
+                            accdtlnvstgLadRealUseEdit3Controller,
+                          ),
                         ],
                       ),
                     ),

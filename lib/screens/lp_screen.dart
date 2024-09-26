@@ -525,6 +525,7 @@ class lpScreen extends GetView<LpController> {
           child: AutoSizeText(label,
               maxFontSize: 20,
               maxLines: 2,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 24.sp,

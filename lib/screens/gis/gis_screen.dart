@@ -8,7 +8,10 @@ import '../lp_controller.dart';
 import 'gis_controller.dart';
 
 class GisScreen extends StatefulWidget {
-  const GisScreen({super.key});
+
+  String? type;
+
+  GisScreen(String type, {super.key});
 
   @override
   State<GisScreen> createState() => _GisScreenState();
@@ -23,7 +26,7 @@ class _GisScreenState extends State<GisScreen> {
     // return WebViewWidget(controller: LpController.to.webViewController);
 
       return InAppWebView(
-      initialUrlRequest: URLRequest(url: Uri.parse('http://222.107.22.159:18080/html/parcel.html')),
+      initialUrlRequest: URLRequest(url: Uri.parse(widget.type == 'parcel' ? 'http://222.107.22.159:18080/html/parcel.html' : 'http://222.107.22.159:18080/html/dbrain.html')),
       // initialFile: 'assets/html/parcel.html',
       onWebViewCreated: (controller) {
         LpController.to.inAppWebViewController = controller;

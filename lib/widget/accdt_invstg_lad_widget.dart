@@ -8,6 +8,7 @@ import 'package:ldi/screens/lp_controller.dart';
 
 import '../components/custom_button.dart';
 import '../components/custom_chip.dart';
+import '../components/custom_microphonewithpen_button.dart';
 import '../components/custom_richtext.dart';
 import '../components/custom_textfield.dart';
 import '../screens/lp_screen.dart';
@@ -611,15 +612,25 @@ class AccdtInvstgLadWidget {
                                         height: 104.h,
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: CustomTextField(
-                                            controller: controller
-                                                .accdtlnvstgLadPartcpntController,
-                                            hintText: '입회자명',
-                                            onChanged: (value) {
-                                              //controller.searchBsnsName(value);
-                                            },
-                                            backgroundColor: tableColor1,
-                                            textColor: Colors.red,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: CustomTextField(
+                                                  controller: controller
+                                                      .accdtlnvstgLadPartcpntController,
+                                                  hintText: '입회자명',
+                                                  onChanged: (value) {
+                                                    //controller.searchBsnsName(value);
+                                                  },
+                                                  backgroundColor: tableColor1,
+                                                ),
+                                              ),
+                                              SizedBox(width: 10.w),
+                                              CustomMicrophonewithpenButton(
+                                                controller
+                                                    .accdtlnvstgLadPartcpntController,
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),

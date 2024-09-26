@@ -1874,7 +1874,8 @@ class AccdtInvstgObstWidget {
                                                   ),
                                                   SizedBox(
                                                       width: 10.w),
-                                                  CustomMicrophonewithpenButton(),
+                                                  CustomMicrophonewithpenButton(controller
+                                                      .accdtlnvstgAcqstnPrpsController),
                                                 ],
                                               ),
                                             ),
@@ -1974,7 +1975,10 @@ class AccdtInvstgObstWidget {
                                                   ),
                                                   SizedBox(
                                                       width: 10.w),
-                                                  CustomMicrophonewithpenButton(),
+                                                  CustomMicrophonewithpenButton(
+                                                    controller
+                                                        .accdtlnvstgAcqstnPrpsController,
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -2074,7 +2078,8 @@ class AccdtInvstgObstWidget {
                                                   ),
                                                   SizedBox(
                                                       width: 10.w),
-                                                  CustomMicrophonewithpenButton(),
+                                                  CustomMicrophonewithpenButton(controller
+                                                      .accdtlnvstgAcqstnPrpsController),
                                                 ],
                                               ),
                                             ),
@@ -2174,7 +2179,8 @@ class AccdtInvstgObstWidget {
                                                   ),
                                                   SizedBox(
                                                       width: 10.w),
-                                                  CustomMicrophonewithpenButton(),
+                                                  CustomMicrophonewithpenButton(controller
+                                                      .accdtlnvstgAcqstnPrpsController),
                                                 ],
                                               ),
                                             ),
@@ -2274,7 +2280,8 @@ class AccdtInvstgObstWidget {
                                                   ),
                                                   SizedBox(
                                                       width: 10.w),
-                                                  CustomMicrophonewithpenButton(),
+                                                  CustomMicrophonewithpenButton(controller
+                                                      .accdtlnvstgAcqstnPrpsController),
                                                 ],
                                               ),
                                             ),
@@ -2375,7 +2382,8 @@ class AccdtInvstgObstWidget {
                                                   ),
                                                   SizedBox(
                                                       width: 10.w),
-                                                  CustomMicrophonewithpenButton(),
+                                                  CustomMicrophonewithpenButton(controller
+                                                      .accdtlnvstgAcqstnPrpsController),
                                                 ],
                                               ),
                                             ),
@@ -2465,7 +2473,8 @@ class AccdtInvstgObstWidget {
                                                   ),
                                                   SizedBox(
                                                       width: 10.w),
-                                                  CustomMicrophonewithpenButton(),
+                                                  CustomMicrophonewithpenButton(controller
+                                                      .accdtlnvstgAcqstnPrpsController),
                                                 ],
                                               ),
                                             ),

@@ -19,7 +19,7 @@ class AppRoute {
   static final routes = [
     GetPage(name: home, page: () => HomeScreen()),
     GetPage(name: login, page: () => LoginScreen()),
-    GetPage(name: gis, page: () => GisScreen()),
+    GetPage(name: gis, page: () => GisScreen('parcel')),
     GetPage(name: lp, page: () => lpScreen()),
     GetPage(name: np, page: () => npScreen()),
   ];

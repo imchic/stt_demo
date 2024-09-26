@@ -90,7 +90,7 @@ class npScreen extends GetView<NpController> {
                                           children: [
                                             Expanded(
                                               flex: 2,
-                                              child: GisScreen(),
+                                              child: GisScreen('dbrain'),
                                             ),
                                             Expanded(
                                                 flex: 2,
@@ -305,8 +305,8 @@ class npScreen extends GetView<NpController> {
       columns: [
         lpScreen().gridColumn('usePurpsLclsCd', '점유목적'),
         lpScreen().gridColumn('squatAra', '점유면적(㎡)'),
-        lpScreen().gridColumn('dtlDtls', '상세내용'),
-        lpScreen().gridColumn('referMtt', '점유참고사항'),
+        lpScreen().gridColumn('dtlDtls', '점유물 상세내용'),
+        lpScreen().gridColumn('referMtt', '점유\n참고사항'),
         lpScreen().gridColumn('etcMtt', '기타사항'),
         lpScreen().gridColumn('possesnStrtDe', '점유시작일'),
         lpScreen().gridColumn('possesnEndDe', '점유종료일'),
