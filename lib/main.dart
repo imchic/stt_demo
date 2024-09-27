@@ -26,14 +26,17 @@ class KwaterLdiApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.landscapeLeft,
-    //   DeviceOrientation.landscapeRight,
-    // ]);
+    // top statusbar hide
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
 
     return ScreenUtilInit(
       //designSize: Size(1280, 800),
-      designSize: Size(2560, 1600),
+      designSize: Size(2560, 1640),
       minTextAdapt: true,
       splitScreenMode: true,
       enableScaleText: () => true,
@@ -65,7 +68,7 @@ class KwaterLdiApp extends StatelessWidget {
           fontFamily: 'Pretendard'
         ),
         themeMode: ThemeMode.system,
-        initialRoute: AppRoute.login,
+        initialRoute: AppRoute.splash,
         getPages: AppRoute.routes,
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

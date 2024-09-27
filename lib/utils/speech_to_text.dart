@@ -15,26 +15,27 @@ class SpeechToText {
   init(TextEditingController? text) {
     speech = stt.SpeechToText();
     speech.initialize(
+      finalTimeout: Duration(seconds: 0),
       onStatus: (status) {
-        AppLog.d('onStatus: $status');
-        if (status == stt.SpeechToText.listeningStatus) {
-          DialogUtil.showSnackBar(Get.context!, '음성인식', '음성인식을 시작합니다.');
-        }
+        // 중간 끊김 없이 진행
+        status = stt.SpeechToText.listeningStatus;
+        AppLog.e('onStatus: $status');
       },
       onError: (errorNotification) {
         AppLog.e('onError: $errorNotification');
-        DialogUtil.showSnackBar(Get.context!, '음성인식', '음성인식을 시작할 수 없습니다.');
       },
     );
   }
 
   start(TextEditingController? text) {
     speech.listen(
+      listenFor: Duration(seconds: 30),
+      pauseFor: Duration(seconds: 5),
       onResult: (result) {
-        text?.selection = TextSelection.collapsed(offset: text.text.length);
         text?.text = result.recognizedWords;
+        //DialogUtil.showSnackBar(Get.context!, '음성인식', '음성인식을 종료합니다.');
       },
-      listenFor: Duration(seconds: 500),
+      listenMode: stt.ListenMode.confirmation,
       localeId: 'ko_KR',
     );
   }

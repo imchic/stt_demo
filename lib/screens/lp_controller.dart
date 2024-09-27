@@ -79,6 +79,8 @@ import 'package:http/http.dart' as http;
 class LpController extends GetxController with GetTickerProviderStateMixin {
   static LpController get to => Get.find();
 
+  RxBool isGisOpenFlag = false.obs;
+
   final api = ApiConnect();
 
   // 사업선택
@@ -356,6 +358,40 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     '도수관로',
     '가압시설',
     '일시사용'
+  ].obs;
+
+  RxList<String> accdtlnvstgLadRealUseList = [
+    '답',
+    '전',
+    '임',
+    '도',
+    '대',
+    '잡',
+    '구',
+    '천',
+    '제',
+    '묵답',
+    '묵전',
+    '공',
+    '장',
+    '과',
+    '광',
+    '목',
+    '묘',
+    '사',
+    '수',
+    '양',
+    '염',
+    '원',
+    '유',
+    '종',
+    '주',
+    '차',
+    '창',
+    '철',
+    '체',
+    '학',
+    '미등록'
   ].obs;
 
   //  통계 상세 탑
@@ -2854,6 +2890,34 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                               text: '조회',
                               textColor: tableTextColor,
                               color: Color(0xFFE5E8ED),
+                              onPressed: () {
+                                DialogUtil.showBottomSheet(
+                                    Get.context!,
+                                    '지목',
+                                    Container(
+                                      height: 500.h,
+                                      child: ListView.builder(
+                                        itemCount: accdtlnvstgLadRealUseList.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            title: Text(
+                                              accdtlnvstgLadRealUseList[index],
+                                              style: TextStyle(
+                                                color: tableTextColor,
+                                                fontSize: 30.sp,
+                                                fontFamily: 'Pretendard',
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              accdtlnvstgLadRealUseEditController.text = accdtlnvstgLadRealUseList[index];
+                                              Get.back();
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ));
+                              },
                             ),
                           ),
                         ],
@@ -2914,7 +2978,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                               controller: accdtlnvstgLadRealUseEdit2Controller,
                               hintText: '내용',
                               isPassword: false,
-                              isReadOnly: true,
                               textColor: tableTextColor,
                               onChanged: (value) {
                                 AppLog.d(
@@ -2935,7 +2998,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
               children: [
                 Container(
                   width: 200.w,
-                  height: 122.h,
                   padding:
                       EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
                   decoration: BoxDecoration(
@@ -2966,7 +3028,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                 ),
                 Expanded(
                   child: Container(
-                    height: 104.h,
+                    height: 108.h,
                     padding:
                         EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
                     decoration: BoxDecoration(

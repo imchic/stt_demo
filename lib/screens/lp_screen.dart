@@ -21,6 +21,7 @@ import '../widget/bsns_widget.dart';
 import '../widget/cstmr_widget.dart';
 import '../widget/owner_widget.dart';
 import '../widget/sttus_widget.dart';
+import 'gis/gis_screen.dart';
 import 'owner/lad/model/owner_lad_info_datasource_model.dart';
 import 'lp_controller.dart';
 import 'bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
@@ -92,8 +93,11 @@ class lpScreen extends GetView<LpController> {
                                 children: [
                                   Expanded(
                                       flex: 1,
-                                      child: BsnsWidget.buildBsnsListView(
-                                          controller)),
+                                      child:
+                                          controller.isGisOpenFlag.value == true
+                                              ? GisScreen(type: 'parcel')
+                                              : BsnsWidget.buildBsnsListView(
+                                                  controller)),
                                   // 오른쪽 뷰
                                   Obx(() {
                                     return Expanded(
@@ -146,7 +150,8 @@ class lpScreen extends GetView<LpController> {
                               BaseHeader(
                                 LoginController.to.loginType.value,
                               ),
-                              controller.selectSqnc.value.accdtInvstgSqnc != null
+                              controller.selectSqnc.value.accdtInvstgSqnc !=
+                                      null
                                   ? Expanded(
                                       child: AccdtInvstgWidget
                                           .buildAccdtInvstgView(controller))
@@ -193,17 +198,24 @@ class lpScreen extends GetView<LpController> {
                       ),
                     ),
                   ),
+
                   /// 슬라이드 패널
                   InkWell(
-                    onTap: () {
-                      Get.toNamed(AppRoute.gis);
-                    },
-                    child: Center(
-                      child: SvgPicture.asset(
-                        'assets/icons/ic_gis_open.svg',
-                      ),
-                    ),
-                  )
+                      onTap: () {
+                        controller.isGisOpenFlag.value =
+                            !controller.isGisOpenFlag.value;
+                      },
+                      child: Obx(() =>
+                        Center(
+                          child: controller.isGisOpenFlag.value
+                              ? SvgPicture.asset(
+                                  'assets/icons/ic_gis_open.svg',
+                                )
+                              : SvgPicture.asset(
+                                  'assets/icons/ic_gis_close.svg',
+                                ),
+                        ),
+                      )),
                 ],
               ),
             ),
@@ -1731,7 +1743,7 @@ class lpScreen extends GetView<LpController> {
     );
   }
 
-  Widget buildCstmrcardConfirmDataGrid(){
+  Widget buildCstmrcardConfirmDataGrid() {
     return CustomGrid(
       dataSource: controller.cstmrcardConfirmDatasource.value,
       controller: controller.cstmrCardConfirmDataGridController,
@@ -1750,7 +1762,7 @@ class lpScreen extends GetView<LpController> {
     );
   }
 
-  Widget buildCstmrcardFobjctDataGrid(){
+  Widget buildCstmrcardFobjctDataGrid() {
     return CustomGrid(
       dataSource: controller.cstmrcardFobjctDatasource.value,
       controller: controller.cstmrCardFobjctDataGridController,

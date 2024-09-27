@@ -6,6 +6,9 @@ class GisController extends GetxController {
 
   late WebViewController webViewController;
 
+  RxDouble latitude = 0.0.obs;
+  RxDouble longitude = 0.0.obs;
+
   @override
   void onInit() {
     super.onInit();

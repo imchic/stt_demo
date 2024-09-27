@@ -1,6 +1,7 @@
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -47,6 +48,8 @@ class CustomTextField extends StatelessWidget {
       ),
       child: AutoSizeTextField(
         maxFontSize: 20,
+        overflowReplacement: Text(controller!.text, style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w400, color: textColor ?? Colors.black, overflow: TextOverflow.ellipsis)),
+        style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w400, color: textColor ?? Colors.black, overflow: TextOverflow.ellipsis),
         controller: controller,
         readOnly: isDateTime ? true : isReadOnly,
         obscureText: isPassword,
@@ -64,6 +67,9 @@ class CustomTextField extends StatelessWidget {
           suffixIcon: isDateTime ? SvgPicture.asset('assets/icons/ic_calendar.svg', height: 32.h, width: 32.w) : null,
           prefixIcon: prefixIcon.isNotEmpty ? SvgPicture.asset(prefixIcon, height: 24.h, width: 24.w) : null,
         ),
+        inputFormatters: [
+
+        ],
         // contentPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 4.h),
         onChanged: (value) {
           onChanged(value);

@@ -18,7 +18,7 @@ class ConvertDatetimeText extends StatefulWidget {
 class _ConvertDatetimeTextState extends State<ConvertDatetimeText> {
   @override
   Widget build(BuildContext context) {
-    return widget.value == null
+    return widget.value == null || widget.value!.isEmpty || widget.value == 'null'
         ? Text('-',
             style: TextStyle(
               color: Color(0xFF555555),

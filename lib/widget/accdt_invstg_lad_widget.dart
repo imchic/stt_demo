@@ -582,7 +582,10 @@ class AccdtInvstgLadWidget {
                                         alignment: Alignment.center,
                                         height: 104.h,
                                         child: AutoSizeText('입회자(이,통장) / 소유자 등',
+                                            maxFontSize: 20,
+                                            maxLines: 4,
                                             style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 color: tableTextColor,
                                                 fontSize: 30.sp,
                                                 fontWeight: FontWeight.w700)),

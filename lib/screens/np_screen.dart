@@ -90,7 +90,9 @@ class npScreen extends GetView<NpController> {
                                           children: [
                                             Expanded(
                                               flex: 2,
-                                              child: GisScreen('dbrain'),
+                                              child: GisScreen(
+                                                type: 'dbrain',
+                                              ),
                                             ),
                                             Expanded(
                                                 flex: 2,
