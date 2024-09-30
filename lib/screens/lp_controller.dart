@@ -142,6 +142,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   late TextEditingController accdtlnvstgAcqstnPrpsController;
   late TextEditingController accdtlnvstgLadPartcpntController;
+  late TextEditingController accdtlnvstgLadPartcpntAddrController;
+  late TextEditingController accdtlnvstgLadPartcpntRmController;
 
   late PageController pageController; // 페이지 컨트롤러
 
@@ -429,6 +431,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late InAppWebViewController inAppWebViewController;
   late WebViewController webViewController;
 
+  RxString selectedLadRealUse = ''.obs;
+  RxString selectedLadRealAra = ''.obs;
+  RxString selectedLadRealPurpose = ''.obs;
+
   List<File> files = <File>[];
   RxList<Image> images = <Image>[].obs;
 
@@ -467,6 +473,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     accdtlnvstgAcqstnPrpsController = TextEditingController();
     accdtlnvstgLadPartcpntController = TextEditingController();
+    accdtlnvstgLadPartcpntAddrController = TextEditingController();
+    accdtlnvstgLadPartcpntRmController = TextEditingController();
 
     sttusInqireBsnsSqncController = TextEditingController(); // 토지현황 조사차수
 
@@ -2914,6 +2922,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                                             ),
                                             onTap: () {
                                               accdtlnvstgLadRealUseEditController.text = accdtlnvstgLadRealUseList[index];
+
+                                              // 선택된 지목
+                                              selectedLadRealUse.value = accdtlnvstgLadRealUseList[index];
+
                                               Get.back();
                                             },
                                           );
@@ -2985,6 +2997,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                               onChanged: (value) {
                                 AppLog.d(
                                     'sttusInqireBsnsSelectController : $value');
+                                selectedLadRealAra.value = value;
                               },
                               onTap: () {},
                             ),
@@ -3069,11 +3082,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           ],
         ), onOk: () {
       debugPrint('토지 현실이용현황 조회 및 입력');
-      isBsnsSelectFlag.value = false;
-      isBsnsSqncSelectFlag.value = false;
-      isBsnsZoneSelectFlag.value = false;
-      pageController.jumpToPage(2);
-      Get.back();
+      selectedLadRealUse.value = accdtlnvstgLadRealUseEditController.text;
+      selectedLadRealAra.value = accdtlnvstgLadRealUseEdit2Controller.text;
+      selectedLadRealPurpose.value = accdtlnvstgLadRealUseEdit3Controller.text;
     }, onCancel: () {
       Get.back();
     });

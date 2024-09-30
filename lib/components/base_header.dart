@@ -168,7 +168,7 @@ class _BaseHeaderState extends State<BaseHeader> {
   Widget buildLpContainer() {
     return Container(
       width: Get.width,
-      height: 48.h,
+      height: 88.h,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -191,7 +191,7 @@ class _BaseHeaderState extends State<BaseHeader> {
             )
             : Container(
             width: Get.width,
-            height: 48.h,
+            height: 88.h,
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -219,9 +219,13 @@ class _BaseHeaderState extends State<BaseHeader> {
                 SizedBox(width: 20.w),
                 Expanded(
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       AutoSizeText(
                         maxFontSize: 20,
+                        maxLines: 2,
                         LpController.to.selectBsnsPlan.value.bsnsNm ?? '',
                         style: TextStyle(
                           color: Color(0xFF1D1D1D),
@@ -237,14 +241,17 @@ class _BaseHeaderState extends State<BaseHeader> {
                         decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
                       ),
                       SizedBox(width: 20.w),
-                      AutoSizeText(
-                        maxFontSize: 20,
-                        LpController.to.selectedBsnsSelectArea.value.bsnsZoneNm ?? '',
-                        style: TextStyle(
-                          color: Color(0xFF1D1D1D),
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.w700,
-                          overflow: TextOverflow.ellipsis,
+                      Expanded(
+                        child: AutoSizeText(
+                          maxLines: 2,
+                          maxFontSize: 20,
+                          LpController.to.selectedBsnsSelectArea.value.bsnsZoneNm ?? '',
+                          style: TextStyle(
+                            color: Color(0xFF1D1D1D),
+                            fontSize: 32.sp,
+                            fontWeight: FontWeight.w700,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                       SizedBox(width: 20.w),
@@ -254,14 +261,17 @@ class _BaseHeaderState extends State<BaseHeader> {
                         decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
                       ),
                       SizedBox(width: 20.w),
-                      AutoSizeText(
-                        maxFontSize: 20,
-                        LpController.to.selectSqnc.value.accdtInvstgSqnc == null ? '' : '${LpController.to.selectSqnc.value.accdtInvstgSqnc}차',
-                        style: TextStyle(
-                          color: Color(0xFF1D1D1D),
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.w700,
-                          overflow: TextOverflow.ellipsis,
+                      Expanded(
+                        child: AutoSizeText(
+                          maxLines: 2,
+                          maxFontSize: 20,
+                          LpController.to.selectSqnc.value.accdtInvstgSqnc == null ? '' : '${LpController.to.selectSqnc.value.accdtInvstgSqnc}차',
+                          style: TextStyle(
+                            color: Color(0xFF1D1D1D),
+                            fontSize: 32.sp,
+                            fontWeight: FontWeight.w700,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ],
