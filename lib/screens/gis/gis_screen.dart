@@ -28,7 +28,7 @@ class _GisScreenState extends State<GisScreen> {
       AppLog.d('GisScreen build ${widget.type}');
 
       return InAppWebView(
-      initialUrlRequest: URLRequest(url: Uri.parse(widget.type == 'parcel' ? 'http://222.107.22.159:18080/html/parcel.html' : 'http://222.107.22.159:18080/html/dbrain.html')),
+      initialUrlRequest: URLRequest(url: Uri.parse(widget.type == 'parcel' ? 'http://222.107.22.159:18080/html/parcel.html' : 'http://222.107.22.159:18080/html/parcel.html')),
       // initialFile: 'assets/html/parcel.html',
       onWebViewCreated: (controller) async {
         LpController.to.inAppWebViewController = controller;

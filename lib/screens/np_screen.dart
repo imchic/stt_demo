@@ -274,6 +274,8 @@ class npScreen extends GetView<NpController> {
       columnWidthMode: ColumnWidthMode.fill,
       columns: [
         lpScreen().gridColumn('plotUseNo', '대지사용번호', isVisble: false),
+        lpScreen().gridColumn('ladSeq', '토지순번', isVisble: false),
+        lpScreen().gridColumn('rqstSeq', '신청순번', isVisble: false),
         lpScreen().gridColumn('usePrmisnPurpsSclsNm', '점유(사용)목적'),
         lpScreen().gridColumn('prmisnRqstAra', '신청면적(㎡)'),
         lpScreen().gridColumn('useAprvAra', '승인면적(㎡)'),
@@ -290,9 +292,17 @@ class npScreen extends GetView<NpController> {
         // 대지사용번호
         var plotUseNo = getRow.getCells()[0].value;
         AppLog.i('plotUseNo: $plotUseNo');
+        controller.selectPlotUseNo.value = plotUseNo;
+        // 토지순번
+        var ladSeq = getRow.getCells()[1].value;
+        controller.selectedladSeq.value = ladSeq;
+        AppLog.i('ladSeq: $ladSeq');
+        // 신청순번
+        var rqstSeq = getRow.getCells()[2].value;
+        controller.selectRqstSeq.value = rqstSeq;
+        AppLog.i('rqstSeq: $rqstSeq');
 
         controller.fetchUsePrmisnCanclAprvDocList(plotUseNo);
-
       }),
     );
   }
@@ -312,6 +322,43 @@ class npScreen extends GetView<NpController> {
         lpScreen().gridColumn('etcMtt', '기타사항'),
         lpScreen().gridColumn('possesnStrtDe', '점유시작일'),
         lpScreen().gridColumn('possesnEndDe', '점유종료일'),
+      ],
+      selectionEvent:
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+        if (addedRows.isEmpty) return;
+
+        final index = controller.wtwkAccdtInvstgModelDataSource.value.rows
+            .indexOf(addedRows.first);
+        var getRow =
+            controller.wtwkAccdtInvstgModelDataSource.value.rows[index];
+
+        AppLog.i('${controller.selectPlotUseNo}');
+        AppLog.i('${controller.selectedladSeq}');
+        AppLog.i('${controller.selectRqstSeq}');
+
+        controller.fetchWtwkAccdtInvstgThingInfoList(controller.selectPlotUseNo, controller.selectedladSeq, controller.selectRqstSeq);
+      }),
+    );
+  }
+
+  // [무단점유 정보] 설치물 현황
+  Widget buildWtwkAccdtInvstgThingInfoDataGrid() {
+    return CustomGrid(
+      dataSource: controller.wtwkAccdtInvstgThingInfoModelDataSource.value,
+      controller: controller.wtwkAccdtInvstgThingInfoDataGridController,
+      isSort: false,
+      columnWidthMode: ColumnWidthMode.fill,
+      columns: [
+        lpScreen().gridColumn('instDe', '설치일자'),
+        lpScreen().gridColumn('instThingStndrdInfo', '규격'),
+        lpScreen().gridColumn('pdm', '관경(mm)'),
+        lpScreen().gridColumn('instWidthLcNo', '단'),
+        lpScreen().gridColumn('instHighLcNo', '열'),
+        lpScreen().gridColumn('instThingLt', '길이(m)'),
+        lpScreen().gridColumn('rlwayNm', '선로명'),
+        lpScreen().gridColumn('gisRefrnKeyInfo', 'GIS좌표'),
+        lpScreen().gridColumn('drwDc', '도면'),
+        lpScreen().gridColumn('instThingRm', '비고'),
       ],
     );
   }

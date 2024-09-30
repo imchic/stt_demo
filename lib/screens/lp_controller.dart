@@ -1672,6 +1672,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       AppLog.d('fetchAcqsPrpDivCdDataSource > data : ${response.body['list']}');
 
       var data = response.body['list'];
+      // 0번째 전체
+      data.insert(0, {'cmmnCdNm': '전체'});
+
       DialogUtil.showBottomSheet(
           Get.context!,
           '취득용도',
@@ -2528,7 +2531,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     AppLog.d('searchSttusLadPurps : $value');
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 200), () async {
-      if (value.isEmpty) {
+      if (value.isEmpty || value == '전체') {
         searchLadSttusInqireList = ladSttusInqireList;
         ladSttusInqireDataSource.value =
             LadSttusInqireDatasource(items: searchLadSttusInqireList);

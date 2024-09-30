@@ -8,7 +8,9 @@ import 'package:ldi/screens/useprmisn/use_prmisn_cancl_aprv_detail_model_datasou
 import 'package:ldi/screens/useprmisn/use_prmisn_cancl_aprv_doc_model_datasource.dart';
 import 'package:ldi/screens/useprmisn/use_prmisn_cancl_aprv_model_datasource.dart';
 import 'package:ldi/screens/wtwkAccdtInvstg/model/wtwkAccdtInvstg_model.dart';
+import 'package:ldi/screens/wtwkAccdtInvstg/model/wtwkAccdtlnvstg_thing_model.dart';
 import 'package:ldi/screens/wtwkAccdtInvstg/wtwkaccdtinvstg_model_datasource.dart';
+import 'package:ldi/screens/wtwkAccdtInvstg/wtwkaccdtinvstg_thing_model_datasource.dart';
 import 'package:ldi/utils/dialog_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -25,6 +27,12 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   RxBool isDrawerOpen = false.obs; // 드로어 오픈 여부
 
   late PageController pageController; // 페이지 컨트롤러
+
+  RxString selectPlotUseNo = ''.obs;
+  RxString selectedladSeq = ''
+      .obs; // 필지선택 > 신청자정보별 허가 상세현황 > 신청자정보별 허가 상세현황 토지순번
+  RxString selectRqstSeq = ''
+      .obs; // 필지선택 > 신청자정보별 허가 상세현황 > 신청자정보별 허가 상세현황 신청순번
 
   // 사용허가 조회
   late DataGridController usePrmisnCanclAprvDataGridController;
@@ -46,6 +54,11 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   final wtwkAccdtInvstgModelDataSource =
       WtwkAccdtinvstgModelDatasource(items: []).obs;
 
+  // 무단점유 설치물 조회
+  late DataGridController wtwkAccdtInvstgThingInfoDataGridController;
+  final wtwkAccdtInvstgThingInfoModelDataSource =
+      WtwkaccdtinvstgThingModelDatasource(items: []).obs;
+
   RxInt selectedIndex = 0.obs;
   RxList<String> leftNavItems = ['필지선택', '신청/점유\n(사용)자\n현황'].obs;
 
@@ -66,6 +79,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
     usePrmisnCanclAprvDataGridController = DataGridController();
     usePrmisnCanclAprvDetailDataGridController = DataGridController();
     wtwkAccdtInvstgDataGridController = DataGridController();
+    wtwkAccdtInvstgThingInfoDataGridController = DataGridController();
 
     await fetchUsePrmisnCanclAprvList();
     await fetchWtwkAccdtInvstgList('01');
@@ -75,13 +89,12 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
         AppLog.d('tabController1.index : ${tabController1.index}');
       }
     });
-
   }
 
   // [허가정보] > 신청정보
   fetchUsePrmisnCanclAprvList() async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/nupcm/selectUseRqstMng.do');
+    Uri.parse('http://222.107.22.159:18080/lp/nupcm/selectUseRqstMng.do');
 
     var param = {};
 
@@ -106,7 +119,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   // [허가정보] > 신청자정보
   fetchUsePrmisnCanclAprvDetailList(plotUseNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/nupcm/selectUseRqstPlot.do');
+    Uri.parse('http://222.107.22.159:18080/lp/nupcm/selectUseRqstPlot.do');
 
     var param = {'plotUseNo': plotUseNo};
 
@@ -133,6 +146,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
     var url = Uri.parse(
         'http://222.107.22.159:18080/lp/nupcm/selectSanctnDocInfo.do');
 
+    // 대지사용번호
     var param = {'plotUseNo': plotUseNo};
 
     AppLog.d('plotUseNo > param : $param');
@@ -178,7 +192,6 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
 
   // [무단 점유정보]
   fetchWtwkAccdtInvstgList(shLadBtypDivCd) async {
-
     // Future.delayed(Duration(milliseconds: 100), () {
     //   DialogUtil.showLoading(Get.context!);
     // });
@@ -203,7 +216,39 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
           WtwkAccdtinvstgModelDatasource(items: list);
 
       Get.back();
-
     }
   }
+
+  // [무단 점유 설치물 정보]
+  /// [plotUseNo] 필지선택 > 신청자정보별 허가 상세현황 > 신청자정보별 허가 상세현황 대지사용번호
+  /// [ladSeq] 필지선택 > 신청자정보별 허가 상세현황 > 신청자정보별 허가 상세현황 토지순번
+  /// [rqstSeq] 필지선택 > 신청자정보별 허가 상세현황 > 신청자정보별 허가 상세현황 신청순번
+  fetchWtwkAccdtInvstgThingInfoList(plotUseNo, ladSeq, rqstSeq) async {
+    var url = Uri.parse(
+        'http://222.107.22.159:18080/lp/nwum/selectUseInstThingInfo.do');
+
+    var param = {
+      'plotUseNo': plotUseNo.toString(),
+      'ladSeq': ladSeq.toString(),
+      'rqstSeq': rqstSeq.toString()
+    };
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      AppLog.d('fetchWtwkAccdtInvstgThingInfoList > data : $data');
+
+      var length = data.length;
+      var list = <WtwkaccdtinvstgThingModel>[];
+
+      wpmThingDataSourceKeyValue(data, list, length);
+
+      wtwkAccdtInvstgThingInfoModelDataSource.value =
+          WtwkaccdtinvstgThingModelDatasource(items: list);
+
+      Get.back();
+    }
+  }
+
 }

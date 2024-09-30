@@ -33,139 +33,185 @@ class WtwkAccdtInvstgWidget {
               ),
             ),
             SizedBox(height: 40.h),
-            AutoSizeText(
-              '점유내역',
-              style: TextStyle(
-                color: Color(0xFF1D1D1D),
-                fontSize: 34.sp,
-                fontWeight: FontWeight.w500,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AutoSizeText(
+                  '점유내역',
+                  style: TextStyle(
+                    color: Color(0xFF1D1D1D),
+                    fontSize: 34.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                  },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: const Color(0xff2d2d2d),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                  child: AutoSizeText('점유종료',
+                      maxFontSize: 20,
+                      style: TextStyle(
+                          fontSize: 30.sp,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500)),
+                ),
+              ],
             ),
             SizedBox(height: 20.h),
             npScreen().buildWtwkAccdtInvstgDataGrid(),
-            // SizedBox(height: 40.h),
-            // AutoSizeText(
-            //   '조치이력',
-            //   style: TextStyle(
-            //     color: Color(0xFF1D1D1D),
-            //     fontSize: 34.sp,
-            //     fontWeight: FontWeight.w500,
-            //   ),
-            // ),
-            // SizedBox(height: 20.h),
-            // npScreen().buildWtwkAccdtInvstgDataGrid(),
-            // SizedBox(height: 40.h),
-            // AutoSizeText(
-            //   '사진',
-            //   style: TextStyle(
-            //     color: Color(0xFF1D1D1D),
-            //     fontSize: 34.sp,
-            //     fontWeight: FontWeight.w500,
-            //   ),
-            // ),
-            // SizedBox(height: 20.h),
-            // Row(
-            //   mainAxisSize: MainAxisSize.min,
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: [
-            //     Expanded(
-            //       child: Container(
-            //         height: 192.h,
-            //         decoration: BoxDecoration(
-            //           color: tableColor1,
-            //           border: Border.all(color: borderLine),
-            //         ),
-            //         alignment: Alignment.center,
-            //         child: Column(
-            //           mainAxisSize: MainAxisSize.min,
-            //           mainAxisAlignment: MainAxisAlignment.center,
-            //           crossAxisAlignment: CrossAxisAlignment.center,
-            //           children: [
-            //             SizedBox(height: 10.h),
-            //             AutoSizeText('사진촬영',
-            //                 style: TextStyle(
-            //                     color: tableTextColor,
-            //                     fontSize: 30.sp,
-            //                     fontWeight:
-            //                     FontWeight.w700)),
-            //             SizedBox(height: 10.h),
-            //             InkWell(
-            //               onTap: () {
-            //                 // image picker
-            //                 final ImagePicker _picker = ImagePicker();
-            //                 // camera
-            //                 LpController.to.takePhoto();
-            //               },
-            //               child: Container(
-            //                 width: 72.w,
-            //                 height: 72.h,
-            //                 margin:
-            //                 EdgeInsets.only(bottom: 10.h),
-            //                 decoration: BoxDecoration(
-            //                     color: Color(0xFFFFFFFF),
-            //                     borderRadius:
-            //                     BorderRadius.circular(6.r),
-            //                     border: Border.all(
-            //                         color: borderLine)),
-            //                 child: Padding(
-            //                   padding:
-            //                   const EdgeInsets.all(8.0),
-            //                   child: SvgPicture.asset(
-            //                     'assets/icons/ic_camera.svg',
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //     Expanded(
-            //       flex: 6,
-            //       child: Container(
-            //         decoration: BoxDecoration(
-            //           color: Color(0xFFFFFFFF),
-            //           border: Border(
-            //             top: BorderSide(
-            //               color: Color(0xFFD8D8D8),
-            //               width: 1,
-            //             ),
-            //             bottom: BorderSide(
-            //               color: Color(0xFFD8D8D8),
-            //               width: 1,
-            //             ),
-            //             right: BorderSide(
-            //               color: Color(0xFFD8D8D8),
-            //               width: 1,
-            //             ),
-            //           ),
-            //         ),
-            //         alignment: Alignment.center,
-            //         height: 192.h,
-            //         child: Obx(() =>
-            //             Row(
-            //               children: [
-            //                 for (var i = 0; i < LpController.to.images.length; i++)
-            //                   Container(
-            //                     height: 300.h,
-            //                     margin: EdgeInsets.only(right: 10.w),
-            //                     decoration: BoxDecoration(
-            //                         color: Color(0xFFFFFFFF),
-            //                         borderRadius: BorderRadius.circular(6.r),
-            //                         border: Border.all(color: borderLine)),
-            //                     child: Padding(
-            //                       padding: const EdgeInsets.all(8.0),
-            //                       child: Image.file(LpController.to.files[i]),
-            //                     ),
-            //                   ),
-            //               ],
-            //             ),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
+            SizedBox(height: 40.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AutoSizeText(
+                  '사진',
+                  style: TextStyle(
+                    color: Color(0xFF1D1D1D),
+                    fontSize: 34.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 192.h,
+                    decoration: BoxDecoration(
+                      color: tableColor1,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Color(0xFFD8D8D8),
+                          width: 1,
+                        ),
+                        right: BorderSide(
+                          color: Color(0xFFD8D8D8),
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment:
+                      MainAxisAlignment.center,
+                      crossAxisAlignment:
+                      CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 10.h),
+                        AutoSizeText('사진촬영',
+                            style: TextStyle(
+                                color: tableTextColor,
+                                fontSize: 30.sp,
+                                fontWeight:
+                                FontWeight.w700)),
+                        SizedBox(height: 10.h),
+                        InkWell(
+                          onTap: () {
+                            // image picker
+                            final ImagePicker _picker = ImagePicker();
+                            // camera
+                            LpController.to.takePhoto();
+                          },
+                          child: Container(
+                            width: 72.w,
+                            height: 72.h,
+                            margin:
+                            EdgeInsets.only(bottom: 10.h),
+                            decoration: BoxDecoration(
+                                color: Color(0xFFFFFFFF),
+                                borderRadius:
+                                BorderRadius.circular(6.r),
+                                border: Border.all(
+                                    color: borderLine)),
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(
+                                'assets/icons/ic_camera.svg',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFFFFFF),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Color(0xFFD8D8D8),
+                          width: 1,
+                        ),
+                        right: BorderSide(
+                          color: Color(0xFFD8D8D8),
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    height: 192.h,
+                    child: Obx(() =>
+                        Row(
+                          children: [
+                            for (var i = 0; i < LpController.to.images.length; i++)
+                              Container(
+                                height: 300.h,
+                                margin: EdgeInsets.only(right: 10.w),
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFFFFFFF),
+                                    borderRadius: BorderRadius.circular(6.r),
+                                    border: Border.all(color: borderLine)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.file(LpController.to.files[i]),
+                                ),
+                              ),
+                          ],
+                        ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 40.h),
+            controller.wtwkAccdtInvstgThingInfoModelDataSource.value.rows.isEmpty
+                ? Container()
+                :
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AutoSizeText(
+                      '지하매설물',
+                      style: TextStyle(
+                        color: Color(0xFF1D1D1D),
+                        fontSize: 34.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                npScreen().buildWtwkAccdtInvstgThingInfoDataGrid(),
+              ],
+            ),
           ],
         ),
       ),
