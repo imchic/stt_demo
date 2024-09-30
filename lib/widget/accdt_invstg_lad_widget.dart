@@ -694,15 +694,25 @@ class AccdtInvstgLadWidget {
                                           height: 104.h,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: CustomTextField(
-                                              controller: controller
-                                                  .accdtlnvstgLadPartcpntController,
-                                              hintText: '주소',
-                                              onChanged: (value) {
-                                                //controller.searchBsnsName(value);
-                                              },
-                                              backgroundColor: tableColor1,
-                                              textColor: Colors.red,
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: CustomTextField(
+                                                    controller: controller
+                                                        .accdtlnvstgLadPartcpntAddrController,
+                                                    hintText: '주소',
+                                                    onChanged: (value) {
+                                                      //controller.searchBsnsName(value);
+                                                    },
+                                                    backgroundColor: tableColor1,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10.w),
+                                                CustomMicrophonewithpenButton(
+                                                  controller
+                                                      .accdtlnvstgLadPartcpntAddrController,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -759,15 +769,25 @@ class AccdtInvstgLadWidget {
                                           height: 104.h,
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: CustomTextField(
-                                              controller: controller
-                                                  .accdtlnvstgLadPartcpntController,
-                                              hintText: '특이사항',
-                                              onChanged: (value) {
-                                                //controller.searchBsnsName(value);
-                                              },
-                                              backgroundColor: tableColor1,
-                                              textColor: Colors.red,
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: CustomTextField(
+                                                    controller: controller
+                                                        .accdtlnvstgLadPartcpntRmController,
+                                                    hintText: '특이사항',
+                                                    onChanged: (value) {
+                                                      //controller.searchBsnsName(value);
+                                                    },
+                                                    backgroundColor: tableColor1,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10.w),
+                                                CustomMicrophonewithpenButton(
+                                                  controller
+                                                      .accdtlnvstgLadPartcpntRmController,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
