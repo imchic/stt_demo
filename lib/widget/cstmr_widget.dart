@@ -175,7 +175,7 @@ class CstmrCardWidget {
                         Container(
                           height: 500.h,
                           color: Colors.white,
-                          child: lpScreen().buildOwnerListDataGrid(),
+                          child: Obx(() => lpScreen().buildOwnerListDataGrid(controller.ownerListDataSource.value)),
                         ),
                         SizedBox(height: 64.h),
                         Row(children: [

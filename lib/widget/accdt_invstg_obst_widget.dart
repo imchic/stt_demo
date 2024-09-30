@@ -386,9 +386,8 @@ class AccdtInvstgObstWidget {
                                                   child: InkWell(
                                                     onTap: () {
                                                       DialogUtil.showAlertDialog(
-                                                          Get
-                                                              .context!,
-                                                          1440,
+                                                          Get.context!,
+                                                          2040,
                                                           '지장물 소유자 추가',
                                                           widget:
                                                           Container(
@@ -422,10 +421,10 @@ class AccdtInvstgObstWidget {
                                                                                   Expanded(
                                                                                     child: CustomTextField(
                                                                                         controller: controller
-                                                                                            .accdtlnvstgAcqstnPrpsController,
+                                                                                            .accdtlnvstgSearchNmController,
                                                                                         hintText: '',
                                                                                         onChanged: (value) {
-                                                                                          //controller.searchBsnsName(value);
+                                                                                          controller.searchOwnerName(value);
                                                                                         }),
                                                                                   ),
                                                                                 ],
@@ -442,10 +441,10 @@ class AccdtInvstgObstWidget {
                                                                                   Expanded(
                                                                                     child: CustomTextField(
                                                                                         controller: controller
-                                                                                            .accdtlnvstgAcqstnPrpsController,
+                                                                                            .accdtlnvstgSearchNoController,
                                                                                         hintText: '',
                                                                                         onChanged: (value) {
-                                                                                          //controller.searchBsnsName(value);
+                                                                                          controller.searchOwnerRrnEnc(value);
                                                                                         }),
                                                                                   ),
                                                                                 ],
@@ -457,9 +456,9 @@ class AccdtInvstgObstWidget {
                                                                     )),
                                                                 SizedBox(height: 16.h),
                                                                 SizedBox(
-                                                                  height: 200.h,
+                                                                  height: 400.h,
                                                                   child: SingleChildScrollView(
-                                                                    child: lpScreen().buildOwnerListDataGrid(),
+                                                                    child: Obx(() => lpScreen().buildOwnerListDataGrid(controller.ownerListDataSource.value)),
                                                                   ),
                                                                 ),
                                                                 SizedBox(height: 16.h),
@@ -510,7 +509,7 @@ class AccdtInvstgObstWidget {
                                                                                               isPassword: false,
                                                                                               isReadOnly: false,
                                                                                               onChanged: (value) {
-                                                                                                print('orderController : $value');
+
                                                                                               },
                                                                                             ),
                                                                                           ),
@@ -1055,8 +1054,7 @@ class AccdtInvstgObstWidget {
                                                           '토지 소유자 불러오기',
                                                           widget:
                                                           Container(
-                                                            child: lpScreen()
-                                                                .buildOwnerListDataGrid(),
+                                                            child: Obx(() => lpScreen().buildOwnerListDataGrid(controller.ownerListDataSource.value)),
                                                           ),
                                                           onOk: () {
                                                             print(

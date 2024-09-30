@@ -145,6 +145,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController accdtlnvstgLadPartcpntAddrController;
   late TextEditingController accdtlnvstgLadPartcpntRmController;
 
+  late TextEditingController accdtlnvstgSearchNmController;
+  late TextEditingController accdtlnvstgSearchNoController;
+
   late PageController pageController; // 페이지 컨트롤러
 
   late ScrollController bsnsListScrollController;
@@ -475,6 +478,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     accdtlnvstgLadPartcpntController = TextEditingController();
     accdtlnvstgLadPartcpntAddrController = TextEditingController();
     accdtlnvstgLadPartcpntRmController = TextEditingController();
+
+    accdtlnvstgSearchNmController = TextEditingController();
+    accdtlnvstgSearchNoController = TextEditingController();
 
     sttusInqireBsnsSqncController = TextEditingController(); // 토지현황 조사차수
 
@@ -899,22 +905,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
         ownerList = list;
         searchOwnerList = list;
-
-        // 소유자 이름 검색
-        if (ownerNameSearchController.text.isNotEmpty) {
-          searchOwnerList = list
-              .where((element) =>
-                  element.ownerNm!.contains(ownerNameSearchController.text))
-              .toList();
-        }
-
-        // 소유자 등록번호 검색
-        if (ownerRegisterNoSearchController.text.isNotEmpty) {
-          searchOwnerList = list
-              .where((element) => element.ownerRrnEnc!
-                  .contains(ownerRegisterNoSearchController.text))
-              .toList();
-        }
 
         ownerListDataSource.value = OwnerDatasource(items: searchOwnerList);
         Get.back();

@@ -7,6 +7,7 @@ import 'package:ldi/routes/app_route.dart';
 import 'package:ldi/screens/accdtlnvstg/datasource/accdtlnvstg_lad_datasource.dart';
 import 'package:ldi/screens/accdtlnvstg/datasource/model/accdtlnvstg_lad_model.dart';
 import 'package:ldi/screens/login/login_controller.dart';
+import 'package:ldi/screens/owner/datasource/owner_datasource.dart';
 import 'package:ldi/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -653,7 +654,7 @@ class lpScreen extends GetView<LpController> {
   }
 
   /// 소유자관리 -> 소유자검색
-  Widget buildOwnerListDataGrid() {
+  Widget buildOwnerListDataGrid(OwnerDatasource source) {
     return CustomGrid(
       dataSource: controller.ownerListDataSource.value,
       controller: controller.ownerListDataGridController,

@@ -149,7 +149,7 @@ class OwnerWidget {
             Container(
                 width: double.infinity,
                 height: double.infinity,
-                child: lpScreen().buildOwnerListDataGrid()
+                child: Obx(() => lpScreen().buildOwnerListDataGrid(controller.ownerListDataSource.value)),
             ),
           ),
         ],
