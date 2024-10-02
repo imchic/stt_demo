@@ -26,7 +26,6 @@ class npScreen extends GetView<NpController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(NpController());
     return Scaffold(
       resizeToAvoidBottomInset: true,
       drawerEnableOpenDragGesture: false, // 엣지 스와이프 비활성화

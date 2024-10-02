@@ -24,6 +24,7 @@ class _GisScreenState extends State<GisScreen> {
   Widget build(BuildContext context) {
 
       Get.put(GisController());
+      Get.put(LpController());
 
       AppLog.d('GisScreen build ${widget.type}');
 

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ldi/screens/login/login_controller.dart';
-import 'package:ldi/screens/np_controller.dart';
 
 import '../routes/app_route.dart';
 import '../screens/lp_controller.dart';
@@ -23,9 +22,6 @@ class BaseHeader extends StatefulWidget {
 class _BaseHeaderState extends State<BaseHeader> {
   @override
   Widget build(BuildContext context) {
-    Get.put(LoginController());
-    Get.put(NpController());
-
     return Column(
       children: [
         Container(
@@ -79,7 +75,30 @@ class _BaseHeaderState extends State<BaseHeader> {
                                   children: [
                                     AutoSizeText(
                                       maxFontSize: 20,
-                                      '홍길동 대리',
+                                      //widget.value ?? '사용자',
+                                      LoginController.to.userModel.value.usrNm ?? '사용자',
+                                      style: TextStyle(
+                                        color: Color(0xFF1D1D1D),
+                                        fontSize: 32.sp,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    AutoSizeText(
+                                      maxFontSize: 20,
+                                      LoginController.to.userModel.value.usrOfcpsNm ?? '사용자',
+                                      style: TextStyle(
+                                        color: Color(0xFF1D1D1D),
+                                        fontSize: 32.sp,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    AutoSizeText(
+                                      maxFontSize: 20,
+                                      LoginController.to.userModel.value.usrJgrdNm ?? '사용자',
                                       style: TextStyle(
                                         color: Color(0xFF1D1D1D),
                                         fontSize: 32.sp,
@@ -137,16 +156,10 @@ class _BaseHeaderState extends State<BaseHeader> {
                                 );
                               },
                               child: Container(
-                                // width: 56.w,
-                                // height: 56.h,
-                                child: Container(
-                                  margin: EdgeInsets.all(4.w),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/ic_logout.svg',
-                                    // width: 1.w > 1.h ? 48.w : 48.w,
-                                    // height: 1.w > 1.h ? 48.h : 48.h,
-                                    fit: BoxFit.fitHeight,
-                                  ),
+                                margin: EdgeInsets.all(4.w),
+                                child: SvgPicture.asset(
+                                  'assets/icons/ic_logout.svg',
+                                  fit: BoxFit.fitHeight,
                                 ),
                               ),
                             ),
