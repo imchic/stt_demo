@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ldi/utils/speech_to_text.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+
+import '../utils/applog.dart';
 
 class CustomMicrophonewithpenButton extends StatefulWidget {
 
@@ -18,41 +21,26 @@ class CustomMicrophonewithpenButton extends StatefulWidget {
 class _CustomMicrophonewithpenButtonState extends State<CustomMicrophonewithpenButton> {
   @override
   Widget build(BuildContext context) {
+
+    late SpeechToText speechToText;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // button tap
-        // ElevatedButton(
-        //   onPressed: () {
-        //     SpeechToText().init(widget.targetTextEditingController);
-        //     if (!SpeechToText().speech.isListening) {
-        //       SpeechToText().start(widget.targetTextEditingController);
-        //     } else
-        //     if (SpeechToText().speech.isListening) {
-        //       SpeechToText().stop();
-        //     }
-        //   },
-        //   style: ElevatedButton.styleFrom(
-        //     shape: RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.circular(6),
-        //       side: BorderSide(width: 1, color: Color(0xFFD8D8D8)),
-        //     ),
-        //   ),
-        //   child: SvgPicture.asset(
-        //     'assets/icons/ic_microphone.svg',
-        //   ),
-        // ),
-
         GestureDetector(
-          onTap: () {
-            SpeechToText().init(widget.targetTextEditingController);
-            if (!SpeechToText().speech.isListening) {
-              SpeechToText().start(widget.targetTextEditingController);
-            } else
-            if (SpeechToText().speech.isListening) {
-              SpeechToText().stop();
+          onTap: () async {
+
+            speechToText = SpeechToText(targetTextEditingController: widget.targetTextEditingController);
+
+            if (speechToText.speech.isAvailable) {
+              speechToText.start();
+            } else {
+              speechToText.exception = stt.SpeechToTextNotInitializedException();
+              AppLog.e('SpeechToTextNotInitializedException : ${speechToText.exception}');
+              speechToText.init();
             }
+
           },
           child: Container(
             width: 72.w,

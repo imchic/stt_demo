@@ -2982,6 +2982,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                               controller: accdtlnvstgLadRealUseEdit2Controller,
                               hintText: '내용',
                               isPassword: false,
+                              isNumber: true,
                               textColor: tableTextColor,
                               onChanged: (value) {
                                 AppLog.d(

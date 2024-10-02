@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
 
   final String hintText;
   final bool isPassword;
+  final bool isNumber;
   final bool isReadOnly;
   final bool isDateTime;
   final String prefixIcon;
@@ -29,6 +30,7 @@ class CustomTextField extends StatelessWidget {
     this.isDateTime = false,
     this.prefixIcon = '',
     this.isPassword = false,
+    this.isNumber = false,
     this.isReadOnly = false, required
     this.onChanged,
     this.onTap,
@@ -53,6 +55,8 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         readOnly: isDateTime ? true : isReadOnly,
         obscureText: isPassword,
+        // isnum
+        keyboardType: isNumber ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: isDateTime ? 'YYYY-MM-DD' : hintText,

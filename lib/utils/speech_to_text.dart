@@ -7,15 +7,15 @@ import 'package:ldi/utils/dialog_util.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SpeechToText {
-
   TextEditingController? targetTextEditingController;
 
-  var speech = stt.SpeechToText();
+  stt.SpeechToTextNotInitializedException? exception;
+  stt.SpeechToText speech = stt.SpeechToText();
 
-  init(TextEditingController? text) {
-    speech = stt.SpeechToText();
+  SpeechToText({this.targetTextEditingController});
+
+  init() {
     speech.initialize(
-      finalTimeout: Duration(seconds: 0),
       onStatus: (status) {
         // 중간 끊김 없이 진행
         status = stt.SpeechToText.listeningStatus;
@@ -27,15 +27,11 @@ class SpeechToText {
     );
   }
 
-  start(TextEditingController? text) {
+  start() {
     speech.listen(
-      listenFor: Duration(seconds: 30),
-      pauseFor: Duration(seconds: 5),
       onResult: (result) {
-        text?.text = result.recognizedWords;
-        //DialogUtil.showSnackBar(Get.context!, '음성인식', '음성인식을 종료합니다.');
+        targetTextEditingController?.text = result.recognizedWords;
       },
-      listenMode: stt.ListenMode.confirmation,
       localeId: 'ko_KR',
     );
   }
@@ -46,10 +42,7 @@ class SpeechToText {
   }
 
   cancel() {
-    speech.cancel();
     DialogUtil.showSnackBar(Get.context!, '음성인식', '음성인식을 취소합니다.');
+    speech.cancel();
   }
-
-
-
 }

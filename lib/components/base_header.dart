@@ -274,7 +274,8 @@ class _BaseHeaderState extends State<BaseHeader> {
                         decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
                       ),
                       SizedBox(width: 20.w),
-                      Expanded(
+                      Container(
+                        width: 80.w,
                         child: AutoSizeText(
                           maxLines: 2,
                           maxFontSize: 20,
