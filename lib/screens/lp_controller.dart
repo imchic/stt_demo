@@ -1160,7 +1160,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
             isBsnsSqncSelectFlag.value = false;
             isBsnsZoneSelectFlag.value = false;
             pageController.jumpToPage(2);
-            Get.back();
           },
           onCancel: () {
             Get.back();
