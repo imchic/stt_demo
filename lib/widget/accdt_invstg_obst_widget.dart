@@ -1237,11 +1237,7 @@ class AccdtInvstgObstWidget {
                                                           (value) {
                                                         //controller.searchBsnsName(value);
                                                       },
-                                                      backgroundColor:
-                                                      tableColor1,
-                                                      textColor:
-                                                      Colors
-                                                          .red,
+                                                      backgroundColor: tableColor1,
                                                     ),
                                                   ),
                                                   SizedBox(
@@ -1249,8 +1245,7 @@ class AccdtInvstgObstWidget {
                                                   SizedBox(
                                                     width: 150.w,
                                                     child: CustomTextField(
-                                                      controller: controller
-                                                          .accdtlnvstgAcqstnPrpsController,
+                                                      controller: controller.accdtlnvstgAcqstnPrpsController,
                                                       isReadOnly:
                                                       true,
                                                       hintText:
@@ -1259,11 +1254,7 @@ class AccdtInvstgObstWidget {
                                                           (value) {
                                                         //controller.searchBsnsName(value);
                                                       },
-                                                      backgroundColor:
-                                                      tableColor1,
-                                                      textColor:
-                                                      Colors
-                                                          .red,
+                                                      backgroundColor: tableColor1,
                                                     ),
                                                   ),
                                                 ],

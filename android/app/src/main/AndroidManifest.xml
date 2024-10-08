@@ -21,6 +21,10 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <queries>
+        <package android:name="net.secuwiz.SecuwaySSLU.kwater21"/>
+    </queries>
+
+    <queries>
         <intent>
             <action android:name="android.speech.RecognitionService" />
         </intent>

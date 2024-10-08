@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
@@ -16,16 +17,20 @@ class LoginController extends GetxController
 
   static LoginController get to => Get.find();
 
-  final loginTypeTabItems = [Tab(text: '토지보상'), Tab(text: '국유재산')];
+  // methodChannel
+  final MethodChannel methodChannel = MethodChannel('kr.or.kwater.ldm/sslvpn');
 
+  final loginTypeTabItems = [Tab(text: '토지보상'), Tab(text: '국유재산')];
   final loginType = '토지보상'.obs;
 
   final txtId = ''.obs;
   final txtPw = ''.obs;
 
-  late TabController loginTypeTabController;
   RxBool isAutoLogin = false.obs;
+  RxBool isSendOtp = false.obs;
+  RxBool isVPNConnected = false.obs;
 
+  late TabController loginTypeTabController;
   late TextEditingController idController;
   late TextEditingController pwController;
 
@@ -37,6 +42,44 @@ class LoginController extends GetxController
     idController = TextEditingController();
     pwController = TextEditingController();
     super.onInit();
+
+
+    methodChannel.setMethodCallHandler((call) async {
+      if (call.method == 'connect') {
+        AppLog.i('setMethodCallHandler > onLogin');
+        fetchLogin(call.arguments);
+      } else if (call.method == 'disconnect') {
+        AppLog.i('setMethodCallHandler> onLogout');
+      } else if (call.method == 'sendOtp') {
+        AppLog.i('setMethodCallHandler > sendOtp : ${call.arguments}');
+        if(call.arguments.contains('인증번호가 발송되었습니다.')) {
+          isSendOtp.value = true;
+          DialogUtil.showSnackBar(Get.context!, 'OTP 인증', 'OTP 인증번호가 발송되었습니다.');
+
+        } else {
+          DialogUtil.showSnackBar(Get.context!, 'OTP 인증 실패', 'OTP 인증에 실패하였습니다.');
+        }
+      } else if(call.method == 'vpnLogin') {
+        AppLog.i('setMethodCallHandler > vpnLogin : ${call.arguments}');
+        methodChannel.invokeMethod('vpnLogin', call.arguments);
+        AppLog.i('isVPNConnected : ${isVPNConnected.value}');
+
+        //DialogUtil.showSnackBar(Get.context!, 'VPN 연결', 'VPN 연결에 성공하였습니다.');
+      } else if(call.method == 'vpnLogout') {
+        AppLog.i('setMethodCallHandler > vpnLogout');
+        DialogUtil.showSnackBar(Get.context!, 'VPN 연결 해제', 'VPN 연결이 해제되었습니다.');
+      } else if(call.method == 'vpnStatus') {
+        AppLog.i('setMethodCallHandler > vpnStatus : ${call.arguments}');
+        if(call.arguments == 'connected') {
+          isVPNConnected.value = true;
+          DialogUtil.showSnackBar(Get.context!, 'VPN 연결', 'VPN 연결에 성공하였습니다.');
+        } else {
+          isVPNConnected.value = false;
+          DialogUtil.showSnackBar(Get.context!, 'VPN 연결 실패', 'VPN 연결에 실패하였습니다.');
+        }
+      }
+
+    });
 
     await getAutoLogin();
   }
