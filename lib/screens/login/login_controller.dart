@@ -12,9 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../routes/app_route.dart';
 import '../../utils/applog.dart';
 
-class LoginController extends GetxController
-    with GetTickerProviderStateMixin {
-
+class LoginController extends GetxController with GetTickerProviderStateMixin {
   static LoginController get to => Get.find();
 
   // methodChannel
@@ -38,47 +36,47 @@ class LoginController extends GetxController
 
   @override
   Future<void> onInit() async {
-    loginTypeTabController = TabController(length: loginTypeTabItems.length, vsync: this);
+    loginTypeTabController =
+        TabController(length: loginTypeTabItems.length, vsync: this);
     idController = TextEditingController();
     pwController = TextEditingController();
     super.onInit();
 
-
     methodChannel.setMethodCallHandler((call) async {
-      if (call.method == 'connect') {
-        AppLog.i('setMethodCallHandler > onLogin');
-        fetchLogin(call.arguments);
-      } else if (call.method == 'disconnect') {
-        AppLog.i('setMethodCallHandler> onLogout');
+      if (call.method == 'init') {
+        //methodChannel.invokeMethod('init', ["https://vpn.kwater.or.kr", "t2783", "Kwater123!"]);
+        AppLog.i('setMethodCallHandler > init : ${call.arguments}');
+        methodChannel.invokeMethod('setVpnServer', ["https://vpn.kwater.or.kr", "t2783", "Kwater123!"]);
+
       } else if (call.method == 'sendOtp') {
         AppLog.i('setMethodCallHandler > sendOtp : ${call.arguments}');
-        if(call.arguments.contains('인증번호가 발송되었습니다.')) {
+        if (call.arguments.contains('인증번호가 발송되었습니다.')) {
           isSendOtp.value = true;
           DialogUtil.showSnackBar(Get.context!, 'OTP 인증', 'OTP 인증번호가 발송되었습니다.');
-
         } else {
-          DialogUtil.showSnackBar(Get.context!, 'OTP 인증 실패', 'OTP 인증에 실패하였습니다.');
+          DialogUtil.showSnackBar(
+              Get.context!, 'OTP 인증 실패', 'OTP 인증에 실패하였습니다.');
         }
-      } else if(call.method == 'vpnLogin') {
+      } else if (call.method == 'vpnLogin') {
         AppLog.i('setMethodCallHandler > vpnLogin : ${call.arguments}');
         methodChannel.invokeMethod('vpnLogin', call.arguments);
         AppLog.i('isVPNConnected : ${isVPNConnected.value}');
 
         //DialogUtil.showSnackBar(Get.context!, 'VPN 연결', 'VPN 연결에 성공하였습니다.');
-      } else if(call.method == 'vpnLogout') {
+      } else if (call.method == 'vpnLogout') {
         AppLog.i('setMethodCallHandler > vpnLogout');
         DialogUtil.showSnackBar(Get.context!, 'VPN 연결 해제', 'VPN 연결이 해제되었습니다.');
-      } else if(call.method == 'vpnStatus') {
+      } else if (call.method == 'vpnStatus') {
         AppLog.i('setMethodCallHandler > vpnStatus : ${call.arguments}');
-        if(call.arguments == 'connected') {
+        if (call.arguments == 'connected') {
           isVPNConnected.value = true;
           DialogUtil.showSnackBar(Get.context!, 'VPN 연결', 'VPN 연결에 성공하였습니다.');
         } else {
           isVPNConnected.value = false;
-          DialogUtil.showSnackBar(Get.context!, 'VPN 연결 실패', 'VPN 연결에 실패하였습니다.');
+          DialogUtil.showSnackBar(
+              Get.context!, 'VPN 연결 실패', 'VPN 연결에 실패하였습니다.');
         }
       }
-
     });
 
     await getAutoLogin();
@@ -92,7 +90,6 @@ class LoginController extends GetxController
     prefs.setString('usrId', idController.text);
 
     AppLog.i('saveAutoLogin > ${prefs.getString('usrId')}');
-
   }
 
   getAutoLogin() async {
@@ -113,16 +110,27 @@ class LoginController extends GetxController
     isAutoLogin.value = false;
   }
 
-
   fetchLogin(usrId) async {
-    var url = Uri.parse(
-        'http://222.107.22.159:18080/login/selectLoginUsr.do');
+    var url = Uri.parse('http://222.107.22.159:18080/login/selectLoginUsr.do');
 
     var param = {
-      'usrId' : usrId,
+      'usrId': usrId,
     };
 
-    var response = await http.post(url, body: param);
+    Get.dialog(Center(child: CircularProgressIndicator()), barrierDismissible: false);
+
+    var response = await http.post(url, body: param).timeout(Duration(seconds: 5), onTimeout: () {
+      DialogUtil.showSnackBar(Get.context!, '서버 연결 실패', '서버 연결에 실패하였습니다.');
+      Get.back();
+      return http.Response('Error', 500);
+    }).catchError((error) {
+      DialogUtil.showSnackBar(Get.context!, '서버 연결 실패', '서버 연결에 실패하였습니다.');
+      Get.back();
+      return http.Response('Error', 500);
+    }).whenComplete(() {
+      Get.back();
+    });
+
     AppLog.d('response : ${response.body}');
 
     if (response.statusCode == 200) {
@@ -138,19 +146,19 @@ class LoginController extends GetxController
       var sysGrpNm = user[0].sysGrpNm;
       AppLog.d('sysGrpNm : $sysGrpNm');
 
-      if(sysGrpNm == loginType.value) {
-        if(loginType.value == '토지보상') {
+      if (sysGrpNm == loginType.value) {
+        if (loginType.value == '토지보상') {
           Get.toNamed(AppRoute.lp, arguments: userModel.value);
         } else {
           Get.toNamed(AppRoute.np, arguments: userModel.value);
         }
       } else {
-        DialogUtil.showSnackBar(Get.context!, '로그인 실패', '로그인에 실패하였습니다.');
+        // DialogUtil.showSnackBar(Get.context!, '로그인 실패', '로그인에 실패하였습니다.');
+        // 권한 없음
+        DialogUtil.showSnackBar(Get.context!, '로그인 실패', '사번 (${txtId.value})님은 ${loginType.value} 권한이 없습니다.');
       }
-
     } else {
       DialogUtil.showSnackBar(Get.context!, '로그인 실패', '로그인에 실패하였습니다.');
     }
   }
-
 }

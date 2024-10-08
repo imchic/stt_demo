@@ -507,7 +507,7 @@ class AccdtInvstgLadWidget {
                                             ),
                                           ),
                                         ]),
-                                      TableRow(children: [
+                                      /*TableRow(children: [
                                         TableCell(
                                           verticalAlignment:
                                               TableCellVerticalAlignment.middle,
@@ -547,7 +547,7 @@ class AccdtInvstgLadWidget {
                                                             FontWeight.w700))),
                                           ),
                                         ),
-                                      ])
+                                      ])*/
                                     ],
                                   ),
                                 ),

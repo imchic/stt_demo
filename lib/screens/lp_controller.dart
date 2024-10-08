@@ -3499,7 +3499,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       DialogUtil.showAlertDialog(Get.context!, 1040, '사진촬영', widget: image, onOk: () {
         images.add(image);
         files.add(file);
-        Get.back();
       }, onCancel: () {
         Get.back();
       });

@@ -3,6 +3,7 @@ package kr.or.kwater.mdaon.ldi
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -40,14 +41,32 @@ class MainActivity : FlutterActivity() {
 
         channel.setMethodCallHandler { call, result ->
 
-            if (call.method == "connect") {
-                result.success(connect(call.arguments))
+            if (call.method == "init") {
+                Log.d("ssvpn", "init");
+
+            } else if(call.method == "setVpnServer") {
+
+                call.arguments.toString().split(",").let {
+                    addr = it[0].trim().replace("[", "")
+                    id = it[1].trim()
+                    pwd = it[2].trim().replace("]", "")
+                }
+
+                Log.d("sslvpn", "setVpnServer > $addr, $id, $pwd")
+
+            } else if(call.method == "requestOtp") {
+
+                val requestRunnable = RequestRunnable()
+                val requestThread = Thread(requestRunnable)
+                requestThread.start()
 
             } else if (call.method == "sendOtp") {
+
                 result.success(sendOtp(call.arguments.toString()))
                 Log.d("sslvpn", "sendOtp > $otp")
 
             } else if (call.method == "vpnLogin") {
+
                 otp = call.arguments.toString()
                 val startRunnable = StartRunnable()
                 val startThread = Thread(startRunnable)
@@ -66,38 +85,14 @@ class MainActivity : FlutterActivity() {
 
     }
 
+    fun init() {
+        Log.d("sslvpn", "ssl vpn init..........");
+        channel.invokeMethod("init", "connected")
+    }
 
-    fun connect(arguments: Any): String {
-
-        // split arguments
-        val args = arguments.toString().split(",")
-        addr = args[0].trim()
-        id = args[1].trim()
-        pwd = args[2].trim()
-
-        Log.d("sslvpn", "$addr, $id, $pwd")
-        // bindService
-        val intent = Intent().setAction("net.secuwiz.SecuwaySSLU.kwater21")
-        intent.setPackage("net.secuwiz.SecuwaySSLU.kwater21")
-
-        tempService = if (bindService(
-                intent,
-                mConnection,
-                BIND_AUTO_CREATE or BIND_ALLOW_ACTIVITY_STARTS
-            ) == true
-        ) {
-            println("bindservice success")
-            tempService
-        } else {
-            println("bindservice fail")
-            null
-        }
-
-        Log.d("sslvpn", "tempService $tempService")
-
-        getRequestOtp()
-
-        return "connect $arguments"
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        init();
     }
 
     fun sendOtp(arguments: String): String {
@@ -105,19 +100,6 @@ class MainActivity : FlutterActivity() {
         return otp
     }
 
-    fun sendVpnStatus(status: String) {
-        channel.invokeMethod("vpnStatus", status)
-    }
-
-    fun getRequestOtp() {
-
-        Log.d("sslvpn", "getRequestOtp > $addr, $id, $pwd")
-
-        val requsetRunnable = RequestRunnable()
-        val requestThread = Thread(requsetRunnable)
-        requestThread.start()
-
-    }
 
     override fun onResume() {
         super.onResume()
@@ -181,9 +163,9 @@ class MainActivity : FlutterActivity() {
                 try {
                     //OTP를 이용하여 vpn 시작
                     strResult = objAidl.OtpLogin(
-                        "https://vpn.kwater.or.kr".toString(),
-                        "t2783".toString(),
-                        "Kwater123!".toString(),
+                        addr,
+                        id,
+                        pwd,
                         otp,
                         true
                     )
@@ -193,26 +175,9 @@ class MainActivity : FlutterActivity() {
                         //println("startvpn start")
                         Log.d("sslvpn", "startvpn start")
 
-                        val strFavorite = objAidl.GetFavorite()
-
-                        //이름,주소|이름,주소| .... 순으로 나열되므로 split하여 사용
-                        val arrFavorite =
-                            strFavorite.split("\\|".toRegex()).dropLastWhile { it.isEmpty() }
-                                .toTypedArray()
-                        val arrName = arrayOfNulls<String>(arrFavorite.size)
-                        val arrURL = arrayOfNulls<String>(arrFavorite.size)
-
-                        //                        for(int i=0; i<arrFavorite.length ; i++){
-//                            arrName[i] = arrFavorite[i].substring(0, arrFavorite[i].indexOf(","));
-//                            arrURL[i] = arrFavorite[i].substring(arrFavorite[i].indexOf(",") + 1);
-//
-//                            System.out.println("favorite name : " + arrName[i]);
-//                            System.out.println("favorite url : " + arrURL[i]);
-//                        }
-
-                            handler.post {
-                                channel.invokeMethod("vpnStatus", "connected")
-                            }
+                        handler.post {
+                            channel.invokeMethod("vpnStatus", "connected")
+                        }
 
                     } else {
                         //"0" 이 아니면 에러 메시지
@@ -265,9 +230,9 @@ class MainActivity : FlutterActivity() {
 
                     //인증 번호 요청을 함
                     strResult = objAidl.OtpRequest(
-                        "https://vpn.kwater.or.kr".toString(),
-                        "t2783".toString(),
-                        "Kwater123!".toString(),
+                        addr,
+                        id,
+                        pwd,
                         true
                     )
 

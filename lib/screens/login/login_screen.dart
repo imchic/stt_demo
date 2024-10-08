@@ -79,7 +79,7 @@ class LoginScreen extends GetView<LoginController> {
                         children: [
                           Container(
                             width: double.infinity,
-                            height: 237.h,
+                            // height: 237.h,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -98,48 +98,68 @@ class LoginScreen extends GetView<LoginController> {
                                 SizedBox(height: 32.h),
                                 Container(
                                   width: double.infinity,
-                                  height: 117.h,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: AutoSizeText(
-                                          '현장조사 모바일',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Color(0xFF1D1D1D),
-                                            fontSize: 48.sp,
-                                            fontFamily: 'Pretendard',
-                                            fontWeight: FontWeight.w700,
-                                            //height: 0.03,
+                                  // height: 117.h,
+                                  child: Obx(() =>
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: AutoSizeText(
+                                            '현장조사 모바일',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Color(0xFF1D1D1D),
+                                              fontSize: 48.sp,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w700,
+                                              //height: 0.03,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(height: 8.h),
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: AutoSizeText(
-                                          '회원서비스를 위해 로그인을 해주세요.',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Color(0xFF555555),
-                                            fontSize: 30.sp,
-                                            fontFamily: 'Pretendard',
-                                            fontWeight: FontWeight.w400,
-                                            //height: 0.05,
+                                        SizedBox(height: 8.h),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: AutoSizeText(
+                                            '회원서비스를 위해 로그인을 해주세요.',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Color(0xFF555555),
+                                              fontSize: 30.sp,
+                                              fontFamily: 'Pretendard',
+                                              fontWeight: FontWeight.w400,
+                                              //height: 0.05,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(height: 32.h),
+                                        Container(
+                                          width: double.infinity,
+                                          child: Center(
+                                            child: AutoSizeText(
+                                              'VPN 연결 상태 : ${controller.isVPNConnected.value ? '연결됨' : '연결안됨'}',
+                                              style: TextStyle(
+                                                color: controller
+                                                        .isVPNConnected.value
+                                                    ? Color(0xFF0EB608)
+                                                    : Color(0xFFD30505),
+                                                fontSize: 30.sp,
+                                                fontFamily: 'Pretendard',
+                                                fontWeight: FontWeight.w500,
+                                                //height: 0.05,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 72.h),
                           Container(
                             width: double.infinity,
                             height: 796.h,
@@ -389,13 +409,6 @@ class LoginScreen extends GetView<LoginController> {
                                                     controller.methodChannel.invokeMethod('vpnLogin', verificationCode);
                                                   }, // end onSubmit
                                                 ),
-                                                // SizedBox(height: 20.h),
-                                                // CustomTextField(hintText: '비밀번호',
-                                                //     controller: controller.pwController,
-                                                //     prefixIcon: 'assets/icons/ic_lock.svg', isPassword: true, onChanged: (value) {
-                                                //       controller.txtPw.value = value;
-                                                //       AppLog.d(controller.txtPw.value);
-                                                // }),
                                               ],
                                             ),
                                           ),
@@ -411,6 +424,7 @@ class LoginScreen extends GetView<LoginController> {
                                             children: [
                                               InkWell(
                                                 onTap: () {
+                                                  AppLog.d('txtId: ${controller.txtId.value}');
                                                   controller.fetchLogin(controller.txtId.value);
                                                 },
                                                 child: Container(
@@ -460,9 +474,8 @@ class LoginScreen extends GetView<LoginController> {
                                                   AppLog.d('loginType: ${controller.loginType.value}');
 
                                                   // invokeMethod
-                                                  controller.methodChannel.invokeMethod('connect', ['https://vpn.kwater.or.kr', 't2783', 'Kwater123!']);
-
-                                                  // controller.fetchLogin(controller.txtId.value);
+                                                  // controller.methodChannel.invokeMethod('requestOtp', "");
+                                                  controller.fetchLogin(controller.txtId.value);
 
                                                 },
                                                 child: Container(
