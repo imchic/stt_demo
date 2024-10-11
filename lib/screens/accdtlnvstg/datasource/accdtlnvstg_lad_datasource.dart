@@ -15,7 +15,9 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'thingSerNo', value: e.thingSerNo),
+              DataGridCell<String>(columnName: 'lgdongCd', value: e.lgdongCd),
               DataGridCell<String>(columnName: 'lgdongNm', value: e.lgdongNm),
+              DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivCd),
               DataGridCell<String>(columnName: 'lcrtsDivNm', value: e.lcrtsDivCdNm),
               DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno),
               DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno),
@@ -47,7 +49,7 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
         return Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
-          child: AutoSizeText(CommonUtil.maskOwnerRegisterNo(dataGridCell.value.toString()), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
         );
       }
 

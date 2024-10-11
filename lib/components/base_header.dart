@@ -106,6 +106,17 @@ class _BaseHeaderState extends State<BaseHeader> {
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
+                                    SizedBox(width: 8.w),
+                                    AutoSizeText(
+                                      maxFontSize: 20,
+                                      LoginController.to.userModel.value.usrDeptNm ?? '',
+                                      style: TextStyle(
+                                        color: Color(0xFF1D1D1D),
+                                        fontSize: 32.sp,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),

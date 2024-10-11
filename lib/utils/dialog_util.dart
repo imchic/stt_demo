@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_signature_view/flutter_signature_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import 'applog.dart';
 import 'colors.dart';
 
 /// [DialogUtil] 다이얼로그 관련 유틸리티 클래스
@@ -324,6 +326,42 @@ class DialogUtil {
         duration: Duration(milliseconds: 1500),
       );
     }
+  }
+
+  static void showSignatureView(context, signatureView, targetTextEditingController) {
+
+    showModalBottomSheet(context: context, builder: (BuildContext context) {
+      return Container(
+        child: Column(
+          children: [
+            Expanded(child: signatureView),
+            ElevatedButton(
+              onPressed: () {
+                //AppLog.i('펜 텍스트 > ${signatureView.exportListOffsetToString()}.');
+                Get.back();
+              },
+              child: Text('서명완료'),
+            ),
+          ],
+        ),
+      );
+    });
+
+    /*showBottomSheet(context, '서명',  Container(
+      child: Column(
+        children: [
+          signatureView,
+          ElevatedButton(
+            onPressed: () {
+              AppLog.i('SignatureView onSigned ${signatureView.exportListOffsetToString()}.');
+              targetTextEditingController.text = signatureView.exportListOffsetToString()!;
+              Get.back();
+            },
+            child: Text('서명완료'),
+          ),
+        ],
+      ),
+    ));*/
   }
 
 }

@@ -64,11 +64,7 @@ class AccdtInvstgLadWidget {
             ),
           ),
           Expanded(
-              child: TabBarView(
-            controller: controller.accdtlnvstgTabController,
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              Container(
+              child: Container(
                 padding: EdgeInsets.all(40.r),
                 child: SingleChildScrollView(
                   child: Column(
@@ -911,9 +907,7 @@ class AccdtInvstgLadWidget {
                     ],
                   ),
                 ),
-              )
-            ],
-          )),
+              )),
         ],
       ),
     );

@@ -39,188 +39,194 @@ class lpScreen extends GetView<LpController> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       drawerEnableOpenDragGesture: false, // 엣지 스와이프 비활성화
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  // 왼쪽 메뉴 버튼
-                  Container(child: lnbWidget()),
-                  // 메인 뷰
-                  Expanded(
-                    child: Obx(
-                      () => PageView(
-                        physics: NeverScrollableScrollPhysics(),
-                        controller: controller.pageController,
-                        onPageChanged: (index) {
-                          controller.selectedIndex.value = index;
-                          controller.isBsnsZoneSelectFlag.value = false;
-                          controller.isBsnsSqncSelectFlag.value = false;
-                          controller.isBsnsSelectFlag.value = false;
+      body: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (result, data) {
+          AppLog.d('onPopInvokedWithResult: $result');
+        },
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    // 왼쪽 메뉴 버튼
+                    Container(child: lnbWidget()),
+                    // 메인 뷰
+                    Expanded(
+                      child: Obx(
+                        () => PageView(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: controller.pageController,
+                          onPageChanged: (index) {
+                            controller.selectedIndex.value = index;
+                            controller.isBsnsZoneSelectFlag.value = false;
+                            controller.isBsnsSqncSelectFlag.value = false;
+                            controller.isBsnsSelectFlag.value = false;
 
-                          // 사업구역 선택이 안됐을 경우
-                          if (controller.selectedBsnsSelectArea.value.bsnsNo ==
-                                  null &&
-                              controller.selectedBsnsSelectArea.value
-                                      .bsnsZoneNo ==
-                                  null) {
-                            DialogUtil.showSnackBar(
-                                context, '사업구역', '사업구역을 선택해주세요.');
-                            controller.pageController.jumpToPage(0);
-                            return;
-                          }
+                            // 사업구역 선택이 안됐을 경우
+                            if (controller.selectedBsnsSelectArea.value.bsnsNo ==
+                                    null &&
+                                controller.selectedBsnsSelectArea.value
+                                        .bsnsZoneNo ==
+                                    null) {
+                              DialogUtil.showSnackBar(
+                                  context, '사업구역', '사업구역을 선택해주세요.');
+                              controller.pageController.jumpToPage(0);
+                              return;
+                            }
 
-                          if (index == 1 || index == 4) {
-                            /// [소유자 및 관리인] 조회
-                            controller.fetchOwnerDataSource();
-                          }
+                            if (index == 1 || index == 4) {
+                              /// [소유자 및 관리인] 조회
+                              controller.fetchOwnerDataSource();
+                            }
 
-                          if (index == 3) {
-                            /// [통계정보] 조회
-                            controller.fetchLadSttusInqireDataSource();
-                            controller.fetchObstSttusInqireDataSource();
-                          }
-                        },
-                        children: [
-                          /// [사업선택] 화면
-                          Column(
-                            children: [
-                              BaseHeader(
-                                LoginController.to.loginType.value,
-                              ),
-                              Expanded(
-                                  child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: 1,
-                                      child:
-                                          controller.isGisOpenFlag.value == true
-                                              ? GisScreen(type: 'parcel')
-                                              : BsnsWidget.buildBsnsListView(
-                                                  controller)),
-                                  // 오른쪽 뷰
-                                  Obx(() {
-                                    return Expanded(
-                                      flex: controller.isBsnsSelectFlag == true
-                                          ? 1
-                                          : 0,
-                                      child: Column(
-                                        children: [
-                                          if (controller.selectedIndex.value ==
-                                              0)
+                            if (index == 3) {
+                              /// [통계정보] 조회
+                              controller.fetchLadSttusInqireDataSource();
+                              controller.fetchObstSttusInqireDataSource();
+                            }
+                          },
+                          children: [
+                            /// [사업선택] 화면
+                            Column(
+                              children: [
+                                BaseHeader(
+                                  LoginController.to.loginType.value,
+                                ),
+                                Expanded(
+                                    child: Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child:
+                                            controller.isGisOpenFlag.value == true
+                                                ? GisScreen(type: 'parcel')
+                                                : BsnsWidget.buildBsnsListView(
+                                                    controller)),
+                                    // 오른쪽 뷰
+                                    Obx(() {
+                                      return Expanded(
+                                        flex: controller.isBsnsSelectFlag == true
+                                            ? 1
+                                            : 0,
+                                        child: Column(
+                                          children: [
+                                            if (controller.selectedIndex.value ==
+                                                0)
 
-                                            // 사업구역
-                                            controller.isBsnsSelectFlag == true
+                                              // 사업구역
+                                              controller.isBsnsSelectFlag == true
+                                                  ? BsnsWidget
+                                                      .buildBsnsSelectZoneContainer(
+                                                          controller)
+                                                  : Container(),
+
+                                            // 조사차수
+                                            controller.isBsnsZoneSelectFlag ==
+                                                    true
                                                 ? BsnsWidget
-                                                    .buildBsnsSelectZoneContainer(
+                                                    .buildBsnsSelectSqncContainer(
                                                         controller)
                                                 : Container(),
+                                          ],
+                                        ),
+                                      );
+                                    }),
+                                  ],
+                                )),
+                              ],
+                            ),
 
-                                          // 조사차수
-                                          controller.isBsnsZoneSelectFlag ==
-                                                  true
-                                              ? BsnsWidget
-                                                  .buildBsnsSelectSqncContainer(
-                                                      controller)
-                                              : Container(),
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                                ],
-                              )),
-                            ],
-                          ),
+                            /// [소유자관리] 화면
+                            Column(
+                              children: [
+                                BaseHeader(
+                                  LoginController.to.loginType.value,
+                                ),
+                                Expanded(
+                                    child:
+                                        OwnerWidget.buildOwnerView(controller)),
+                              ],
+                            ),
 
-                          /// [소유자관리] 화면
-                          Column(
-                            children: [
-                              BaseHeader(
-                                LoginController.to.loginType.value,
-                              ),
-                              Expanded(
-                                  child:
-                                      OwnerWidget.buildOwnerView(controller)),
-                            ],
-                          ),
-
-                          /// [실태조사] 화면
-                          Column(
-                            children: [
-                              BaseHeader(
-                                LoginController.to.loginType.value,
-                              ),
-                              controller.selectSqnc.value.accdtInvstgSqnc !=
-                                      null
-                                  ? Expanded(
-                                      child: AccdtInvstgWidget
-                                          .buildAccdtInvstgView(controller))
-                                  : Expanded(
-                                      child: Center(
-                                        child: AutoSizeText(
-                                          '조사차수를 선택해주세요.',
-                                          style: TextStyle(
-                                              color: Color(0xFF1D1D1D),
-                                              fontSize: 40.sp,
-                                              fontWeight: FontWeight.w500),
+                            /// [실태조사] 화면
+                            Column(
+                              children: [
+                                BaseHeader(
+                                  LoginController.to.loginType.value,
+                                ),
+                                controller.selectSqnc.value.accdtInvstgSqnc !=
+                                        null
+                                    ? Expanded(
+                                        child: AccdtInvstgWidget
+                                            .buildAccdtInvstgView(controller))
+                                    : Expanded(
+                                        child: Center(
+                                          child: AutoSizeText(
+                                            '조사차수를 선택해주세요.',
+                                            style: TextStyle(
+                                                color: Color(0xFF1D1D1D),
+                                                fontSize: 40.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                            ],
-                          ),
+                              ],
+                            ),
 
-                          /// [통계정보] 화면
-                          //Center(child: AutoSizeText('통계정보 개발 준비중입니다 😃')),
-                          Column(
-                            children: [
-                              BaseHeader(
-                                LoginController.to.loginType.value,
-                              ),
-                              Expanded(
-                                  child:
-                                      SttusWidget.buildSttusView(controller)),
-                            ],
-                          ),
+                            /// [통계정보] 화면
+                            //Center(child: AutoSizeText('통계정보 개발 준비중입니다 😃')),
+                            Column(
+                              children: [
+                                BaseHeader(
+                                  LoginController.to.loginType.value,
+                                ),
+                                Expanded(
+                                    child:
+                                        SttusWidget.buildSttusView(controller)),
+                              ],
+                            ),
 
-                          /// [고객카드] 화면
-                          // Center(child: AutoSizeText('고객카드 개발 준비중입니다 😃')),
-                          Column(
-                            children: [
-                              BaseHeader(
-                                LoginController.to.loginType.value,
-                              ),
-                              Expanded(
-                                  child: CstmrCardWidget.buildCstmrCard(
-                                      controller))
-                            ],
-                          ),
-                        ],
+                            /// [고객카드] 화면
+                            // Center(child: AutoSizeText('고객카드 개발 준비중입니다 😃')),
+                            Column(
+                              children: [
+                                BaseHeader(
+                                  LoginController.to.loginType.value,
+                                ),
+                                Expanded(
+                                    child: CstmrCardWidget.buildCstmrCard(
+                                        controller))
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  /// 슬라이드 패널
-                  InkWell(
-                      onTap: () {
-                        controller.isGisOpenFlag.value =
-                            !controller.isGisOpenFlag.value;
-                      },
-                      child: Obx(() =>
-                        Center(
-                          child: controller.isGisOpenFlag.value
-                              ? SvgPicture.asset(
-                                  'assets/icons/ic_gis_open.svg',
-                                )
-                              : SvgPicture.asset(
-                                  'assets/icons/ic_gis_close.svg',
-                                ),
-                        ),
-                      )),
-                ],
+                    /// 슬라이드 패널
+                    InkWell(
+                        onTap: () {
+                          controller.isGisOpenFlag.value =
+                              !controller.isGisOpenFlag.value;
+                        },
+                        child: Obx(() =>
+                          Center(
+                            child: controller.isGisOpenFlag.value
+                                ? SvgPicture.asset(
+                                    'assets/icons/ic_gis_open.svg',
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/ic_gis_close.svg',
+                                  ),
+                          ),
+                        )),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -881,7 +887,9 @@ class lpScreen extends GetView<LpController> {
             StackedHeaderCell(
                 columnNames: [
                   'thingSerNo',
+                  'lgdongCd',
                   'lgdongNm',
+                  'lcrtsDivCd',
                   'lcrtsDivCdNm',
                   'mlnoLtno',
                   'slnoLtno'
@@ -918,7 +926,9 @@ class lpScreen extends GetView<LpController> {
         ],
         columns: [
           gridColumn('thingSerNo', '물건일련번호', isVisble: false),
+          gridColumn('lgdongCd', '소재지', isVisble: false),
           gridColumn('lgdongNm', '소재지'),
+          gridColumn('lcrtsDivCd', '특지', width: 40, isVisble: false),
           gridColumn('lcrtsDivCdNm', '특지', width: 40),
           gridColumn('mlnoLtno', '본번', width: 50),
           gridColumn('slnoLtno', '부번', width: 50),
@@ -944,34 +954,37 @@ class lpScreen extends GetView<LpController> {
 
           var data = AccdtlnvstgLadModel(
             thingSerNo: getRow.getCells()[0].value,
-            lgdongNm: getRow.getCells()[1].value,
-            lcrtsDivCdNm: getRow.getCells()[2].value,
-            mlnoLtno: getRow.getCells()[3].value,
-            slnoLtno: getRow.getCells()[4].value,
-            ofcbkLndcgrDivNm: getRow.getCells()[5].value,
-            sttusLndcgrDivNm: getRow.getCells()[6].value,
-            ofcbkAra: num.parse(getRow.getCells()[7].value),
-            incrprAra: num.parse(getRow.getCells()[8].value),
-            cmpnstnInvstgAra: num.parse(getRow.getCells()[9].value),
-            acqsPrpDivNm: getRow.getCells()[10].value,
-            aceptncUseDivNm: getRow.getCells()[11].value,
-            accdtInvstgSqnc: num.parse(getRow.getCells()[12].value),
-            invstgDt: getRow.getCells()[13].value,
-            cmpnstnStepDivNm: getRow.getCells()[14].value,
-            accdtInvstgRm: getRow.getCells()[15].value,
+            lgdongCd: getRow.getCells()[1].value,
+            lgdongNm: getRow.getCells()[2].value,
+            lcrtsDivCd: getRow.getCells()[3].value,
+            lcrtsDivCdNm: getRow.getCells()[4].value,
+            mlnoLtno: getRow.getCells()[5].value,
+            slnoLtno: getRow.getCells()[6].value,
+            ofcbkLndcgrDivNm: getRow.getCells()[7].value,
+            sttusLndcgrDivNm: getRow.getCells()[8].value,
+            ofcbkAra: num.parse(getRow.getCells()[9].value),
+            incrprAra: num.parse(getRow.getCells()[10].value),
+            cmpnstnInvstgAra: num.parse(getRow.getCells()[11].value),
+            acqsPrpDivNm: getRow.getCells()[12].value,
+            aceptncUseDivNm: getRow.getCells()[13].value,
+            accdtInvstgSqnc: num.parse(getRow.getCells()[14].value),
+            invstgDt: getRow.getCells()[15].value,
+            cmpnstnStepDivNm: getRow.getCells()[16].value,
+            accdtInvstgRm: getRow.getCells()[17].value,
           );
 
           controller.selectedOwnerLadOwnerData.value = data;
           controller.accdtlnvstgLadSearchDataSource.value =
               AccdtlnvstgLadDatasource(items: [data]);
 
-          AppLog.i('buildLadAccdtlnvstgDataGrid > 선택된 토지 정보: ${data.toJson()}');
+          AppLog.i('buildLadAccdtlnvstgDataGrid > 선택된 토지 정보 > ${data.toJson()}');
 
           controller.handleAccdtlnvstgLadTabSelected(1);
 
           if (controller.accdtlnvstgTabLadSelected[1] == true) {
             controller.fetchAccdtlnvstgLadOwnerDataSource(data.thingSerNo);
           }
+
         }));
   }
 
@@ -1025,7 +1038,9 @@ class lpScreen extends GetView<LpController> {
         ],
         columns: [
           gridColumn('thingSerNo', '물건일련번호', isVisble: false),
+          gridColumn('lgdongCd', '소재지', isVisble: false),
           gridColumn('lgdongNm', '소재지', width: 200),
+          gridColumn('lcrtsDivCd', '특지', isVisble: false),
           gridColumn('lcrtsDivCdNm', '특지', width: 40),
           gridColumn('mlnoLtno', '본번', width: 50),
           gridColumn('slnoLtno', '부번', width: 50),
