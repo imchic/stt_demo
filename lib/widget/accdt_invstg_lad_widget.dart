@@ -11,6 +11,7 @@ import '../components/custom_microphonewithpen_button.dart';
 import '../components/custom_richtext.dart';
 import '../components/custom_textfield.dart';
 import '../screens/lp_screen.dart';
+import '../utils/applog.dart';
 import '../utils/colors.dart';
 import '../utils/dialog_util.dart';
 
@@ -102,7 +103,7 @@ class AccdtInvstgLadWidget {
                                                 flex: 1,
                                                 child: Row(children: [
                                                   SizedBox(
-                                                    width: 140.w,
+                                                    //width: 140.w,
                                                     child: AutoSizeText('소재지',
                                                         style: TextStyle(
                                                           color: tableTextColor,
@@ -112,6 +113,9 @@ class AccdtInvstgLadWidget {
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         )),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20.w,
                                                   ),
                                                   Expanded(
                                                     child: CustomTextField(
@@ -830,10 +834,7 @@ class AccdtInvstgLadWidget {
                                               SizedBox(height: 10.h),
                                               InkWell(
                                                 onTap: () {
-                                                  // image picker
-                                                  final ImagePicker _picker = ImagePicker();
-                                                  // camera
-                                                  controller.takePhoto();
+                                                  controller.takePhoto('lad');
                                                 },
                                                 child: Container(
                                                   width: 72.w,
@@ -880,7 +881,7 @@ class AccdtInvstgLadWidget {
                                           child: Obx(() =>
                                             Row(
                                               children: [
-                                                for (var i = 0; i < controller.images.length; i++)
+                                                for (var i = 0; i < controller.ladImages.length; i++)
                                                   Container(
                                                     height: 300.h,
                                                     margin: EdgeInsets.only(right: 10.w),
@@ -907,7 +908,52 @@ class AccdtInvstgLadWidget {
                     ],
                   ),
                 ),
-              )),
+              )
+            ),
+          // 조사내용 저장
+          Container(
+            width: double.infinity,
+            height: 100.h,
+            margin: EdgeInsets.only(top: 40.h, bottom: 0.h, left: 40.w),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    //controller.saveAccdtlnvstgLad();
+
+                  AppLog.i('실태조사 토지 > 현실이용현황 > ${controller.accdtlnvstgLadRealUseEditController.text}');
+                  AppLog.i('실태조사 토지 > 용지지구 및 지역 > ${controller.accdtlnvstgLadRealUseEdit2Controller.text}');
+                  AppLog.i('실태조사 토지 > 면적 > ${controller.accdtlnvstgLadRealUseEdit3Controller.text}');
+                  AppLog.i('실태조사 토지 > 입회자 > ${controller.accdtlnvstgLadPartcpntController.text}');
+                  AppLog.i('실태조사 토지 > 주소 > ${controller.accdtlnvstgLadPartcpntAddrController.text}');
+                  AppLog.i('실태조사 토지 > 특이사항 > ${controller.accdtlnvstgLadPartcpntRmController.text}');
+
+                  AppLog.i('실태조사 토지 > 사업정보 > ${controller.selectedBsnsSelectArea.value.toJson()}');
+                  AppLog.i('실태조사 토지 > 토지정보 > ${controller.selectedLadData.value.toJson()}');
+
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  child: Container(
+                    width: 200.w,
+                    height: 72.h,
+                    alignment: Alignment.center,
+                    child: AutoSizeText('저장',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.w700)),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -46,13 +46,15 @@ class MainActivity : FlutterActivity() {
 
             } else if(call.method == "setVpnServer") {
 
-                call.arguments.toString().split(",").let {
-                    addr = it[0].trim().replace("[", "")
-                    id = it[1].trim()
-                    pwd = it[2].trim().replace("]", "")
-                }
-
+                addr = call.arguments.toString().split(",")[0].trim().replace("[", "")
+                id = call.arguments.toString().split(",")[1].trim()
+                pwd = call.arguments.toString().split(",")[2].trim().replace("]", "")
                 Log.d("sslvpn", "setVpnServer > $addr, $id, $pwd")
+
+               // requst otp
+                val requestRunnable = RequestRunnable()
+                val requestThread = Thread(requestRunnable)
+                requestThread.start()
 
             } else if(call.method == "requestOtp") {
 

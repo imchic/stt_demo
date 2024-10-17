@@ -28,6 +28,7 @@ import 'package:ldi/screens/cstmr/objc/model/cstmrcard_obst_objc_datasource_mode
 import 'package:ldi/screens/cstmr/partcpnt/model/cstmrcard_lad_partcpnt_datasource_model.dart';
 import 'package:ldi/screens/cstmr/reprchs/cstmrcard_reprchs_datasource.dart';
 import 'package:ldi/screens/cstmr/reprchs/model/cstmrcard_reprchs_datasource_model.dart';
+import 'package:ldi/screens/login/login_controller.dart';
 import 'package:ldi/screens/owner/datasource/model/owner_info_model.dart';
 import 'package:ldi/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
 import 'package:ldi/screens/sttus/datasource/model/lad_sttus_inqire_model.dart';
@@ -144,6 +145,24 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   late TextEditingController accdtlnvstgLadPartcpntController;
   late TextEditingController accdtlnvstgLadPartcpntAddrController;
   late TextEditingController accdtlnvstgLadPartcpntRmController;
+
+  // 조사차수 edittext
+  late TextEditingController accdtlnvstgObstEditText1Controller;
+  late TextEditingController accdtlnvstgObstEditText2Controller;
+  late TextEditingController accdtlnvstgObstEditText3Controller;
+  late TextEditingController accdtlnvstgObstEditText4Controller;
+  late TextEditingController accdtlnvstgObstEditText5Controller;
+  late TextEditingController accdtlnvstgObstEditText6Controller;
+  late TextEditingController accdtlnvstgObstEditText7Controller;
+  late TextEditingController accdtlnvstgObstEditText8Controller;
+  late TextEditingController accdtlnvstgObstEditText9Controller;
+  late TextEditingController accdtlnvstgObstEditText10Controller;
+  late TextEditingController accdtlnvstgObstEditText11Controller;
+  late TextEditingController accdtlnvstgObstEditText12Controller;
+  late TextEditingController accdtlnvstgObstEditText13Controller;
+  late TextEditingController accdtlnvstgObstEditText14Controller;
+  late TextEditingController accdtlnvstgObstEditText15Controller;
+  late TextEditingController accdtlnvstgObstEditText16Controller;
 
   late TextEditingController accdtlnvstgSearchNmController;
   late TextEditingController accdtlnvstgSearchNoController;
@@ -279,7 +298,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   final accdtlnvstgLadOwnerDataSource =
       AccdtlnvstgLadOwnerDatasource(items: []).obs;
 
-  Rx<AccdtlnvstgLadModel> selectedOwnerLadOwnerData = AccdtlnvstgLadModel().obs;
+  // 선택된 소유자 정보
+  Rx<AccdtlnvstgLadModel> selectedLadData = AccdtlnvstgLadModel().obs;
 
   // 실태조사 > 소유자/관계인 > 소유자별 관계인 현황
   final accdtlnvstgLadPartcpntDataSource =
@@ -431,15 +451,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
 
-  late InAppWebViewController inAppWebViewController;
-  late WebViewController webViewController;
+  //late InAppWebViewController inAppWebViewController;
+  //late WebViewController webViewController;
 
   RxString selectedLadRealUse = ''.obs;
   RxString selectedLadRealAra = ''.obs;
   RxString selectedLadRealPurpose = ''.obs;
 
   List<File> files = <File>[];
-  RxList<Image> images = <Image>[].obs;
+  RxList<Image> ladImages = <Image>[].obs;
+  RxList<Image> obstImages = <Image>[].obs;
 
   @override
   Future<void> onInit() async {
@@ -478,6 +499,23 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     accdtlnvstgLadPartcpntController = TextEditingController();
     accdtlnvstgLadPartcpntAddrController = TextEditingController();
     accdtlnvstgLadPartcpntRmController = TextEditingController();
+
+    accdtlnvstgObstEditText1Controller = TextEditingController();
+    accdtlnvstgObstEditText2Controller = TextEditingController();
+    accdtlnvstgObstEditText3Controller = TextEditingController();
+    accdtlnvstgObstEditText4Controller = TextEditingController();
+    accdtlnvstgObstEditText5Controller = TextEditingController();
+    accdtlnvstgObstEditText6Controller = TextEditingController();
+    accdtlnvstgObstEditText7Controller = TextEditingController();
+    accdtlnvstgObstEditText8Controller = TextEditingController();
+    accdtlnvstgObstEditText9Controller = TextEditingController();
+    accdtlnvstgObstEditText10Controller = TextEditingController();
+    accdtlnvstgObstEditText11Controller = TextEditingController();
+    accdtlnvstgObstEditText12Controller = TextEditingController();
+    accdtlnvstgObstEditText13Controller = TextEditingController();
+    accdtlnvstgObstEditText14Controller = TextEditingController();
+    accdtlnvstgObstEditText15Controller = TextEditingController();
+    accdtlnvstgObstEditText16Controller = TextEditingController();
 
     accdtlnvstgSearchNmController = TextEditingController();
     accdtlnvstgSearchNoController = TextEditingController();
@@ -608,7 +646,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     // webViewController = WebViewController()
     //   ..loadFile(Uri.file('assets/html/parcel.html').toString())
-    //   // ..loadRequest(Uri.parse('http://222.107.22.159:18080/html/parcel.html'))
+    //   // ..loadRequest(Uri.parse('https://dldm.kwater.or.kr/html/parcel.html'))
     //   ..setJavaScriptMode(JavaScriptMode.unrestricted);
 
     /// [사업목록] 조회
@@ -692,7 +730,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     // if(Platform.isWindows) {
     //   var url =
-    //   Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsPlan.do');
+    //   Uri.parse('https://dldm.kwater.or.kr/lp/bsns/selectBsnsPlan.do');
     //   var response = await http.post(url);
     //
     //   bsnsPlanList.clear();
@@ -733,9 +771,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     //   }
     // }
 
-    var url =
-    Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsPlan.do');
-    var response = await http.post(url);
+    var url = Uri.parse('https://dldm.kwater.or.kr/lp/bsns/selectBsnsPlan.do');
+
+    AppLog.d('fetchBsnsList > url : $url');
+    AppLog.d('fetchBsnsList > buscd : ${LoginController.to.userModel.value.usrDeptCd}');
+
+    var param = {
+      'deptCd': LoginController.to.userModel.value.usrDeptCd,
+    };
+
+    var response = await http.post(url, body: param);
 
     bsnsPlanList.clear();
     searchBsnsPlanList.clear();
@@ -745,12 +790,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
 
       AppLog.d('fetchBsnsList > data : $res');
-
       var length = res.length;
       bsnsPlanModelFromJson(res, dataList, length);
 
       bsnsPlanList = dataList.obs;
       searchBsnsPlanList = dataList.obs;
+
     } else {
       AppLog.e('Failed to load post');
       DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
@@ -778,7 +823,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   fetchBsnsSelectAreaGridDataSource() async {
     var url =
-    Uri.parse('http://222.107.22.159:18080/lp/bsns/selectBsnsZone.do');
+    Uri.parse('https://dldm.kwater.or.kr/lp/bsns/selectBsnsZone.do');
 
     // param
     var param = {
@@ -818,7 +863,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   /// [차수 자동 입력]
   fetchBsnsSelectAreaGetSqncDataSource() async {
-    var url = 'http://222.107.22.159:18080/lp/bsns/selectAccdtInvstgSqnc.do';
+    var url = 'https://dldm.kwater.or.kr/lp/bsns/selectAccdtInvstgSqnc.do';
     //'?shBsnsNo=2101&shBsnsZoneNo=2';
 
     AppLog.d('shBsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
@@ -883,7 +928,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       DialogUtil.showLoading(Get.context!);
 
       var url =
-          Uri.parse('http://222.107.22.159:18080/lp/owner/selectOwnList.do');
+          Uri.parse('https://dldm.kwater.or.kr/lp/owner/selectOwnList.do');
 
       var param = {
         'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -918,7 +963,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [소유자관리 > 토지정보] 조회
   fetchOwnerLadInfoDataSource(ownerNum) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/owner/selectLandList.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/owner/selectLandList.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -978,7 +1023,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [소유자관리 > 지장물정보] 조회
   fetchOwnerObstInfoDataSource(ownerNum) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/owner/selecObstList.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/owner/selecObstList.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -1025,7 +1070,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [소유자관리 > 정보변경] 조회
   /// @deprecated 선택한 소유자에대한 소유자정보를 조회한다.
   fetchOwnerInfo(ownerNum) async {
-    var url = Uri.parse('http://222.107.22.159:18080/lp/owner/selecOwnInfo.do');
+    var url = Uri.parse('https://dldm.kwater.or.kr/lp/owner/selecOwnInfo.do');
 
     var param = {
       'shOwnerNo': ownerNum,
@@ -1075,7 +1120,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [실태조사 > 토지내역] 조회
   fetchAccdtlnvstgSearchDataSource() async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgLad.do');
+        'https://dldm.kwater.or.kr/lp/accdtInvstg/selectAccdtInvstgLad.do');
 
     var param = {
       'bsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -1172,7 +1217,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [실태조사 > 토지 > 소유자 ] 조회
   fetchAccdtlnvstgLadOwnerDataSource(thingSerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgLadOwner.do');
+        'https://dldm.kwater.or.kr/lp/accdtInvstg/selectAccdtInvstgLadOwner.do');
 
     var param = {
       'shThingSerNo': thingSerNo,
@@ -1186,12 +1231,13 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['list'];
-      AppLog.d('fetchAccdtlnvstgLadOwnerDataSource > data : $data');
 
       var length = data.length;
       var list = <AccdtlnvstgLadOwnerModel>[];
 
       accdtlnvstgLadOwnerDataSourceKeyValue(data, list, length);
+
+      AppLog.d('fetchAccdtlnvstgLadOwnerDataSource > data : $list');
 
       accdtlnvstgLadOwnerDataSource.value =
           AccdtlnvstgLadOwnerDatasource(items: list);
@@ -1201,11 +1247,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [실태조사 > 토지 > 관계인] 조회
   fetchAccdtlnvstgLadPartcpntStatusDataSource(ownerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgLadOwnerPartcpnt.do');
+        'https://dldm.kwater.or.kr/lp/accdtInvstg/selectAccdtInvstgLadOwnerPartcpnt.do');
 
     var param = {
       'shOwnerNo': ownerNo,
-      'shThingSerNo': selectedOwnerLadOwnerData.value.thingSerNo,
+      'shThingSerNo': selectedLadData.value.thingSerNo,
       'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
       'bsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
     };
@@ -1230,7 +1276,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [실태조사 > 지장물 정보] 조회
   fetchAccdtlnvstgObstDataSource() async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgObst.do');
+        'https://dldm.kwater.or.kr/lp/accdtInvstg/selectAccdtInvstgObst.do');
 
     var param = {
       'shAccdtInvstgSqnc': selectSqnc.value.accdtInvstgSqnc.toString(),
@@ -1284,7 +1330,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [실태조사 > 지장물 정보 > 그리드 선택 소유자 가져오기 ]
   fetchAccdtlnvstgObstOwnerDataSource(shThingSerNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/accdtInvstg/selectAccdtInvstgObstOwner.do');
+        'https://dldm.kwater.or.kr/lp/accdtInvstg/selectAccdtInvstgObstOwner.do');
 
     var param = {
       'shThingSerNo': shThingSerNo,
@@ -1322,7 +1368,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         'fetchLadSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
 
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lssom/selectSttusLadInfo.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lssom/selectSttusLadInfo.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -1443,7 +1489,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
           width: 60, isVisble: isLadSttusInqireGridTab2.value),
       gridColumn('posesnShreDnmntrInfo', '분모',
           width: 60, isVisble: isLadSttusInqireGridTab2.value),
-
       gridColumn('apasmtReqestDivNm', '평가구분',
           width: 60, isVisble: isLadSttusInqireGridTab3.value),
       gridColumn('apasmtSqnc', '평가차수',
@@ -1530,7 +1575,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         'fetchObstSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
 
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/lssom/selectSttusObstInfo.do');
+        'https://dldm.kwater.or.kr/lp/lssom/selectSttusObstInfo.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -1915,7 +1960,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 관계인 (토지)] 조회
   fetchCstmrCardLadPartcpntInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1944,7 +1989,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 관계인 (지장물)] 조회
   fetchCstmrCardObstPartcpntInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1973,7 +2018,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 협의내역 (토지)] 조회
   fetchCstmrCardLadCmpnstnInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2000,7 +2045,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 수요재결 (토지)] 조회
   fetchCstmrCardLadAceptncInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2029,7 +2074,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 수요재결 (지장물)] 조회
   fetchCstmrCardObstAceptncInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2058,7 +2103,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardLadObjcInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2086,7 +2131,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardObstObjcInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2115,7 +2160,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 소송 (토지)] 조회
   fetchCstmrCardLadLwstInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2145,7 +2190,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     print('fetchCstmrCardObstLwstInfoDataSource > ownerNo : $ownerNo');
 
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2174,7 +2219,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 환매 ] 조회
   fetchCstmrCardReprchsInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2202,7 +2247,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 토지수용확인원 ] 조회
   fetchCstmrCardConfirmInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2230,7 +2275,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 이의신청 ] 조회
   fetchCstmrCardFobjctInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('http://222.107.22.159:18080/lp/lccc/selectCstmrCardLand.do');
+        Uri.parse('https://dldm.kwater.or.kr/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -3049,7 +3094,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                               controller: accdtlnvstgLadRealUseEdit3Controller,
                               hintText: '내용',
                               isPassword: false,
-                              isReadOnly: true,
                               textColor: tableTextColor,
                               onChanged: (value) {
                                 AppLog.d(
@@ -3073,8 +3117,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
         ), onOk: () {
       debugPrint('토지 현실이용현황 조회 및 입력');
       selectedLadRealUse.value = accdtlnvstgLadRealUseEditController.text;
-      selectedLadRealAra.value = accdtlnvstgLadRealUseEdit2Controller.text;
-      selectedLadRealPurpose.value = accdtlnvstgLadRealUseEdit3Controller.text;
+      selectedLadRealPurpose.value = accdtlnvstgLadRealUseEdit2Controller.text;
+      selectedLadRealAra.value = accdtlnvstgLadRealUseEdit3Controller.text;
     }, onCancel: () {
       Get.back();
     });
@@ -3479,7 +3523,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   }
 
   /// [사진촬영]
-  takePhoto() async {
+  takePhoto(type) async {
 
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera, imageQuality: 50, maxHeight: 480, maxWidth: 640);
@@ -3497,7 +3541,15 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
       // 사진 미리보기
       final image = Image.file(file);
       DialogUtil.showAlertDialog(Get.context!, 1040, '사진촬영', widget: image, onOk: () {
-        images.add(image);
+
+        if(type == 'lad') {
+          // 토지현황
+          ladImages.add(image);
+        } else {
+          // 지장물현황
+          obstImages.add(image);
+        }
+
         files.add(file);
       }, onCancel: () {
         Get.back();

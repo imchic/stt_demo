@@ -1,10 +1,10 @@
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class GisController extends GetxController {
   static GisController get to => Get.find<GisController>();
 
-  late WebViewController webViewController;
+  late InAppWebViewController inAppWebViewController;
 
   RxDouble latitude = 0.0.obs;
   RxDouble longitude = 0.0.obs;
@@ -12,10 +12,6 @@ class GisController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    webViewController = WebViewController()
-    //..loadFile(Uri.file('assets/html/parcel.html').toString())
-      ..loadRequest(Uri.parse('http://222.107.22.159:18080/html/parcel.html'))
-      ..setJavaScriptMode(JavaScriptMode.unrestricted);
   }
 
   @override

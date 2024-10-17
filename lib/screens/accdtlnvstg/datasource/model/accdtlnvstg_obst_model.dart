@@ -46,7 +46,7 @@ import 'dart:convert';
 /// sanctnDe : null
 List accdtlnvstgObstDataSourceKeyValue(dynamic str, List<dynamic> list, int length) {
   for (int i = 0; i < length; i++) {
-    var data = AccdtlnvstgObstModel.fromJson(str[i]);
+    var data = AccdtlnvstgObstModel.fromJson(str[i] == 'null' ? {} : str[i]);
     list.add(data);
   }
   return list;
@@ -215,7 +215,7 @@ class AccdtlnvstgObstModel {
     map['invstgDt'] = invstgDt;
     map['obstDivCd'] = obstDivCd;
     map['obstDivNm'] = obstDivNm;
-    map['cmpnstnThingKndDtls'] = cmpnstnThingKndDtls;
+    map['cmpnstnThingKndDtls'] = cmpnstnThingKndDtls ?? '';
     map['obstStrctStndrdInfo'] = obstStrctStndrdInfo;
     map['dtaPrcsSittnCtnt'] = dtaPrcsSittnCtnt;
     map['cmpnstnQtyAraVu'] = cmpnstnQtyAraVu;
@@ -225,7 +225,7 @@ class AccdtlnvstgObstModel {
     map['cmpnstnStepDivNm'] = cmpnstnStepDivNm;
     map['cmptnUpcCtnt'] = cmptnUpcCtnt;
     map['chnCtnt'] = chnCtnt;
-    map['spcitm'] = spcitm;
+    map['spcitm'] = spcitm ?? '';
     map['fobjctNo'] = fobjctNo;
     map['obstSeq'] = obstSeq;
     map['apasmtReqestYn'] = apasmtReqestYn;

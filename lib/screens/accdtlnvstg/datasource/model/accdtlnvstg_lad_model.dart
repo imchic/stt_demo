@@ -186,6 +186,9 @@ class AccdtlnvstgLadModel {
     map['conectIp'] = conectIp;
     map['ladAtchflId'] = ladAtchflId;
     map['buildCnt'] = buildCnt;
+
+    map.removeWhere((key, value) => value == null);
+
     return map;
   }
 

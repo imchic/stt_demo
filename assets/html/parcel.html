@@ -34,6 +34,24 @@
     	display: none;
     }
     
+    #movePopup {
+    	position: absolute;
+    	width:500px;
+    	height:180px;
+    	left:calc(100% / 2 - 250px);
+    	top:calc(100% / 2 - 50px);
+    	border-radius:10px;
+    	border:1px solid #cccccc;
+    	background:white;
+    	padding:10px;
+    	align-content: center;
+    	line-height: 2.5;
+    	text-align: center;
+    	display:none;
+    	text-align: left;
+   		padding-left: 20px;
+    }
+    
     #movePopup button {
 		/* btn */		
 		/* Auto layout */
@@ -260,6 +278,55 @@
 		font-size: 14px;
     }
     
+    #jjmAdd {
+    	position: absolute;
+		bottom: 40px;
+		width: 150px;
+		left: calc(50% - 75px);
+		background-color: white;
+		padding: 10px;
+		border-radius: 25px;
+		box-shadow: 0px 0px 15px rgba(0,0,0,0.5);
+		font-size: 20px;
+		font-weight: bold;
+		text-align:center;
+		display:none;
+		cursor: pointer;
+    }
+	
+	#bsnsSelectDiv {
+		position: absolute;
+		background-color: white;
+		padding: 10px;
+		border-radius: 25px;
+		box-shadow: 0px 0px 15px rgba(0,0,0,0.5);
+		font-size: 20px;
+		font-weight: bold;
+		text-align:center;
+		cursor: pointer;
+		z-index: 1;
+		top:50%;
+		left:50%;
+		transform:translate(-50%, -50%);
+		display: none;
+	}
+	
+	#bsnsSelectDiv select {
+		height: 300px;
+		width: auto;
+		border: 0px;
+		max-height:400px;
+	}
+	
+	#bsnsSelectDiv select option{
+		font-size: 20px;
+		height:30px;
+	}
+	
+	#bsnsSelectDiv button {
+		float: right;
+	}
+	
 	#scaleDiv {
 		position: absolute;
 		bottom: 10px;
@@ -271,22 +338,26 @@
 		font-size: 14px;
     }
 </style>
-<link rel="stylesheet" href="http://222.107.22.159:18080/assets/css/style.css" />
-<script src="http://222.107.22.159:18080/assets/js/property.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/jquery-2.2.4.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/jquery-ui.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/common.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/jquery.ztree.all.min.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/swiper.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/arcgis/init.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/parcel/ref/layers.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/parcel/ref/projection.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/parcel/ref/renderer.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/parcel/ref/themantic.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/parcel/ref/tile.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/parcel/ref/tree.js"></script>
-<script src="http://222.107.22.159:18080/assets/js/parcel/map.js"></script>
-
+<link rel="stylesheet" href="https://dldm.kwater.or.kr/assets/css/style.css" />
+<script src="https://dldm.kwater.or.kr/assets/js/jquery-2.2.4.js"></script>
+<!-- script src="https://dldm.kwater.or.kr/assets/js/jquery-ui.js"></script> -->
+<script src="https://dldm.kwater.or.kr/assets/js/common.js"></script>
+<script src="https://dldm.kwater.or.kr/assets/js/jquery.ztree.all.min.js"></script>
+<script src="https://dldm.kwater.or.kr/assets/js/swiper.js"></script>
+<script src="https://dldm.kwater.or.kr/assets/js/arcgis/init.js" async></script>
+<script src="https://dldm.kwater.or.kr/assets/js/parcel/ref/layers.js"></script>
+<script src="https://dldm.kwater.or.kr/assets/js/parcel/ref/projection.js"></script>
+<script src="https://dldm.kwater.or.kr/assets/js/parcel/ref/renderer.js"></script>
+<script src="https://dldm.kwater.or.kr/assets/js/parcel/ref/themantic.js"></script>
+<script src="https://dldm.kwater.or.kr/assets/js/parcel/ref/tile.js"></script>
+<script src="https://dldm.kwater.or.kr/assets/js/parcel/ref/tree.js"></script>
+<script src="https://dldm.kwater.or.kr/assets/js/parcel/map.js"></script>
+<script>
+function webToApp_test() {
+    var args = [{'value': 'test done!'}];
+    window.flutter_inappwebview.callHandler('interfaces', args);
+}
+</script>
 <!-- <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <script src="js/selectivizr.js">
  -->
@@ -441,65 +512,69 @@
 		<div class="widgetWrap">
 			<div class="mapBox">
 				<button type="button" class="lifeMap choice">
-					<div class="imgbox"><img src="http://222.107.22.159:18080/assets/images/img-01.svg" alt=""></div>
+					<div class="imgbox"><img src="https://dldm.kwater.or.kr/assets/images/img-01.svg" alt=""></div>
 					<p class="txt">생활지도</p>
 				</button>
 				<button type="button" class="videoMap">
-					<div class="imgbox"><img src="http://222.107.22.159:18080/assets/images/img-02.svg" alt=""></div>
+					<div class="imgbox"><img src="https://dldm.kwater.or.kr/assets/images/img-02.svg" alt=""></div>
 					<p class="txt">영상지도</p>
 				</button>
 			</div>
 			<div class="toolBox">
 				<div class="btnGisBox">
 					<button type="button">
-						<img src="http://222.107.22.159:18080/assets/images/ico-06.svg" alt="">
+						<img src="https://dldm.kwater.or.kr/assets/images/ico-06.svg" alt="">
 						<span>거리</span>
 					</button>
 					<button type="button">
-						<img src="http://222.107.22.159:18080/assets/images/ico-07.svg" alt="">
+						<img src="https://dldm.kwater.or.kr/assets/images/ico-07.svg" alt="">
 						<span>면적</span>
 					</button>
 				</div>
 				<div class="btnGisBox">
+					<!-- 
 					<button type="button" id="jjmAdd">
-						<img src="http://222.107.22.159:18080/assets/images/ico-08.svg" alt="">
+						<img src="https://dldm.kwater.or.kr/assets/images/ico-08.svg" alt="">
 						<span>
 							지장물<br>
 							관리
 						</span>
 					</button>
+					 -->
 					<button type="button" id="themantic">
-						<img src="http://222.107.22.159:18080/assets/images/ico-08.svg" alt="">
+						<img src="https://dldm.kwater.or.kr/assets/images/ico-08.svg" alt="">
 						<span>
 							주제도
 						</span>
 					</button>
+					<!-- 
 					<button type="button" id="move">
-						<img src="http://222.107.22.159:18080/assets/images/ico-08.svg" alt="">
+						<img src="https://dldm.kwater.or.kr/assets/images/ico-08.svg" alt="">
 						<span>
-							이동 API
+							API
 						</span>
 					</button>
+					 -->
 				</div>
 				<div class="btnGisBox">
 					<button type="button">
-						<img src="http://222.107.22.159:18080/assets/images/common/ico-reset.svg" alt="">
+						<img src="https://dldm.kwater.or.kr/assets/images/common/ico-reset.svg" alt="">
 					</button>
 				</div>
 				<div class="btnGisBox">
 					<button type="button" class="onlyIcon">
-						<img src="http://222.107.22.159:18080/assets/images/ico-plus.svg" alt="">
+						<img src="https://dldm.kwater.or.kr/assets/images/ico-plus.svg" alt="">
 						<span class="hide">확대</span>
 					</button>
 					<button type="button" class="onlyIcon">
-						<img src="http://222.107.22.159:18080/assets/images/ico-minus.svg" alt="">
+						<img src="https://dldm.kwater.or.kr/assets/images/ico-minus.svg" alt="">
 						<span class="hide">축소</span>
 					</button>
 				</div>
 				
 				<div class="btnGisBox">
 					<button type="button" class="onlyIcon" id="gps">
-						<img src="http://222.107.22.159:18080/assets/images/gps.png" style="width:24px; height:24px;" alt="">
+						<img src="https://dldm.kwater.or.kr/assets/images/gps.png" style="width:24px; height:24px;" alt="">
 						<span>
 							GPS
 						</span>
@@ -510,9 +585,23 @@
 		</div>
 		<div id="xyDiv"></div>
 		<div id="scaleDiv"></div>
-		<div id="movePopup" style="position: absolute;width:500px;height:100px;left:calc(100% / 2 - 250px); top:calc(100% / 2 - 50px); border-radius:10px;border:1px solid #cccccc;background:white;padding:10px;align-content: center;line-height: 2.5;text-align: center;display:none;">
+		<div id="jjmAdd">지장물 등록</div>
+		<div id="bsnsSelectDiv">
+			<select multiple>
+				<option>금강광역상수도_시설물_개량공사_11회_변경_일시사용_231114</option>
+				<option>금강광역상수도_시설물_개량공사_11회_변경_수점용_231114</option>
+				<option>금강광역상수도_시설물_개량공사_일시사용_230517</option>
+				<option>금강광역상수도_시설물_개량공사_수점용_230517</option>
+			</select><br>
+			<button type="button" id="btnBsnsSelect" class="btn btnS btnMiddleGray">선택</button>
+		</div>
+		<div id="movePopup">
 			사업선: <input type="text" style="width:300px;" placeholder="사업선코드 예)2630" id="busiAreaNo"/><button id="moveBusiArea">이동</button><br>
 			지&nbsp;&nbsp;&nbsp;적: <input type="text" style="width:300px;" placeholder="PNU코드 예)4423010900100570002" id="pnuNo"/><button id="movePnu">이동</button>
+			<br>
+			사업정보 설정: <br>
+			<input type="text" style="width:150px;" placeholder="사업코드 예)3005" id="bsnsNo"/><input type="text" style="width:150px;" placeholder="사업차수 예)1" id="bsnsSqnc" style="margin-left: 10px;"/>
+			<button id="setBsnsNo">설정</button>
 		</div>
 		
 		<dialog class="themanticPopup">
@@ -629,6 +718,7 @@
 	        });	        
 	      </script>
 	</div>
+	<div id="progressbar"></div>
 	<!--// gisArea -->
 </div>
 <!--// wrap -->

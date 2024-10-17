@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ldi/components/custom_textfield.dart';
-import 'package:ldi/routes/app_route.dart';
 import 'package:ldi/utils/dialog_util.dart';
 
 import '../../utils/applog.dart';
@@ -153,6 +151,7 @@ class LoginScreen extends GetView<LoginController> {
                                             ),
                                           ),
                                         ),
+                                        SizedBox(height: 8.h),
                                       ],
                                     ),
                                   ),
@@ -380,6 +379,20 @@ class LoginScreen extends GetView<LoginController> {
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
+                                                CustomTextField(hintText: 'VPN(ID)',
+                                                    controller: controller.vpnIdController,
+                                                    prefixIcon: 'assets/icons/ic_account.svg', onChanged: (value) {
+                                                      controller.vpnId.value = value;
+                                                      AppLog.d(controller.vpnId.value);
+                                                    }),
+                                                SizedBox(height: 20.h),
+                                                CustomTextField(hintText: 'VPN(비밀번호)',
+                                                    controller: controller.vpnPwController,
+                                                    prefixIcon: 'assets/icons/ic_account.svg', onChanged: (value) {
+                                                      controller.vpnPw.value = value;
+                                                      AppLog.d(controller.vpnPw.value);
+                                                    }),
+                                                SizedBox(height: 20.h),
                                                 CustomTextField(hintText: '아이디(사번)',
                                                     controller: controller.idController,
                                                     prefixIcon: 'assets/icons/ic_account.svg', onChanged: (value) {
@@ -474,8 +487,9 @@ class LoginScreen extends GetView<LoginController> {
                                                   AppLog.d('loginType: ${controller.loginType.value}');
 
                                                   // invokeMethod
-                                                  // controller.methodChannel.invokeMethod('requestOtp', "");
-                                                  controller.fetchLogin(controller.txtId.value);
+                                                  controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
+                                                  controller.methodChannel.invokeMethod('requestOtp', "");
+                                                  // controller.fetchLogin(controller.txtId.value);
 
                                                 },
                                                 child: Container(

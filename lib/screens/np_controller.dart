@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ldi/screens/useprmisn/model/use_prmisn_cancl_aprv_model.dart';
 import 'package:ldi/screens/useprmisn/use_prmisn_cancl_aprv_detail_model_datasource.dart';
 import 'package:ldi/screens/useprmisn/use_prmisn_cancl_aprv_doc_model_datasource.dart';
@@ -33,6 +35,9 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
       .obs; // 필지선택 > 신청자정보별 허가 상세현황 > 신청자정보별 허가 상세현황 토지순번
   RxString selectRqstSeq = ''
       .obs; // 필지선택 > 신청자정보별 허가 상세현황 > 신청자정보별 허가 상세현황 신청순번
+
+  List<File> files = <File>[];
+  RxList<Image> wtwkAccdtInvstgImages = <Image>[].obs;
 
   // 사용허가 조회
   late DataGridController usePrmisnCanclAprvDataGridController;
@@ -94,7 +99,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   // [허가정보] > 신청정보
   fetchUsePrmisnCanclAprvList() async {
     var url =
-    Uri.parse('http://222.107.22.159:18080/lp/nupcm/selectUseRqstMng.do');
+    Uri.parse('https://dldm.kwater.or.kr/lp/nupcm/selectUseRqstMng.do');
 
     var param = {};
 
@@ -119,7 +124,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   // [허가정보] > 신청자정보
   fetchUsePrmisnCanclAprvDetailList(plotUseNo) async {
     var url =
-    Uri.parse('http://222.107.22.159:18080/lp/nupcm/selectUseRqstPlot.do');
+    Uri.parse('https://dldm.kwater.or.kr/lp/nupcm/selectUseRqstPlot.do');
 
     var param = {'plotUseNo': plotUseNo};
 
@@ -144,7 +149,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   // [허가정보] > 신청자정보 > 공문조회
   fetchUsePrmisnCanclAprvDocList(plotUseNo) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/nupcm/selectSanctnDocInfo.do');
+        'https://dldm.kwater.or.kr/lp/nupcm/selectSanctnDocInfo.do');
 
     // 대지사용번호
     var param = {'plotUseNo': plotUseNo};
@@ -197,7 +202,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
     // });
 
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/nwum/selectWtwkAccdtInvstgChck.do');
+        'https://dldm.kwater.or.kr/lp/nwum/selectWtwkAccdtInvstgChck.do');
 
     var param = {'shLadBtypDivCd': shLadBtypDivCd};
 
@@ -214,8 +219,6 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
 
       wtwkAccdtInvstgModelDataSource.value =
           WtwkAccdtinvstgModelDatasource(items: list);
-
-      Get.back();
     }
   }
 
@@ -225,7 +228,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   /// [rqstSeq] 필지선택 > 신청자정보별 허가 상세현황 > 신청자정보별 허가 상세현황 신청순번
   fetchWtwkAccdtInvstgThingInfoList(plotUseNo, ladSeq, rqstSeq) async {
     var url = Uri.parse(
-        'http://222.107.22.159:18080/lp/nwum/selectUseInstThingInfo.do');
+        'https://dldm.kwater.or.kr/lp/nwum/selectUseInstThingInfo.do');
 
     var param = {
       'plotUseNo': plotUseNo.toString(),
@@ -248,6 +251,45 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
           WtwkaccdtinvstgThingModelDatasource(items: list);
 
       Get.back();
+    }
+  }
+
+  takePhoto() async {
+
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera, imageQuality: 50, maxHeight: 480, maxWidth: 640);
+
+    if (pickedFile != null) {
+      final File file = File(pickedFile.path);
+      final String fileName = file.path.split('/').last;
+      final String filePath = file.path;
+
+      AppLog.d('fileName : $fileName');
+      AppLog.d('filePath : $filePath');
+
+      await Future.delayed(Duration(seconds: 1));
+
+      // 사진 미리보기
+      final image = Image.file(file);
+      DialogUtil.showAlertDialog(Get.context!, 1040, '사진촬영', widget: image, onOk: () {
+        wtwkAccdtInvstgImages.add(image);
+        files.add(file);
+      }, onCancel: () {
+        Get.back();
+      });
+
+      // 파일 업로드
+      // final response = await FileUploadService.uploadFile(filePath, fileName);
+      // AppLog.d('response : $response');
+      //
+      // if (response != null) {
+      //   DialogUtil.showSnackBar(Get.context!, '사진촬영', '사진을 촬영하였습니다.');
+      // } else {
+      //   DialogUtil.showSnackBar(Get.context!, '사진촬영', '사진을 촬영하지 못했습니다.');
+      // }
+
+    } else {
+      DialogUtil.showSnackBar(Get.context!, '사진촬영', '사진을 촬영하지 않았습니다.');
     }
   }
 

@@ -39,6 +39,7 @@ List accdtlnvstgLadOwnerDataSourceKeyValue(dynamic str, List<dynamic> list, int 
     var data = AccdtlnvstgLadOwnerModel.fromJson(str[i]);
     list.add(data);
   }
+  list.removeWhere((element) => element == null);
   return list;
 }
 
@@ -192,6 +193,9 @@ class AccdtlnvstgLadOwnerModel {
     map['conectIp'] = conectIp;
     map['oldownerno'] = oldownerno;
     map['ownerDivCd'] = ownerDivCd;
+
+    map.removeWhere((key, value) => value == null);
+
     return map;
   }
 

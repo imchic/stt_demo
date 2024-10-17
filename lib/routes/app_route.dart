@@ -3,6 +3,7 @@ import 'package:ldi/screens/gis/gis_screen.dart';
 import 'package:ldi/screens/np_screen.dart';
 import 'package:ldi/screens/splash/splash_binding.dart';
 
+import '../screens/gis/gis_binding.dart';
 import '../screens/lp_binding.dart';
 import '../screens/lp_screen.dart';
 import '../screens/login/login_screen.dart';
@@ -22,7 +23,7 @@ class AppRoute {
 
     ]),
     GetPage(name: login, page: () => LoginScreen()),
-    GetPage(name: gis, page: () => GisScreen(type: 'parcel',),),
+    GetPage(name: gis, page: () => GisScreen(), binding: GisBinding()),
     GetPage(name: lp, page: () => lpScreen(), binding: LpBinding()),
     GetPage(name: np, page: () => npScreen(), binding: NpBinding()),
   ];

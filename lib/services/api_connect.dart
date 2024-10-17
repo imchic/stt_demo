@@ -3,7 +3,7 @@ import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:ldi/utils/dialog_util.dart';
 
 class ApiConnect extends GetConnect {
-  final String baseUrl = 'http://222.107.22.159:18080/';
+  final String baseUrl = 'https://dldm.kwater.or.kr/';
 
   // init
   @override

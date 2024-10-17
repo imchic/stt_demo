@@ -4,13 +4,10 @@ import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:ldi/screens/gis/gis_controller.dart';
 import 'package:ldi/screens/lp_controller.dart';
 
-import 'login/login_controller.dart';
-
-class LpBinding extends Bindings {
+class GisBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<LpController>(() => LpController());
-    Get.lazyPut<LoginController>(() => LoginController());
     Get.lazyPut<GisController>(() => GisController());
   }
 }

@@ -14,14 +14,14 @@ class AccdtlnvstgObstDatasource extends DataGridSource {
             DataGridCell(columnName: 'thingSerNo', value: e.thingSerNo),
             DataGridCell(columnName: 'cmpnstnObstNo', value: e.cmpnstnObstNo),
             DataGridCell(columnName: 'obstDivNm', value: e.obstDivNm),
-            DataGridCell(columnName: 'cmpnstnThingKndDtls', value: e.cmpnstnThingKndDtls),
-            DataGridCell(columnName: 'obstStrctStndrdInfo', value: e.obstStrctStndrdInfo),
+            DataGridCell(columnName: 'cmpnstnThingKndDtls', value: e.cmpnstnThingKndDtls ?? ''),
+            DataGridCell(columnName: 'obstStrctStndrdInfo', value: e.obstStrctStndrdInfo ?? ''),
             DataGridCell(columnName: 'cmpnstnQtyAraVu', value: e.cmpnstnQtyAraVu),
-            DataGridCell(columnName: 'cmpnstnThingUnitDivNm', value: e.cmpnstnThingUnitDivNm),
+            DataGridCell(columnName: 'cmpnstnThingUnitDivNm', value: e.cmpnstnThingUnitDivNm ?? ''),
             DataGridCell(columnName: 'lgdongNm', value: e.lgdongNm),
             DataGridCell(columnName: 'accdtInvstgSqnc', value: e.accdtInvstgSqnc),
             DataGridCell(columnName: 'invstgDt', value: e.invstgDt),
-            DataGridCell(columnName: 'spcitm', value: e.spcitm),
+            DataGridCell(columnName: 'spcitm', value: e.spcitm ?? ''),
           ]))
         .toList();
   }

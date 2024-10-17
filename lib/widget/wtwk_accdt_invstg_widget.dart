@@ -119,10 +119,7 @@ class WtwkAccdtInvstgWidget {
                         SizedBox(height: 10.h),
                         InkWell(
                           onTap: () {
-                            // image picker
-                            final ImagePicker _picker = ImagePicker();
-                            // camera
-                            LpController.to.takePhoto();
+                            controller.takePhoto();
                           },
                           child: Container(
                             width: 72.w,
@@ -169,7 +166,7 @@ class WtwkAccdtInvstgWidget {
                     child: Obx(() =>
                         Row(
                           children: [
-                            for (var i = 0; i < LpController.to.images.length; i++)
+                            for (var i = 0; i < controller.wtwkAccdtInvstgImages.length; i++)
                               Container(
                                 height: 300.h,
                                 margin: EdgeInsets.only(right: 10.w),
@@ -179,7 +176,7 @@ class WtwkAccdtInvstgWidget {
                                     border: Border.all(color: borderLine)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Image.file(LpController.to.files[i]),
+                                  child: Image.file(controller.files[i]),
                                 ),
                               ),
                           ],

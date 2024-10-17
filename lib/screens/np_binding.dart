@@ -7,5 +7,6 @@ class NpBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<NpController>(() => NpController());
+    Get.lazyPut<NpController>(() => NpController());
   }
 }
