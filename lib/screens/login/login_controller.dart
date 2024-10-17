@@ -131,7 +131,7 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
   }
 
   fetchLogin(usrId) async {
-    var url = Uri.parse('https://dldm.kwater.or.kr/login/selectLoginUsr.do');
+    var url = Uri.parse('BASE_URLlogin/selectLoginUsr.do');
 
     var param = {
       'usrId': usrId,

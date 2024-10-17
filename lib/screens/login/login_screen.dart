@@ -488,8 +488,6 @@ class LoginScreen extends GetView<LoginController> {
 
                                                   // invokeMethod
                                                   controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
-                                                  controller.methodChannel.invokeMethod('requestOtp', "");
-                                                  // controller.fetchLogin(controller.txtId.value);
 
                                                 },
                                                 child: Container(

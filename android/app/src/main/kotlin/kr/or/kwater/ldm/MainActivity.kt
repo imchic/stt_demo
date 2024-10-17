@@ -1,4 +1,4 @@
-package kr.or.kwater.mdaon.ldi
+package kr.or.kwater.ldm
 
 import android.content.ComponentName
 import android.content.Intent
@@ -13,11 +13,10 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
-import kr.or.kwater.mdaon.ldi.MainActivity.SecuwayServiceConnection
 import net.secuwiz.SecuwaySSLU.kwater21.IMobileApi
 
 var tempService: IBinder? = null
-private val mConnection = SecuwayServiceConnection()
+private val mConnection = MainActivity.SecuwayServiceConnection()
 
 var addr = ""
 var id = ""

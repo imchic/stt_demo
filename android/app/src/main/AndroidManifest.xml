@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="kr.or.kwater.mdaon.ldi">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="kr.or.kwater.ldm">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -38,7 +38,7 @@
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".MainActivity"
+            android:name="kr.or.kwater.ldm.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""
@@ -64,10 +64,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
-        <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="ilm1l1ctqq" />
 
     </application>
     <!-- Required to query activities that can process text, see:

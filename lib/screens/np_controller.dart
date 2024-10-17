@@ -20,6 +20,7 @@ import '../utils/applog.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../utils/common_util.dart';
 import 'useprmisn/model/use_prmisn_cancl_aprv_detail_model.dart';
 import 'useprmisn/model/use_prmisn_cancl_aprv_doc_model.dart';
 
@@ -99,7 +100,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   // [허가정보] > 신청정보
   fetchUsePrmisnCanclAprvList() async {
     var url =
-    Uri.parse('https://dldm.kwater.or.kr/lp/nupcm/selectUseRqstMng.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/nupcm/selectUseRqstMng.do');
 
     var param = {};
 
@@ -124,7 +125,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   // [허가정보] > 신청자정보
   fetchUsePrmisnCanclAprvDetailList(plotUseNo) async {
     var url =
-    Uri.parse('https://dldm.kwater.or.kr/lp/nupcm/selectUseRqstPlot.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/nupcm/selectUseRqstPlot.do');
 
     var param = {'plotUseNo': plotUseNo};
 
@@ -149,7 +150,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   // [허가정보] > 신청자정보 > 공문조회
   fetchUsePrmisnCanclAprvDocList(plotUseNo) async {
     var url = Uri.parse(
-        'https://dldm.kwater.or.kr/lp/nupcm/selectSanctnDocInfo.do');
+        '${CommonUtil.BASE_URL}/lp/nupcm/selectSanctnDocInfo.do');
 
     // 대지사용번호
     var param = {'plotUseNo': plotUseNo};
@@ -202,7 +203,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
     // });
 
     var url = Uri.parse(
-        'https://dldm.kwater.or.kr/lp/nwum/selectWtwkAccdtInvstgChck.do');
+        '${CommonUtil.BASE_URL}/lp/nwum/selectWtwkAccdtInvstgChck.do');
 
     var param = {'shLadBtypDivCd': shLadBtypDivCd};
 
@@ -228,7 +229,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
   /// [rqstSeq] 필지선택 > 신청자정보별 허가 상세현황 > 신청자정보별 허가 상세현황 신청순번
   fetchWtwkAccdtInvstgThingInfoList(plotUseNo, ladSeq, rqstSeq) async {
     var url = Uri.parse(
-        'https://dldm.kwater.or.kr/lp/nwum/selectUseInstThingInfo.do');
+        '${CommonUtil.BASE_URL}/lp/nwum/selectUseInstThingInfo.do');
 
     var param = {
       'plotUseNo': plotUseNo.toString(),

@@ -9,8 +9,8 @@ import 'login/login_controller.dart';
 class LpBinding extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut<GisController>(() => GisController());
     Get.lazyPut<LpController>(() => LpController());
     Get.lazyPut<LoginController>(() => LoginController());
-    Get.lazyPut<GisController>(() => GisController());
   }
 }

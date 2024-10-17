@@ -679,12 +679,6 @@ class lpScreen extends GetView<LpController> {
         controller.fetchAccdtlnvstgSearchDataSource();
         controller.fetchAccdtlnvstgObstDataSource();
 
-        Get.put(GisController());
-
-        // key, value
-
-        // json stringfy
-
         var jsonString = jsonEncode({
           'bsnsNo': controller.selectBsnsPlan.value.bsnsNo,
           'bsnsSqnc': controller.selectSqnc.value.accdtInvstgSqnc
@@ -694,11 +688,6 @@ class lpScreen extends GetView<LpController> {
 
         GisController.to.inAppWebViewController
             .evaluateJavascript(source: 'fn_setBsnsInfo($jsonString)');
-
-        //GisController.to.inAppWebViewController.evaluateJavascript(source: '');
-        // source: 'fn_setBsnsInfo('
-        //     '{ "bsnsNo" : ${controller.selectBsnsPlan.value.bsnsNo}, "bsnsSqnc" : ${controller.selectSqnc.value.accdtInvstgSqnc} }'
-        //     ')');
       }),
       columns: [
         gridColumn('bsnsNo', '사업번호', isVisble: false),
