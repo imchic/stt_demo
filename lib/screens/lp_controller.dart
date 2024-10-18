@@ -4,37 +4,38 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ldi/components/custom_bsns_badge.dart';
-import 'package:ldi/components/custom_microphonewithpen_button.dart';
-import 'package:ldi/screens/bsns/bsns_plan_model.dart';
-import 'package:ldi/screens/bsns/select/bsns_plan_select_area_model.dart';
-import 'package:ldi/screens/bsns/sqnc/bsns_accdtinvstg_sqnc_datasource.dart';
-import 'package:ldi/screens/bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
-import 'package:ldi/screens/cstmr/aceptnc/cstmrcard_lad_aceptnc_datasource.dart';
-import 'package:ldi/screens/cstmr/aceptnc/model/cstmrcard_obst_aceptnc_datasource_model.dart';
-import 'package:ldi/screens/cstmr/cmpnstn/model/cstmrcard_cmpnstn_datasource_model.dart';
-import 'package:ldi/screens/cstmr/confirm/cstmrcard_confirm_datasource.dart';
-import 'package:ldi/screens/cstmr/confirm/model/cstmrcard_confirm_datasource_model.dart';
-import 'package:ldi/screens/cstmr/fobjct/cstmrcard_fobjct_datasource.dart';
-import 'package:ldi/screens/cstmr/fobjct/model/cstmrcard_fobject_datasource_model.dart';
-import 'package:ldi/screens/cstmr/lwst/cstmrcard_lad_lwst_datasource.dart';
-import 'package:ldi/screens/cstmr/lwst/model/cstmrcard_lad_lwst_datasource_model.dart';
-import 'package:ldi/screens/cstmr/objc/model/cstmrcard_lad_objc_datasource_model.dart';
-import 'package:ldi/screens/cstmr/objc/model/cstmrcard_obst_objc_datasource_model.dart';
-import 'package:ldi/screens/cstmr/partcpnt/model/cstmrcard_lad_partcpnt_datasource_model.dart';
-import 'package:ldi/screens/cstmr/reprchs/cstmrcard_reprchs_datasource.dart';
-import 'package:ldi/screens/cstmr/reprchs/model/cstmrcard_reprchs_datasource_model.dart';
-import 'package:ldi/screens/login/login_controller.dart';
-import 'package:ldi/screens/owner/datasource/model/owner_info_model.dart';
-import 'package:ldi/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
-import 'package:ldi/screens/sttus/datasource/model/lad_sttus_inqire_model.dart';
-import 'package:ldi/screens/sttus/datasource/model/obst_sttus_inqire_model.dart';
-import 'package:ldi/services/api_connect.dart';
-import 'package:ldi/utils/applog.dart';
+import 'package:ldm/components/custom_bsns_badge.dart';
+import 'package:ldm/components/custom_microphonewithpen_button.dart';
+import 'package:ldm/screens/bsns/bsns_plan_model.dart';
+import 'package:ldm/screens/bsns/select/bsns_plan_select_area_model.dart';
+import 'package:ldm/screens/bsns/sqnc/bsns_accdtinvstg_sqnc_datasource.dart';
+import 'package:ldm/screens/bsns/sqnc/model/bsns_accdtinvstg_sqnc_model.dart';
+import 'package:ldm/screens/cstmr/aceptnc/cstmrcard_lad_aceptnc_datasource.dart';
+import 'package:ldm/screens/cstmr/aceptnc/model/cstmrcard_obst_aceptnc_datasource_model.dart';
+import 'package:ldm/screens/cstmr/cmpnstn/model/cstmrcard_cmpnstn_datasource_model.dart';
+import 'package:ldm/screens/cstmr/confirm/cstmrcard_confirm_datasource.dart';
+import 'package:ldm/screens/cstmr/confirm/model/cstmrcard_confirm_datasource_model.dart';
+import 'package:ldm/screens/cstmr/fobjct/cstmrcard_fobjct_datasource.dart';
+import 'package:ldm/screens/cstmr/fobjct/model/cstmrcard_fobject_datasource_model.dart';
+import 'package:ldm/screens/cstmr/lwst/cstmrcard_lad_lwst_datasource.dart';
+import 'package:ldm/screens/cstmr/lwst/model/cstmrcard_lad_lwst_datasource_model.dart';
+import 'package:ldm/screens/cstmr/objc/model/cstmrcard_lad_objc_datasource_model.dart';
+import 'package:ldm/screens/cstmr/objc/model/cstmrcard_obst_objc_datasource_model.dart';
+import 'package:ldm/screens/cstmr/partcpnt/model/cstmrcard_lad_partcpnt_datasource_model.dart';
+import 'package:ldm/screens/cstmr/reprchs/cstmrcard_reprchs_datasource.dart';
+import 'package:ldm/screens/cstmr/reprchs/model/cstmrcard_reprchs_datasource_model.dart';
+import 'package:ldm/screens/login/login_controller.dart';
+import 'package:ldm/screens/owner/datasource/model/owner_info_model.dart';
+import 'package:ldm/screens/sttus/datasource/lad_sttus_inqire_datasource.dart';
+import 'package:ldm/screens/sttus/datasource/model/lad_sttus_inqire_model.dart';
+import 'package:ldm/screens/sttus/datasource/model/obst_sttus_inqire_model.dart';
+import 'package:ldm/services/api_connect.dart';
+import 'package:ldm/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -77,12 +78,14 @@ import 'bsns/select/bsns_select_model.dart';
 
 import 'package:http/http.dart' as http;
 
-class LpController extends GetxController with GetTickerProviderStateMixin {
+class LpController extends GetxController with GetTickerProviderStateMixin, WidgetsBindingObserver {
   static LpController get to => Get.find();
 
   RxBool isGisOpenFlag = false.obs;
 
   final api = ApiConnect();
+
+  final MethodChannel closeChannel = MethodChannel('kr.or.kwater.ldm/close');
 
   // 사업선택
   late TextEditingController bsnsNameSearchController; // 사업명 검색
@@ -466,6 +469,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   Future<void> onInit() async {
     super.onInit();
 
+    WidgetsBinding.instance!.addObserver(this);
+
+   closeChannel.setMethodCallHandler((call) async {
+      if (call.method == 'close') {
+        SystemNavigator.pop();
+      }
+    });
+
     pageController = PageController(initialPage: selectedIndex.value);
 
     bsnsNameSearchController = TextEditingController();
@@ -656,6 +667,30 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   }
 
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    bsnsTabController.dispose();
+    bsnsNameSearchController.dispose();
+    bsnsNoSearchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      AppLog.d('AppLifecycleState.resumed');
+      //LoginController.to.methodChannel.invokeMethod('vpnLogin');
+    } else if (state == AppLifecycleState.inactive) {
+      AppLog.d('AppLifecycleState.inactive');
+    } else if (state == AppLifecycleState.paused) {
+      AppLog.d('AppLifecycleState.paused');
+    } else if (state == AppLifecycleState.detached) {
+      AppLog.d('AppLifecycleState.detached');
+      closeChannel.invokeMethod('close');
+    }
+  }
+
   /// [gridColumn] 데이터그리드 컬럼
   GridColumn gridColumn(String columnName, String label,
       {bool? isVisble, double? width}) {
@@ -673,14 +708,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
                         fontWeight: FontWeight.bold,
                         fontSize: 24.sp,
                         color: tableTextColor)))));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    bsnsTabController.dispose();
-    bsnsNameSearchController.dispose();
-    bsnsNoSearchController.dispose();
   }
 
   @override
@@ -771,7 +798,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     //   }
     // }
 
-    var url = Uri.parse('BASE_URLlp/bsns/selectBsnsPlan.do');
+    var url = Uri.parse('${CommonUtil.BASE_URL}/lp/bsns/selectBsnsPlan.do');
 
     AppLog.d('fetchBsnsList > url : $url');
     AppLog.d('fetchBsnsList > buscd : ${LoginController.to.userModel.value.usrDeptCd}');
@@ -823,7 +850,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
 
   fetchBsnsSelectAreaGridDataSource() async {
     var url =
-    Uri.parse('${CommonUtil.BASE_URL}lp/bsns/selectBsnsZone.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/bsns/selectBsnsZone.do');
 
     // param
     var param = {
@@ -1120,7 +1147,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   /// [실태조사 > 토지내역] 조회
   fetchAccdtlnvstgSearchDataSource() async {
     var url = Uri.parse(
-        'BASE_URLlp/accdtInvstg/selectAccdtInvstgLad.do');
+        '${CommonUtil.BASE_URL}/lp/accdtInvstg/selectAccdtInvstgLad.do');
 
     var param = {
       'bsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -1960,7 +1987,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 관계인 (토지)] 조회
   fetchCstmrCardLadPartcpntInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1989,7 +2016,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 관계인 (지장물)] 조회
   fetchCstmrCardObstPartcpntInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2018,7 +2045,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 협의내역 (토지)] 조회
   fetchCstmrCardLadCmpnstnInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2045,7 +2072,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 수요재결 (토지)] 조회
   fetchCstmrCardLadAceptncInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2074,7 +2101,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 수요재결 (지장물)] 조회
   fetchCstmrCardObstAceptncInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2103,7 +2130,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardLadObjcInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2131,7 +2158,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardObstObjcInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2160,7 +2187,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 소송 (토지)] 조회
   fetchCstmrCardLadLwstInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2190,7 +2217,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
     print('fetchCstmrCardObstLwstInfoDataSource > ownerNo : $ownerNo');
 
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2219,7 +2246,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 환매 ] 조회
   fetchCstmrCardReprchsInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2247,7 +2274,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 토지수용확인원 ] 조회
   fetchCstmrCardConfirmInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2275,7 +2302,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin {
   // [고객카드 > 이의신청 ] 조회
   fetchCstmrCardFobjctInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('BASE_URLlp/lccc/selectCstmrCardLand.do');
+        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,

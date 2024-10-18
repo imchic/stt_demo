@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:ldi/components/base_np_header.dart';
-import 'package:ldi/screens/gis/gis_screen.dart';
-import 'package:ldi/screens/lp_screen.dart';
-import 'package:ldi/screens/np_controller.dart';
-import 'package:ldi/utils/dialog_util.dart';
+import 'package:ldm/components/base_np_header.dart';
+import 'package:ldm/screens/gis/gis_screen.dart';
+import 'package:ldm/screens/lp_screen.dart';
+import 'package:ldm/screens/np_controller.dart';
+import 'package:ldm/utils/dialog_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

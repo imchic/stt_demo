@@ -1,7 +1,7 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:ldi/screens/gis/gis_screen.dart';
-import 'package:ldi/screens/np_screen.dart';
-import 'package:ldi/screens/splash/splash_binding.dart';
+import 'package:ldm/screens/gis/gis_screen.dart';
+import 'package:ldm/screens/np_screen.dart';
+import 'package:ldm/screens/splash/splash_binding.dart';
 
 import '../screens/gis/gis_binding.dart';
 import '../screens/lp_binding.dart';

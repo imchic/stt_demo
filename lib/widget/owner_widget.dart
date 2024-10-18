@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:ldi/components/custom_button.dart';
-import 'package:ldi/components/custom_sliver_persistent_headerdelegate.dart';
-import 'package:ldi/utils/common_util.dart';
+import 'package:ldm/components/custom_button.dart';
+import 'package:ldm/components/custom_sliver_persistent_headerdelegate.dart';
+import 'package:ldm/utils/common_util.dart';
 
 import '../components/base_tabbar.dart';
 import '../components/custom_richtext.dart';

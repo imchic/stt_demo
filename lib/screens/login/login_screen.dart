@@ -7,8 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:ldi/components/custom_textfield.dart';
-import 'package:ldi/utils/dialog_util.dart';
+import 'package:ldm/components/custom_textfield.dart';
+import 'package:ldm/utils/dialog_util.dart';
 
 import '../../utils/applog.dart';
 import 'login_controller.dart';
@@ -97,7 +97,7 @@ class LoginScreen extends GetView<LoginController> {
                                 Container(
                                   width: double.infinity,
                                   // height: 117.h,
-                                  child: Obx(() =>
+                                  child:
                                     Column(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -136,17 +136,20 @@ class LoginScreen extends GetView<LoginController> {
                                         Container(
                                           width: double.infinity,
                                           child: Center(
-                                            child: AutoSizeText(
-                                              'VPN 연결 상태 : ${controller.isVPNConnected.value ? '연결됨' : '연결안됨'}',
-                                              style: TextStyle(
-                                                color: controller
-                                                        .isVPNConnected.value
-                                                    ? Color(0xFF0EB608)
-                                                    : Color(0xFFD30505),
-                                                fontSize: 30.sp,
-                                                fontFamily: 'Pretendard',
-                                                fontWeight: FontWeight.w500,
-                                                //height: 0.05,
+                                            child: Obx(() =>
+                                              AutoSizeText(
+                                                'VPN 연결 상태 : ${controller.isVPNConnected.value ? '연결됨' : '연결안됨'}',
+                                                // 'VPN 연결 상태 : ${controller.vpnStr.value}',
+                                                style: TextStyle(
+                                                  color: controller
+                                                          .isVPNConnected.value
+                                                      ? Color(0xFF0EB608)
+                                                      : Color(0xFFD30505),
+                                                  fontSize: 30.sp,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w500,
+                                                  //height: 0.05,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -155,13 +158,12 @@ class LoginScreen extends GetView<LoginController> {
                                       ],
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
                           Container(
                             width: double.infinity,
-                            height: 796.h,
+                            height: 1000.h,
                             decoration: ShapeDecoration(
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -388,7 +390,8 @@ class LoginScreen extends GetView<LoginController> {
                                                 SizedBox(height: 20.h),
                                                 CustomTextField(hintText: 'VPN(비밀번호)',
                                                     controller: controller.vpnPwController,
-                                                    prefixIcon: 'assets/icons/ic_account.svg', onChanged: (value) {
+                                                    isPassword: true,
+                                                    prefixIcon: 'assets/icons/ic_lock.svg', onChanged: (value) {
                                                       controller.vpnPw.value = value;
                                                       AppLog.d(controller.vpnPw.value);
                                                     }),
@@ -405,6 +408,8 @@ class LoginScreen extends GetView<LoginController> {
                                                   showCursor: true,
                                                   filled: true,
                                                   fillColor: Color(0xFFF6F6F6),
+                                                  autoFocus: true,
+                                                  clearText: true,
                                                   fieldWidth: 100.w,
                                                   fieldHeight: 100.h,
                                                   borderWidth: 2.w,
@@ -435,6 +440,42 @@ class LoginScreen extends GetView<LoginController> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  controller.methodChannel.invokeMethod('vpnLogout');
+                                                },
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  height: 88.h,
+                                                  padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 8.h),
+                                                  clipBehavior: Clip.antiAlias,
+                                                  decoration: ShapeDecoration(
+                                                    color: Colors.black,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(12.r),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      AutoSizeText(
+                                                        'VPN 로그아웃',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 30.sp,
+                                                          fontFamily: 'Pretendard',
+                                                          fontWeight: FontWeight.w500,
+                                                          //height: 0.05,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: 10.h),
                                               InkWell(
                                                 onTap: () {
                                                   AppLog.d('txtId: ${controller.txtId.value}');
@@ -487,7 +528,12 @@ class LoginScreen extends GetView<LoginController> {
                                                   AppLog.d('loginType: ${controller.loginType.value}');
 
                                                   // invokeMethod
-                                                  controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
+                                                  //controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
+
+                                                  controller.fetchLogin(controller.txtId.value);
+
+                                                  // controller.isVPNConnected.value == true ? controller.fetchLogin(controller.txtId.value)
+                                                  //     : controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
 
                                                 },
                                                 child: Container(

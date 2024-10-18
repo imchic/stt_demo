@@ -42,7 +42,9 @@ class MainActivity : FlutterActivity() {
 
             if (call.method == "init") {
                 Log.d("ssvpn", "init");
-
+            } else if(call.method == "checkVpnStatus") {
+                Log.d("ssvpn", "checkVpnStatus");
+                checkStatus();
             } else if(call.method == "setVpnServer") {
 
                 addr = call.arguments.toString().split(",")[0].trim().replace("[", "")
@@ -86,19 +88,42 @@ class MainActivity : FlutterActivity() {
 
     }
 
-    fun init() {
-        Log.d("sslvpn", "ssl vpn init..........");
-        channel.invokeMethod("init", "connected")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        init();
+        Handler(Looper.getMainLooper()).postDelayed({
+            checkStatus()
+        }, 2000)
     }
 
     fun sendOtp(arguments: String): String {
         otp = arguments
         return otp
+    }
+
+    fun checkStatus(){
+        //bindService 가 정상적으로 되고 onServiceConnected() 까지 호출된 다음 실행
+        //서비스에 연결 되었으면 vpn 상태 체크
+        var nStatus = 100
+        if (tempService != null) {
+            val objAidl = IMobileApi.Stub.asInterface(tempService)
+
+            try {
+                nStatus = objAidl.VpnStatus()
+            } catch (e: RemoteException) {
+            }
+        } else {
+            Log.e("sslvpn", "none nStatus")
+        }
+
+        //nStatus 0 이면 연결 안됨
+        //nStatus 1 이면 연결됨
+        //nStatus 2 면 연결 중
+        //vpn 상태는 0 에서 시작해서 2를 반복하다가 1로 변하면 연결이 된 상태임
+        Log.d("sslvpn", "Status: $nStatus")
+
+        handler.post {
+            channel.invokeMethod("checkVpnStatus", nStatus)
+        }
     }
 
 
@@ -116,7 +141,6 @@ class MainActivity : FlutterActivity() {
                 BIND_AUTO_CREATE or BIND_ALLOW_ACTIVITY_STARTS
             ) == true
         ) {
-            //println("bindservice success")
             Log.d("sslvpn", "bindservice success")
             tempService
         } else {
@@ -130,6 +154,16 @@ class MainActivity : FlutterActivity() {
         super.onPause()
 
         try {
+            unbindService(mConnection)
+        } catch (e: Exception) {
+        }
+    }
+
+    // 앱 종료
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            Log.e("sslvpn", "onDestroy unbindService")
             unbindService(mConnection)
         } catch (e: Exception) {
         }

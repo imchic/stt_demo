@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class CommonUtil {
 
-  static const BASE_URL = 'https://dldm.kwater.or.kr';
-  //static const BASE_URL = 'http://http://222.107.22.159:18080';
+  // static const BASE_URL = 'https://dldm.kwater.or.kr';
+  static const BASE_URL = 'http://222.107.22.159:18080';
 
   /// [formatDate] DateTime yyyy-MM-dd로 변환
   static String formatDate(DateTime date) {

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ldi/screens/accdtlnvstg/datasource/model/accdtlnvstg_obst_owner_model.dart';
+import 'package:ldm/screens/accdtlnvstg/datasource/model/accdtlnvstg_obst_owner_model.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'model/accdtlnvstg_obst_model.dart';

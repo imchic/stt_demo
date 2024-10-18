@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:ldi/screens/login/login_controller.dart';
-import 'package:ldi/screens/lp_controller.dart';
+import 'package:ldm/screens/login/login_controller.dart';
+import 'package:ldm/screens/lp_controller.dart';
 
 import '../components/custom_button.dart';
 import '../components/custom_chip.dart';

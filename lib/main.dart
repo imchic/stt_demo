@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ldi/routes/app_route.dart';
-import 'package:ldi/utils/colors.dart';
+import 'package:ldm/routes/app_route.dart';
+import 'package:ldm/utils/colors.dart';
 
 void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const KwaterLdiApp());
 }
 
@@ -81,4 +81,7 @@ class KwaterLdiApp extends StatelessWidget {
       // material 3 버전에서는 아래와 같이 사용
     );
   }
+
+
+
 }

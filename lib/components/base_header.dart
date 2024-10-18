@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:ldi/screens/login/login_controller.dart';
+import 'package:ldm/screens/login/login_controller.dart';
 
 import '../routes/app_route.dart';
 import '../screens/lp_controller.dart';
@@ -129,20 +129,20 @@ class _BaseHeaderState extends State<BaseHeader> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              //width: 1.w > 1.h ? 56.w : 48.w,
-                              //height: 1.w > 1.h ? 56.h : 48.h,
-                              child: Container(
-                                margin: EdgeInsets.all(4.w),
-                                child: SvgPicture.asset(
-                                  'assets/icons/ic_settings.svg',
-                                  // width: 1.w > 1.h ? 48.w : 40.w,
-                                  // height: 1.w > 1.h ? 48.h : 40.h,
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 32.w),
+                            // Container(
+                            //   //width: 1.w > 1.h ? 56.w : 48.w,
+                            //   //height: 1.w > 1.h ? 56.h : 48.h,
+                            //   child: Container(
+                            //     margin: EdgeInsets.all(4.w),
+                            //     child: SvgPicture.asset(
+                            //       'assets/icons/ic_settings.svg',
+                            //       // width: 1.w > 1.h ? 48.w : 40.w,
+                            //       // height: 1.w > 1.h ? 48.h : 40.h,
+                            //       fit: BoxFit.fitHeight,
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(width: 32.w),
                             InkWell(
                               onTap: () {
                                 DialogUtil.showAlertDialog(
@@ -159,6 +159,9 @@ class _BaseHeaderState extends State<BaseHeader> {
                                   ),
                                   onOk: () {
                                     Get.back();
+                                    Future.delayed(Duration.zero, () {
+                                      LoginController.to.methodChannel.invokeMethod("checkVpnStatus");
+                                    });
                                     Get.offAllNamed(AppRoute.login);
                                   },
                                   onCancel: () {

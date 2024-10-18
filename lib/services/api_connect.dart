@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
-import 'package:ldi/utils/dialog_util.dart';
+import 'package:ldm/utils/dialog_util.dart';
 
 class ApiConnect extends GetConnect {
   final String baseUrl = 'https://dldm.kwater.or.kr/';

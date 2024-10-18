@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_common/get_reset.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:ldi/routes/app_route.dart';
+import 'package:ldm/routes/app_route.dart';
 
 import '../../utils/dialog_util.dart';
 

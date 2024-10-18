@@ -5,14 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:ldi/screens/login/user_model.dart';
-import 'package:ldi/utils/dialog_util.dart';
+import 'package:ldm/screens/login/user_model.dart';
+import 'package:ldm/utils/common_util.dart';
+import 'package:ldm/utils/dialog_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../routes/app_route.dart';
 import '../../utils/applog.dart';
 
-class LoginController extends GetxController with GetTickerProviderStateMixin {
+class LoginController extends GetxController
+    with GetTickerProviderStateMixin, WidgetsBindingObserver {
   static LoginController get to => Get.find();
 
   // methodChannel
@@ -30,6 +32,7 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
   RxBool isAutoLogin = false.obs;
   RxBool isSendOtp = false.obs;
   RxBool isVPNConnected = false.obs;
+  RxString vpnStr = ''.obs;
 
   late TabController loginTypeTabController;
 
@@ -43,6 +46,8 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
 
   @override
   Future<void> onInit() async {
+    WidgetsBinding.instance!.addObserver(this);
+
     loginTypeTabController =
         TabController(length: loginTypeTabItems.length, vsync: this);
 
@@ -55,35 +60,85 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
     methodChannel.setMethodCallHandler((call) async {
       if (call.method == 'init') {
         AppLog.i('setMethodCallHandler > init : ${call.arguments}');
-        methodChannel.invokeMethod('setVpnServer', ["https://vpn.kwater.or.kr", vpnIdController.value.text, vpnPwController.value.text]);
+        methodChannel.invokeMethod('init', call.arguments);
+      } else if (call.method == 'checkVpnStatus') {
+        AppLog.i('setMethodCallHandler > checkVpnStatus : ${call.arguments}');
+
+        Future.delayed(Duration(seconds: 1), () {
+          if (call.arguments == 1) {
+            vpnStr.value = 'VPN 연결됨';
+            isVPNConnected.value = true;
+          } else if (call.arguments == 0) {
+            vpnStr.value = 'VPN 연결안됨';
+            isVPNConnected.value = false;
+          } else if (call.arguments == 2) {
+            vpnStr.value = 'VPN 연결중';
+            isVPNConnected.value = false;
+          }
+        });
+
       } else if (call.method == 'sendOtp') {
         AppLog.i('setMethodCallHandler > sendOtp : ${call.arguments}');
         if (call.arguments.contains('인증번호가 발송되었습니다.')) {
           isSendOtp.value = true;
-          DialogUtil.showSnackBar(Get.context!, 'OTP 인증', 'OTP 인증번호가 발송되었습니다.');
-        } else {
-        }
+          //DialogUtil.showSnackBar(Get.context!, 'OTP 인증', 'OTP 인증번호가 발송되었습니다.');
+          Get.defaultDialog(
+            title: 'OTP 인증',
+            content: Column(
+              children: [
+                Text('OTP 인증번호가 발송되었습니다.'),
+                // TextField(
+                //   controller: TextEditingController(),
+                //   decoration: InputDecoration(
+                //     hintText: 'OTP 인증번호를 입력해주세요.',
+                //   ),
+                // ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text('취소'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text('확인'),
+              ),
+            ],
+          );
+        } else {}
       } else if (call.method == 'vpnLogin') {
         AppLog.i('setMethodCallHandler > vpnLogin : ${call.arguments}');
         methodChannel.invokeMethod('vpnLogin', call.arguments);
         AppLog.i('isVPNConnected : ${isVPNConnected.value}');
       } else if (call.method == 'vpnLogout') {
         AppLog.i('setMethodCallHandler > vpnLogout');
+        isVPNConnected.value = false;
+        isSendOtp.value = false;
         DialogUtil.showSnackBar(Get.context!, 'VPN 연결 해제', 'VPN 연결이 해제되었습니다.');
       } else if (call.method == 'vpnStatus') {
         AppLog.i('setMethodCallHandler > vpnStatus : ${call.arguments}');
         if (call.arguments == 'connected') {
           isVPNConnected.value = true;
+          isSendOtp.value = false;
           DialogUtil.showSnackBar(Get.context!, 'VPN 연결', 'VPN 연결에 성공하였습니다.');
         } else {
           isVPNConnected.value = false;
-          DialogUtil.showSnackBar(
-              Get.context!, 'VPN 연결 실패', 'VPN 연결에 실패하였습니다.');
+          DialogUtil.showSnackBar(Get.context!, 'VPN 연결 실패', 'VPN 연결에 실패하였습니다.');
         }
       }
     });
 
     await getAutoLogin();
+  }
+
+  dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
   }
 
   saveAutoLogin(bool value) async {
@@ -117,7 +172,6 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
     AppLog.i('getAutoLogin > ${vpnPw.value}');
 
     AppLog.i('getAutoLogin > ${isAutoLogin.value}');
-
   }
 
   removeAutoLogin() async {
@@ -131,7 +185,7 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
   }
 
   fetchLogin(usrId) async {
-    var url = Uri.parse('BASE_URLlogin/selectLoginUsr.do');
+    var url = Uri.parse('${CommonUtil.BASE_URL}/login/selectLoginUsr.do');
 
     var param = {
       'usrId': usrId,

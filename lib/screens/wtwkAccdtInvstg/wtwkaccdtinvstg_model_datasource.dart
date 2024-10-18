@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ldi/screens/wtwkAccdtInvstg/model/wtwkAccdtInvstg_model.dart';
-import 'package:ldi/utils/common_util.dart';
+import 'package:ldm/screens/wtwkAccdtInvstg/model/wtwkAccdtInvstg_model.dart';
+import 'package:ldm/utils/common_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class WtwkAccdtinvstgModelDatasource extends DataGridSource {

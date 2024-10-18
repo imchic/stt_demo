@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_signature_view/flutter_signature_view.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ldi/utils/speech_to_text.dart';
+import 'package:ldm/utils/speech_to_text.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import '../utils/applog.dart';

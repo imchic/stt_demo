@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:ldi/components/custom_button.dart';
-import 'package:ldi/components/custom_sliver_persistent_headerdelegate.dart';
+import 'package:ldm/components/custom_button.dart';
+import 'package:ldm/components/custom_sliver_persistent_headerdelegate.dart';
 
 import '../components/base_tabbar.dart';
 import '../components/convert_datetime_text.dart';

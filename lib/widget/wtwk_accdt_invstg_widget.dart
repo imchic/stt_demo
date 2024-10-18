@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ldi/screens/lp_controller.dart';
-import 'package:ldi/screens/np_controller.dart';
-import 'package:ldi/screens/np_screen.dart';
+import 'package:ldm/screens/lp_controller.dart';
+import 'package:ldm/screens/np_controller.dart';
+import 'package:ldm/screens/np_screen.dart';
 
 import '../utils/colors.dart';
 

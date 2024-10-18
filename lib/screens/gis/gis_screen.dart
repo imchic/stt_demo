@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ldi/screens/gis/gis_controller.dart';
-import 'package:ldi/screens/lp_controller.dart';
+import 'package:ldm/screens/gis/gis_controller.dart';
+import 'package:ldm/screens/lp_controller.dart';
+import 'package:ldm/utils/common_util.dart';
 import 'package:location/location.dart';
 
 import '../../utils/applog.dart';
@@ -17,7 +18,7 @@ class GisScreen extends GetView<GisController> {
     return Padding(
       padding: EdgeInsets.only(top: 0.0.h, bottom: 0.0.h, left: 0.0.w, right: 80.0.w),
       child: InAppWebView(
-        initialUrlRequest: URLRequest(url: Uri.parse('https://dldm.kwater.or.kr/html/parcel.html')),
+        initialUrlRequest: URLRequest(url: Uri.parse('${CommonUtil.BASE_URL}/html/parcel.html')),
         // initialFile: 'assets/html/parcel.html',
         onWebViewCreated: (webviewController) async {
           controller.inAppWebViewController = webviewController;

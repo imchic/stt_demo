@@ -2,12 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ldi/components/custom_button.dart';
-import 'package:ldi/components/custom_chip.dart';
-import 'package:ldi/components/custom_sliver_persistent_headerdelegate.dart';
-import 'package:ldi/components/custom_textfield.dart';
-import 'package:ldi/screens/lp_screen.dart';
-import 'package:ldi/utils/colors.dart';
+import 'package:ldm/components/custom_button.dart';
+import 'package:ldm/components/custom_chip.dart';
+import 'package:ldm/components/custom_sliver_persistent_headerdelegate.dart';
+import 'package:ldm/components/custom_textfield.dart';
+import 'package:ldm/screens/lp_screen.dart';
+import 'package:ldm/utils/colors.dart';
 
 import '../screens/lp_controller.dart';
 

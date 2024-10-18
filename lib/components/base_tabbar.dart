@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ldi/screens/lp_controller.dart';
-import 'package:ldi/utils/dialog_util.dart';
+import 'package:ldm/screens/lp_controller.dart';
+import 'package:ldm/utils/dialog_util.dart';
 
 import '../utils/applog.dart';
 import '../utils/colors.dart';

@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ldi/screens/sttus/datasource/model/obst_sttus_inqire_model.dart';
+import 'package:ldm/screens/sttus/datasource/model/obst_sttus_inqire_model.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../../utils/common_util.dart';

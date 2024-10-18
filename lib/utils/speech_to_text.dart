@@ -1,9 +1,9 @@
 import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:ldi/screens/lp_controller.dart';
-import 'package:ldi/utils/applog.dart';
-import 'package:ldi/utils/dialog_util.dart';
+import 'package:ldm/screens/lp_controller.dart';
+import 'package:ldm/utils/applog.dart';
+import 'package:ldm/utils/dialog_util.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SpeechToText {

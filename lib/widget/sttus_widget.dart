@@ -2,9 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ldi/components/custom_chip.dart';
-import 'package:ldi/components/custom_sliver_persistent_headerdelegate.dart';
-import 'package:ldi/utils/dialog_util.dart';
+import 'package:ldm/components/custom_chip.dart';
+import 'package:ldm/components/custom_sliver_persistent_headerdelegate.dart';
+import 'package:ldm/utils/dialog_util.dart';
 
 import '../components/base_tabbar.dart';
 import '../components/custom_richtext.dart';
