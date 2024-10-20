@@ -13,8 +13,8 @@ class UsePrmisnCanclAprvDocModelDataSource extends DataGridSource {
       {required List<UsePrmisnCanclAprvDocModel> items}) {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: 'sanctnDocNo', value: e.sanctnDocNo),
-      DataGridCell<String>(columnName: 'sanctnDocNm', value: e.sanctnDocNm),
+      DataGridCell<String>(columnName: 'sanctnDocNo', value: e.sanctnDocNo ?? ''),
+      DataGridCell<String>(columnName: 'sanctnDocNm', value: e.sanctnDocNm ?? ''),
     ]))
         .toList();
   }

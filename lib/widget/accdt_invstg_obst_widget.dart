@@ -761,7 +761,7 @@ class AccdtInvstgObstWidget {
                                                             ),
                                                           ),
                                                           textOk: '저장',
-                                                          onOk: () {
+                                                          onOk: () async {
                                                     print('추가');
                                                   }, onCancel: () {
                                                     print('취소');
@@ -865,7 +865,7 @@ class AccdtInvstgObstWidget {
                                                                 controller
                                                                     .ownerListDataSource
                                                                     .value)),
-                                                      ), onOk: () {
+                                                      ), onOk: () async {
                                                     print('토지소유자 불러오기');
                                                   }, onCancel: () {
                                                     print('취소');

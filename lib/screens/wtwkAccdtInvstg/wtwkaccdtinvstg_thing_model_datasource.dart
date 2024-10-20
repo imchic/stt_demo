@@ -12,16 +12,16 @@ class WtwkaccdtinvstgThingModelDatasource extends DataGridSource {
       {required List<WtwkaccdtinvstgThingModel> items}) {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: 'instDe', value: e.instDe),
-      DataGridCell<String>(columnName: 'instThingStndrdInfo', value: e.instThingStndrdInfo),
-      DataGridCell<String>(columnName: 'pdm', value: e.pdm),
-      DataGridCell<String>(columnName: 'instWidthLcNo', value: e.instWidthLcNo),
-      DataGridCell<String>(columnName: 'instHighLcNo', value: e.instHighLcNo),
-      DataGridCell<String>(columnName: 'instThingLt', value: e.instThingLt),
-      DataGridCell<String>(columnName: 'rlwayNm', value: e.rlwayNm),
-      DataGridCell<String>(columnName: 'gisRefrnKeyInfo', value: e.gisRefrnKeyInfo),
-      DataGridCell<String>(columnName: 'drwDc', value: e.drwDc),
-      DataGridCell<String>(columnName: 'instThingRm', value: e.instThingRm),
+      DataGridCell<String>(columnName: 'instDe', value: e.instDe ?? ''),
+      DataGridCell<String>(columnName: 'instThingStndrdInfo', value: e.instThingStndrdInfo ?? ''),
+      DataGridCell<String>(columnName: 'pdm', value: e.pdm ?? ''),
+      DataGridCell<String>(columnName: 'instWidthLcNo', value: e.instWidthLcNo ?? ''),
+      DataGridCell<String>(columnName: 'instHighLcNo', value: e.instHighLcNo ?? ''),
+      DataGridCell<String>(columnName: 'instThingLt', value: e.instThingLt ?? ''),
+      DataGridCell<String>(columnName: 'rlwayNm', value: e.rlwayNm ?? ''),
+      DataGridCell<String>(columnName: 'gisRefrnKeyInfo', value: e.gisRefrnKeyInfo ?? ''),
+      DataGridCell<String>(columnName: 'drwDc', value: e.drwDc ?? ''),
+      DataGridCell<String>(columnName: 'instThingRm', value: e.instThingRm ?? ''),
 
     ]))
         .toList();

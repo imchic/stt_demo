@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ldm/components/custom_textfield.dart';
 import 'package:ldm/utils/dialog_util.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../utils/applog.dart';
 import 'login_controller.dart';
@@ -77,7 +78,6 @@ class LoginScreen extends GetView<LoginController> {
                         children: [
                           Container(
                             width: double.infinity,
-                            // height: 237.h,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -107,7 +107,8 @@ class LoginScreen extends GetView<LoginController> {
                                           width: double.infinity,
                                           child: AutoSizeText(
                                             '현장조사 모바일',
-                                            textAlign: TextAlign.center,
+
+                                           textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Color(0xFF1D1D1D),
                                               fontSize: 48.sp,
@@ -135,22 +136,48 @@ class LoginScreen extends GetView<LoginController> {
                                         SizedBox(height: 32.h),
                                         Container(
                                           width: double.infinity,
-                                          child: Center(
-                                            child: Obx(() =>
-                                              AutoSizeText(
-                                                'VPN 연결 상태 : ${controller.isVPNConnected.value ? '연결됨' : '연결안됨'}',
-                                                // 'VPN 연결 상태 : ${controller.vpnStr.value}',
-                                                style: TextStyle(
-                                                  color: controller
-                                                          .isVPNConnected.value
-                                                      ? Color(0xFF0EB608)
-                                                      : Color(0xFFD30505),
-                                                  fontSize: 30.sp,
-                                                  fontFamily: 'Pretendard',
-                                                  fontWeight: FontWeight.w500,
-                                                  //height: 0.05,
+                                          child: Obx(() =>
+                                            Column(
+                                              children: [
+                                                Obx(() =>
+                                                  AutoSizeText(
+                                                    controller.vpnBindStatus.value,
+                                                    style: TextStyle(
+                                                      color: Color(0xFFEC26E9),
+                                                      fontSize: 20.sp,
+                                                      fontFamily: 'Pretendard',
+                                                      fontWeight: FontWeight.w500,
+                                                      //height: 0.05,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                                AutoSizeText(
+                                                  controller.vpnInfo.value,
+                                                  style: TextStyle(
+                                                    color: controller
+                                                            .isVPNConnected.value
+                                                        ? Color(0xFF0EB608)
+                                                        : Color(0xFFD30505),
+                                                    fontSize: 20.sp,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w500,
+                                                    //height: 0.05,
+                                                  ),
+                                                ),
+                                                AutoSizeText(
+                                                  controller.vpnStr.value,
+                                                  style: TextStyle(
+                                                    color: controller
+                                                        .isVPNConnected.value
+                                                        ? Color(0xFF0EB608)
+                                                        : Color(0xFFD30505),
+                                                    fontSize: 20.sp,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w500,
+                                                    //height: 0.05,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -375,7 +402,7 @@ class LoginScreen extends GetView<LoginController> {
                                         Container(
                                           width: double.infinity,
                                           //height: 196.h,
-                                          child: Obx(() =>
+                                          child:
                                             Column(
                                               mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment: MainAxisAlignment.center,
@@ -403,34 +430,47 @@ class LoginScreen extends GetView<LoginController> {
                                                       AppLog.d(controller.txtId.value);
                                                 }),
                                                 SizedBox(height: 20.h),
-                                                !controller.isSendOtp.value ? Container() : OtpTextField(
-                                                  numberOfFields: 6,
-                                                  showCursor: true,
-                                                  filled: true,
-                                                  fillColor: Color(0xFFF6F6F6),
-                                                  autoFocus: true,
-                                                  clearText: true,
-                                                  fieldWidth: 100.w,
-                                                  fieldHeight: 100.h,
-                                                  borderWidth: 2.w,
-                                                  borderColor: Color(0xFF2287EF),
-                                                  focusedBorderColor: Color(0xFF2287EF),
-                                                  keyboardType: TextInputType.number,
-                                                  textStyle: TextStyle(fontSize: 34.sp, color: Color(0xFF1D1D1D), fontFamily: 'Pretendard', fontWeight: FontWeight.w500),
-                                                  onCodeChanged: (String code) {
-                                                    //handle validation or checks here
-                                                    AppLog.i('onCodeChanged : $code');
-                                                  },
-                                                  //runs when every textfield is filled
-                                                  onSubmit: (String verificationCode){
-                                                    AppLog.i('onSubmit : $verificationCode');
-                                                    controller.methodChannel.invokeMethod('vpnLogin', verificationCode);
-                                                  }, // end onSubmit
-                                                ),
+                                                !controller.isSendOtp.value ? Container() : Obx(() =>
+                                                        PinFieldAutoFill(
+                                                          decoration: BoxLooseDecoration(
+                                                            strokeColorBuilder: PinListenColorBuilder(Colors.black, Colors.black26),
+                                                            bgColorBuilder: const FixedColorBuilder(Colors.white),
+                                                            strokeWidth: 1.w,
+                                                          ),
+                                                          //autoFocus: true,
+                                                          //cursor: Cursor(color: Colors.red, enabled: true, width: 1.w),
+                                                          currentCode: controller.optCode.value,
+                                                          onCodeSubmitted: (code) {
+                                                            AppLog.i('otp code submit : $code');
+                                                            controller.methodChannel.invokeMethod('vpnLogin', code);
+                                                          },
+                                                          codeLength: 6,
+                                                          onCodeChanged: (code) {
+                                                            controller.optCode.value = code ?? '';
+                                                            AppLog.i('otp code changed : $code');
+                                                            if (code?.length == 6) {
+                                                              controller.methodChannel.invokeMethod('vpnLogin', code);
+                                                              Get.back();
+                                                            } else {
+                                                              //controller.isSendOtp.value = false;
+                                                            }
+                                                          },
+                                                  // TextFieldPinAutoFill(
+                                                  //   autoFocus: true,
+                                                  //   currentCode: controller.optCode.value,
+                                                  //   onCodeSubmitted: (code) {},
+                                                  //   onCodeChanged: (code) {
+                                                  //     controller.optCode.value = code;
+                                                  //     if (code!.length == 6) {
+                                                  //       FocusScope.of(context).requestFocus(FocusNode());
+                                                  //       AppLog.i('otp code changed : $code');
+                                                  //     }
+                                                  //   },
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
-                                        ),
                                         SizedBox(height: 32.h),
                                         controller.isVPNConnected.value ? Container(
                                           width: double.infinity,
@@ -526,10 +566,6 @@ class LoginScreen extends GetView<LoginController> {
                                                 onTap: () {
 
                                                   AppLog.d('loginType: ${controller.loginType.value}');
-
-                                                  // invokeMethod
-                                                  //controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
-
                                                   controller.fetchLogin(controller.txtId.value);
 
                                                   // controller.isVPNConnected.value == true ? controller.fetchLogin(controller.txtId.value)

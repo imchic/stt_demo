@@ -7,19 +7,15 @@ import 'package:ldm/components/base_np_header.dart';
 import 'package:ldm/screens/gis/gis_screen.dart';
 import 'package:ldm/screens/lp_screen.dart';
 import 'package:ldm/screens/np_controller.dart';
-import 'package:ldm/utils/dialog_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
-import '../components/base_header.dart';
 import '../components/base_tabbar.dart';
 import '../components/custom_grid.dart';
-import '../routes/app_route.dart';
 import '../utils/applog.dart';
 import '../utils/colors.dart';
 import '../widget/selectLad_widget.dart';
+import '../widget/wtwk_accdt_invstg_add_widget.dart';
 import '../widget/wtwk_accdt_invstg_widget.dart';
-import 'login/login_controller.dart';
 
 class npScreen extends GetView<NpController> {
   const npScreen({super.key});
@@ -29,115 +25,146 @@ class npScreen extends GetView<NpController> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       drawerEnableOpenDragGesture: false, // 엣지 스와이프 비활성화
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  // 왼쪽 메뉴 버튼
-                  Container(child: lnbWidget()),
-                  // 메인 뷰
-                  Expanded(
-                    child: PageView(
-                      physics: NeverScrollableScrollPhysics(),
-                      controller: controller.pageController,
-                      onPageChanged: (index) {
-                        controller.selectedIndex.value = index;
-                      },
-                      children: [
-                        Container(
-                          color: bsnsListViewBg,
-                          width: Get.width,
-                          height: Get.height,
-                          padding: EdgeInsets.symmetric(horizontal: 40.w),
-                          child: Column(
-                            children: [
-                              BaseNpHeader(''),
-                              Padding(
-                                padding: EdgeInsets.only(right: 48.w),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: BaseTabBar(
-                                        controller:
-                                            controller.tabController1,
-                                        tabItems: controller.tabItems1,
-                                        labelColor: Color(0xFF2287EF),
-                                        indicatorColor: Color(0xFF2287EF),
-                                        isScrollable: true,
-                                        activeColor: Color(0xFF2287EF),
-                                        unActiveTextColor: Color(0xFF555555),
-                                        activeTextColor: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                  child: TabBarView(
-                                controller: controller.tabController1,
-                                physics: const NeverScrollableScrollPhysics(),
-                                children: [
-                                  Column(
+      body: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (result, data) {
+          AppLog.d('onPopInvokedWithResult: $result');
+        },
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    // 왼쪽 메뉴 버튼
+                    Container(child: lnbWidget()),
+                    // 메인 뷰
+                    Expanded(
+                      child: PageView(
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: controller.pageController,
+                        onPageChanged: (index) {
+                          controller.selectedIndex.value = index;
+                        },
+                        children: [
+                          Container(
+                            color: bsnsListViewBg,
+                            width: Get.width,
+                            height: Get.height,
+                            padding: EdgeInsets.symmetric(horizontal: 40.w),
+                            child: Column(
+                              children: [
+                                BaseNpHeader(''),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 48.w),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: GisScreen(
+                                        child: BaseTabBar(
+                                          controller: controller.tabController1,
+                                          tabItems: controller.tabItems1,
+                                          labelColor: Color(0xFF2287EF),
+                                          indicatorColor: Color(0xFF2287EF),
+                                          isScrollable: true,
+                                          activeColor: Color(0xFF2287EF),
+                                          unActiveTextColor: Color(0xFF555555),
+                                          activeTextColor: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                    child: TabBarView(
+                                  controller: controller.tabController1,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Expanded(
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 5,
+                                                child: GisScreen(),
                                               ),
-                                            ),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Obx(() =>
-                                                    Column(
+                                              Expanded(
+                                                  flex: 2,
+                                                  child: Obx(
+                                                    () => Column(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
-                                                        Expanded(
-                                                            child: SelectLadWidget.buildSelectLad(controller)),
-                                                        Expanded(
-                                                            child: SelectLadWidget.buildSelectLadDetail(controller)),
+                                                        Obx(() => controller
+                                                                .usePrmisnCanclAprvModelDataSource
+                                                                .value
+                                                                .rows
+                                                                .isNotEmpty
+                                                            ? Expanded(
+                                                                child:
+                                                                    SelectLadWidget.buildSelectLad(controller))
+                                                            : Center(
+                                                                child: CircularProgressIndicator(
+                                                                  valueColor:
+                                                                      AlwaysStoppedAnimation(
+                                                                          Colors.blue),
+                                                                ),
+                                                        )),
+                                                        Visibility(
+                                                          visible: controller
+                                                              .usePrmisnCanclAprvDetailModelDataSource
+                                                              .value
+                                                              .rows
+                                                              .isNotEmpty,
+                                                          child: Expanded(
+                                                              child: SelectLadWidget
+                                                                  .buildSelectLadDetail(
+                                                                      controller)),
+                                                        ),
                                                       ],
                                                     ),
-                                                )
-                                            ),
-                                          ],
+                                                  )),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Obx(() =>
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Obx(
+                                          () => Expanded(
+                                            child: WtwkAccdtInvstgWidget
+                                                .buildWtwkAccdtInvstg(controller),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
                                         Expanded(
-                                          child: WtwkAccdtInvstgWidget.buildWtwkAccdtInvstg(controller),
+                                          child: WtwkAccdtInvstgAddWidget
+                                              .buildWtwkAccdtInvstgAdd(
+                                                  controller),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Expanded(
-                                        child: WtwkAccdtInvstgWidget.buildWtwkAccdtInvstg(controller),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ))
-                            ],
+                                      ],
+                                    ),
+                                  ],
+                                ))
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -241,10 +268,12 @@ class npScreen extends GetView<NpController> {
       columnWidthMode: ColumnWidthMode.fill,
       columns: [
         lpScreen().gridColumn('plotUseNo', '대지사용번호', isVisble: false),
-        lpScreen().gridColumn('applcntNm', '신청자명', width: 100),
-        lpScreen().gridColumn('applcntAddr', '주소', width: 300),
-        lpScreen().gridColumn('applcntTelno', '전화번호',  width: 120),
-        lpScreen().gridColumn('applcntMbtlnum', '핸드폰', width: 120),
+        lpScreen().gridColumn('applcntNm', '신청자명', width: 600.w),
+        lpScreen().gridColumn('applcntAddr', '주소', width: 300, isVisble: false),
+        lpScreen()
+            .gridColumn('applcntTelno', '전화번호', width: 120, isVisble: false),
+        lpScreen()
+            .gridColumn('applcntMbtlnum', '핸드폰', width: 120, isVisble: false),
       ],
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
@@ -269,23 +298,24 @@ class npScreen extends GetView<NpController> {
       dataSource: controller.usePrmisnCanclAprvDetailModelDataSource.value,
       controller: controller.usePrmisnCanclAprvDetailDataGridController,
       isSort: false,
-      columnWidthMode: ColumnWidthMode.fill,
+      columnWidthMode: ColumnWidthMode.none,
       columns: [
         lpScreen().gridColumn('plotUseNo', '대지사용번호', isVisble: false),
         lpScreen().gridColumn('ladSeq', '토지순번', isVisble: false),
         lpScreen().gridColumn('rqstSeq', '신청순번', isVisble: false),
-        lpScreen().gridColumn('usePrmisnPurpsSclsNm', '점유(사용)목적'),
-        lpScreen().gridColumn('prmisnRqstAra', '신청면적(㎡)'),
-        lpScreen().gridColumn('useAprvAra', '승인면적(㎡)'),
+        lpScreen().gridColumn('usePrmisnPurpsSclsNm', '점유(사용)목적', width: 80),
+        lpScreen().gridColumn('prmisnRqstAra', '신청면적(㎡)', width: 100),
+        lpScreen().gridColumn('useAprvAra', '승인면적(㎡)', width: 100),
       ],
       selectionEvent:
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         if (addedRows.isEmpty) return;
 
-        final index = controller.usePrmisnCanclAprvDetailModelDataSource.value.rows
+        final index = controller
+            .usePrmisnCanclAprvDetailModelDataSource.value.rows
             .indexOf(addedRows.first);
-        var getRow =
-            controller.usePrmisnCanclAprvDetailModelDataSource.value.rows[index];
+        var getRow = controller
+            .usePrmisnCanclAprvDetailModelDataSource.value.rows[index];
 
         // 대지사용번호
         var plotUseNo = getRow.getCells()[0].value;
@@ -330,11 +360,12 @@ class npScreen extends GetView<NpController> {
         var getRow =
             controller.wtwkAccdtInvstgModelDataSource.value.rows[index];
 
-        AppLog.i('${controller.selectPlotUseNo}');
-        AppLog.i('${controller.selectedladSeq}');
-        AppLog.i('${controller.selectRqstSeq}');
+        // AppLog.i('${controller.selectPlotUseNo}');
+        // AppLog.i('${controller.selectedladSeq}');
+        // AppLog.i('${controller.selectRqstSeq}');
 
-        controller.fetchWtwkAccdtInvstgThingInfoList(controller.selectPlotUseNo, controller.selectedladSeq, controller.selectRqstSeq);
+        controller.fetchWtwkAccdtInvstgThingInfoList(controller.selectPlotUseNo,
+            controller.selectedladSeq, controller.selectRqstSeq);
       }),
     );
   }
@@ -360,5 +391,4 @@ class npScreen extends GetView<NpController> {
       ],
     );
   }
-
 }

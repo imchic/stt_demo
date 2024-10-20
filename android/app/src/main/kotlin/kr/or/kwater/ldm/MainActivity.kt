@@ -52,6 +52,8 @@ class MainActivity : FlutterActivity() {
                 pwd = call.arguments.toString().split(",")[2].trim().replace("]", "")
                 Log.d("sslvpn", "setVpnServer > $addr, $id, $pwd")
 
+                channel.invokeMethod("setVPN", "${addr}, ${id}, ${pwd}")
+
                // requst otp
                 val requestRunnable = RequestRunnable()
                 val requestThread = Thread(requestRunnable)
@@ -81,7 +83,7 @@ class MainActivity : FlutterActivity() {
                 val stopThread = Thread(stopRunnable)
                 stopThread.start()
 
-                unbindService(mConnection)
+                //unbindService(mConnection)
 
             }
         }
@@ -124,6 +126,14 @@ class MainActivity : FlutterActivity() {
         handler.post {
             channel.invokeMethod("checkVpnStatus", nStatus)
         }
+        handler.postDelayed({
+            channel.invokeMethod("bindStatus", bindService(
+                Intent().setAction("net.secuwiz.SecuwaySSLU.kwater21")
+                    .setPackage("net.secuwiz.SecuwaySSLU.kwater21"),
+                mConnection,
+                BIND_AUTO_CREATE or BIND_ALLOW_ACTIVITY_STARTS
+            ) == true)
+        }, 2000)
     }
 
 
@@ -142,9 +152,13 @@ class MainActivity : FlutterActivity() {
             ) == true
         ) {
             Log.d("sslvpn", "bindservice success")
+            handler.post {
+                channel.invokeMethod("bindStatus", "connected")
+            }
             tempService
         } else {
             Log.d("sslvpn", "bindservice fail")
+            channel.invokeMethod("bindStatus", "fail")
             null
         }
 

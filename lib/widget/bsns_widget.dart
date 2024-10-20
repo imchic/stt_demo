@@ -227,7 +227,7 @@ class BsnsWidget {
                                     1440,
                                     '상세정보',
                                     isButtonVisible: false,
-                                    onOk: () {},
+                                    onOk: () async {},
                                     onCancel: () {},
                                     widget: Column(
                                       children: [

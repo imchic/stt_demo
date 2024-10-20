@@ -388,6 +388,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     '일시사용'
   ].obs;
 
+  RxList<String> ladRealUseList = [''].obs;
   RxList<String> accdtlnvstgLadRealUseList = [
     '답',
     '전',
@@ -663,6 +664,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     /// [사업목록] 조회
     await fetchBsnsListDataSource();
 
+    await fetchLdcgSeList();
+
 
 
   }
@@ -755,49 +758,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   fetchBsnsListDataSource() async {
 
-    // if(Platform.isWindows) {
-    //   var url =
-    //   Uri.parse('BASE_URLlp/bsns/selectBsnsPlan.do');
-    //   var response = await http.post(url);
-    //
-    //   bsnsPlanList.clear();
-    //   searchBsnsPlanList.clear();
-    //
-    //   if (response.statusCode == 200) {
-    //     var res = JsonDecoder().convert(response.body)['list'];
-    //     List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
-    //
-    //     AppLog.d('fetchBsnsList > data : $res');
-    //
-    //     var length = res.length;
-    //     bsnsPlanModelFromJson(res, dataList, length);
-    //
-    //     bsnsPlanList = dataList.obs;
-    //     searchBsnsPlanList = dataList.obs;
-    //   } else {
-    //     AppLog.e('Failed to load post');
-    //     DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
-    //   }
-    // } else {
-    //   var response = await api.fetchBsnsList();
-    //
-    //   bsnsPlanList.clear();
-    //   searchBsnsPlanList.clear();
-    //
-    //   if (response.statusCode == 200) {
-    //     List<BsnsPlanModel> dataList = <BsnsPlanModel>[];
-    //
-    //     var length = response.body['list'].length;
-    //     bsnsPlanModelFromJson(response.body['list'], dataList, length);
-    //
-    //     bsnsPlanList = dataList.obs;
-    //     searchBsnsPlanList = dataList.obs;
-    //   } else {
-    //     AppLog.e('Failed to load post');
-    //     DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
-    //   }
-    // }
-
     var url = Uri.parse('${CommonUtil.BASE_URL}/lp/bsns/selectBsnsPlan.do');
 
     AppLog.d('fetchBsnsList > url : $url');
@@ -830,23 +790,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
     return bsnsPlanList;
   }
-
-  // fetchBsnsSelectAreaGridDataSource() async {
-  //   var response = await api
-  //       .fetchBsnsSelectAreaGridDataSource(selectBsnsPlan.value.bsnsNo);
-  //
-  //   if (response.statusCode == 200) {
-  //     AppLog.d(
-  //         'fetchBsnsSelectAreaGridDataSource > response : ${response.body['list']}');
-  //
-  //     List<BsnsPlanSelectAreaModel> dataList = <BsnsPlanSelectAreaModel>[];
-  //     var length = response.body['list'].length;
-  //
-  //     bsnsPlanSelectAreaModelFromJson(response.body['list'], dataList, length);
-  //
-  //     bsnsListDataSource.value = BsnsSelectAreaDataSource(items: dataList);
-  //   }
-  // }
 
   fetchBsnsSelectAreaGridDataSource() async {
     var url =
@@ -1013,36 +956,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
         return;
       }
 
-      //ownerLadInfoDataSourceKeyValue(data, list, length);
-
-      for (var i = 0; i < length; i++) {
-        list.add(OwnerLadInfoDatasourceModel(
-          lgdongNm: data[i]['lgdongNm'] ?? '',
-          lcrtsDivCd: data[i]['lcrtsDivCd'] ?? '',
-          lcrtsDivNm: data[i]['lcrtsDivNm'] ?? '',
-          mlnoLtno: data[i]['mlnoLtno'] ?? '',
-          slnoLtno: data[i]['slnoLtno'] ?? '',
-          ofcbkLndcgrDivCd: data[i]['ofcbkLndcgrDivCd'] ?? '',
-          ofcbkLndcgrDivNm: data[i]['ofcbkLndcgrDivNm'] ?? '',
-          sttusLndcgrDivCd: data[i]['sttusLndcgrDivCd'] ?? '',
-          sttusLndcgrDivNm: data[i]['sttusLndcgrDivNm'] ?? '',
-          //ofcbkAra: data[i]['ofcbkAra'] ?? '',
-          ofcbkAra: CommonUtil.comma3(data[i]['ofcbkAra'] ?? ''),
-          incrprAra: CommonUtil.comma3(data[i]['incrprAra'] ?? ''),
-          cmpnstnInvstgAra:
-              CommonUtil.comma3(data[i]['cmpnstnInvstgAra'] ?? ''),
-          acqsPrpDivCd: data[i]['acqsPrpDivCd'] ?? '',
-          acqsPrpDivNm: data[i]['acqsPrpDivNm'] ?? '',
-          aceptncUseDivCd: data[i]['aceptncUseDivCd'] ?? '',
-          aceptncUseDivNm: data[i]['aceptncUseDivNm'] ?? '',
-          accdtInvstgSqnc: data[i]['accdtInvstgSqnc'] ?? '',
-          invstgDt: CommonUtil.convertToDateTime(data[i]['invstgDt'] ?? ''),
-          cmpnstnStepDivCd: data[i]['cmpnstnStepDivCd'] ?? '',
-          cmpnstnStepDivCdNm: data[i]['cmpnstnStepDivCdNm'] ?? '',
-          accdtInvstgRm: data[i]['accdtInvstgRm'] ?? '',
-        ));
-      }
-
+      ownerLadInfoDataSourceKeyValue(data, list, length);
       ownerLadInfoDataSource.value = OwnerLadInfoDatasource(items: list);
     }
   }
@@ -1227,7 +1141,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
               ],
             ),
           ),
-          onOk: () {
+          onOk: () async {
             isBsnsSelectFlag.value = false;
             isBsnsSqncSelectFlag.value = false;
             isBsnsZoneSelectFlag.value = false;
@@ -1731,6 +1645,34 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       // gridColumn('proCpsmnPymntLdgmntDivCd', '지급/공탁',
       //     isVisble: isLadSttusInqireGridTab7.value),
     ];
+  }
+
+  /// [통계정보 > 토지현황 > 지목] 조회
+  fetchLdcgSeList() async {
+    var url = Uri.parse(
+        '${CommonUtil.BASE_URL}/lp/lssom/selectLdcgSe.do');
+
+    AppLog.d('fetchLdcgSeList > url : $url');
+
+    var response = await http.post(url);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body)['list'];
+      AppLog.d('fetchLdcgSeList > data : $data');
+
+      for (var i = 0; i < data.length; i++) {
+        ladRealUseList.add(data[i]['cmmnCdNm'].trim());
+      }
+
+      // 0번째 삭제
+      ladRealUseList.removeAt(0);
+
+      AppLog.d('fetchLdcgSeList > ladRealUseList : $ladRealUseList');
+
+    } else {
+      AppLog.e('fetchLdcgSeList > error : ${response.body}');
+    }
+
   }
 
   /// [통계정보 > 토지현황 > 취득용도목록] 조회
@@ -3141,7 +3083,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
               ],
             ),
           ],
-        ), onOk: () {
+        ), onOk: () async {
       debugPrint('토지 현실이용현황 조회 및 입력');
       selectedLadRealUse.value = accdtlnvstgLadRealUseEditController.text;
       selectedLadRealPurpose.value = accdtlnvstgLadRealUseEdit2Controller.text;
@@ -3493,7 +3435,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                       )
                     ],
                   ),
-                  onOk: () {
+                  onOk: () async {
                     AppLog.d('실태조사 시작');
                     isBsnsSelectFlag.value = false;
                     isBsnsSqncSelectFlag.value = false;
@@ -3567,7 +3509,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
       // 사진 미리보기
       final image = Image.file(file);
-      DialogUtil.showAlertDialog(Get.context!, 1040, '사진촬영', widget: image, onOk: () {
+      DialogUtil.showAlertDialog(Get.context!, 1040, '사진촬영', widget: image, onOk: () async {
 
         if(type == 'lad') {
           // 토지현황

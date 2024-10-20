@@ -20,6 +20,7 @@ class CustomTextField extends StatelessWidget {
   final String prefixIcon;
   final Null Function(dynamic value) onChanged;
   Null Function()? onTap;
+  final int length;
 
   Color? backgroundColor;
   Color? textColor;
@@ -36,6 +37,7 @@ class CustomTextField extends StatelessWidget {
     this.onTap,
     this.backgroundColor,
     this.textColor,
+    this.length = 0,
   });
 
   @override
@@ -55,7 +57,7 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         readOnly: isDateTime ? true : isReadOnly,
         obscureText: isPassword,
-        // isnum
+        maxLength: length == 0 ? null : length,
         keyboardType: isNumber ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
           border: InputBorder.none,

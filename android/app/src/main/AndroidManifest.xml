@@ -3,6 +3,9 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
@@ -16,6 +19,11 @@
     <!-- 네이버 맵에서 현 위치 탐색 기능을 사용할 때만, 해당 권한 2개를 선언합니다 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <!-- SMS 수신 권한 -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <!-- 카메라 -->
     <uses-permission android:name="android.permission.CAMERA" />

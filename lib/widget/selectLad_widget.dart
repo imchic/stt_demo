@@ -47,7 +47,7 @@ class SelectLadWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeText(
-            '신청자정보별 허가 상세현황',
+            '신청자정보별 \n허가 상세현황',
             style: TextStyle(
               color: Color(0xFF1D1D1D),
               fontSize: 36.sp,

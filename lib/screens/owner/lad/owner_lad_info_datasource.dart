@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ldm/utils/common_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'model/owner_lad_info_datasource_model.dart';
@@ -15,8 +16,9 @@ class OwnerLadInfoDatasource extends DataGridSource {
     _items = items
         .map<DataGridRow>((e) =>
         DataGridRow(cells: [
+          DataGridCell(columnName: 'thingSerNo', value: e.thingSerNo), // 토지일련번호
           DataGridCell<String>(columnName: 'lgdongNm', value: e.lgdongNm), // 법정동
-          DataGridCell<String>(columnName: 'lcrtsDivCd', value: e.lcrtsDivNm), // 특지
+          DataGridCell<String>(columnName: 'lcrtsDivNm', value: e.lcrtsDivNm), // 특지
           DataGridCell<String>(columnName: 'mlnoLtno', value: e.mlnoLtno), // 본번
           DataGridCell<String>(columnName: 'slnoLtno', value: e.slnoLtno), // 부번
           // 지목
@@ -52,6 +54,14 @@ class OwnerLadInfoDatasource extends DataGridSource {
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
           child: Center(child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, color: Color(0xFF1D56BC)))),
+        );
+      }
+      
+      if (dataGridCell.columnName == 'ofcbkAra' || dataGridCell.columnName == 'incrprAra' || dataGridCell.columnName == 'cmpnstnInvstgAra') {
+        return Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: Center(child: AutoSizeText(CommonUtil.comma3(num.parse(dataGridCell.value.toString())), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp))),
         );
       }
 

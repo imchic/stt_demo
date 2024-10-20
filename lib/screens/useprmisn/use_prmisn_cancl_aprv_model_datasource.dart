@@ -10,11 +10,11 @@ class UsePrmisnCanclAprvModelDataSource extends DataGridSource {
       {required List<UsePrmisnCanclAprvModel> items}) {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: 'plotUseNo', value: e.plotUseNo),
-      DataGridCell<String>(columnName: 'applcntNm', value: e.applcntNm),
-      DataGridCell<String>(columnName: 'applcntAddr', value: e.applcntAddr),
-      DataGridCell<String>(columnName: 'applcntTelno', value: e.applcntTelno),
-      DataGridCell<String>(columnName: 'applcntMbtlnum', value: e.applcntMbtlnum),
+      DataGridCell<String>(columnName: 'plotUseNo', value: e.plotUseNo ?? ''),
+      DataGridCell<String>(columnName: 'applcntNm', value: e.applcntNm ?? ''),
+      DataGridCell<String>(columnName: 'applcntAddr', value: e.applcntAddr ?? ''),
+      DataGridCell<String>(columnName: 'applcntTelno', value: e.applcntTelno ?? ''),
+      DataGridCell<String>(columnName: 'applcntMbtlnum', value: e.applcntMbtlnum ?? ''),
     ]))
         .toList();
   }

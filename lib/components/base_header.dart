@@ -157,12 +157,14 @@ class _BaseHeaderState extends State<BaseHeader> {
                                             fontSize: 32.sp,
                                             fontWeight: FontWeight.w500)),
                                   ),
-                                  onOk: () {
-                                    Get.back();
-                                    Future.delayed(Duration.zero, () {
-                                      LoginController.to.methodChannel.invokeMethod("checkVpnStatus");
-                                    });
+                                  onOk: () async {
+                                    // Future.delayed(Duration.zero, () {
+                                    //   LoginController.to.methodChannel.invokeMethod("checkVpnStatus");
+                                    // });
                                     Get.offAllNamed(AppRoute.login);
+                                    await LoginController.to.methodChannel.invokeMethod("vpnLogout");
+                                    await LoginController.to.methodChannel.invokeMethod("checkVpnStatus");
+                                    Get.back();
                                   },
                                   onCancel: () {
                                     Get.back();

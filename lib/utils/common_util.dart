@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class CommonUtil {
 
+  static const VPN_URL = 'https://vpn.kwater.or.kr';
   // static const BASE_URL = 'https://dldm.kwater.or.kr';
   static const BASE_URL = 'http://222.107.22.159:18080';
 

@@ -27,7 +27,7 @@ class _BaseNpHeaderState extends State<BaseNpHeader> {
       children: [
         Container(
           width: double.infinity,
-          height: 112.h,
+          height: 142.h,
           padding: EdgeInsets.symmetric(horizontal: 48.w),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -50,65 +50,11 @@ class _BaseNpHeaderState extends State<BaseNpHeader> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 64.h,
-                          padding: const EdgeInsets.all(4),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                child: SvgPicture.asset(
-                                  'assets/icons/ic_base_header_user.svg',
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Container(
-                                //width: 1.w > 1.h ? 172.w : 202.w,
-                                padding: EdgeInsets.all(4.r),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    AutoSizeText(
-                                      maxFontSize: 20,
-                                      '홍길동 대리',
-                                      style: TextStyle(
-                                        color: Color(0xFF1D1D1D),
-                                        fontSize: 32.sp,
-                                        fontFamily: 'Pretendard',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 32.w),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              //width: 1.w > 1.h ? 56.w : 48.w,
-                              //height: 1.w > 1.h ? 56.h : 48.h,
-                              child: Container(
-                                margin: EdgeInsets.all(4.w),
-                                child: SvgPicture.asset(
-                                  'assets/icons/ic_settings.svg',
-                                  // width: 1.w > 1.h ? 48.w : 40.w,
-                                  // height: 1.w > 1.h ? 48.h : 40.h,
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 32.w),
                             InkWell(
                               onTap: () {
                                 DialogUtil.showAlertDialog(
@@ -123,7 +69,7 @@ class _BaseNpHeaderState extends State<BaseNpHeader> {
                                             fontSize: 32.sp,
                                             fontWeight: FontWeight.w500)),
                                   ),
-                                  onOk: () {
+                                  onOk: () async {
                                     Get.back();
                                     Get.offAllNamed(AppRoute.login);
                                   },
@@ -163,7 +109,7 @@ class _BaseNpHeaderState extends State<BaseNpHeader> {
   Widget buildNpContainer() {
     return Container(
       width: Get.width,
-      height: 48.h,
+      //height: 48.h,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -187,48 +133,73 @@ class _BaseNpHeaderState extends State<BaseNpHeader> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                   AutoSizeText(
+                   // AutoSizeText(
+                   //    maxFontSize: 20,
+                   //    '사업분류',
+                   //    style: TextStyle(
+                   //      color: Color(0xFF1D1D1D),
+                   //      fontSize: 32.sp,
+                   //      fontWeight: FontWeight.w700,
+                   //    ),
+                   //  ),
+                   //  SizedBox(width: 12.w),
+                   //  AutoSizeText(
+                   //    maxFontSize: 20,
+                   //    '사업명',
+                   //    style: TextStyle(
+                   //      color: Color(0xFF555555),
+                   //      fontSize: 32.sp,
+                   //      fontWeight: FontWeight.w400,
+                   //    ),
+                   //  ),
+                   //  SizedBox(width: 20.w),
+                   //  Container(
+                   //    width: 2,
+                   //    height: 32,
+                   //    decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
+                   //  ),
+                    SizedBox(width: 20.w),
+                    AutoSizeText(
                       maxFontSize: 20,
-                      '사업분류',
+                      //widget.value ?? '사용자',
+                      LoginController.to.userModel.value.usrNm ?? '사용자',
                       style: TextStyle(
                         color: Color(0xFF1D1D1D),
                         fontSize: 32.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    AutoSizeText(
-                      maxFontSize: 20,
-                      '사업명',
-                      style: TextStyle(
-                        color: Color(0xFF555555),
-                        fontSize: 32.sp,
+                        fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(width: 20.w),
-                    Container(
-                      width: 2,
-                      height: 32,
-                      decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
-                    ),
-                    SizedBox(width: 20.w),
+                    SizedBox(width: 8.w),
                     AutoSizeText(
                       maxFontSize: 20,
-                      '사용자',
+                      LoginController.to.userModel.value.usrOfcpsNm ?? '사용자',
                       style: TextStyle(
                         color: Color(0xFF1D1D1D),
                         fontSize: 32.sp,
-                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(width: 12.w),
+                    SizedBox(width: 8.w),
                     AutoSizeText(
                       maxFontSize: 20,
-                      '홍길동',
+                      LoginController.to.userModel.value.usrJgrdNm ?? '사용자',
                       style: TextStyle(
-                        color: Color(0xFF555555),
+                        color: Color(0xFF1D1D1D),
                         fontSize: 32.sp,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    AutoSizeText(
+                      maxFontSize: 20,
+                      LoginController.to.userModel.value.usrDeptNm ?? '',
+                      style: TextStyle(
+                        color: Color(0xFF1D1D1D),
+                        fontSize: 32.sp,
+                        fontFamily: 'Pretendard',
                         fontWeight: FontWeight.w400,
                       ),
                     ),

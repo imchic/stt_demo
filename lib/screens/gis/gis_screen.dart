@@ -16,7 +16,7 @@ class GisScreen extends GetView<GisController> {
   Widget build(BuildContext context) {
 
     return Padding(
-      padding: EdgeInsets.only(top: 0.0.h, bottom: 0.0.h, left: 0.0.w, right: 80.0.w),
+      padding: EdgeInsets.only(top: 0.0.h, bottom: 0.0.h, left: 0.0.w, right: 0.0.w),
       child: InAppWebView(
         initialUrlRequest: URLRequest(url: Uri.parse('${CommonUtil.BASE_URL}/html/parcel.html')),
         // initialFile: 'assets/html/parcel.html',

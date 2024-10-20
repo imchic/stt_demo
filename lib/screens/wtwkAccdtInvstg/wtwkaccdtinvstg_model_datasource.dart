@@ -10,13 +10,13 @@ class WtwkAccdtinvstgModelDatasource extends DataGridSource {
       {required List<WtwkaccdtinvstgModel> items}) {
     _items = items
         .map<DataGridRow>((e) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: 'usePurpsLclsCd', value: e.usePurpsLclsCd),
-      DataGridCell<String>(columnName: 'squatAra', value: e.squatAra.toString()),
-      DataGridCell<String>(columnName: 'dtlDtls', value: e.dtlDtls.toString()),
-      DataGridCell<String>(columnName: 'referMtt', value: e.referMtt.toString()),
-      DataGridCell<String>(columnName: 'etcMtt', value: e.etcMtt.toString()),
-      DataGridCell<String>(columnName: 'possesnStrtDe', value: e.possesnStrtDe.toString()),
-      DataGridCell<String>(columnName: 'possesnEndDe', value: e.possesnEndDe.toString()),
+      DataGridCell<String>(columnName: 'usePurpsLclsCd', value: e.usePurpsLclsCd ?? ''),
+      DataGridCell<String>(columnName: 'squatAra', value: e.squatAra.toString() ?? ''),
+      DataGridCell<String>(columnName: 'dtlDtls', value: e.dtlDtls.toString() ?? ''),
+      DataGridCell<String>(columnName: 'referMtt', value: e.referMtt.toString() ?? ''),
+      DataGridCell<String>(columnName: 'etcMtt', value: e.etcMtt.toString() ?? ''),
+      DataGridCell<String>(columnName: 'possesnStrtDe', value: e.possesnStrtDe.toString() ?? ''),
+      DataGridCell<String>(columnName: 'possesnEndDe', value: e.possesnEndDe.toString() ?? ''),
     ]))
         .toList();
   }

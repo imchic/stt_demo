@@ -158,13 +158,15 @@ class lpScreen extends GetView<LpController> {
                                         child: Row(
                                       children: [
                                         Expanded(
-                                            flex: 1,
-                                            child: controller
-                                                        .isGisOpenFlag.value ==
-                                                    true
-                                                ? GisScreen()
-                                                : OwnerWidget.buildOwnerView(
-                                                    controller)),
+                                            flex: 2,
+                                            child: OwnerWidget.buildOwnerView(
+                                                controller)),
+                                        Visibility(
+                                          visible:
+                                              controller.isGisOpenFlag.value,
+                                          child: Expanded(
+                                              flex: 1, child: GisScreen()),
+                                        )
                                       ],
                                     )),
                                   ],
@@ -844,27 +846,37 @@ class lpScreen extends GetView<LpController> {
         var getRow = controller.ownerLadInfoDataSource.value.rows[index];
 
         var data = OwnerLadInfoDatasourceModel(
-          lgdongNm: getRow.getCells()[0].value,
-          lcrtsDivNm: getRow.getCells()[1].value,
-          mlnoLtno: getRow.getCells()[2].value,
-          slnoLtno: getRow.getCells()[3].value,
-          ofcbkLndcgrDivCd: getRow.getCells()[4].value,
-          sttusLndcgrDivCd: getRow.getCells()[5].value,
-          ofcbkAra: getRow.getCells()[6].value,
-          incrprAra: getRow.getCells()[7].value,
-          cmpnstnInvstgAra: getRow.getCells()[8].value,
-          acqsPrpDivCd: getRow.getCells()[9].value,
-          aceptncUseDivCd: getRow.getCells()[10].value,
-          accdtInvstgSqnc: num.parse(getRow.getCells()[11].value),
-          invstgDt: getRow.getCells()[12].value,
-          cmpnstnStepDivCd: getRow.getCells()[13].value,
-          cmpnstnDtaChnStatDivCd: getRow.getCells()[13].value,
-          accdtInvstgRm: getRow.getCells()[14].value,
+          thingSerNo: getRow.getCells()[0].value,
+          lgdongNm: getRow.getCells()[1].value,
+          lcrtsDivNm: getRow.getCells()[2].value,
+          mlnoLtno: getRow.getCells()[3].value,
+          slnoLtno: getRow.getCells()[4].value,
+          ofcbkLndcgrDivNm: getRow.getCells()[5].value,
+          sttusLndcgrDivNm: getRow.getCells()[6].value,
+          ofcbkAra: num.parse(getRow.getCells()[7].value),
+          incrprAra: num.parse(getRow.getCells()[8].value),
+          cmpnstnInvstgAra: num.parse(getRow.getCells()[9].value),
+          acqsPrpDivNm: getRow.getCells()[10].value,
+          aceptncUseDivNm: getRow.getCells()[11].value,
+          accdtInvstgSqnc: num.parse(getRow.getCells()[12].value),
+          invstgDt: getRow.getCells()[13].value,
+          cmpnstnStepDivCdNm: getRow.getCells()[14].value,
+          accdtInvstgRm: getRow.getCells()[15].value,
         );
 
         AppLog.i('buildOwnerLadInfoDataGrid > 선택된 토지 정보: ${data.toJson()}');
+
+        var pnu = data.thingSerNo?.split('-');
+        var sumPnuStr = pnu![3] + pnu[4] + pnu[5] + pnu[6];
+        AppLog.d('sumPnuStr: $sumPnuStr');
+
+        controller.isGisOpenFlag.value = true;
+        GisController.to.inAppWebViewController
+            .evaluateJavascript(source: 'fn_movePnu($sumPnuStr)');
+
       }),
       columns: [
+        gridColumn('thingSerNo', '물건일련번호', width: 200, isVisble: false),
         gridColumn('lgdongNm', '소재지', width: 200),
         gridColumn('lcrtsDivNm', '특지', width: 40),
         gridColumn('mlnoLtno', '본번', width: 50),
@@ -879,7 +891,7 @@ class lpScreen extends GetView<LpController> {
         gridColumn('accdtInvstgSqnc', '조사차수', width: 60),
         gridColumn('invstgDt', '조사일', width: 100),
         gridColumn('cmpnstnStepDivCdNm', '보상진행단계', width: 80),
-        gridColumn('eaccdtInvstgRmtc', '비고', width: 300),
+        gridColumn('accdtInvstgRm', '비고', width: 300),
       ],
     );
   }
@@ -979,6 +991,7 @@ class lpScreen extends GetView<LpController> {
           gridColumn('ofcbkLndcgrDivNm', '공부', width: 60),
           gridColumn('sttusLndcgrDivNm', '현황', width: 60),
           gridColumn('ofcbkAra', '공부', width: 60),
+
           gridColumn('incrprAra', '편입', width: 60),
           gridColumn('cmpnstnInvstgAra', '조사', width: 60),
           gridColumn('acqsPrpDivNm', '취득용도', width: 80),
@@ -1025,14 +1038,10 @@ class lpScreen extends GetView<LpController> {
               'buildLadAccdtlnvstgDataGrid > 선택된 실태조사 토지 정보 > ${data.toJson()}');
 
           var pnu = data.thingSerNo?.split('-');
-          // 3, 4, 5, 6 string sum
-
           var sumPnuStr = pnu![3] + pnu[4] + pnu[5] + pnu[6];
-
           AppLog.d('sumPnuStr: $sumPnuStr');
 
           controller.isGisOpenFlag.value = true;
-
           GisController.to.inAppWebViewController
               .evaluateJavascript(source: 'fn_movePnu($sumPnuStr)');
 

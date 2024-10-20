@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ldm/screens/lp_controller.dart';
 import 'package:ldm/utils/applog.dart';
 import 'package:ldm/utils/common_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -50,6 +51,100 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+        );
+      }
+
+      if(dataGridCell.columnName == 'ofcbkLndcgrDivNm') {
+        return Container(
+          // padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.center,
+          // dropdown button
+          child: DropdownButton<String>(
+            isExpanded: true,
+            value: dataGridCell.value.toString(),
+            icon: const Icon(Icons.arrow_drop_down),
+            style: const TextStyle(color: Colors.deepPurple),
+            onChanged: (String? newValue) {
+              // 현재 행 가져옴
+              final rowIndex = _items.indexOf(row);
+              // 변경된 값으로 업데이트
+              _items[rowIndex] = DataGridRow(cells: [
+                DataGridCell<String>(columnName: 'thingSerNo', value: row.getCells()[0].value),
+                DataGridCell<String>(columnName: 'lgdongCd', value: row.getCells()[1].value),
+                DataGridCell<String>(columnName: 'lgdongNm', value: row.getCells()[2].value),
+                DataGridCell<String>(columnName: 'lcrtsDivCd', value: row.getCells()[3].value),
+                DataGridCell<String>(columnName: 'lcrtsDivNm', value: row.getCells()[4].value),
+                DataGridCell<String>(columnName: 'mlnoLtno', value: row.getCells()[5].value),
+                DataGridCell<String>(columnName: 'slnoLtno', value: row.getCells()[6].value),
+                DataGridCell<String>(columnName: 'ofcbkLndcgrDivNm', value: newValue!),
+                DataGridCell<String>(columnName: 'sttusLndcgrDivNm', value: row.getCells()[8].value),
+                DataGridCell<String>(columnName: 'ofcbkAra', value: row.getCells()[9].value),
+                DataGridCell<String>(columnName: 'incrprAra', value: row.getCells()[10].value),
+                DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: row.getCells()[11].value),
+                DataGridCell<String>(columnName: 'acqsPrpDivNm', value: row.getCells()[12].value),
+                DataGridCell<String>(columnName: 'aceptncUseDivNm', value: row.getCells()[13].value),
+                DataGridCell<String>(columnName: 'accdtInvstgSqnc', value: row.getCells()[14].value),
+                DataGridCell<String>(columnName: 'invstgDt', value: row.getCells()[15].value),
+                DataGridCell<String>(columnName: 'cmpnstnStepDivNm', value: row.getCells()[16].value),
+                DataGridCell<String>(columnName: 'accdtInvstgRm', value: row.getCells()[17].value),
+              ]);
+              notifyListeners();
+            },
+            items: LpController.to.ladRealUseList.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style: TextStyle(fontSize: 30.sp)),
+              );
+            }).toList(),
+          ),
+          //child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+        );
+      }
+
+      if(dataGridCell.columnName == 'sttusLndcgrDivNm') {
+        return Container(
+          // padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.center,
+          // dropdown button
+          child: DropdownButton<String>(
+            isExpanded: true,
+            value: dataGridCell.value.toString(),
+            icon: const Icon(Icons.arrow_drop_down),
+            style: const TextStyle(color: Colors.deepPurple),
+            onChanged: (String? newValue) {
+              // 현재 행 가져옴
+              final rowIndex = _items.indexOf(row);
+              // 변경된 값으로 업데이트
+              _items[rowIndex] = DataGridRow(cells: [
+                DataGridCell<String>(columnName: 'thingSerNo', value: row.getCells()[0].value),
+                DataGridCell<String>(columnName: 'lgdongCd', value: row.getCells()[1].value),
+                DataGridCell<String>(columnName: 'lgdongNm', value: row.getCells()[2].value),
+                DataGridCell<String>(columnName: 'lcrtsDivCd', value: row.getCells()[3].value),
+                DataGridCell<String>(columnName: 'lcrtsDivNm', value: row.getCells()[4].value),
+                DataGridCell<String>(columnName: 'mlnoLtno', value: row.getCells()[5].value),
+                DataGridCell<String>(columnName: 'slnoLtno', value: row.getCells()[6].value),
+                DataGridCell<String>(columnName: 'ofcbkLndcgrDivNm', value: row.getCells()[7].value),
+                DataGridCell<String>(columnName: 'sttusLndcgrDivNm', value: newValue!),
+                DataGridCell<String>(columnName: 'ofcbkAra', value: row.getCells()[9].value),
+                DataGridCell<String>(columnName: 'incrprAra', value: row.getCells()[10].value),
+                DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: row.getCells()[11].value),
+                DataGridCell<String>(columnName: 'acqsPrpDivNm', value: row.getCells()[12].value),
+                DataGridCell<String>(columnName: 'aceptncUseDivNm', value: row.getCells()[13].value),
+                DataGridCell<String>(columnName: 'accdtInvstgSqnc', value: row.getCells()[14].value),
+                DataGridCell<String>(columnName: 'invstgDt', value: row.getCells()[15].value),
+                DataGridCell<String>(columnName: 'cmpnstnStepDivNm', value: row.getCells()[16].value),
+                DataGridCell<String>(columnName: 'accdtInvstgRm', value: row.getCells()[17].value),
+              ]);
+              notifyListeners();
+            },
+            items: LpController.to.ladRealUseList.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style: TextStyle(fontSize: 30.sp)),
+              );
+            }).toList(),
+          ),
+          //child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
         );
       }
 

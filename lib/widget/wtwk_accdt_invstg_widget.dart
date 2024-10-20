@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:ldm/screens/lp_controller.dart';
 import 'package:ldm/screens/np_controller.dart';
 import 'package:ldm/screens/np_screen.dart';
+import 'package:ldm/utils/dialog_util.dart';
 
 import '../utils/colors.dart';
 
@@ -46,6 +45,17 @@ class WtwkAccdtInvstgWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    DialogUtil.showConfirmDialog(
+                      title: '점유종료',
+                      content: '점유종료 하시겠습니까?',
+                      confirmText: '확인',
+                      cancelText: '취소',
+                      editController: controller.wtwkAccdtInvstgEndDtController,
+                      onConfirm: () {
+                        Get.back();
+                        DialogUtil.showSnackBar(Get.context!, '점유종료', '점유종료 되었습니다.');
+                      },
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,

@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ import 'package:ldm/screens/wtwkAccdtInvstg/wtwkaccdtinvstg_model_datasource.dar
 import 'package:ldm/screens/wtwkAccdtInvstg/wtwkaccdtinvstg_thing_model_datasource.dart';
 import 'package:ldm/utils/dialog_util.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 import '../utils/applog.dart';
 
@@ -75,6 +77,60 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
     Tab(text: '실태조사'),
   ];
 
+  late TextEditingController wtwkAccdtInvstgEndDtController;
+  late TextEditingController wtwkAccdtInvstgOccpntNmController;
+  late TextEditingController wtwkAccdtInvstgOccpntAdresController;
+  late TextEditingController wtwkAccdtInvstgOccpntAraController;
+  late TextEditingController wtwkAccdtInvstgOccpntPurpsController;
+  late TextEditingController wtwkAccdtInvstgOccpntStrtDtController;
+  late TextEditingController wtwkAccdtInvstgOccpntEndDtController;
+  late TextEditingController wtwkAccdtInvstgOccpntDtlController;
+  late TextEditingController wtwkAccdtInvstgOccpntRmrkController;
+  late TextEditingController wtwkAccdtInvstgEtcRmrkController;
+
+  late TextEditingController wtwkAccdtInvstgNewOccpntNmController;
+  late TextEditingController wtwkAccdtInvstgNewOccpntTelnoController;
+
+  late TextEditingController wtwkAccdtInvstgUseOccpntNmController;
+  late TextEditingController wtwkAccdtInvstgUseOccpntRgtNoController;
+  late TextEditingController wtwkAccdtInvstgUseOccpntBizrNoController;
+  late TextEditingController wtwkAccdtInvstgUseOccpntTelnoController;
+  late TextEditingController wtwkAccdtInvstgUseOccpntCellNoController;
+  late TextEditingController wtwkAccdtInvstgUseOccpntAdresController;
+  late TextEditingController wtwkAccdtInvstgUseOccpntRmrkController;
+
+  RxString wtwkAccdtInvstgOccpntNm = ''.obs;
+  RxString wtwkAccdtInvstgOccpntAdres = ''.obs;
+  RxString wtwkAccdtInvstgOccpntAra = ''.obs;
+  RxString wtwkAccdtInvstgOccpntPurps = ''.obs;
+  RxString wtwkAccdtInvstgOccpntStrtDt = ''.obs;
+  RxString wtwkAccdtInvstgOccpntEndDt = ''.obs;
+  RxString wtwkAccdtInvstgOccpntDtl = ''.obs;
+  RxString wtwkAccdtInvstgOccpntRmrk = ''.obs;
+  RxString wtwkAccdtInvstgEtcRmrk = ''.obs;
+
+  RxString wtwkAccdtInvstgNewOccpntNm = ''.obs;
+  RxString wtwkAccdtInvstgNewOccpntTelno = ''.obs;
+
+  RxString wtwkAccdtInvstgUseOccpntNm = ''.obs;
+  RxString wtwkAccdtInvstgUseOccpntRgtNo = ''.obs;
+  RxString wtwkAccdtInvstgUseOccpntBizrNo = ''.obs;
+  RxString wtwkAccdtInvstgUseOccpntTelno = ''.obs;
+  RxString wtwkAccdtInvstgUseOccpntCellNo = ''.obs;
+  RxString wtwkAccdtInvstgUseOccpntAdres = ''.obs;
+  RxString wtwkAccdtInvstgUseOccpntRmrk = ''.obs;
+
+  RxBool wtwkAccdtInvstgUseOccpntPsnlInfoAgreYn = false.obs;
+
+  SfSignaturePad signaturePad = SfSignaturePad();
+  late SfSignaturePadState signaturePadState;
+  GlobalKey<SfSignaturePadState> signatureGlobalKey = GlobalKey<SfSignaturePadState>();
+
+  late Uint8List? wtwkAccdtInvstgUseOccpntSign;
+
+  // obx uint8list
+  Rx<Uint8List> wtwkAccdtInvstgUseOccpntSignRx = Uint8List(0).obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -82,10 +138,45 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
 
     tabController1 = TabController(length: tabItems1.length, vsync: this);
 
+    signatureGlobalKey = GlobalKey<SfSignaturePadState>();
+    signaturePad = SfSignaturePad(
+      key: signatureGlobalKey,
+      backgroundColor: Colors.white,
+      strokeColor: Colors.black,
+      minimumStrokeWidth: 1,
+      maximumStrokeWidth: 4,
+    );
+
+    wtwkAccdtInvstgUseOccpntSign = Uint8List(0);
+    wtwkAccdtInvstgUseOccpntSignRx.value = wtwkAccdtInvstgUseOccpntSign!;
+
     usePrmisnCanclAprvDataGridController = DataGridController();
     usePrmisnCanclAprvDetailDataGridController = DataGridController();
     wtwkAccdtInvstgDataGridController = DataGridController();
     wtwkAccdtInvstgThingInfoDataGridController = DataGridController();
+
+    wtwkAccdtInvstgEndDtController = TextEditingController();
+    wtwkAccdtInvstgOccpntNmController = TextEditingController();
+    wtwkAccdtInvstgOccpntAdresController = TextEditingController();
+    wtwkAccdtInvstgOccpntAraController = TextEditingController();
+    wtwkAccdtInvstgOccpntPurpsController = TextEditingController();
+    wtwkAccdtInvstgOccpntStrtDtController = TextEditingController();
+    wtwkAccdtInvstgOccpntEndDtController = TextEditingController();
+    wtwkAccdtInvstgOccpntDtlController = TextEditingController();
+    wtwkAccdtInvstgOccpntRmrkController = TextEditingController();
+    wtwkAccdtInvstgEtcRmrkController = TextEditingController();
+
+    wtwkAccdtInvstgNewOccpntNmController = TextEditingController();
+    wtwkAccdtInvstgNewOccpntTelnoController = TextEditingController();
+
+    wtwkAccdtInvstgUseOccpntNmController = TextEditingController();
+    wtwkAccdtInvstgUseOccpntRgtNoController = TextEditingController();
+    wtwkAccdtInvstgUseOccpntBizrNoController = TextEditingController();
+    wtwkAccdtInvstgUseOccpntTelnoController = TextEditingController();
+    wtwkAccdtInvstgUseOccpntCellNoController = TextEditingController();
+    wtwkAccdtInvstgUseOccpntAdresController = TextEditingController();
+    wtwkAccdtInvstgUseOccpntRmrkController = TextEditingController();
+
 
     await fetchUsePrmisnCanclAprvList();
     await fetchWtwkAccdtInvstgList('01');
@@ -99,6 +190,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
 
   // [허가정보] > 신청정보
   fetchUsePrmisnCanclAprvList() async {
+
     var url =
     Uri.parse('${CommonUtil.BASE_URL}/lp/nupcm/selectUseRqstMng.do');
 
@@ -119,6 +211,9 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
 
       usePrmisnCanclAprvModelDataSource.value =
           UsePrmisnCanclAprvModelDataSource(items: list);
+
+    } else {
+      Get.back();
     }
   }
 
@@ -272,7 +367,7 @@ class NpController extends GetxController with GetTickerProviderStateMixin {
 
       // 사진 미리보기
       final image = Image.file(file);
-      DialogUtil.showAlertDialog(Get.context!, 1040, '사진촬영', widget: image, onOk: () {
+      DialogUtil.showAlertDialog(Get.context!, 1040, '사진촬영', widget: image, onOk: () async {
         wtwkAccdtInvstgImages.add(image);
         files.add(file);
       }, onCancel: () {

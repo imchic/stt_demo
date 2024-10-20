@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
@@ -9,12 +10,13 @@ import 'package:ldm/screens/login/user_model.dart';
 import 'package:ldm/utils/common_util.dart';
 import 'package:ldm/utils/dialog_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../routes/app_route.dart';
 import '../../utils/applog.dart';
 
 class LoginController extends GetxController
-    with GetTickerProviderStateMixin, WidgetsBindingObserver {
+    with GetTickerProviderStateMixin, WidgetsBindingObserver, CodeAutoFill {
   static LoginController get to => Get.find();
 
   // methodChannel
@@ -32,7 +34,11 @@ class LoginController extends GetxController
   RxBool isAutoLogin = false.obs;
   RxBool isSendOtp = false.obs;
   RxBool isVPNConnected = false.obs;
+
+  RxString vpnBindStatus = ''.obs;
+  RxString vpnInfo = ''.obs;
   RxString vpnStr = ''.obs;
+  RxString optCode = ''.obs;
 
   late TabController loginTypeTabController;
 
@@ -45,9 +51,11 @@ class LoginController extends GetxController
   Rx<UserModel> userModel = UserModel().obs;
 
   @override
-  Future<void> onInit() async {
-    WidgetsBinding.instance!.addObserver(this);
+  onInit() async {
+    super.onInit();
+    AppLog.i('onInit');
 
+    WidgetsBinding.instance!.addObserver(this);
     loginTypeTabController =
         TabController(length: loginTypeTabItems.length, vsync: this);
 
@@ -55,62 +63,96 @@ class LoginController extends GetxController
     vpnPwController = TextEditingController();
     idController = TextEditingController();
     pwController = TextEditingController();
-    super.onInit();
+
+    var signature = await SmsAutoFill().getAppSignature;
+    AppLog.i('signature : $signature');
+
+    SmsAutoFill().listenForCode;
 
     methodChannel.setMethodCallHandler((call) async {
       if (call.method == 'init') {
         AppLog.i('setMethodCallHandler > init : ${call.arguments}');
         methodChannel.invokeMethod('init', call.arguments);
+      } else if (call.method == 'bindStatus') {
+        AppLog.i('setMethodCallHandler > bindStatus : ${call.arguments}');
+        Future.delayed(Duration(seconds: 1), () {
+          //vpnBindStatus.value = call.arguments.toString();
+          if (call.arguments == true) {
+            vpnBindStatus.value = 'VPN 바인딩 ON';
+          } else {
+            vpnBindStatus.value = 'VPN 바인딩 OFF';
+          }
+        });
+      } else if (call.method == 'setVPN') {
+        AppLog.i('setMethodCallHandler > setVPN : ${call.arguments}');
+        vpnInfo.value = call.arguments;
       } else if (call.method == 'checkVpnStatus') {
         AppLog.i('setMethodCallHandler > checkVpnStatus : ${call.arguments}');
 
         Future.delayed(Duration(seconds: 1), () {
           if (call.arguments == 1) {
-            vpnStr.value = 'VPN 연결됨';
+            //vpnStr.value = 'VPN 연결됨';
             isVPNConnected.value = true;
           } else if (call.arguments == 0) {
-            vpnStr.value = 'VPN 연결안됨';
+            //vpnStr.value = 'VPN 연결안됨';
             isVPNConnected.value = false;
           } else if (call.arguments == 2) {
-            vpnStr.value = 'VPN 연결중';
+            //vpnStr.value = 'VPN 연결중';
             isVPNConnected.value = false;
           }
         });
-
       } else if (call.method == 'sendOtp') {
         AppLog.i('setMethodCallHandler > sendOtp : ${call.arguments}');
+        vpnStr.value = call.arguments;
         if (call.arguments.contains('인증번호가 발송되었습니다.')) {
           isSendOtp.value = true;
-          //DialogUtil.showSnackBar(Get.context!, 'OTP 인증', 'OTP 인증번호가 발송되었습니다.');
-          Get.defaultDialog(
-            title: 'OTP 인증',
-            content: Column(
-              children: [
-                Text('OTP 인증번호가 발송되었습니다.'),
-                // TextField(
-                //   controller: TextEditingController(),
-                //   decoration: InputDecoration(
-                //     hintText: 'OTP 인증번호를 입력해주세요.',
-                //   ),
-                // ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Get.back();
-                },
-                child: Text('취소'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Get.back();
-                },
-                child: Text('확인'),
-              ),
-            ],
-          );
-        } else {}
+
+          // _smsReceiver = SmsReceiver(onSmsReceived, onTimeout: onTimeout);
+          // _startListening();
+
+          listenForCode();
+
+          DialogUtil.showSnackBar(Get.context!, 'OTP 인증', 'OTP 인증번호가 발송되었습니다.');
+
+          // Get.defaultDialog(
+          //   title: 'OTP 인증',
+          //   content: Column(
+          //     children: [
+          //       Text('OTP 인증번호가 발송되었습니다.'),
+          //       Obx(() =>
+          //         PinFieldAutoFill(
+          //           decoration: BoxLooseDecoration(
+          //             strokeColorBuilder: PinListenColorBuilder(Colors.black, Colors.black26),
+          //             bgColorBuilder: const FixedColorBuilder(Colors.white),
+          //             strokeWidth: 1.w,
+          //           ),
+          //           autoFocus: true,
+          //           cursor: Cursor(color: Colors.red, enabled: true, width: 1.w),
+          //           currentCode: optCode.value,
+          //           onCodeSubmitted: (code) {
+          //             AppLog.i('otp code submit : $code');
+          //             methodChannel.invokeMethod('vpnLogin', code);
+          //           },
+          //           codeLength: 6,
+          //           onCodeChanged: (code) {
+          //             AppLog.i('otp code changed : $code');
+          //             if (code?.length == 6) {
+          //               methodChannel.invokeMethod('vpnLogin', code);
+          //               Get.back();
+          //             } else {
+          //               isSendOtp.value = false;
+          //             }
+          //           },
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // );
+        } else {
+          isSendOtp.value = false;
+          DialogUtil.showSnackBar(
+              Get.context!, 'OTP 인증 실패', 'OTP 인증번호 발송에 실패하였습니다.');
+        }
       } else if (call.method == 'vpnLogin') {
         AppLog.i('setMethodCallHandler > vpnLogin : ${call.arguments}');
         methodChannel.invokeMethod('vpnLogin', call.arguments);
@@ -122,13 +164,18 @@ class LoginController extends GetxController
         DialogUtil.showSnackBar(Get.context!, 'VPN 연결 해제', 'VPN 연결이 해제되었습니다.');
       } else if (call.method == 'vpnStatus') {
         AppLog.i('setMethodCallHandler > vpnStatus : ${call.arguments}');
+        AppLog.i('vpnStatus : ${call.arguments}');
+
+        vpnStr.value = call.arguments;
+
         if (call.arguments == 'connected') {
           isVPNConnected.value = true;
           isSendOtp.value = false;
           DialogUtil.showSnackBar(Get.context!, 'VPN 연결', 'VPN 연결에 성공하였습니다.');
         } else {
           isVPNConnected.value = false;
-          DialogUtil.showSnackBar(Get.context!, 'VPN 연결 실패', 'VPN 연결에 실패하였습니다.');
+          DialogUtil.showSnackBar(
+              Get.context!, 'VPN 연결 실패', 'VPN 연결에 실패하였습니다.');
         }
       }
     });
@@ -136,8 +183,16 @@ class LoginController extends GetxController
     await getAutoLogin();
   }
 
+  @override
+  void codeUpdated() {
+    optCode.value = code ?? '';
+    AppLog.i('codeUpdated : $code');
+  }
+
+  @override
   dispose() {
     WidgetsBinding.instance!.removeObserver(this);
+    SmsAutoFill().unregisterListener();
     super.dispose();
   }
 
@@ -197,18 +252,20 @@ class LoginController extends GetxController
     var response = await http
         .post(url, body: param)
         .timeout(Duration(seconds: 5), onTimeout: () {
-      DialogUtil.showSnackBar(Get.context!, '서버 연결 실패', '서버 연결에 실패하였습니다.');
+      AppLog.e('fetchLogin > timeout');
       Get.back();
       return http.Response('Error', 500);
     }).catchError((error) {
-      DialogUtil.showSnackBar(Get.context!, '서버 연결 실패', '서버 연결에 실패하였습니다.');
-      Get.back();
+      AppLog.e('fetchLogin > error : $error');
+      DialogUtil.warningSnackBar(Get.context!, '로그인 실패', '로그인에 실패하였습니다.');
+      // Get.back();
       return http.Response('Error', 500);
     }).whenComplete(() {
+      AppLog.i('fetchLogin > whenComplete');
       Get.back();
     });
 
-    AppLog.d('response : ${response.body}');
+    AppLog.d('response login controller : ${response.body}');
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['list'];

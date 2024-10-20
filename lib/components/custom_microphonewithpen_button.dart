@@ -63,7 +63,7 @@ class _CustomMicrophonewithpenButtonState extends State<CustomMicrophonewithpenB
         ),
 
         SizedBox(width: 10.w),
-        GestureDetector(
+        /*GestureDetector(
           onTap: () {
             AppLog.i('pen button clicked');
             //SignatureView.showSignatureView(context, widget.targetTextEditingController!);
@@ -111,7 +111,7 @@ class _CustomMicrophonewithpenButtonState extends State<CustomMicrophonewithpenB
                 'assets/icons/ic_pen.svg',
               )
           ),
-        ),
+        ),*/
       ],
     );
   }
