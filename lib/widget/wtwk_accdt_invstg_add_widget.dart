@@ -384,7 +384,6 @@ class WtwkAccdtInvstgAddWidget {
                                           var image = bytes?.buffer.asUint8List();
                                           AppLog.d('image : $image');
 
-
                                           controller.wtwkAccdtInvstgUseOccpntSign = image!;
                                           controller.wtwkAccdtInvstgUseOccpntSignRx.value = image!;
 

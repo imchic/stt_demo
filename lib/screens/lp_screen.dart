@@ -41,6 +41,53 @@ class lpScreen extends GetView<LpController> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       drawerEnableOpenDragGesture: false, // 엣지 스와이프 비활성화
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Column(
+                children: [
+                  Container(
+                    width: 100.w,
+                    height: 100.h,
+                    child: SvgPicture.asset(
+                      'assets/icons/ic_kwater_logo.svg',
+                      width: 100.w,
+                      height: 100.h,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  AutoSizeText(
+                    'K-WATER',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+              decoration: BoxDecoration(
+                color: Color(0xFF2287EF),
+              ),
+            ),
+            ListTile(
+              title: AutoSizeText(
+                '로그아웃',
+                style: TextStyle(
+                  color: Color(0xFF1D1D1D),
+                  fontSize: 30.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onTap: () {
+                // controller.logout();
+              },
+            ),
+          ],
+        ),
+      ),
       body: PopScope(
         canPop: false,
         onPopInvokedWithResult: (result, data) {
@@ -101,50 +148,62 @@ class lpScreen extends GetView<LpController> {
                                       LoginController.to.loginType.value,
                                     ),
                                     Expanded(
-                                        child: Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: controller
-                                                        .isGisOpenFlag.value ==
+                                        child:
+                                        IndexedStack(
+                                          index: controller.webviewStackIndex.value,
+                                          children: [
+                                            Expanded(
+                                                flex: controller.isGisOpenFlag ==
                                                     true
-                                                ? GisScreen()
-                                                : BsnsWidget.buildBsnsListView(
-                                                    controller)),
-                                        // 오른쪽 뷰
-                                        Obx(() {
-                                          return Expanded(
-                                            flex: controller.isBsnsSelectFlag ==
-                                                    true
-                                                ? 1
-                                                : 0,
-                                            child: Column(
-                                              children: [
-                                                if (controller
-                                                        .selectedIndex.value ==
-                                                    0)
+                                                    ? 1
+                                                    : 0,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(child: BsnsWidget.buildBsnsListView(controller)),
+                                                    Expanded(child: GisScreen()),
+                                                  ],
+                                                )),
+                                            Expanded(
+                                                flex: 1,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(child: BsnsWidget.buildBsnsListView(controller)),
+                                                    Obx(() {
+                                                      return Expanded(
+                                                        flex: controller.isBsnsSelectFlag ==
+                                                            true
+                                                            ? 1
+                                                            : 0,
+                                                        child: Column(
+                                                          children: [
+                                                            if (controller
+                                                                .selectedIndex.value ==
+                                                                0)
 
-                                                  // 사업구역
-                                                  controller.isBsnsSelectFlag ==
-                                                          true
-                                                      ? BsnsWidget
-                                                          .buildBsnsSelectZoneContainer(
-                                                              controller)
-                                                      : Container(),
+                                                              // 사업구역
+                                                              controller.isBsnsSelectFlag ==
+                                                                  true
+                                                                  ? BsnsWidget
+                                                                  .buildBsnsSelectZoneContainer(
+                                                                  controller)
+                                                                  : Container(),
 
-                                                // 조사차수
-                                                controller.isBsnsZoneSelectFlag ==
-                                                        true
-                                                    ? BsnsWidget
-                                                        .buildBsnsSelectSqncContainer(
-                                                            controller)
-                                                    : Container(),
-                                              ],
-                                            ),
-                                          );
-                                        }),
-                                      ],
-                                    )),
+                                                            // 조사차수
+                                                            controller.isBsnsZoneSelectFlag ==
+                                                                true
+                                                                ? BsnsWidget
+                                                                .buildBsnsSelectSqncContainer(
+                                                                controller)
+                                                                : Container(),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    }),
+                                                  ],
+                                                )),
+                                          ],
+                                        ),
+                                    ),
                                   ],
                                 ),
 
@@ -239,8 +298,14 @@ class lpScreen extends GetView<LpController> {
                               bottom: 0,
                               child: InkWell(
                                 onTap: () {
-                                  controller.isGisOpenFlag.value =
-                                      !controller.isGisOpenFlag.value;
+                                  // controller.isGisOpenFlag.value =
+                                  //     !controller.isGisOpenFlag.value;
+
+                                  controller.webviewStackIndex.value =
+                                      controller.webviewStackIndex.value == 0
+                                          ? 1
+                                          : 0;
+
                                 },
                                 child: Obx(
                                   () => controller.isGisOpenFlag.value

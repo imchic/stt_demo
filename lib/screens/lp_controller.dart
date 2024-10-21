@@ -455,7 +455,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
 
-  //late InAppWebViewController inAppWebViewController;
+  late InAppWebView inAppWebView;
+  late InAppWebViewController inAppWebViewController;
+
+  RxInt webviewStackIndex = 0.obs;
+
   //late WebViewController webViewController;
 
   RxString selectedLadRealUse = ''.obs;
@@ -477,6 +481,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
         SystemNavigator.pop();
       }
     });
+
+    inAppWebView = InAppWebView(
+      initialUrlRequest: URLRequest(url: Uri.parse('https://m.naver.com')));
 
     pageController = PageController(initialPage: selectedIndex.value);
 
@@ -656,10 +663,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       }
     });
 
-    // webViewController = WebViewController()
-    //   ..loadFile(Uri.file('assets/html/parcel.html').toString())
-    //   // ..loadRequest(Uri.parse('BASE_URLhtml/parcel.html'))
-    //   ..setJavaScriptMode(JavaScriptMode.unrestricted);
 
     /// [사업목록] 조회
     await fetchBsnsListDataSource();
