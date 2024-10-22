@@ -566,10 +566,10 @@ class LoginScreen extends GetView<LoginController> {
                                                 onTap: () {
 
                                                   AppLog.d('loginType: ${controller.loginType.value}');
-                                                  controller.fetchLogin(controller.txtId.value);
+                                                  // controller.fetchLogin(controller.txtId.value);
 
-                                                  // controller.isVPNConnected.value == true ? controller.fetchLogin(controller.txtId.value)
-                                                  //     : controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
+                                                  controller.isVPNConnected.value == true ? controller.fetchLogin(controller.txtId.value)
+                                                      : controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
 
                                                 },
                                                 child: Container(

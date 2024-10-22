@@ -148,61 +148,26 @@ class lpScreen extends GetView<LpController> {
                                       LoginController.to.loginType.value,
                                     ),
                                     Expanded(
-                                        child:
-                                        IndexedStack(
-                                          index: controller.webviewStackIndex.value,
-                                          children: [
-                                            Expanded(
-                                                flex: controller.isGisOpenFlag ==
-                                                    true
-                                                    ? 1
-                                                    : 0,
-                                                child: Row(
+                                      child: Row(
+                                        children: [
+                                          Expanded(child: BsnsWidget.buildBsnsListView(controller)),
+                                          Visibility(
+                                            visible: controller.isGisOpenFlag.value,
+                                            child: Expanded(
+                                                flex: 1, child: GisScreen()),
+                                          ),
+                                          Visibility(
+                                            visible: controller.isBsnsSelectFlag.value,
+                                            child: Expanded(
+                                                flex: 1, child: Column(
                                                   children: [
-                                                    Expanded(child: BsnsWidget.buildBsnsListView(controller)),
-                                                    Expanded(child: GisScreen()),
+                                                    buildBsnsSelectAreaListDataGrid(),
+                                                    buildBsnsSqncDataGrid(),
                                                   ],
                                                 )),
-                                            Expanded(
-                                                flex: 1,
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(child: BsnsWidget.buildBsnsListView(controller)),
-                                                    Obx(() {
-                                                      return Expanded(
-                                                        flex: controller.isBsnsSelectFlag ==
-                                                            true
-                                                            ? 1
-                                                            : 0,
-                                                        child: Column(
-                                                          children: [
-                                                            if (controller
-                                                                .selectedIndex.value ==
-                                                                0)
-
-                                                              // 사업구역
-                                                              controller.isBsnsSelectFlag ==
-                                                                  true
-                                                                  ? BsnsWidget
-                                                                  .buildBsnsSelectZoneContainer(
-                                                                  controller)
-                                                                  : Container(),
-
-                                                            // 조사차수
-                                                            controller.isBsnsZoneSelectFlag ==
-                                                                true
-                                                                ? BsnsWidget
-                                                                .buildBsnsSelectSqncContainer(
-                                                                controller)
-                                                                : Container(),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    }),
-                                                  ],
-                                                )),
-                                          ],
-                                        ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -298,13 +263,13 @@ class lpScreen extends GetView<LpController> {
                               bottom: 0,
                               child: InkWell(
                                 onTap: () {
-                                  // controller.isGisOpenFlag.value =
-                                  //     !controller.isGisOpenFlag.value;
+                                  controller.isGisOpenFlag.value =
+                                      !controller.isGisOpenFlag.value;
 
-                                  controller.webviewStackIndex.value =
-                                      controller.webviewStackIndex.value == 0
-                                          ? 1
-                                          : 0;
+                                  // controller.webviewStackIndex.value =
+                                  //     controller.webviewStackIndex.value == 0
+                                  //         ? 1
+                                  //         : 0;
 
                                 },
                                 child: Obx(

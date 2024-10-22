@@ -38,7 +38,6 @@ import 'package:ldm/services/api_connect.dart';
 import 'package:ldm/utils/applog.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../components/custom_button.dart';
 import '../utils/colors.dart';
@@ -482,9 +481,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       }
     });
 
-    inAppWebView = InAppWebView(
-      initialUrlRequest: URLRequest(url: Uri.parse('https://m.naver.com')));
-
     pageController = PageController(initialPage: selectedIndex.value);
 
     bsnsNameSearchController = TextEditingController();
@@ -663,13 +659,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       }
     });
 
-
     /// [사업목록] 조회
     await fetchBsnsListDataSource();
-
     await fetchLdcgSeList();
-
-
 
   }
 
@@ -685,15 +677,20 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   @override
   didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      AppLog.d('AppLifecycleState.resumed');
-      //LoginController.to.methodChannel.invokeMethod('vpnLogin');
+      AppLog.d('AppLifecycleState.resumed $state');
     } else if (state == AppLifecycleState.inactive) {
-      AppLog.d('AppLifecycleState.inactive');
+      AppLog.d('AppLifecycleState.inactive $state');
     } else if (state == AppLifecycleState.paused) {
-      AppLog.d('AppLifecycleState.paused');
+      AppLog.d('AppLifecycleState.paused $state');
     } else if (state == AppLifecycleState.detached) {
-      AppLog.d('AppLifecycleState.detached');
-      closeChannel.invokeMethod('close');
+      // 2초뒤 종료
+      DialogUtil.showSnackBar(Get.context!, '앱 종료', '앱이 종료됩니다.');
+      final MethodChannel methodChannel = MethodChannel('kr.or.kwater.ldm/sslvpn');
+      Future.delayed(Duration(seconds: 2), () {
+        methodChannel.invokeMethod('vpnLogout');
+        SystemNavigator.pop();
+      });
+
     }
   }
 

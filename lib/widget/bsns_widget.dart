@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ldm/components/custom_button.dart';
 import 'package:ldm/components/custom_sliver_persistent_headerdelegate.dart';
+import 'package:ldm/utils/applog.dart';
 
 import '../components/base_tabbar.dart';
 import '../components/convert_datetime_text.dart';
@@ -123,9 +124,12 @@ class BsnsWidget {
               (BuildContext context, int index) {
                 return InkWell(
                   onTap: (){
-                    controller.isBsnsSelectFlag.value = true;
-                    controller.selectBsnsPlan.value = controller.searchBsnsPlanList[index];
-                    controller.fetchBsnsSelectAreaGridDataSource();
+                    // controller.isBsnsSelectFlag.value = !controller.isBsnsSelectFlag.value;
+                    // controller.selectBsnsPlan.value = controller.searchBsnsPlanList[index];
+                    // controller.fetchBsnsSelectAreaGridDataSource();
+
+                   AppLog.e('사업선택 클릭 ${index} ${controller.searchBsnsPlanList[index].bsnsNm}');
+
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 20.h),

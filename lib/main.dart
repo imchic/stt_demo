@@ -11,10 +11,9 @@ void main() async {
   runApp(const KwaterLdiApp());
 }
 
-class KwaterLdiApp extends StatelessWidget {
+class KwaterLdiApp extends StatelessWidget with WidgetsBindingObserver {
   const KwaterLdiApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     // statusbar
@@ -35,7 +34,6 @@ class KwaterLdiApp extends StatelessWidget {
     ]);
 
     return ScreenUtilInit(
-      //designSize: Size(1280, 800),
       designSize: Size(2560, 1640),
       minTextAdapt: true,
       splitScreenMode: true,

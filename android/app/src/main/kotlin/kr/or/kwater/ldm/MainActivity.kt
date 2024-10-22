@@ -178,6 +178,11 @@ class MainActivity : FlutterActivity() {
         super.onDestroy()
         try {
             Log.e("sslvpn", "onDestroy unbindService")
+
+            val stopRunnable = StopRunnable()
+            val stopThread = Thread(stopRunnable)
+            stopThread.start()
+
             unbindService(mConnection)
         } catch (e: Exception) {
         }
