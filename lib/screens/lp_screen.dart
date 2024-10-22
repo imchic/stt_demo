@@ -148,27 +148,50 @@ class lpScreen extends GetView<LpController> {
                                       LoginController.to.loginType.value,
                                     ),
                                     Expanded(
-                                      child: Row(
-                                        children: [
-                                          Expanded(child: BsnsWidget.buildBsnsListView(controller)),
-                                          Visibility(
-                                            visible: controller.isGisOpenFlag.value,
-                                            child: Expanded(
-                                                flex: 1, child: GisScreen()),
-                                          ),
-                                          Visibility(
-                                            visible: controller.isBsnsSelectFlag.value,
-                                            child: Expanded(
-                                                flex: 1, child: Column(
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                                flex: 1,
+                                                child: controller
+                                                    .isGisOpenFlag.value ==
+                                                    true
+                                                    ? GisScreen()
+                                                    : BsnsWidget.buildBsnsListView(
+                                                    controller)),
+                                            // 오른쪽 뷰
+                                            Obx(() {
+                                              return Expanded(
+                                                flex: controller.isBsnsSelectFlag ==
+                                                    true
+                                                    ? 1
+                                                    : 0,
+                                                child: Column(
                                                   children: [
-                                                    buildBsnsSelectAreaListDataGrid(),
-                                                    buildBsnsSqncDataGrid(),
+                                                    if (controller
+                                                        .selectedIndex.value ==
+                                                        0)
+
+                                                    // 사업구역
+                                                      controller.isBsnsSelectFlag ==
+                                                          true
+                                                          ? BsnsWidget
+                                                          .buildBsnsSelectZoneContainer(
+                                                          controller)
+                                                          : Container(),
+
+                                                    // 조사차수
+                                                    controller.isBsnsZoneSelectFlag ==
+                                                        true
+                                                        ? BsnsWidget
+                                                        .buildBsnsSelectSqncContainer(
+                                                        controller)
+                                                        : Container(),
                                                   ],
-                                                )),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                                ),
+                                              );
+                                            }),
+                                          ],
+                                        )),
                                   ],
                                 ),
 
@@ -265,12 +288,6 @@ class lpScreen extends GetView<LpController> {
                                 onTap: () {
                                   controller.isGisOpenFlag.value =
                                       !controller.isGisOpenFlag.value;
-
-                                  // controller.webviewStackIndex.value =
-                                  //     controller.webviewStackIndex.value == 0
-                                  //         ? 1
-                                  //         : 0;
-
                                 },
                                 child: Obx(
                                   () => controller.isGisOpenFlag.value

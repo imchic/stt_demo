@@ -124,9 +124,9 @@ class BsnsWidget {
               (BuildContext context, int index) {
                 return InkWell(
                   onTap: (){
-                    // controller.isBsnsSelectFlag.value = !controller.isBsnsSelectFlag.value;
-                    // controller.selectBsnsPlan.value = controller.searchBsnsPlanList[index];
-                    // controller.fetchBsnsSelectAreaGridDataSource();
+                    controller.isBsnsSelectFlag.value = true;
+                    controller.selectBsnsPlan.value = controller.searchBsnsPlanList[index];
+                    controller.fetchBsnsSelectAreaGridDataSource();
 
                    AppLog.e('사업선택 클릭 ${index} ${controller.searchBsnsPlanList[index].bsnsNm}');
 
