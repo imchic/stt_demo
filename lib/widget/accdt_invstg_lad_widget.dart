@@ -133,10 +133,9 @@ class AccdtInvstgLadWidget {
                                                     width: 12.w,
                                                   ),
                                                   SizedBox(
-                                                    width: 120.w,
+                                                    width: 160.w,
                                                     child: CustomTextField(
-                                                      controller: controller
-                                                          .accdtlnvstgLadMlnoLtnoController,
+                                                      controller: controller.accdtlnvstgLadMlnoLtnoController,
                                                       hintText: '본번',
                                                       onChanged: (value) {
                                                         controller
@@ -149,8 +148,9 @@ class AccdtInvstgLadWidget {
                                                     width: 12.w,
                                                   ),
                                                   SizedBox(
-                                                    width: 120.w,
+                                                    width: 160.w,
                                                     child: CustomTextField(
+                                                      isReadOnly: false,
                                                       controller: controller
                                                           .accdtlnvstgLadSlnoLtnoController,
                                                       hintText: '부번',
@@ -264,9 +264,57 @@ class AccdtInvstgLadWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CustomRichText(
-                                    length: controller.accdtlnvstgLadDataSource
-                                        .value.rows.length),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomRichText(
+                                        length: controller.accdtlnvstgLadDataSource
+                                            .value.rows.length),
+                                    Row(
+                                      children: [
+                                        // 초기화
+                                        InkWell(
+                                          onTap: () {
+                                            controller.clearAccdtlnvstgLad();
+                                          },
+                                          child: Container(
+                                            width: 72.w,
+                                            height: 72.h,
+                                            decoration: ShapeDecoration(
+                                              color: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12.r),
+                                                  side: BorderSide(
+                                                      color: borderLine)),
+                                            ),
+                                            child: Icon(Icons.refresh,
+                                                color: Colors.black))),
+                                        SizedBox(width: 20.w),
+                                        // 복사
+                                        InkWell(
+                                          onTap: () {
+                                            controller.copyAccdtlnvstgLad();
+                                          },
+                                          child: Container(
+                                            width: 72.w,
+                                            height: 72.h,
+                                            decoration: ShapeDecoration(
+                                              color: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12.r),
+                                                  side: BorderSide(
+                                                      color: borderLine)),
+                                            ),
+                                            child: Icon(Icons.copy,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                                 SizedBox(height: 20.h),
                                 Obx(() {
                                   return controller
@@ -911,7 +959,7 @@ class AccdtInvstgLadWidget {
               )
             ),
           // 조사내용 저장
-          Container(
+          /*Container(
             width: double.infinity,
             height: 100.h,
             margin: EdgeInsets.only(top: 40.h, bottom: 0.h, left: 40.w),
@@ -953,7 +1001,7 @@ class AccdtInvstgLadWidget {
                 ),
               ],
             ),
-          ),
+          ),*/
         ],
       ),
     );

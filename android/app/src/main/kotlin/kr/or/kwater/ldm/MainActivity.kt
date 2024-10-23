@@ -102,10 +102,6 @@ class MainActivity : FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
-            val stopRunnable = StopRunnable()
-            val stopThread = Thread(stopRunnable)
-            stopThread.start()
-
             checkStatus()
         }, 2000)
     }
@@ -189,13 +185,11 @@ class MainActivity : FlutterActivity() {
         super.onDestroy()
         try {
             Log.e("sslvpn", "onDestroy unbindService")
-//            unbindService(mConnection)
-
-            handler.post {
-                var stop = StopRunnable()
-                var stopThread = Thread(stop)
-                stopThread.start()
-            }
+            // vpn 연결 해제
+            val stopRunnable = StopRunnable()
+            val stopThread = Thread(stopRunnable)
+            stopThread.start()
+            unbindService(mConnection)
 
         } catch (e: Exception) {
         }

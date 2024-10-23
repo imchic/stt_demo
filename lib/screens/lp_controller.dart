@@ -84,8 +84,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   final api = ApiConnect();
 
-  final MethodChannel closeChannel = MethodChannel('kr.or.kwater.ldm/close');
-
   // 사업선택
   late TextEditingController bsnsNameSearchController; // 사업명 검색
   late TextEditingController bsnsNoSearchController; // 사업번호 검색
@@ -483,17 +481,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   Timer? _timer;
   RxBool isOwnerInfoChange = false.obs;
 
+  RxInt selectedCellsIndex = 0.obs;
+  List<DataGridCell<Object>> selectedCells = <DataGridCell<Object>>[];
+
   @override
   Future<void> onInit() async {
     super.onInit();
 
     WidgetsBinding.instance!.addObserver(this);
-
-   closeChannel.setMethodCallHandler((call) async {
-      if (call.method == 'close') {
-        SystemNavigator.pop();
-      }
-    });
 
     pageController = PageController(initialPage: selectedIndex.value);
 
@@ -721,9 +716,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
         break;
       case AppLifecycleState.detached:
-        AppLog.d('AppLifecycleState.detached $state');
-        final MethodChannel methodChannel = MethodChannel('kr.or.kwater.ldm/sslvpn');
-        methodChannel.invokeMethod('vpnLogout');
+        AppLog.e('$state');
+        //final MethodChannel methodChannel = MethodChannel('kr.or.kwater.ldm/sslvpn');
+        //methodChannel.invokeMethod('vpnLogout');
+        LoginController.to.methodChannel.invokeMethod('vpnLogout');
         break;
       case AppLifecycleState.hidden:
         AppLog.d('AppLifecycleState.hidden $state');
@@ -1252,6 +1248,44 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
     }
   }
+
+  clearAccdtlnvstgLad() {
+    fetchAccdtlnvstgLadDataSource();
+    DialogUtil.showSnackBar(Get.context!, '실태조사', '실태조사 내역이 초기화 되었습습니다.');
+  }
+
+  copyAccdtlnvstgLad() {
+    DialogUtil.showAlertDialog(
+      Get.context!,
+      840,
+      '실태조사',
+      widget: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AutoSizeText(
+                maxFontSize: 20,
+                '실태조사 내역을 복사하시겠습니까?',
+                style: TextStyle(
+                    color: Color(0xFF2C2C2C),
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
+      ),
+      onOk: () async {
+        accdtlnvstgLadDataSource.value.rows.insert(selectedCellsIndex.value, DataGridRow(cells: selectedCells));
+        accdtlnvstgLadDataSource.refresh();
+      },
+      onCancel: () {
+        Get.back();
+      },
+    );
+  }
+
 
   /// [실태조사 > 토지 > 소유자 ] 조회
   fetchAccdtlnvstgLadOwnerDataSource(thingSerNo) async {

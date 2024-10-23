@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ldm/screens/lp_controller.dart';
 import 'package:ldm/utils/applog.dart';
@@ -33,8 +34,10 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
               DataGridCell<String>(columnName: 'invstgDt', value: e.invstgDt.toString()),
               DataGridCell<String>(columnName: 'cmpnstnStepDivNm', value: e.cmpnstnStepDivNm.toString()),
               DataGridCell<String>(columnName: 'accdtInvstgRm', value: e.accdtInvstgRm.toString()),
+              DataGridCell<String>(columnName: 'addRow', value: ''),
             ]))
         .toList();
+    notifyListeners();
   }
 
   List<DataGridRow> _items = [];
@@ -42,9 +45,20 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
   @override
   List<DataGridRow> get rows => _items;
 
+  int rowIndex = 0;
+
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(color: Colors.white, cells: row.getCells().map<Widget>((dataGridCell) {
+
+      if(dataGridCell.columnName == 'addRow') {
+        return Container(
+          color: dataGridCell.value.toString() == '' ? Colors.white : Colors.blue,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+        );
+      }
 
       if(dataGridCell.columnName == 'lgdongNm') {
         return Container(
@@ -66,7 +80,7 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
             style: const TextStyle(color: Colors.deepPurple),
             onChanged: (String? newValue) {
               // 현재 행 가져옴
-              final rowIndex = _items.indexOf(row);
+              rowIndex = _items.indexOf(row);
               // 변경된 값으로 업데이트
               _items[rowIndex] = DataGridRow(cells: [
                 DataGridCell<String>(columnName: 'thingSerNo', value: row.getCells()[0].value),
@@ -181,6 +195,77 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
                 style: TextStyle(fontSize: 30.sp)),
           );
     }).toList());
+  }
+
+  // 선택한 행 복사
+  void copySelectedRow() {
+
+    final rowData = _items.map((e) => e.getCells().map((e) => e.value).toList()).toList();
+
+    AppLog.d('rowData: $rowData');
+
+    // 행 추가한뒤 새로고침
+    _items.add(DataGridRow(cells: [
+      DataGridCell<String>(columnName: 'thingSerNo', value: ''),
+      DataGridCell<String>(columnName: 'lgdongCd', value: ''),
+      DataGridCell<String>(columnName: 'lgdongNm', value: ''),
+      DataGridCell<String>(columnName: 'lcrtsDivCd', value: ''),
+      DataGridCell<String>(columnName: 'lcrtsDivNm', value: ''),
+      DataGridCell<String>(columnName: 'mlnoLtno', value: ''),
+      DataGridCell<String>(columnName: 'slnoLtno', value: ''),
+      DataGridCell<String>(columnName: 'ofcbkLndcgrDivNm', value: ''),
+      DataGridCell<String>(columnName: 'sttusLndcgrDivNm', value: ''),
+      DataGridCell<String>(columnName: 'ofcbkAra', value: ''),
+      DataGridCell<String>(columnName: 'incrprAra', value: ''),
+      DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: ''),
+      DataGridCell<String>(columnName: 'acqsPrpDivNm', value: ''),
+      DataGridCell<String>(columnName: 'aceptncUseDivNm', value: ''),
+      DataGridCell<String>(columnName: 'accdtInvstgSqnc', value: ''),
+      DataGridCell<String>(columnName: 'invstgDt', value: ''),
+      DataGridCell<String>(columnName: 'cmpnstnStepDivNm', value: ''),
+      DataGridCell<String>(columnName: 'accdtInvstgRm', value: ''),
+    ]));
+
+    notifyListeners();
+
+    // AppLog.d('rowData: $rowData');
+    //
+    // // copy
+    // String copiedRow = '';
+    // for (var i = 0; i < rowData.length; i++) {
+    //   if (i == 0) {
+    //     copiedRow = rowData[i].join('\t');
+    //   } else {
+    //     copiedRow = copiedRow + '\n' + rowData[i].join('\t');
+    //   }
+    // }
+    //
+    // Clipboard.setData(ClipboardData(text: copiedRow));
+    //
+    // _items.add(DataGridRow(cells: [
+    //   DataGridCell<String>(columnName: 'thingSerNo', value: ''),
+    //   DataGridCell<String>(columnName: 'lgdongCd', value: ''),
+    //   DataGridCell<String>(columnName: 'lgdongNm', value: ''),
+    //   DataGridCell<String>(columnName: 'lcrtsDivCd', value: ''),
+    //   DataGridCell<String>(columnName: 'lcrtsDivNm', value: ''),
+    //   DataGridCell<String>(columnName: 'mlnoLtno', value: ''),
+    //   DataGridCell<String>(columnName: 'slnoLtno', value: ''),
+    //   DataGridCell<String>(columnName: 'ofcbkLndcgrDivNm', value: ''),
+    //   DataGridCell<String>(columnName: 'sttusLndcgrDivNm', value: ''),
+    //   DataGridCell<String>(columnName: 'ofcbkAra', value: ''),
+    //   DataGridCell<String>(columnName: 'incrprAra', value: ''),
+    //   DataGridCell<String>(columnName: 'cmpnstnInvstgAra', value: ''),
+    //   DataGridCell<String>(columnName: 'acqsPrpDivNm', value: ''),
+    //   DataGridCell<String>(columnName: 'aceptncUseDivNm', value: ''),
+    //   DataGridCell<String>(columnName: 'accdtInvstgSqnc', value: ''),
+    //   DataGridCell<String>(columnName: 'invstgDt', value: ''),
+    //   DataGridCell<String>(columnName: 'cmpnstnStepDivNm', value: ''),
+    //   DataGridCell<String>(columnName: 'accdtInvstgRm', value: ''),
+    // ]));
+    //
+    // notifyListeners();
+
+
   }
 
 }

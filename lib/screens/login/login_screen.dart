@@ -22,7 +22,8 @@ class LoginScreen extends GetView<LoginController> {
     DateTime currentTime = DateTime.now();
     DateTime? currentBackPressTime;
 
-    Get.put(LoginController());
+    Get.put(LoginController(), permanent: true);
+
     return Scaffold(
       // 키보드 올라올 때 화면 resize
       resizeToAvoidBottomInset: true,
@@ -555,10 +556,10 @@ class LoginScreen extends GetView<LoginController> {
                                                 onTap: () {
 
                                                   AppLog.d('loginType: ${controller.loginType.value}');
-                                                  controller.fetchLogin(controller.txtId.value);
+                                                  // controller.fetchLogin(controller.txtId.value);
 
-                                                  // controller.isVPNConnected.value == true ? controller.fetchLogin(controller.txtId.value)
-                                                  //     : controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
+                                                  controller.isVPNConnected.value == true ? controller.fetchLogin(controller.txtId.value)
+                                                      : controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
 
                                                 },
                                                 child: Container(

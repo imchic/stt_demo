@@ -1134,6 +1134,7 @@ class lpScreen extends GetView<LpController> {
           gridColumn('invstgDt', '조사일', width: 90),
           gridColumn('cmpnstnStepDivNm', '보상진행단계', width: 90),
           gridColumn('accdtInvstgRm', '비고', width: 90),
+          gridColumn('addRow', '복사행', width: 90, isVisble: true),
         ],
         selectionEvent:
             ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
@@ -1164,26 +1165,31 @@ class lpScreen extends GetView<LpController> {
             accdtInvstgRm: getRow.getCells()[17].value,
           );
 
+          AppLog.d('선택된 토지 정보: ${data.toJson()}');
+
           controller.selectedLadData.value = data;
           controller.accdtlnvstgLadSearchDataSource.value =
               AccdtlnvstgLadDatasource(items: [data]);
 
-          AppLog.i(
-              'buildLadAccdtlnvstgDataGrid > 선택된 실태조사 토지 정보 > ${data.toJson()}');
+          AppLog.d('선택된 토지 정보: $getRow');
+
+          List<DataGridCell<Object>> copyRow = getRow.getCells().map((e) {
+            if (e.columnName == 'addRow') {
+              return DataGridCell(columnName: e.columnName, value: '추가');
+            } else {
+              return DataGridCell(columnName: e.columnName, value: e.value);
+            }
+          }).toList();
+
+          controller.selectedCells = copyRow;
 
           var pnu = data.thingSerNo?.split('-');
           var sumPnuStr = pnu![3] + pnu[4] + pnu[5] + pnu[6];
           AppLog.d('sumPnuStr: $sumPnuStr');
 
-          controller.isGisOpenFlag.value = true;
-          GisController.to.inAppWebViewController
-              .evaluateJavascript(source: 'fn_movePnu($sumPnuStr)');
+          GisController.to.inAppWebViewController.evaluateJavascript(source: 'fn_movePnu($sumPnuStr)');
 
-          //controller.handleAccdtlnvstgLadTabSelected(1);
 
-          if (controller.accdtlnvstgTabLadSelected[1] == true) {
-            controller.fetchAccdtlnvstgLadOwnerDataSource(data.thingSerNo);
-          }
         }));
   }
 
@@ -1256,6 +1262,7 @@ class lpScreen extends GetView<LpController> {
           gridColumn('invstgDt', '조사일', width: 90),
           gridColumn('cmpnstnStepDivNm', '보상진행단계', width: 90),
           gridColumn('accdtInvstgRm', '비고', width: 90),
+          gridColumn('addRow', '복사행', width: 90, isVisble: false),
         ]);
   }
 
