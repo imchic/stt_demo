@@ -42,7 +42,7 @@ class lpScreen extends GetView<LpController> {
     DateTime? currentBackPressTime;
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       drawerEnableOpenDragGesture: false, // 엣지 스와이프 비활성화
       body: PopScope(
         canPop: false,
@@ -212,13 +212,8 @@ class lpScreen extends GetView<LpController> {
                                       LoginController.to.loginType.value,
                                     ),
                                     Expanded(
-                                        child: Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: OwnerWidget.buildOwnerView(controller)),
-                                      ],
-                                    )),
+                                        child: Expanded(
+                                            child: OwnerWidget.buildOwnerView(controller))),
                                   ],
                                 ),
 

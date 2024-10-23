@@ -123,6 +123,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   late TextEditingController sqncEndDtController;
   late TextEditingController sqncController;
 
+  // 소유자 > 정보변경
+  late TextEditingController ownerEditTelnoController;
+  late TextEditingController ownerEditMbtlnumController;
+  late TextEditingController ownerEditAccdtInvstgRmController;
+
   // 실태조사 (토지)
   late TextEditingController accdtlnvstgLadAddrController; // 소재지
   late TextEditingController accdtlnvstgLadMlnoLtnoController; // 본번
@@ -204,7 +209,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     Tab(text: '소유자검색'),
     Tab(text: '토지정보'),
     Tab(text: '지장물정보'),
-    //Tab(text: '정보변경')
+    Tab(text: '정보변경')
   ];
 
   // 실태조사 탭 아이템
@@ -476,6 +481,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   // lifecycle timer
   Timer? _timer;
+  RxBool isOwnerInfoChange = false.obs;
 
   @override
   Future<void> onInit() async {
@@ -503,6 +509,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
     ownerNameSearchController = TextEditingController();
     ownerRegisterNoSearchController = TextEditingController();
+
+    ownerEditTelnoController = TextEditingController();
+    ownerEditMbtlnumController = TextEditingController();
+    ownerEditAccdtInvstgRmController = TextEditingController();
 
     accdtlnvstgLadAddrController = TextEditingController();
     accdtlnvstgLadMlnoLtnoController = TextEditingController();
@@ -1085,6 +1095,64 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       AppLog.d('fetchOwnerInfo > res : $res');
       selectedOwner.value = res[0];
     }
+  }
+
+  /// [소유자관리 > 정보변경] 저장
+  ownerInfoChange() async {
+    var url = Uri.parse('${CommonUtil.BASE_URL}/lp/owner/updateOwnInfo.do');
+
+    var param = {
+      'shOwnerNo': selectedOwner.value.ownerNo,
+      'frstRgstrId': selectedOwner.value.frstRgstrId,
+      'lastUpdusrId': selectedOwner.value.lastUpdusrId,
+      'ownerTelno': ownerEditTelnoController.text,
+      'ownerMbtlnum': ownerEditMbtlnumController.text,
+      'accdtInvstgRm': ownerEditAccdtInvstgRmController.text,
+    };
+
+    AppLog.d('ownerInfoChange > param : $param');
+
+    var response = await http.post(url, body: param);
+
+    if (response.statusCode == 200) {
+      var data = JsonDecoder().convert(response.body);
+      AppLog.d('ownerInfoChange > data : $data');
+      fetchOwnerDataSource();
+    }
+
+  }
+
+  saveOwnerInfo() {
+    DialogUtil.showAlertDialog(
+      Get.context!,
+      840,
+      '소유자정보',
+      widget: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AutoSizeText(
+                maxFontSize: 20,
+                '소유자정보를 저장하시겠습니까?',
+                style: TextStyle(
+                    color: Color(0xFF2C2C2C),
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
+      ),
+      onOk: () async {
+        DialogUtil.showLoading(Get.context!);
+        await ownerInfoChange();
+        Get.back();
+      },
+      onCancel: () {
+        Get.back();
+      },
+    );
   }
 
   /// [실태조사 > 토지내역] 조회

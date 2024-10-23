@@ -63,7 +63,7 @@ class OwnerWidget {
               buildOwnerObstInfoContainer(controller),
 
               /// [소유자관리 -> 정보변경]
-              /*buildOwnerInfoChangeContainer(controller),*/
+              buildOwnerInfoChangeContainer(controller),
             ],
           ))
         ],
@@ -92,8 +92,6 @@ class OwnerWidget {
                   Column(children: [
                     Row(
                       children: [
-                        //lpScreen().buildOwnerMngRadio(),
-                        //SizedBox(width: 32.w),
                         Expanded(child: CustomTextField(controller: controller.ownerNameSearchController, hintText: '소유자명을 입력해주세요', onChanged: (value) {
                           controller.searchOwnerName(value);
                         })),
@@ -103,21 +101,6 @@ class OwnerWidget {
                         })),
                       ],
                     ),
-                    //SizedBox(height: 32.h),
-                    /*Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomButton(
-                          text: '조회',
-                          color: Color(0xFF1D1D1D),
-                          prefixIcon: SvgPicture.asset('assets/icons/ic_search.svg', width: 32.w, height: 32.h),
-                          onPressed: () {},
-                        ),
-                        SizedBox(width: 12.w),
-                        CustomButton().refreshButton()
-                      ],
-                    ),*/
                   ]),
                 ],
               ),
@@ -228,294 +211,28 @@ class OwnerWidget {
   /// 소유자관리 -> 정보변경
   static buildOwnerInfoChangeContainer(LpController controller) {
     return Container(
-      width: Get.width,
-      padding: EdgeInsets.all(40.r),
-      child:
-      /*Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            children: [
-              // 소유자명, 소유자구분
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: tableColor1,
-                        ),
-                        height: 80.h,
-                        alignment: Alignment.center,
-                        child: Center(
-                            child: AutoSizeText('소유자명',
-                                style: TextStyle(
-                                    color: tableTextColor,
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.w700))),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(20.r),
-                        height: 80.h,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Center(
-                            child: AutoSizeText(controller.selectedOwner.value.ownerNm ?? '',
-                                style: TextStyle(
-                                    color: Color(0xFF555555),
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.w400))),
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: tableColor1,
-                        ),
-                        height: 80.h,
-                        alignment: Alignment.center,
-                        child: Center(
-                            child: AutoSizeText('소유자구분',
-                                style: TextStyle(
-                                    color: tableTextColor,
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.w700))),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(20.r),
-                        height: 80.h,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Center(
-                            child: AutoSizeText(controller.selectedOwner.value.ownerDivCd ?? '',
-                                style: TextStyle(
-                                    color: Color(0xFF555555),
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.w400))),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // 등록번호
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: tableColor1,
-                        ),
-                        height: 80.h,
-                        alignment: Alignment.center,
-                        child: Center(
-                            child: AutoSizeText('등록번호',
-                                style: TextStyle(
-                                    color: tableTextColor,
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.w700))),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        height: 80.h,
-                        padding: EdgeInsets.all(20.r),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Center(
-                            child: AutoSizeText(controller.selectedOwner.value.ownerRrnEnc ?? '',
-                                style: TextStyle(
-                                    color: Color(0xFF555555),
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.w400))),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // 전화번호
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: tableColor1,
-                        ),
-                        height: 80.h,
-                        alignment: Alignment.center,
-                        child: Center(
-                            child: AutoSizeText('전화번호',
-                                style: TextStyle(
-                                    color: tableTextColor,
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.w700))),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 80.h,
-                        padding: EdgeInsets.all(20.r),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Center(
-                            child: AutoSizeText(controller.selectedOwner.value.ownerTelno ?? '',
-                                style: TextStyle(
-                                    color: Color(0xFF555555),
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.w400))),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: tableColor1,
-                        ),
-                        height: 80.h,
-                        alignment: Alignment.center,
-                        child: Center(
-                            child: AutoSizeText('휴대폰번호',
-                                style: TextStyle(
-                                    color: tableTextColor,
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.w700))),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 80.h,
-                        padding: EdgeInsets.all(20.r),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Center(
-                            child: AutoSizeText(controller.selectedOwner.value.ownerMbtlnum?? '',
-                                style: TextStyle(
-                                    color: Color(0xFF555555),
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.w400))),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // 특이사항
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 256.h,
-                        decoration: BoxDecoration(
-                          color: tableColor1,
-                        ),
-                        alignment: Alignment.center,
-                        child: Center(
-                            child: AutoSizeText('특이사항',
-                                style: TextStyle(
-                                    color: tableTextColor,
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.w700))),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        height: 256.h,
-                        padding: EdgeInsets.all(20.r),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Center(
-                            child: AutoSizeText(controller.selectedOwner.value.accdtInvstgRm ?? '',
-                                style: TextStyle(
-                                    color: Color(0xFF555555),
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.w400))),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 48.h),
-              InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: Container(
-                  width: 1.w > 1.h ? 144.w : 14.h,
-                  height: 1.w > 1.h ? 72.h : 92.w,
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF2287EF),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      AutoSizeText(
-                        '저장',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),*/
-      Container(
-        width: double.infinity,
+        width: Get.width,
+        padding: EdgeInsets.all(40.r),
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  children: [
+                    AutoSizeText('정보변경', style: TextStyle(color: Color(0xFF555555), fontSize: 32.sp, fontWeight: FontWeight.w400)),
+                    Switch(
+                      value: controller.isOwnerInfoChange.value,
+                      onChanged: (value) {
+                        controller.isOwnerInfoChange.value = value;
+                        controller.ownerInfoChange();
+                      },
+                      activeColor: Color(0xFF2287EF),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             Table(
               columnWidths: {
                 0: FlexColumnWidth(1),
@@ -621,7 +338,7 @@ class OwnerWidget {
                         height: 80.h,
                         color: Colors.white,
                         child: Center(
-                          child: AutoSizeText(CommonUtil.maskOwnerRegisterNo(controller.selectedOwner.value.ownerRrnEnc ?? ''),
+                          child: AutoSizeText(controller.selectedOwner.value.ownerRrnEnc ?? '',
                               style: TextStyle(
                                   color: Color(0xFF555555),
                                   fontSize: 32.sp,
@@ -667,11 +384,16 @@ class OwnerWidget {
                         height: 80.h,
                         color: Colors.white,
                         child: Center(
-                          child: AutoSizeText(CommonUtil.phoneHyphen(controller.selectedOwner.value.ownerTelno ?? ''),
+                          child: Obx(() => controller.isOwnerInfoChange.value == true ? CustomTextField(
+                            isNumber: true,
+                              controller: controller.ownerEditTelnoController, hintText: '전화번호를 입력해주세요', onChanged: (value) {
+                            controller.selectedOwner.value.ownerTelno = value;
+                          }) : AutoSizeText(CommonUtil.phoneHyphen(controller.selectedOwner.value.ownerTelno ?? ''),
                               style: TextStyle(
                                   color: Color(0xFF555555),
                                   fontSize: 32.sp,
                                   fontWeight: FontWeight.w400)),
+                          ),
                         ),
                       ),
                     ),
@@ -693,11 +415,16 @@ class OwnerWidget {
                         height: 80.h,
                         color: Colors.white,
                         child: Center(
-                          child: AutoSizeText(CommonUtil.phoneHyphen(controller.selectedOwner.value.ownerMbtlnum ?? ''),
+                          child: Obx(() => controller.isOwnerInfoChange.value == true ? CustomTextField(
+                              isNumber: true,
+                              controller: controller.ownerEditMbtlnumController, hintText: '휴대폰번호를 입력해주세요', onChanged: (value) {
+                            controller.selectedOwner.value.ownerMbtlnum = value;
+                          }) : AutoSizeText(CommonUtil.phoneHyphen(controller.selectedOwner.value.ownerMbtlnum ?? ''),
                               style: TextStyle(
                                   color: Color(0xFF555555),
                                   fontSize: 32.sp,
                                   fontWeight: FontWeight.w400)),
+                          ),
                         ),
                       ),
                     ),
@@ -738,23 +465,36 @@ class OwnerWidget {
                       child: Container(
                         height: 256.h,
                         color: Colors.white,
-                        child: Center(
-                          child: AutoSizeText(controller.selectedOwner.value.accdtInvstgRm ?? '',
-                              style: TextStyle(
-                                  color: Color(0xFF555555),
-                                  fontSize: 32.sp,
-                                  fontWeight: FontWeight.w400)),
-                        ),
+                        child: Obx(() => controller.isOwnerInfoChange.value == true ? CustomTextField(
+                            controller: controller.ownerEditAccdtInvstgRmController, hintText: '특이사항을 입력해주세요', onChanged: (value) {
+                          controller.selectedOwner.value.accdtInvstgRm = value;
+                        }) : AutoSizeText(controller.selectedOwner.value.accdtInvstgRm ?? '',
+                            style: TextStyle(
+                                color: Color(0xFF555555),
+                                fontSize: 32.sp,
+                                fontWeight: FontWeight.w400)),
                       ),
-                    ),
+                    )),
                   ],
                 ),
                 // 2개의 row
               ],
-            )
+            ),
+            SizedBox(height: 20.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomButton(
+                  text: '저장',
+                  onPressed: () {
+                    controller.saveOwnerInfo();
+                    controller.isOwnerInfoChange.value = false;
+                  },
+                ),
+              ],
+            ),
           ],
-        ),
-      )
+        )
     );
   }
 }
