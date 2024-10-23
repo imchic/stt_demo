@@ -63,7 +63,7 @@ class OwnerWidget {
               buildOwnerObstInfoContainer(controller),
 
               /// [소유자관리 -> 정보변경]
-              buildOwnerInfoChangeContainer(controller),
+              /*buildOwnerInfoChangeContainer(controller),*/
             ],
           ))
         ],
@@ -162,27 +162,33 @@ class OwnerWidget {
     return Container(
       width: Get.width,
       padding: EdgeInsets.all(40.r),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomRichText(length: controller.ownerLadInfoDataSource.value.rows.length),
-          SizedBox(height: 20.h),
-          controller.ownerLadInfoDataSource.value.rows.isEmpty ? Expanded(
-            child: Container(
-              width: double.infinity,
-              child: Center(
-                child: AutoSizeText('데이터가 없습니니다.',
-                    style: TextStyle(
-                        color: Color(0xFF555555),
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.w400)),
+      child: Obx(() =>
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomRichText(length: controller.ownerLadInfoDataSource.value.rows.length),
+            SizedBox(height: 20.h),
+            controller.ownerLadInfoDataSource.value.rows.isEmpty ? Expanded(
+              child: Container(
+                width: double.infinity,
+                child: Center(
+                  child: AutoSizeText('데이터가 없습니니다.',
+                      style: TextStyle(
+                          color: Color(0xFF555555),
+                          fontSize: 32.sp,
+                          fontWeight: FontWeight.w400)),
+                ),
               ),
-            ),
-          ) :
-          Expanded(child: lpScreen().buildOwnerLadInfoDataGrid()),
-        ],
+            ) :
+            Expanded(child: lpScreen().buildOwnerLadInfoDataGrid()),
+            SizedBox(height: 20.h),
+            Expanded(child: controller.accdtlnvstgLadOwnerDataSource.value.rows.isEmpty ? Container() : Expanded(child: lpScreen().buildAccdtlnvstgLadOwnerStatusDataGrid())),
+            SizedBox(height: 20.h),
+            Expanded(child: controller.accdtlnvstgLadPartcpntDataSource.value.rows.isEmpty ? Container() : Expanded(child: lpScreen().buildAccdtlnvstgLadPartcpntStatusDataGrid())),
+          ],
+        ),
       ),
     );
   }
@@ -192,27 +198,29 @@ class OwnerWidget {
     return Container(
       width: Get.width,
       padding: EdgeInsets.all(40.r),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomRichText(length: controller.ownerObstInfoDataSource.value.rows.length),
-          SizedBox(height: 20.h),
-          controller.ownerObstInfoDataSource.value.rows.isEmpty ? Expanded(
-            child: Container(
-              width: double.infinity,
-              child: Center(
-                child: AutoSizeText('데이터가 없습니다.',
-                    style: TextStyle(
-                        color: Color(0xFF555555),
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.w400)),
+      child: Obx(() =>
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomRichText(length: controller.ownerObstInfoDataSource.value.rows.length),
+            SizedBox(height: 20.h),
+            controller.ownerObstInfoDataSource.value.rows.isEmpty ? Expanded(
+              child: Container(
+                width: double.infinity,
+                child: Center(
+                  child: AutoSizeText('데이터가 없습니다.',
+                      style: TextStyle(
+                          color: Color(0xFF555555),
+                          fontSize: 32.sp,
+                          fontWeight: FontWeight.w400)),
+                ),
               ),
-            ),
-          ) :
-          Expanded(child: lpScreen().buildOwnerObstInfoDataGrid()),
-        ],
+            ) :
+            Expanded(child: lpScreen().buildOwnerObstInfoDataGrid()),
+          ],
+        ),
       ),
     );
   }

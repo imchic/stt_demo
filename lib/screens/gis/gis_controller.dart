@@ -1,5 +1,6 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 
 import '../../utils/applog.dart';
 import '../../utils/common_util.dart';
@@ -51,9 +52,40 @@ class GisController extends GetxController {
 
           // inappwebview javascript bridge
         ),
-        onLoadStart: (controller, url) {
+        onLoadStart: (controller, url) async {
           if (!hasLoadedOnce) {
             AppLog.d('onLoadStart 호출');
+
+            // 앱에서 웹으로 데이터 전달
+            Location location = new Location();
+
+            bool _serviceEnabled;
+            PermissionStatus _permissionGranted;
+            LocationData _locationData;
+
+            _serviceEnabled = await location.serviceEnabled();
+            if (!_serviceEnabled) {
+              _serviceEnabled = await location.requestService();
+              if (!_serviceEnabled) {
+                return;
+              }
+            }
+
+            _permissionGranted = await location.hasPermission();
+            if (_permissionGranted == PermissionStatus.denied) {
+              _permissionGranted = await location.requestPermission();
+              if (_permissionGranted != PermissionStatus.granted) {
+                return;
+              }
+            }
+
+            _locationData = await location.getLocation();
+            AppLog.d('latitude: ${_locationData.latitude}, longitude: ${_locationData.longitude}');
+
+            latitude.value = _locationData.latitude ?? 0.0;
+            longitude.value = _locationData.longitude ?? 0.0;
+
+
             controller.addJavaScriptHandler(
                 handlerName: 'callGps',
                 callback: (arguments) {

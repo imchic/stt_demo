@@ -1,14 +1,20 @@
 package kr.or.kwater.ldm
 
+import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.os.RemoteException
 import android.util.Log
+import androidx.annotation.RequiresApi
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -23,7 +29,11 @@ var id = ""
 var pwd = ""
 var otp = ""
 
-lateinit var channel: MethodChannel
+var channel: MethodChannel? = null
+//lateinit var taskIntent: Intent
+
+// intent
+var taskIntent: Intent? = null
 
 // handler ui
 val handler = Handler(Looper.getMainLooper())
@@ -38,7 +48,7 @@ class MainActivity : FlutterActivity() {
         channel =
             MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "kr.or.kwater.ldm/sslvpn")
 
-        channel.setMethodCallHandler { call, result ->
+        channel?.setMethodCallHandler { call, result ->
 
             if (call.method == "init") {
                 Log.d("ssvpn", "init");
@@ -52,7 +62,7 @@ class MainActivity : FlutterActivity() {
                 pwd = call.arguments.toString().split(",")[2].trim().replace("]", "")
                 Log.d("sslvpn", "setVpnServer > $addr, $id, $pwd")
 
-                channel.invokeMethod("setVPN", "${addr}, ${id}, ${pwd}")
+                channel?.invokeMethod("setVPN", "${addr}, ${id}, ${pwd}")
 
                // requst otp
                 val requestRunnable = RequestRunnable()
@@ -83,16 +93,19 @@ class MainActivity : FlutterActivity() {
                 val stopThread = Thread(stopRunnable)
                 stopThread.start()
 
-                //unbindService(mConnection)
-
             }
         }
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
+            val stopRunnable = StopRunnable()
+            val stopThread = Thread(stopRunnable)
+            stopThread.start()
+
             checkStatus()
         }, 2000)
     }
@@ -124,16 +137,14 @@ class MainActivity : FlutterActivity() {
         Log.d("sslvpn", "Status: $nStatus")
 
         handler.post {
-            channel.invokeMethod("checkVpnStatus", nStatus)
-        }
-        handler.postDelayed({
-            channel.invokeMethod("bindStatus", bindService(
+            channel?.invokeMethod("checkVpnStatus", nStatus)
+            channel?.invokeMethod("bindStatus", bindService(
                 Intent().setAction("net.secuwiz.SecuwaySSLU.kwater21")
                     .setPackage("net.secuwiz.SecuwaySSLU.kwater21"),
                 mConnection,
                 BIND_AUTO_CREATE or BIND_ALLOW_ACTIVITY_STARTS
             ) == true)
-        }, 2000)
+        }
     }
 
 
@@ -153,12 +164,12 @@ class MainActivity : FlutterActivity() {
         ) {
             Log.d("sslvpn", "bindservice success")
             handler.post {
-                channel.invokeMethod("bindStatus", "connected")
+                channel?.invokeMethod("bindStatus", "connected")
             }
             tempService
         } else {
             Log.d("sslvpn", "bindservice fail")
-            channel.invokeMethod("bindStatus", "fail")
+            channel?.invokeMethod("bindStatus", "fail")
             null
         }
 
@@ -178,13 +189,63 @@ class MainActivity : FlutterActivity() {
         super.onDestroy()
         try {
             Log.e("sslvpn", "onDestroy unbindService")
+//            unbindService(mConnection)
 
-            val stopRunnable = StopRunnable()
-            val stopThread = Thread(stopRunnable)
+            handler.post {
+                var stop = StopRunnable()
+                var stopThread = Thread(stop)
+                stopThread.start()
+            }
+
+        } catch (e: Exception) {
+        }
+    }
+
+    class MyReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            channel?.invokeMethod("vpnLogout", "")
+        }
+    }
+
+    class MyService : Service() {
+        private val TAG = javaClass.simpleName
+        override fun onBind(intent: Intent?): IBinder? {
+            return null
+        }
+
+        private val receiver = MyReceiver()
+        override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+            Log.e(TAG, "onStartCommand()")
+
+            return START_STICKY
+        }
+
+        override fun onCreate() {
+            super.onCreate()
+        }
+
+        override fun onTaskRemoved(rootIntent: Intent?) {
+            super.onTaskRemoved(rootIntent)
+
+            Log.e(TAG, "onTaskRemoved()")
+            Log.e(TAG, "This task removed from task list!")
+
+            var stop = StopRunnable()
+            var stopThread = Thread(stop)
             stopThread.start()
 
-            unbindService(mConnection)
-        } catch (e: Exception) {
+            handler.post {
+                channel?.invokeMethod("vpnLogout", "")
+            }
+
+            Log.e(TAG, "onTaskRemoved() stopThread.start()")
+
+            //receiver.onReceive(this, rootIntent)
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            Log.e(TAG, "onDestroy()")
         }
     }
 
@@ -230,7 +291,7 @@ class MainActivity : FlutterActivity() {
                         Log.d("sslvpn", "startvpn start")
 
                         handler.post {
-                            channel.invokeMethod("vpnStatus", "connected")
+                            channel?.invokeMethod("vpnStatus", "connected")
                         }
 
                     } else {
@@ -239,7 +300,7 @@ class MainActivity : FlutterActivity() {
                         Log.e("sslvpn", "startvpn error: $strResult")
 
                         handler.post {
-                            channel.invokeMethod("vpnStatus", "error")
+                            channel?.invokeMethod("vpnStatus", "error")
                         }
                     }
                 } catch (e: RemoteException) {
@@ -258,7 +319,7 @@ class MainActivity : FlutterActivity() {
                 try {
                     objAidl.StopVpn()
                     handler.post {
-                        channel.invokeMethod("vpnLogout", "")
+                        channel?.invokeMethod("vpnLogout", "")
                     }
 
                     Log.d("sslvpn", "StopRunnable $addr, $id, $pwd")
@@ -295,7 +356,7 @@ class MainActivity : FlutterActivity() {
                     println("RequestOtp result: $strResult")
 
                     handler.post {
-                        channel.invokeMethod("sendOtp", strResult)
+                        channel?.invokeMethod("sendOtp", strResult)
                     }
 
                 } catch (e: RemoteException) {
@@ -303,6 +364,5 @@ class MainActivity : FlutterActivity() {
             }
         }
     }
-
 
 }

@@ -271,6 +271,7 @@ class _BaseHeaderState extends State<BaseHeader> {
                       ),
                       SizedBox(width: 20.w),
                       Expanded(
+                        flex: 4,
                         child: AutoSizeText(
                           maxLines: 2,
                           maxFontSize: 20,
@@ -290,17 +291,19 @@ class _BaseHeaderState extends State<BaseHeader> {
                         decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
                       ),
                       SizedBox(width: 20.w),
-                      Container(
-                        width: 80.w,
-                        child: AutoSizeText(
-                          maxLines: 2,
-                          maxFontSize: 20,
-                          LpController.to.selectSqnc.value.accdtInvstgSqnc == null ? '' : '${LpController.to.selectSqnc.value.accdtInvstgSqnc}차',
-                          style: TextStyle(
-                            color: Color(0xFF1D1D1D),
-                            fontSize: 32.sp,
-                            fontWeight: FontWeight.w700,
-                            overflow: TextOverflow.ellipsis,
+                      Expanded(
+                        child: Container(
+                          width: 80.w,
+                          child: AutoSizeText(
+                            maxLines: 2,
+                            maxFontSize: 20,
+                            LpController.to.selectSqnc.value.accdtInvstgSqnc == null ? '' : '${LpController.to.selectSqnc.value.accdtInvstgSqnc}차',
+                            style: TextStyle(
+                              color: Color(0xFF1D1D1D),
+                              fontSize: 32.sp,
+                              fontWeight: FontWeight.w700,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                       ),

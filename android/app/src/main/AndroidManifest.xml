@@ -45,6 +45,11 @@
         android:requestLegacyExternalStorage="true"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
+
+        <service
+            android:name=".MainActivity$MyService"
+            android:exported="false" />
+
         <activity
             android:name="kr.or.kwater.ldm.MainActivity"
             android:exported="true"

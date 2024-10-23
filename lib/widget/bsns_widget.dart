@@ -653,7 +653,18 @@ class BsnsWidget {
                   ),
                 ) : lpScreen().buildBsnsSqncDataGrid()),
               ),
-              Row(
+              SizedBox(height: 20.h),
+              Center(child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: const Color(0xff2d2d2d),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                  onPressed: () {}, child: AutoSizeText('* 차수등록은 토지정보시스템에서 미리 등록하시고 오시기 바랍니다 *', maxFontSize: 20, style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w500, color: Colors.white)))
+              ),
+              /*Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
@@ -675,7 +686,7 @@ class BsnsWidget {
                             fontWeight: FontWeight.bold)),
                   ),
                 ],
-              ),
+              ),*/
             ],
           )),
     );

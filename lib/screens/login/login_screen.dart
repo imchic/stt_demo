@@ -2,7 +2,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
@@ -105,9 +104,7 @@ class LoginScreen extends GetView<LoginController> {
                                       children: [
                                         SizedBox(
                                           width: double.infinity,
-                                          child: AutoSizeText(
-                                            '현장조사 모바일',
-
+                                          child: AutoSizeText('토지보상 및 국유재산\n현장업무 모바일서비스',
                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Color(0xFF1D1D1D),
@@ -118,7 +115,7 @@ class LoginScreen extends GetView<LoginController> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: 8.h),
+                                        SizedBox(height: 20.h),
                                         SizedBox(
                                           width: double.infinity,
                                           child: AutoSizeText(
@@ -133,55 +130,47 @@ class LoginScreen extends GetView<LoginController> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: 32.h),
-                                        Container(
-                                          width: double.infinity,
+                                        SizedBox(height: 30.h),
+                                        Center(
                                           child: Obx(() =>
-                                            Column(
-                                              children: [
-                                                Obx(() =>
-                                                  AutoSizeText(
-                                                    controller.vpnBindStatus.value,
-                                                    style: TextStyle(
-                                                      color: Color(0xFFEC26E9),
-                                                      fontSize: 20.sp,
-                                                      fontFamily: 'Pretendard',
-                                                      fontWeight: FontWeight.w500,
-                                                      //height: 0.05,
-                                                    ),
+                                            Visibility(
+                                              visible: controller.vpnStr.value != '' ? true : false,
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 8.h),
+                                                decoration: ShapeDecoration(
+                                                  color: controller.isVPNConnected.value ? Color(0xFF0EB608) : Color(0xFFD30505),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(1998),
                                                   ),
                                                 ),
-                                                AutoSizeText(
-                                                  controller.vpnInfo.value,
-                                                  style: TextStyle(
-                                                    color: controller
-                                                            .isVPNConnected.value
-                                                        ? Color(0xFF0EB608)
-                                                        : Color(0xFFD30505),
-                                                    fontSize: 20.sp,
-                                                    fontFamily: 'Pretendard',
-                                                    fontWeight: FontWeight.w500,
-                                                    //height: 0.05,
+                                                child:
+                                                  Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        controller.vpnStr.contains('인증') ? Icons.message : Icons.info,
+                                                        color: Colors.white,
+                                                        size: 32.r,
+                                                      ),
+                                                      SizedBox(width: 16.w),
+                                                      AutoSizeText(
+                                                        controller.vpnStr.value ?? 'OTP 인증이 필요합니다.',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 30.sp,
+                                                          fontFamily: 'Pretendard',
+                                                          fontWeight: FontWeight.w400,
+                                                          //height: 0.05,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                                AutoSizeText(
-                                                  controller.vpnStr.value,
-                                                  style: TextStyle(
-                                                    color: controller
-                                                        .isVPNConnected.value
-                                                        ? Color(0xFF0EB608)
-                                                        : Color(0xFFD30505),
-                                                    fontSize: 20.sp,
-                                                    fontFamily: 'Pretendard',
-                                                    fontWeight: FontWeight.w500,
-                                                    //height: 0.05,
-                                                  ),
-                                                ),
-                                              ],
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(height: 8.h),
+                                          ),
                                       ],
                                     ),
                                   ),
@@ -190,7 +179,7 @@ class LoginScreen extends GetView<LoginController> {
                           ),
                           Container(
                             width: double.infinity,
-                            height: 1000.h,
+                            height: 900.h,
                             decoration: ShapeDecoration(
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -566,10 +555,10 @@ class LoginScreen extends GetView<LoginController> {
                                                 onTap: () {
 
                                                   AppLog.d('loginType: ${controller.loginType.value}');
-                                                  // controller.fetchLogin(controller.txtId.value);
+                                                  controller.fetchLogin(controller.txtId.value);
 
-                                                  controller.isVPNConnected.value == true ? controller.fetchLogin(controller.txtId.value)
-                                                      : controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
+                                                  // controller.isVPNConnected.value == true ? controller.fetchLogin(controller.txtId.value)
+                                                  //     : controller.methodChannel.invokeMethod('setVpnServer', ['https://vpn.kwater.or.kr', controller.vpnId.value, controller.vpnPw.value]);
 
                                                 },
                                                 child: Container(

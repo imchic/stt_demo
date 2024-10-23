@@ -204,7 +204,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     Tab(text: '소유자검색'),
     Tab(text: '토지정보'),
     Tab(text: '지장물정보'),
-    Tab(text: '정보변경')
+    //Tab(text: '정보변경')
   ];
 
   // 실태조사 탭 아이템
@@ -302,6 +302,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   // 선택된 소유자 정보
   Rx<AccdtlnvstgLadModel> selectedLadData = AccdtlnvstgLadModel().obs;
+  RxString selecteThingSerNo = ''.obs;
 
   // 실태조사 > 소유자/관계인 > 소유자별 관계인 현황
   final accdtlnvstgLadPartcpntDataSource =
@@ -468,6 +469,13 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   List<File> files = <File>[];
   RxList<Image> ladImages = <Image>[].obs;
   RxList<Image> obstImages = <Image>[].obs;
+
+  RxString selectOwnerNo = ''.obs;
+  RxDouble sliderValue = 0.0.obs;
+  RxBool isAppFinish = false.obs;
+
+  // lifecycle timer
+  Timer? _timer;
 
   @override
   Future<void> onInit() async {
@@ -667,30 +675,49 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     bsnsTabController.dispose();
     bsnsNameSearchController.dispose();
     bsnsNoSearchController.dispose();
-    super.dispose();
+    LoginController.to.methodChannel.invokeMethod('vpnLogout');
+    SystemNavigator.pop();
   }
 
   @override
   didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      AppLog.d('AppLifecycleState.resumed $state');
-    } else if (state == AppLifecycleState.inactive) {
-      AppLog.d('AppLifecycleState.inactive $state');
-    } else if (state == AppLifecycleState.paused) {
-      AppLog.d('AppLifecycleState.paused $state');
-    } else if (state == AppLifecycleState.detached) {
-      // 2초뒤 종료
-      DialogUtil.showSnackBar(Get.context!, '앱 종료', '앱이 종료됩니다.');
-      final MethodChannel methodChannel = MethodChannel('kr.or.kwater.ldm/sslvpn');
-      Future.delayed(Duration(seconds: 2), () {
-        methodChannel.invokeMethod('vpnLogout');
-        SystemNavigator.pop();
-      });
+    switch (state) {
+      case AppLifecycleState.resumed:
+        AppLog.d('AppLifecycleState.resumed $state');
+        _timer?.cancel();
+        isAppFinish.value = false;
+        break;
+      case AppLifecycleState.inactive:
+        AppLog.d('AppLifecycleState.inactive $state');
+        break;
+      case AppLifecycleState.paused:
+        AppLog.d('AppLifecycleState.paused $state');
+        isAppFinish.value = true;
+        // _timer = Timer(Duration(milliseconds: 500), () {
+        //   if(isAppFinish.value) {
+        //     final MethodChannel methodChannel = MethodChannel(
+        //         'kr.or.kwater.ldm/sslvpn');
+        //     methodChannel.invokeMethod('vpnLogout');
+        //   } else {
+        //     _timer?.cancel();
+        //     isAppFinish.value = false;
+        //   }
+        // });
 
+        break;
+      case AppLifecycleState.detached:
+        AppLog.d('AppLifecycleState.detached $state');
+        final MethodChannel methodChannel = MethodChannel('kr.or.kwater.ldm/sslvpn');
+        methodChannel.invokeMethod('vpnLogout');
+        break;
+      case AppLifecycleState.hidden:
+        AppLog.d('AppLifecycleState.hidden $state');
+        break;
     }
   }
 
@@ -941,6 +968,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       'shOwnerNo': ownerNum ?? '',
     };
 
+    AppLog.d('fetchOwnerLadInfoDataSource > param : $param');
+
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
@@ -1059,7 +1088,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   }
 
   /// [실태조사 > 토지내역] 조회
-  fetchAccdtlnvstgSearchDataSource() async {
+  fetchAccdtlnvstgLadDataSource() async {
     var url = Uri.parse(
         '${CommonUtil.BASE_URL}/lp/accdtInvstg/selectAccdtInvstgLad.do');
 
@@ -1111,7 +1140,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
       accdtlnvstgLadDataSource.value = AccdtlnvstgLadDatasource(items: list);
 
-      if (accdtlnvstgLadDataSource.value.rows.length == 0) {
+      /*if (accdtlnvstgLadDataSource.value.rows.isEmpty || accdtlnvstgObstDataSource.value.rows.isEmpty) {
         DialogUtil.showSnackBar(Get.context!, '실태조사', '실태조사 내역이 없습니다.');
       } else {
         // AppLog.d('실태조사 시작');
@@ -1151,7 +1180,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
             Get.back();
           },
         );
-      }
+      }*/
+
     }
   }
 
@@ -1180,6 +1210,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
       AppLog.d('fetchAccdtlnvstgLadOwnerDataSource > data : $list');
 
+      list.forEach((element) {
+        AppLog.d('fetchAccdtlnvstgLadOwnerDataSource > data : ${element.ownerNm}');
+      });
+
       accdtlnvstgLadOwnerDataSource.value =
           AccdtlnvstgLadOwnerDatasource(items: list);
     }
@@ -1192,7 +1226,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
     var param = {
       'shOwnerNo': ownerNo,
-      'shThingSerNo': selectedLadData.value.thingSerNo,
+      'shThingSerNo': selecteThingSerNo.value,
       'shBsnsZoneNo': selectedBsnsSelectArea.value.bsnsZoneNo.toString(),
       'bsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
     };

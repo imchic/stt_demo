@@ -88,7 +88,7 @@ class LoginController extends GetxController
       } else if (call.method == 'checkVpnStatus') {
         AppLog.i('setMethodCallHandler > checkVpnStatus : ${call.arguments}');
 
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(milliseconds: 500), () {
           if (call.arguments == 1) {
             //vpnStr.value = 'VPN 연결됨';
             isVPNConnected.value = true;
@@ -104,49 +104,11 @@ class LoginController extends GetxController
         AppLog.i('setMethodCallHandler > sendOtp : ${call.arguments}');
         vpnStr.value = call.arguments;
         if (call.arguments.contains('인증번호가 발송되었습니다.')) {
+
           isSendOtp.value = true;
-
-          // _smsReceiver = SmsReceiver(onSmsReceived, onTimeout: onTimeout);
-          // _startListening();
-
           listenForCode();
-
           DialogUtil.showSnackBar(Get.context!, 'OTP 인증', 'OTP 인증번호가 발송되었습니다.');
 
-          // Get.defaultDialog(
-          //   title: 'OTP 인증',
-          //   content: Column(
-          //     children: [
-          //       Text('OTP 인증번호가 발송되었습니다.'),
-          //       Obx(() =>
-          //         PinFieldAutoFill(
-          //           decoration: BoxLooseDecoration(
-          //             strokeColorBuilder: PinListenColorBuilder(Colors.black, Colors.black26),
-          //             bgColorBuilder: const FixedColorBuilder(Colors.white),
-          //             strokeWidth: 1.w,
-          //           ),
-          //           autoFocus: true,
-          //           cursor: Cursor(color: Colors.red, enabled: true, width: 1.w),
-          //           currentCode: optCode.value,
-          //           onCodeSubmitted: (code) {
-          //             AppLog.i('otp code submit : $code');
-          //             methodChannel.invokeMethod('vpnLogin', code);
-          //           },
-          //           codeLength: 6,
-          //           onCodeChanged: (code) {
-          //             AppLog.i('otp code changed : $code');
-          //             if (code?.length == 6) {
-          //               methodChannel.invokeMethod('vpnLogin', code);
-          //               Get.back();
-          //             } else {
-          //               isSendOtp.value = false;
-          //             }
-          //           },
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // );
         } else {
           isSendOtp.value = false;
           DialogUtil.showSnackBar(
@@ -191,7 +153,11 @@ class LoginController extends GetxController
   @override
   dispose() {
     WidgetsBinding.instance!.removeObserver(this);
-    SmsAutoFill().unregisterListener();
+
+    vpnInfo.value = '';
+    vpnStr.value = '';
+    vpnBindStatus.value = '';
+
     super.dispose();
   }
 

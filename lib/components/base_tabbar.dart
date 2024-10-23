@@ -79,6 +79,13 @@ class _BaseTabBarState extends State<BaseTabBar> {
                     return;
                   }
                 }
+                if(index == 0){
+                  AppLog.d('소유자관리 index: $index');
+                  LpController.to.ownerLadInfoDataSource.value.rows.clear();
+                  LpController.to.ownerLadInfoDataSource.refresh();
+                  LpController.to.accdtlnvstgLadOwnerDataSource.value.rows.clear();
+                  LpController.to.accdtlnvstgLadPartcpntDataSource.value.rows.clear();
+                }
               }
             },
           ),

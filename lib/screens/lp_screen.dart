@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -36,62 +37,23 @@ class lpScreen extends GetView<LpController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(LpController());
+
+    DateTime currentTime = DateTime.now();
+    DateTime? currentBackPressTime;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
       drawerEnableOpenDragGesture: false, // 엣지 스와이프 비활성화
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              child: Column(
-                children: [
-                  Container(
-                    width: 100.w,
-                    height: 100.h,
-                    child: SvgPicture.asset(
-                      'assets/icons/ic_kwater_logo.svg',
-                      width: 100.w,
-                      height: 100.h,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  AutoSizeText(
-                    'K-WATER',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              decoration: BoxDecoration(
-                color: Color(0xFF2287EF),
-              ),
-            ),
-            ListTile(
-              title: AutoSizeText(
-                '로그아웃',
-                style: TextStyle(
-                  color: Color(0xFF1D1D1D),
-                  fontSize: 30.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              onTap: () {
-                // controller.logout();
-              },
-            ),
-          ],
-        ),
-      ),
       body: PopScope(
         canPop: false,
         onPopInvokedWithResult: (result, data) {
-          AppLog.d('onPopInvokedWithResult: $result');
+          if(currentBackPressTime == null || currentTime.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+            currentBackPressTime = currentTime;
+            DialogUtil.showSnackBar(context, '앱 종료', '한번 더 누르면 앱이 종료됩니다.');
+          } else {
+            LoginController.to.methodChannel.invokeMethod('vpnLogout');
+            SystemNavigator.pop();
+          }
         },
         child: SafeArea(
           child: Column(
@@ -117,14 +79,8 @@ class lpScreen extends GetView<LpController> {
                                 controller.isGisOpenFlag.value = false;
 
                                 // 사업구역 선택이 안됐을 경우
-                                if (controller.selectedBsnsSelectArea.value
-                                            .bsnsNo ==
-                                        null &&
-                                    controller.selectedBsnsSelectArea.value
-                                            .bsnsZoneNo ==
-                                        null) {
-                                  DialogUtil.showSnackBar(
-                                      context, '사업구역', '사업구역을 선택해주세요.');
+                                if (controller.selectedBsnsSelectArea.value.bsnsNo == null && controller.selectedBsnsSelectArea.value.bsnsZoneNo == null) {
+                                  DialogUtil.showSnackBar(context, '사업구역', '사업구역을 선택해주세요.');
                                   controller.pageController.jumpToPage(0);
                                   return;
                                 }
@@ -141,57 +97,111 @@ class lpScreen extends GetView<LpController> {
                                 }
                               },
                               children: [
+
                                 /// [사업선택] 화면
                                 Column(
                                   children: [
                                     BaseHeader(
                                       LoginController.to.loginType.value,
                                     ),
+                                    // sliderbar
+                                    Visibility(
+                                      visible: controller.isGisOpenFlag.value,
+                                      child: SliderTheme(
+                                        data: SliderThemeData(
+                                          trackHeight: 5,
+                                          thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10, elevation: 0),
+                                          overlayShape: RoundSliderOverlayShape(overlayRadius: 20),
+                                          valueIndicatorColor: Colors.red,
+                                          valueIndicatorTextStyle: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                          valueIndicatorShape: PaddleSliderValueIndicatorShape(),
+                                          valueIndicatorStrokeColor: Colors.red,
+                                        ),
+                                        child: Obx(() =>
+                                          Slider(
+                                            value: controller.sliderValue.value ?? 0,
+                                            min: 0,
+                                            max: 5,
+                                            label: controller.sliderValue.value.round().toString(),
+                                            divisions: 5,
+                                            onChanged: (value) {
+                                              AppLog.d('value: $value');
+                                              controller.sliderValue.value = value;
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     Expanded(
-                                        child: Row(
+                                        child: IndexedStack(
+                                          index: controller.webviewStackIndex.value,
                                           children: [
-                                            Expanded(
-                                                flex: 1,
-                                                child: controller
-                                                    .isGisOpenFlag.value ==
-                                                    true
-                                                    ? GisScreen()
-                                                    : BsnsWidget.buildBsnsListView(
-                                                    controller)),
-                                            // 오른쪽 뷰
-                                            Obx(() {
-                                              return Expanded(
-                                                flex: controller.isBsnsSelectFlag ==
-                                                    true
-                                                    ? 1
-                                                    : 0,
-                                                child: Column(
-                                                  children: [
-                                                    if (controller
-                                                        .selectedIndex.value ==
-                                                        0)
-
-                                                    // 사업구역
-                                                      controller.isBsnsSelectFlag ==
-                                                          true
-                                                          ? BsnsWidget
-                                                          .buildBsnsSelectZoneContainer(
-                                                          controller)
-                                                          : Container(),
-
-                                                    // 조사차수
-                                                    controller.isBsnsZoneSelectFlag ==
+                                            Row(
+                                              children: [
+                                                Expanded(child: BsnsWidget.buildBsnsListView(controller)),
+                                                Obx(() {
+                                                  return Expanded(
+                                                    flex: controller.isBsnsSelectFlag ==
                                                         true
-                                                        ? BsnsWidget
-                                                        .buildBsnsSelectSqncContainer(
-                                                        controller)
-                                                        : Container(),
+                                                        ? 1
+                                                        : 0,
+                                                    child: Column(
+                                                      children: [
+                                                        if (controller.selectedIndex.value == 0)
+                                                        // 사업구역
+                                                          controller.isBsnsSelectFlag ==
+                                                              true ? BsnsWidget.buildBsnsSelectZoneContainer(controller)
+                                                              : Container(),
+
+                                                        // 조사차수
+                                                        controller.isBsnsZoneSelectFlag ==
+                                                            true
+                                                            ? BsnsWidget.buildBsnsSelectSqncContainer(controller)
+                                                            : Container(),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(flex:controller.sliderValue.value.toInt() + 1, child: GisScreen()),
+                                                    Obx(() {
+                                                      return Expanded(
+                                                        flex: controller.isBsnsSelectFlag ==
+                                                            true
+                                                            ? 1
+                                                            : 0,
+                                                        child: Column(
+                                                          children: [
+                                                            if (controller
+                                                                .selectedIndex.value ==
+                                                                0)
+                                                            // 사업구역
+                                                              controller.isBsnsSelectFlag ==
+                                                                  true
+                                                                  ? BsnsWidget.buildBsnsSelectZoneContainer(controller)
+                                                                  : Container(),
+
+                                                            // 조사차수
+                                                            controller.isBsnsZoneSelectFlag ==
+                                                                true
+                                                                ? BsnsWidget.buildBsnsSelectSqncContainer(controller)
+                                                                : Container(),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    })
                                                   ],
-                                                ),
-                                              );
-                                            }),
+                                                )
+                                            ),
                                           ],
-                                        )),
+                                        )
+                                    ),
                                   ],
                                 ),
 
@@ -205,15 +215,8 @@ class lpScreen extends GetView<LpController> {
                                         child: Row(
                                       children: [
                                         Expanded(
-                                            flex: 2,
-                                            child: OwnerWidget.buildOwnerView(
-                                                controller)),
-                                        Visibility(
-                                          visible:
-                                              controller.isGisOpenFlag.value,
-                                          child: Expanded(
-                                              flex: 1, child: GisScreen()),
-                                        )
+                                            flex: 1,
+                                            child: OwnerWidget.buildOwnerView(controller)),
                                       ],
                                     )),
                                   ],
@@ -279,24 +282,63 @@ class lpScreen extends GetView<LpController> {
                                 ),
                               ],
                             ),
+
+                            // 좌측 슬라이드 버튼
+                            Visibility(
+                              visible: controller.isGisOpenFlag.value,
+                              child: Positioned(
+                                left: 0,
+                                top: 0,
+                                bottom: 0,
+                                child: GestureDetector(
+                                  onDoubleTap: () {
+                                    AppLog.d('onDoubleTap $controller.isGisOpenFlag');
+                                  },
+                                  onTap: () {
+                                    controller.isGisOpenFlag.value =
+                                        !controller.isGisOpenFlag.value;
+
+                                    controller.webviewStackIndex.value = controller.isGisOpenFlag.value ? 1 : 0;
+                                  },
+                                  child: Obx(
+                                    () => controller.isGisOpenFlag.value
+                                        ? SvgPicture.asset(
+                                            'assets/icons/ic_gis_close.svg',
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/icons/ic_gis_open.svg',
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
                             // 우측 슬라이드 버튼
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              bottom: 0,
-                              child: InkWell(
-                                onTap: () {
-                                  controller.isGisOpenFlag.value =
-                                      !controller.isGisOpenFlag.value;
-                                },
-                                child: Obx(
-                                  () => controller.isGisOpenFlag.value
-                                      ? SvgPicture.asset(
-                                          'assets/icons/ic_gis_close.svg',
-                                        )
-                                      : SvgPicture.asset(
-                                          'assets/icons/ic_gis_open.svg',
-                                        ),
+                            Visibility(
+                              visible: !controller.isGisOpenFlag.value,
+                              child: Positioned(
+                                right: 0,
+                                top: 0,
+                                bottom: 0,
+                                child: GestureDetector(
+                                  onDoubleTap: () {
+                                    AppLog.d('onDoubleTap $controller.isGisOpenFlag');
+                                  },
+                                  onTap: () {
+                                    controller.isGisOpenFlag.value =
+                                        !controller.isGisOpenFlag.value;
+
+                                    controller.webviewStackIndex.value = controller.isGisOpenFlag.value ? 1 : 0;
+                                  },
+                                  child: Obx(
+                                    () => controller.isGisOpenFlag.value
+                                        ? SvgPicture.asset(
+                                            'assets/icons/ic_gis_close.svg',
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/icons/ic_gis_open.svg',
+                                          ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -699,7 +741,7 @@ class lpScreen extends GetView<LpController> {
       isSort: false,
       isSelect: false,
       selectionEvent:
-          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+          ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) async {
         if (addedRows.isEmpty) return;
 
         final index = controller.bsnsAccdtinvstgSqncDataSource.value.rows
@@ -724,8 +766,48 @@ class lpScreen extends GetView<LpController> {
 
         controller.selectSqnc.value = sqnc;
 
-        controller.fetchAccdtlnvstgSearchDataSource();
+        controller.fetchAccdtlnvstgLadDataSource();
         controller.fetchAccdtlnvstgObstDataSource();
+
+        AppLog.d('토지내역: ${controller.accdtlnvstgLadList}');
+        AppLog.d('지장물내역: ${controller.accdtlnvstgObstList}');
+
+        if(controller.accdtlnvstgLadList.isEmpty && controller.accdtlnvstgObstList.isEmpty) {
+          DialogUtil.showSnackBar(Get.context!, '실태조사', '실태조사 데이터가 없습니다.');
+        } else {
+          DialogUtil.showAlertDialog(
+            Get.context!,
+            840,
+            '실태조사',
+            widget: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AutoSizeText(
+                      maxFontSize: 20,
+                      '${controller.selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?',
+                      style: TextStyle(
+                          color: Color(0xFF2C2C2C),
+                          fontSize: 32.sp,
+                          fontWeight: FontWeight.w500)),
+                ],
+              ),
+            ),
+            onOk: () async {
+              // controller.isBsnsSelectFlag.value = false;
+              // controller.isBsnsSqncSelectFlag.value = false;
+              // controller.isBsnsZoneSelectFlag.value = false;
+              controller.pageController.jumpToPage(2);
+            },
+            onCancel: () {
+
+            },
+          );
+        }
+
 
         var jsonString = jsonEncode({
           'bsnsNo': controller.selectBsnsPlan.value.bsnsNo,
@@ -764,6 +846,10 @@ class lpScreen extends GetView<LpController> {
         AppLog.d(
             'buildBsnsOwnerDataGrid> 선택된 소유자번호 > ${addedRows.first.getCells()[0].value}');
         var ownerNum = addedRows.first.getCells()[0].value;
+
+        AppLog.d('선택된 소유자번호: $ownerNum');
+
+        controller.selectOwnerNo.value = ownerNum;
 
         controller.fetchOwnerLadInfoDataSource(ownerNum);
         controller.fetchOwnerObstInfoDataSource(ownerNum);
@@ -917,9 +1003,15 @@ class lpScreen extends GetView<LpController> {
         var sumPnuStr = pnu![3] + pnu[4] + pnu[5] + pnu[6];
         AppLog.d('sumPnuStr: $sumPnuStr');
 
-        controller.isGisOpenFlag.value = true;
-        GisController.to.inAppWebViewController
-            .evaluateJavascript(source: 'fn_movePnu($sumPnuStr)');
+        controller.selecteThingSerNo.value = data.thingSerNo ?? '';
+        AppLog.d('선택된 물건일련번호: ${controller.selecteThingSerNo.value}');
+
+        // controller.selectedLadData.value = R
+        //controller.isGisOpenFlag.value = true;
+        // GisController.to.inAppWebViewController
+        //     .evaluateJavascript(source: 'fn_movePnu($sumPnuStr)');
+
+        controller.fetchAccdtlnvstgLadOwnerDataSource(data.thingSerNo);
 
       }),
       columns: [
@@ -1178,6 +1270,7 @@ class lpScreen extends GetView<LpController> {
       dataSource: controller.accdtlnvstgLadOwnerDataSource.value,
       controller: controller.accdtlnvstgLadOwnerDataGridController,
       isSort: false,
+      isSelect: true,
       columnWidthMode: ColumnWidthMode.auto,
       freezeColumnCount: 3,
       columns: [
@@ -1202,7 +1295,9 @@ class lpScreen extends GetView<LpController> {
 
         var ownerNo = getRow.getCells()[0].value;
 
+        AppLog.d('선택된 소유자번호: $ownerNo');
         controller.fetchAccdtlnvstgLadPartcpntStatusDataSource(ownerNo);
+
       }),
     );
   }

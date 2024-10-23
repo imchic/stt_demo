@@ -355,44 +355,6 @@ class DialogUtil {
     }
   }
 
-  static void showSignatureView(
-      context, signatureView, targetTextEditingController) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            child: Column(
-              children: [
-                Expanded(child: signatureView),
-                ElevatedButton(
-                  onPressed: () {
-                    //AppLog.i('펜 텍스트 > ${signatureView.exportListOffsetToString()}.');
-                    Get.back();
-                  },
-                  child: Text('서명완료'),
-                ),
-              ],
-            ),
-          );
-        });
-
-    /*showBottomSheet(context, '서명',  Container(
-      child: Column(
-        children: [
-          signatureView,
-          ElevatedButton(
-            onPressed: () {
-              AppLog.i('SignatureView onSigned ${signatureView.exportListOffsetToString()}.');
-              targetTextEditingController.text = signatureView.exportListOffsetToString()!;
-              Get.back();
-            },
-            child: Text('서명완료'),
-          ),
-        ],
-      ),
-    ));*/
-  }
-
   static void showConfirmDialog(
       {required String title,
       required String content,
