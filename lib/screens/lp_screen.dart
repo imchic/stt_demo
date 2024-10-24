@@ -42,7 +42,7 @@ class lpScreen extends GetView<LpController> {
     DateTime? currentBackPressTime;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       drawerEnableOpenDragGesture: false, // 엣지 스와이프 비활성화
       body: PopScope(
         canPop: false,
@@ -218,28 +218,15 @@ class lpScreen extends GetView<LpController> {
                                 ),
 
                                 /// [실태조사] 화면
-                                Column(
-                                  children: [
-                                    BaseHeader(
-                                      LoginController.to.loginType.value,
-                                    ),
-                                    Expanded(
-                                        child: Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 2,
-                                            child: AccdtInvstgWidget
-                                                .buildAccdtInvstgView(
-                                                    controller)),
-                                        Visibility(
-                                          visible:
-                                              controller.isGisOpenFlag.value,
-                                          child: Expanded(
-                                              flex: 1, child: GisScreen()),
-                                        )
-                                      ],
-                                    )),
-                                  ],
+                                SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      BaseHeader(
+                                        LoginController.to.loginType.value,
+                                      ),
+                                      AccdtInvstgWidget.buildAccdtInvstgView(controller),
+                                    ],
+                                  ),
                                 ),
 
                                 /// [통계정보] 화면

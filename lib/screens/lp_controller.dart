@@ -1255,35 +1255,41 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   }
 
   copyAccdtlnvstgLad() {
-    DialogUtil.showAlertDialog(
-      Get.context!,
-      840,
-      '실태조사',
-      widget: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AutoSizeText(
-                maxFontSize: 20,
-                '실태조사 내역을 복사하시겠습니까?',
-                style: TextStyle(
-                    color: Color(0xFF2C2C2C),
-                    fontSize: 32.sp,
-                    fontWeight: FontWeight.w500)),
-          ],
+    // cells
+    var cells = accdtlnvstgLadDataGridController.selectedRows;
+    if(cells.isNotEmpty) {
+      DialogUtil.showAlertDialog(
+        Get.context!,
+        840,
+        '실태조사',
+        widget: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                  maxFontSize: 20,
+                  '실태조사 내역을 복사하시겠습니까?',
+                  style: TextStyle(
+                      color: Color(0xFF2C2C2C),
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.w500)),
+            ],
+          ),
         ),
-      ),
-      onOk: () async {
-        accdtlnvstgLadDataSource.value.rows.insert(selectedCellsIndex.value, DataGridRow(cells: selectedCells));
-        accdtlnvstgLadDataSource.refresh();
-      },
-      onCancel: () {
-        Get.back();
-      },
-    );
+        onOk: () async {
+          accdtlnvstgLadDataSource.value.rows.insert(selectedCellsIndex.value, DataGridRow(cells: selectedCells));
+          accdtlnvstgLadDataSource.refresh();
+        },
+        onCancel: () {
+          Get.back();
+        },
+      );
+    } else {
+      DialogUtil.showSnackBar(Get.context!, '실태조사', '복사할 데이터를 선택해주세요.');
+    }
   }
 
 
