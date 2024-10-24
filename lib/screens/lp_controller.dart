@@ -134,11 +134,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   // 실태조사 (토지 현실이용현황 입력)
   late TextEditingController
-      accdtlnvstgLadRealUseEditController; // 현실이용현황 -> 지목선택
+  accdtlnvstgLadRealUseEditController; // 현실이용현황 -> 지목선택
   late TextEditingController
-      accdtlnvstgLadRealUseEdit2Controller; // 현실이용현황 -> 면적
+  accdtlnvstgLadRealUseEdit2Controller; // 현실이용현황 -> 면적
   late TextEditingController
-      accdtlnvstgLadRealUseEdit3Controller; // 현실이용현황 -> 용지지구 및 지역
+  accdtlnvstgLadRealUseEdit3Controller; // 현실이용현황 -> 용지지구 및 지역
 
   // 실태조사 (지장물)
   late TextEditingController accdtlnvstgObstAddrController; // 소재지
@@ -255,6 +255,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   late DataGridController accdtlnvstgObstDataGridController;
   late DataGridController accdtlnvstgObstOwnerDataGridController;
   late DataGridController accdtlnvstgObstPartcpntDataGridController;
+  late DataGridController accdtlnvstgObstSelectLadDataGridController;
 
   late DataGridController ladSttusInqireDataGridController;
   late DataGridController obstSttusInqireDataGridController;
@@ -313,6 +314,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   // 실태조사 > 지장물내역
   final accdtlnvstgObstDataSource = AccdtlnvstgObstDatasource(items: []).obs;
+
+  // 실태조사 > 지장물내역 > 선택 지장물 토지내역
+  final accdtlnvstgObstSelectLadDataSource = AccdtlnvstgObstDatasource(
+      items: []).obs;
 
   // 실태조사 > 지장물내역 > 소유자/관계인
   final accdtlnvstgObstOwnerDataSource =
@@ -391,36 +396,36 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   //RxList<String> accdtlnvstgLadRealUseList = ['답', '전', '임', '도', '대', '잡', '구', '천', '제', '묵답', '묵전', '공', '장', '과', '광', '목', '묘', '사', '수', '양', '염', '원', '유', '종', '주', '차', '창', '철', '체', '학', '미등록'].obs;
   RxList<String> accdtlnvstgLadRealUseList = [
-  '답',
-  '전',
-  '임야',
-  '도로',
-  '대',
-  '잡종지',
-  '구거',
-  '하천',
-  '제방',
-  '묵답',
-  '묵전',
-  '공원',
-  '공장용지',
-  '과수원',
-  '광천지',
-  '목장용지',
-  '묘지',
-  '사적지',
-  '수',
-  '양어장'
-  '염전',
-  '유원지',
-  '유지',
-  '종교용지',
-  '주유소용지',
-  '주차장',
-  '창고용지',
-  '철도용지',
-  '체육용지',
-  '학',
+    '답',
+    '전',
+    '임야',
+    '도로',
+    '대',
+    '잡종지',
+    '구거',
+    '하천',
+    '제방',
+    '묵답',
+    '묵전',
+    '공원',
+    '공장용지',
+    '과수원',
+    '광천지',
+    '목장용지',
+    '묘지',
+    '사적지',
+    '수',
+    '양어장'
+        '염전',
+    '유원지',
+    '유지',
+    '종교용지',
+    '주유소용지',
+    '주차장',
+    '창고용지',
+    '철도용지',
+    '체육용지',
+    '학',
   ].obs;
 
   //  통계 상세 탑
@@ -443,15 +448,19 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   List<OwnerDataSourceModel> searchOwnerList = <OwnerDataSourceModel>[].obs;
 
   List<AccdtlnvstgLadModel> accdtlnvstgLadList = <AccdtlnvstgLadModel>[].obs;
-  List<AccdtlnvstgLadModel> searchAccdtlnvstgLadList = <AccdtlnvstgLadModel>[].obs;
+  List<AccdtlnvstgLadModel> searchAccdtlnvstgLadList = <AccdtlnvstgLadModel>[]
+      .obs;
 
   List<AccdtlnvstgObstModel> accdtlnvstgObstList = <AccdtlnvstgObstModel>[].obs;
-  List<AccdtlnvstgObstModel> searchAccdtlnvstgObstList = <AccdtlnvstgObstModel>[].obs;
+  List<AccdtlnvstgObstModel> searchAccdtlnvstgObstList = <AccdtlnvstgObstModel>[
+  ].obs;
 
   List<LadSttusInqireModel> ladSttusInqireList = <LadSttusInqireModel>[].obs;
-  List<LadSttusInqireModel> searchLadSttusInqireList = <LadSttusInqireModel>[].obs;
+  List<LadSttusInqireModel> searchLadSttusInqireList = <LadSttusInqireModel>[]
+      .obs;
   List<ObstSttusInqireModel> obstSttusInqireList = <ObstSttusInqireModel>[].obs;
-  List<ObstSttusInqireModel> searchObstSttusInqireList = <ObstSttusInqireModel>[].obs;
+  List<ObstSttusInqireModel> searchObstSttusInqireList = <ObstSttusInqireModel>[
+  ].obs;
 
   Rx<BsnsPlanModel> selectBsnsPlan = BsnsPlanModel().obs;
 
@@ -570,12 +579,18 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     sttusObstApasmtSqncController = TextEditingController();
     sttusObstDivController = TextEditingController();
 
-    accdtlnvstgTabController = TabController(length: accdtlnvstgTabItems.length, vsync: this);
-    bsnsTabController = TabController(length: bsnsSelectTabItems.length, vsync: this);
-    bsnsOwnerTabController = TabController(length: bsnsOwnerTabItems.length, vsync: this);
-    accdtlnvstgLadTabController = TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
-    accdtlnvstgObstTabController = TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
-    sttusTabController = TabController(length: sttusTabItems.length, vsync: this);
+    accdtlnvstgTabController =
+        TabController(length: accdtlnvstgTabItems.length, vsync: this);
+    bsnsTabController =
+        TabController(length: bsnsSelectTabItems.length, vsync: this);
+    bsnsOwnerTabController =
+        TabController(length: bsnsOwnerTabItems.length, vsync: this);
+    accdtlnvstgLadTabController =
+        TabController(length: accdtlnvstgLadTabItems.length, vsync: this);
+    accdtlnvstgObstTabController =
+        TabController(length: accdtlnvstgObstTabItems.length, vsync: this);
+    sttusTabController =
+        TabController(length: sttusTabItems.length, vsync: this);
 
     sqncController = TextEditingController();
 
@@ -605,6 +620,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     // 실태조사 > 지장물
     accdtlnvstgObstDataGridController = DataGridController();
     accdtlnvstgObstOwnerDataGridController = DataGridController();
+    accdtlnvstgObstPartcpntDataGridController = DataGridController();
+    accdtlnvstgObstSelectLadDataGridController = DataGridController();
 
     // 통계정보 > 토지현황
     ladSttusInqireDataGridController = DataGridController();
@@ -639,23 +656,25 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       if (bsnsTabController.index == 0) {
         selectedBsns.value = BsnsSelectModel();
       }
-
     });
 
     bsnsListScrollController.addListener(() {
       AppLog.d(
-          'bsnsListScrollController.offset : ${bsnsListScrollController.offset}');
+          'bsnsListScrollController.offset : ${bsnsListScrollController
+              .offset}');
     });
 
     ladSttusScrollController.addListener(() {
       AppLog.d(
-          'ladSttusScrollController.offset : ${ladSttusScrollController.offset}');
+          'ladSttusScrollController.offset : ${ladSttusScrollController
+              .offset}');
       ladSttusScrollControllerOffset.value = ladSttusScrollController.offset;
     });
 
     ladSttusInqireScrollController.addListener(() {
       AppLog.d(
-          'ladSttusInqireScrollController.offset : ${ladSttusInqireScrollController.offset}');
+          'ladSttusInqireScrollController.offset : ${ladSttusInqireScrollController
+              .offset}');
     });
 
     accdtlnvstgLadTabController.addListener(() {
@@ -717,8 +736,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   GridColumn gridColumn(String columnName, String label,
       {bool? isVisble, double? width}) {
     return GridColumn(
-        //width: controller.columnWidths[columnName ?? ''] ?? 80,
-        //width: columnWidths[columnName] ?? width ?? 80,
+      //width: controller.columnWidths[columnName ?? ''] ?? 80,
+      //width: columnWidths[columnName] ?? width ?? 80,
         width: width ?? 100,
         columnName: columnName,
         visible: isVisble ?? true,
@@ -776,11 +795,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   }
 
   fetchBsnsListDataSource() async {
-
     var url = Uri.parse('${CommonUtil.BASE_URL}/lp/bsns/selectBsnsPlan.do');
 
     AppLog.d('fetchBsnsList > url : $url');
-    AppLog.d('fetchBsnsList > buscd : ${LoginController.to.userModel.value.usrDeptCd}');
+    AppLog.d('fetchBsnsList > buscd : ${LoginController.to.userModel.value
+        .usrDeptCd}');
 
     var param = {
       'deptCd': LoginController.to.userModel.value.usrDeptCd,
@@ -801,7 +820,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
       bsnsPlanList = dataList.obs;
       searchBsnsPlanList = dataList.obs;
-
     } else {
       AppLog.e('Failed to load post');
       DialogUtil.showSnackBar(Get.context!, '사업목록', '사업목록을 조회할 수 없습니다.');
@@ -837,14 +855,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
             bsnsZoneNo: data[i]['bsnsZoneNo'],
             bsnsZoneNm: data[i]['bsnsZoneNm'],
             lotCnt: data[i]['lotCnt'].toString(),
-            bsnsAra:data[i]['bsnsAra'].toString(),
+            bsnsAra: data[i]['bsnsAra'].toString(),
             bsnsReadngPblancDe: data[i]['bsnsReadngPblancDe'] == null
                 ? '-'
                 : CommonUtil.convertToDateTime(data[i]['bsnsReadngPblancDe'])));
       }
 
-      var job1 = await fetchAccdtlnvstgLadDataSource();
-      var job2 = await fetchAccdtlnvstgObstDataSource();
+      // var job1 = await fetchAccdtlnvstgLadDataSource();
+      // var job2 = await fetchAccdtlnvstgObstDataSource();
 
       bsnsListDataSource.value =
           BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
@@ -920,7 +938,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       DialogUtil.showLoading(Get.context!);
 
       var url =
-          Uri.parse('${CommonUtil.BASE_URL}/lp/owner/selectOwnList.do');
+      Uri.parse('${CommonUtil.BASE_URL}/lp/owner/selectOwnList.do');
 
       var param = {
         'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -955,7 +973,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   /// [소유자관리 > 토지정보] 조회
   fetchOwnerLadInfoDataSource(ownerNum) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/owner/selectLandList.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/owner/selectLandList.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -988,7 +1006,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   /// [소유자관리 > 지장물정보] 조회
   fetchOwnerObstInfoDataSource(ownerNum) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/owner/selecObstList.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/owner/selecObstList.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -1077,7 +1095,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
         ));
       }
 
-      AppLog.d('fetchOwnerInfo > res : $res');
+      res.forEach((element) {
+        AppLog.d('fetchOwnerInfo > element : ${element.accdtInvstgRm}');
+      });
+
       selectedOwner.value = res[0];
     }
   }
@@ -1103,8 +1124,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       var data = JsonDecoder().convert(response.body);
       AppLog.d('ownerInfoChange > data : $data');
       fetchOwnerDataSource();
+      ownerEditTelnoController.clear();
+      ownerEditMbtlnumController.clear();
+      ownerEditAccdtInvstgRmController.clear();
+      bsnsOwnerTabController.animateTo(0);
     }
-
   }
 
   saveOwnerInfo() {
@@ -1171,14 +1195,15 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       if (accdtlnvstgLadAddrController.text.isNotEmpty) {
         searchAccdtlnvstgLadList = list
             .where((element) =>
-                element.lgdongNm!.contains(accdtlnvstgLadAddrController.text))
+            element.lgdongNm!.contains(accdtlnvstgLadAddrController.text))
             .toList();
       }
 
       // 본번 검색
       if (accdtlnvstgLadMlnoLtnoController.text.isNotEmpty) {
         searchAccdtlnvstgLadList = list
-            .where((element) => element.mlnoLtno!
+            .where((element) =>
+            element.mlnoLtno!
                 .contains(accdtlnvstgLadMlnoLtnoController.text))
             .toList();
       }
@@ -1186,7 +1211,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       // 부번 검색
       if (accdtlnvstgLadSlnoLtnoController.text.isNotEmpty) {
         searchAccdtlnvstgLadList = list
-            .where((element) => element.slnoLtno!
+            .where((element) =>
+            element.slnoLtno!
                 .contains(accdtlnvstgLadSlnoLtnoController.text))
             .toList();
       }
@@ -1197,7 +1223,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     return accdtlnvstgLadDataSource.value.rows.isNotEmpty
         ? accdtlnvstgLadDataSource.value.rows
         : [];
-
   }
 
   clearAccdtlnvstgLad() {
@@ -1208,7 +1233,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   copyAccdtlnvstgLad() {
     // cells
     var cells = accdtlnvstgLadDataGridController.selectedRows;
-    if(cells.isNotEmpty) {
+    if (cells.isNotEmpty) {
       DialogUtil.showAlertDialog(
         Get.context!,
         840,
@@ -1231,7 +1256,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
           ),
         ),
         onOk: () async {
-          accdtlnvstgLadDataSource.value.rows.insert(selectedCellsIndex.value, DataGridRow(cells: selectedCells));
+          accdtlnvstgLadDataSource.value.rows.insert(
+              selectedCellsIndex.value, DataGridRow(cells: selectedCells));
           accdtlnvstgLadDataSource.refresh();
         },
         onCancel: () {
@@ -1269,10 +1295,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
       AppLog.d('fetchAccdtlnvstgLadOwnerDataSource > data : $list');
 
-      list.forEach((element) {
-        AppLog.d('fetchAccdtlnvstgLadOwnerDataSource > data : ${element.ownerNm}');
-      });
-
       accdtlnvstgLadOwnerDataSource.value =
           AccdtlnvstgLadOwnerDatasource(items: list);
     }
@@ -1281,7 +1303,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   /// [실태조사 > 토지 > 관계인] 조회
   fetchAccdtlnvstgLadPartcpntStatusDataSource(ownerNo) async {
     var url = Uri.parse(
-        '${CommonUtil.BASE_URL}/lp/accdtInvstg/selectAccdtInvstgLadOwnerPartcpnt.do');
+        '${CommonUtil
+            .BASE_URL}/lp/accdtInvstg/selectAccdtInvstgLadOwnerPartcpnt.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -1336,14 +1359,15 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       if (accdtlnvstgObstAddrController.text.isNotEmpty) {
         searchAccdtlnvstgObstList = accdtlnvstgObst
             .where((element) =>
-                element.lgdongNm!.contains(accdtlnvstgObstAddrController.text))
+            element.lgdongNm!.contains(accdtlnvstgObstAddrController.text))
             .toList();
       }
 
       // 본번 검색
       if (accdtlnvstgObstMlnoLtnoController.text.isNotEmpty) {
         searchAccdtlnvstgObstList = accdtlnvstgObst
-            .where((element) => element.mlnoLtno!
+            .where((element) =>
+            element.mlnoLtno!
                 .contains(accdtlnvstgObstMlnoLtnoController.text))
             .toList();
       }
@@ -1351,7 +1375,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       // 부번 검색
       if (accdtlnvstgObstSlnoLtnoController.text.isNotEmpty) {
         searchAccdtlnvstgObstList = accdtlnvstgObst
-            .where((element) => element.slnoLtno!
+            .where((element) =>
+            element.slnoLtno!
                 .contains(accdtlnvstgObstSlnoLtnoController.text))
             .toList();
       }
@@ -1363,7 +1388,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     return accdtlnvstgObstDataSource.value.rows.isNotEmpty
         ? accdtlnvstgObstDataSource.value.rows
         : [];
+  }
 
+  /// [실태조사 > 지장물 정보 > 토지정보] 가져오기
+  fetchAccdtlnvstgObstSelectDataSource(data) async {
+    accdtlnvstgObstSelectLadDataSource.value =
+        AccdtlnvstgObstDatasource(items: data);
   }
 
   /// [실태조사 > 지장물 정보 > 그리드 선택 소유자 가져오기 ]
@@ -1404,10 +1434,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     DialogUtil.showLoading(Get.context!);
 
     print(
-        'fetchLadSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
+        'fetchLadSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea
+            .value.bsnsNo}');
 
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lssom/selectSttusLadInfo.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lssom/selectSttusLadInfo.do');
 
     var param = {
       'shBsnsNo': selectedBsnsSelectArea.value.bsnsNo.toString(),
@@ -1611,7 +1642,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   /// [통계정보 > 지장물현황] 조회
   fetchObstSttusInqireDataSource() async {
     print(
-        'fetchObstSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea.value.bsnsNo}');
+        'fetchObstSttusInqireDataSource > selectedBsnsSelectArea.value.bsnsNo : ${selectedBsnsSelectArea
+            .value.bsnsNo}');
 
     var url = Uri.parse(
         '${CommonUtil.BASE_URL}/lp/lssom/selectSttusObstInfo.do');
@@ -1624,7 +1656,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
-
       var data = JsonDecoder().convert(response.body)['list'];
       AppLog.d('fetchObstSttusInqireDataSource > data : $data');
 
@@ -1636,7 +1667,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       obstSttusInqireList = obstSttusInqireModel;
       searchObstSttusInqireList = obstSttusInqireModel;
 
-      obstSttusInqireDataSource.value = ObstSttusInqireDatasource(items: obstSttusInqireModel);
+      obstSttusInqireDataSource.value =
+          ObstSttusInqireDatasource(items: obstSttusInqireModel);
     }
 
     obstSttusInqireColumns.value = [];
@@ -1658,7 +1690,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       gridColumn('cmpnstnThingUnitDivMm', '단위', width: 60),
       gridColumn('spcitm', '특이사항', width: 60),
 
-      gridColumn('rqestNo', '청구번호', isVisble: isLadSttusInqireGridTab1.value, width: 70),
+      gridColumn('rqestNo', '청구번호', isVisble: isLadSttusInqireGridTab1.value,
+          width: 70),
       gridColumn('invstgDe', '조사일', isVisble: isLadSttusInqireGridTab1.value),
       gridColumn('accdtInvstgSqnc', '차수',
           isVisble: isLadSttusInqireGridTab1.value, width: 40),
@@ -1794,7 +1827,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                 return ListTile(
                   title: Text(data[index]['cmmnCdNm']),
                   onTap: () {
-                    sttusInqireAcqstnPrpsController.text = data[index]['cmmnCdNm'];
+                    sttusInqireAcqstnPrpsController.text =
+                    data[index]['cmmnCdNm'];
                     searchSttusInqireLadPurps(data[index]['cmmnCdNm']);
                     Get.back();
                   },
@@ -1807,9 +1841,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   /// [통계정보 > 토지현황 > 조사 차수] 조회
   fetchAccdtInvstgSqncList() async {
-
-    AppLog.d('fetchAccdtInvstgSqncList > bsnsNo : ${selectBsnsPlan.value.bsnsNo}');
-    AppLog.d('fetchAccdtInvstgSqncList > bsnsZoneNo : ${selectedBsnsSelectArea.value.bsnsZoneNo}');
+    AppLog.d(
+        'fetchAccdtInvstgSqncList > bsnsNo : ${selectBsnsPlan.value.bsnsNo}');
+    AppLog.d(
+        'fetchAccdtInvstgSqncList > bsnsZoneNo : ${selectedBsnsSelectArea.value
+            .bsnsZoneNo}');
 
     var response = await api.fetchAccdtInvstgSqncList(
       shbsnsNo: selectBsnsPlan.value.bsnsNo,
@@ -1834,9 +1870,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                 return ListTile(
                   title: Text(data[index]['accdtInvstgSqnc'].toString()),
                   onTap: () {
-                    sttusLadSqncController.text = data[index]['accdtInvstgSqnc'].toString();
-                    sttusObstSqncController.text = data[index]['accdtInvstgSqnc'].toString();
-                    searchSttusInqireSqnc(data[index]['accdtInvstgSqnc'].toString());
+                    sttusLadSqncController.text =
+                        data[index]['accdtInvstgSqnc'].toString();
+                    sttusObstSqncController.text =
+                        data[index]['accdtInvstgSqnc'].toString();
+                    searchSttusInqireSqnc(
+                        data[index]['accdtInvstgSqnc'].toString());
                     Get.back();
                   },
                 );
@@ -1869,8 +1908,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                 return ListTile(
                   title: Text(data[index]['cmmnCdNm']),
                   onTap: () {
-                    sttusLadCmpnstnStepDivNmController.text = data[index]['cmmnCdNm'];
-                    sttusObstCmpnstnStepDivNmController.text = data[index]['cmmnCdNm'];
+                    sttusLadCmpnstnStepDivNmController.text =
+                    data[index]['cmmnCdNm'];
+                    sttusObstCmpnstnStepDivNmController.text =
+                    data[index]['cmmnCdNm'];
                     searchSttusInqireLadCmpnstnStep(data[index]['cmmnCdNm']);
                     Get.back();
                   },
@@ -1904,8 +1945,10 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                 return ListTile(
                   title: Text(data[index]['cmmnCdNm']),
                   onTap: () {
-                    sttusLadfetchApasmtReqestDivNmController.text = data[index]['cmmnCdNm'];
-                    searchSttusInqireLadApasmtReqestDiv(data[index]['cmmnCdNm']);
+                    sttusLadfetchApasmtReqestDivNmController.text =
+                    data[index]['cmmnCdNm'];
+                    searchSttusInqireLadApasmtReqestDiv(
+                        data[index]['cmmnCdNm']);
                     Get.back();
                   },
                 );
@@ -1939,9 +1982,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(data[index]['apasmtSqnc'] == null ? '전체' : data[index]['apasmtSqnc'].toString()),
+                  title: Text(data[index]['apasmtSqnc'] == null
+                      ? '전체'
+                      : data[index]['apasmtSqnc'].toString()),
                   onTap: () {
-                    sttusLadApasmtSqncController.text = data[index]['apasmtSqnc'];
+                    sttusLadApasmtSqncController.text =
+                    data[index]['apasmtSqnc'];
                     searchSttusInqireLadApasmtSqnc(data[index]['apasmtSqnc']);
                     Get.back();
                   },
@@ -1976,10 +2022,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(data[index]['apasmtSqnc'] == null ? '전체' : data[index]['apasmtSqnc'].toString()),
+                  title: Text(data[index]['apasmtSqnc'] == null
+                      ? '전체'
+                      : data[index]['apasmtSqnc'].toString()),
                   onTap: () {
-                    sttusObstApasmtSqncController.text = data[index]['apasmtSqnc'].toString();
-                    searchSttusInqireObstApasmtSqnc(data[index]['apasmtSqnc'].toString());
+                    sttusObstApasmtSqncController.text =
+                        data[index]['apasmtSqnc'].toString();
+                    searchSttusInqireObstApasmtSqnc(
+                        data[index]['apasmtSqnc'].toString());
                     Get.back();
                   },
                 );
@@ -2026,7 +2076,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 관계인 (토지)] 조회
   fetchCstmrCardLadPartcpntInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2055,7 +2105,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 관계인 (지장물)] 조회
   fetchCstmrCardObstPartcpntInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2084,7 +2134,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 협의내역 (토지)] 조회
   fetchCstmrCardLadCmpnstnInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2111,7 +2161,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 수요재결 (토지)] 조회
   fetchCstmrCardLadAceptncInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2126,7 +2176,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       AppLog.d('fetchCstmrCardLadAceptncInfoDataSource > landAceptnc : $data');
 
       var cstmrcardLadAceptncDatasourceModel =
-          <CstmrcardLadAceptncDatasourceModel>[];
+      <CstmrcardLadAceptncDatasourceModel>[];
       var length = data.length;
 
       cstmrcardLadAceptncDatasourceKeyValue(
@@ -2140,7 +2190,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 수요재결 (지장물)] 조회
   fetchCstmrCardObstAceptncInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2155,7 +2205,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       AppLog.d('fetchCstmrCardObstAceptncInfoDataSource > obstAceptnc : $data');
 
       var cstmrcardObstAceptncDatasourceModel =
-          <CstmrcardObstAceptncDatasourceModel>[];
+      <CstmrcardObstAceptncDatasourceModel>[];
       var length = data.length;
 
       cstmrcardObstAceptncDatasourceKeyValue(
@@ -2169,7 +2219,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardLadObjcInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2197,7 +2247,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 이의재결 (토지)] 조회
   fetchCstmrCardObstObjcInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2212,7 +2262,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       AppLog.d('fetchCstmrCardObstObjcInfoDataSource > obstObjc : $data');
 
       var cstmrcardObstObjcDatasourceModel =
-          <CstmrcardObstObjcDatasourceModel>[];
+      <CstmrcardObstObjcDatasourceModel>[];
       var length = data.length;
 
       cstmrcardObstObjcDataSourceKeyValue(
@@ -2226,7 +2276,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 소송 (토지)] 조회
   fetchCstmrCardLadLwstInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2256,7 +2306,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     print('fetchCstmrCardObstLwstInfoDataSource > ownerNo : $ownerNo');
 
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2271,7 +2321,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       AppLog.d('fetchCstmrCardObstLwstInfoDataSource > obstLwst : $data');
 
       var cstmrcardObstLwstDatasourceModel =
-          <CstmrcardObstLwstDatasourceModel>[];
+      <CstmrcardObstLwstDatasourceModel>[];
       var length = data.length;
 
       cstmrcardObstLwstDataSourceKeyValue(
@@ -2285,7 +2335,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 환매 ] 조회
   fetchCstmrCardReprchsInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2313,7 +2363,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 토지수용확인원 ] 조회
   fetchCstmrCardConfirmInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2341,7 +2391,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // [고객카드 > 이의신청 ] 조회
   fetchCstmrCardFobjctInfoDataSource(ownerNo) async {
     var url =
-        Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
+    Uri.parse('${CommonUtil.BASE_URL}/lp/lccc/selectCstmrCardLand.do');
 
     var param = {
       'shOwnerNo': ownerNo,
@@ -2534,6 +2584,26 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     });
   }
 
+  /// [실태조사 (지장물)] 본번 검색
+  Future<void> searchAccdtlnvstgObstMlnoLtno(String value) async {
+    AppLog.d('searchAccdtlnvstgObstMlnoLtno : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList;
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      } else {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList
+            .where((element) => element.mlnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgObstList : $searchAccdtlnvstgObstList');
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      }
+    });
+  }
+
   /// [통계 정보 > 토지현황 > 본번] 조회
   Future<void> searchSttusInqireLadMlnoLtno(String value) async {
     AppLog.d('searchSttusInqireLadMlnoLtno : $value');
@@ -2590,6 +2660,26 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
         AppLog.d('serachAccdtlnvstgLadList : $searchAccdtlnvstgLadList');
         accdtlnvstgLadDataSource.value =
             AccdtlnvstgLadDatasource(items: searchAccdtlnvstgLadList);
+      }
+    });
+  }
+
+  /// [실태조사 (지장물)] 부번 검색
+  Future<void> searchAccdtlnvstgObstSlnoLtno(String value) async {
+    AppLog.d('searchAccdtlnvstgObstSlnoLtno : $value');
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () async {
+      if (value.isEmpty) {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList;
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
+      } else {
+        searchAccdtlnvstgObstList = accdtlnvstgObstList
+            .where((element) => element.slnoLtno?.contains(value) ?? false)
+            .toList();
+        AppLog.d('serachAccdtlnvstgObstList : $searchAccdtlnvstgObstList');
+        accdtlnvstgObstDataSource.value =
+            AccdtlnvstgObstDatasource(items: searchAccdtlnvstgObstList);
       }
     });
   }
@@ -2708,10 +2798,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
             ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       } else {
         searchLadSttusInqireList = ladSttusInqireList
-            .where((element) => element.accdtInvstgSqnc.toString().contains(value))
+            .where((element) =>
+            element.accdtInvstgSqnc.toString().contains(value))
             .toList();
         searchObstSttusInqireList = obstSttusInqireList
-            .where((element) => element.accdtInvstgSqnc.toString().contains(value))
+            .where((element) =>
+            element.accdtInvstgSqnc.toString().contains(value))
             .toList();
         AppLog.d('searchSttusInqireLadSqnc : $searchLadSttusInqireList');
         ladSttusInqireDataSource.value =
@@ -2735,15 +2827,16 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
         obstSttusInqireDataSource.value =
             ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       } else {
-
         // 두자리만 가져오기
         value = value.substring(0, 2);
 
         searchLadSttusInqireList = ladSttusInqireList
-            .where((element) => element.cmpnstnStepDivNm?.startsWith(value) ?? false)
+            .where((element) =>
+        element.cmpnstnStepDivNm?.startsWith(value) ?? false)
             .toList();
         searchObstSttusInqireList = obstSttusInqireList
-            .where((element) => element.cmpnstnStepDivNm?.startsWith(value) ?? false)
+            .where((element) =>
+        element.cmpnstnStepDivNm?.startsWith(value) ?? false)
             .toList();
         AppLog.d('searchSttusInqireLadCmpnstnStep : $searchLadSttusInqireList');
         ladSttusInqireDataSource.value =
@@ -2765,7 +2858,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
             LadSttusInqireDatasource(items: searchLadSttusInqireList);
       } else {
         searchLadSttusInqireList = ladSttusInqireList
-            .where((element) => element.apasmtReqestDivNm?.contains(value) ?? false)
+            .where((element) =>
+        element.apasmtReqestDivNm?.contains(value) ?? false)
             .toList();
         AppLog.d('searchSttusInqireLadEvalDiv : $searchLadSttusInqireList');
         ladSttusInqireDataSource.value =
@@ -2787,7 +2881,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
         searchLadSttusInqireList = ladSttusInqireList
             .where((element) => element.apasmtSqnc.toString().contains(value))
             .toList();
-        AppLog.d('searchSttusInqireLadApasmtSqncList : $searchLadSttusInqireList');
+        AppLog.d(
+            'searchSttusInqireLadApasmtSqncList : $searchLadSttusInqireList');
         ladSttusInqireDataSource.value =
             LadSttusInqireDatasource(items: searchLadSttusInqireList);
       }
@@ -2807,7 +2902,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
         searchObstSttusInqireList = obstSttusInqireList
             .where((element) => element.apasmtSqnc.toString().contains(value))
             .toList();
-        AppLog.d('searchSttusInqireObstApasmtSqncList : $searchObstSttusInqireList');
+        AppLog.d(
+            'searchSttusInqireObstApasmtSqncList : $searchObstSttusInqireList');
         obstSttusInqireDataSource.value =
             ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       }
@@ -2825,8 +2921,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
             ObstSttusInqireDatasource(items: searchObstSttusInqireList);
       } else {
         searchObstSttusInqireList = obstSttusInqireList;
-            // .where((element) => element?.contains(value) ?? false)
-            // .toList();
+        // .where((element) => element?.contains(value) ?? false)
+        // .toList();
         AppLog.d('searchSttusInqireObstDiv : $searchObstSttusInqireList');
         obstSttusInqireDataSource.value =
             ObstSttusInqireDatasource(items: searchObstSttusInqireList);
@@ -2940,7 +3036,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                   width: 200.w,
                   height: 104.h,
                   padding:
-                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: Color(0xFFD8D8D8)),
@@ -2971,12 +3067,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                   child: Container(
                     height: 104.h,
                     padding:
-                        EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
                     decoration: BoxDecoration(
                         border: Border(
-                      top: BorderSide(color: Color(0xFFD8D8D8)),
-                      bottom: BorderSide(color: Color(0xFFD8D8D8)),
-                    )),
+                          top: BorderSide(color: Color(0xFFD8D8D8)),
+                          bottom: BorderSide(color: Color(0xFFD8D8D8)),
+                        )),
                     child: Expanded(
                       child: Row(
                         children: [
@@ -3008,7 +3104,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                                     Container(
                                       height: 500.h,
                                       child: ListView.builder(
-                                        itemCount: accdtlnvstgLadRealUseList.length,
+                                        itemCount: accdtlnvstgLadRealUseList
+                                            .length,
                                         itemBuilder: (context, index) {
                                           return ListTile(
                                             title: Text(
@@ -3021,10 +3118,13 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                                               ),
                                             ),
                                             onTap: () {
-                                              accdtlnvstgLadRealUseEditController.text = accdtlnvstgLadRealUseList[index];
+                                              accdtlnvstgLadRealUseEditController
+                                                  .text =
+                                              accdtlnvstgLadRealUseList[index];
 
                                               // 선택된 지목
-                                              selectedLadRealUse.value = accdtlnvstgLadRealUseList[index];
+                                              selectedLadRealUse.value =
+                                              accdtlnvstgLadRealUseList[index];
 
                                               Get.back();
                                             },
@@ -3049,7 +3149,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                   width: 200.w,
                   height: 104.h,
                   padding:
-                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: Color(0xFFD8D8D8)),
@@ -3080,11 +3180,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                   child: Container(
                     height: 104.h,
                     padding:
-                        EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
                     decoration: BoxDecoration(
                         border: Border(
-                      bottom: BorderSide(color: Color(0xFFD8D8D8)),
-                    )),
+                          bottom: BorderSide(color: Color(0xFFD8D8D8)),
+                        )),
                     child: Expanded(
                       child: Row(
                         children: [
@@ -3116,7 +3216,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                 Container(
                   width: 200.w,
                   padding:
-                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Color(0xFFE5E8ED),
                     border: Border.all(color: Color(0xFFD8D8D8)),
@@ -3147,11 +3247,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                   child: Container(
                     height: 108.h,
                     padding:
-                        EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                    EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
                     decoration: BoxDecoration(
                         border: Border(
-                      bottom: BorderSide(color: Color(0xFFD8D8D8)),
-                    )),
+                          bottom: BorderSide(color: Color(0xFFD8D8D8)),
+                        )),
                     child: Expanded(
                       child: Row(
                         children: [
@@ -3181,13 +3281,14 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
             ),
           ],
         ), onOk: () async {
-      debugPrint('토지 현실이용현황 조회 및 입력');
-      selectedLadRealUse.value = accdtlnvstgLadRealUseEditController.text;
-      selectedLadRealPurpose.value = accdtlnvstgLadRealUseEdit2Controller.text;
-      selectedLadRealAra.value = accdtlnvstgLadRealUseEdit3Controller.text;
-    }, onCancel: () {
-      Get.back();
-    });
+          debugPrint('토지 현실이용현황 조회 및 입력');
+          selectedLadRealUse.value = accdtlnvstgLadRealUseEditController.text;
+          selectedLadRealPurpose.value =
+              accdtlnvstgLadRealUseEdit2Controller.text;
+          selectedLadRealAra.value = accdtlnvstgLadRealUseEdit3Controller.text;
+        }, onCancel: () {
+          Get.back();
+        });
   }
 
   /// [차수] 선택
@@ -3444,7 +3545,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                                           text:
                                           selectBsnsPlan.value.bsnsNm ?? '',
                                           style: TextStyle(
-                                            color: Theme.of(Get.context!)
+                                            color: Theme
+                                                .of(Get.context!)
                                                 .colorScheme
                                                 .primary,
                                             fontSize: 32.sp,
@@ -3506,7 +3608,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                               // 시작일 ~ 종료일
                               SizedBox(height: 10.h),
                               Text(
-                                '사업기간: ${sqncStartDtController.text} ~ ${sqncEndDtController.text}',
+                                '사업기간: ${sqncStartDtController
+                                    .text} ~ ${sqncEndDtController.text}',
                                 style: TextStyle(
                                   color: Color(0xFF1D1D1D),
                                   fontSize: 1.w > 1.h ? 32.sp : 50.sp,
@@ -3590,13 +3693,17 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
   /// [사진촬영]
   takePhoto(type) async {
-
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.camera, imageQuality: 50, maxHeight: 480, maxWidth: 640);
+    final pickedFile = await picker.pickImage(source: ImageSource.camera,
+        imageQuality: 50,
+        maxHeight: 480,
+        maxWidth: 640);
 
     if (pickedFile != null) {
       final File file = File(pickedFile.path);
-      final String fileName = file.path.split('/').last;
+      final String fileName = file.path
+          .split('/')
+          .last;
       final String filePath = file.path;
 
       AppLog.d('fileName : $fileName');
@@ -3606,9 +3713,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
       // 사진 미리보기
       final image = Image.file(file);
-      DialogUtil.showAlertDialog(Get.context!, 1040, '사진촬영', widget: image, onOk: () async {
-
-        if(type == 'lad') {
+      DialogUtil.showAlertDialog(
+          Get.context!, 1040, '사진촬영', widget: image, onOk: () async {
+        if (type == 'lad') {
           // 토지현황
           ladImages.add(image);
         } else {
@@ -3621,19 +3728,46 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
         Get.back();
       });
 
-      // 파일 업로드
-      // final response = await FileUploadService.uploadFile(filePath, fileName);
-      // AppLog.d('response : $response');
-      //
-      // if (response != null) {
-      //   DialogUtil.showSnackBar(Get.context!, '사진촬영', '사진을 촬영하였습니다.');
-      // } else {
-      //   DialogUtil.showSnackBar(Get.context!, '사진촬영', '사진을 촬영하지 못했습니다.');
-      // }
-
     } else {
       DialogUtil.showSnackBar(Get.context!, '사진촬영', '사진을 촬영하지 않았습니다.');
     }
+  }
+
+  tempInsertPhoto() async {
+    var url =
+    Uri.parse('${CommonUtil
+        .BASE_URL}/lp/accdtInvstg/insertAccdtInvstgLadFileList.do');
+
+    for (var i = 0; i < files.length; i++) {
+      var request = http.MultipartRequest('POST', url);
+      request.files.add(http.MultipartFile.fromBytes(
+          'file', files[i].readAsBytesSync(), filename: files[i].path
+          .split('/')
+          .last));
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        AppLog.d('사진 업로드 성공 ${response.statusCode}');
+      } else {
+        AppLog.d('사진 업로드 실패');
+      }
+
+    }
+  }
+
+  previewImage(image) {
+    AppLog.d('previewImage : $image');
+    DialogUtil.showAlertDialog(
+        Get.context!, 1040, '사진촬영', widget: image,
+        textOk: '삭제', onOk: () async {
+      if (ladImages.contains(image)) {
+        ladImages.remove(image);
+      } else {
+        obstImages.remove(image);
+      }
+    }, onCancel: () {
+
+    });
   }
 
 }

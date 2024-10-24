@@ -22,8 +22,6 @@ class LoginScreen extends GetView<LoginController> {
     DateTime currentTime = DateTime.now();
     DateTime? currentBackPressTime;
 
-    Get.put(LoginController(), permanent: true);
-
     return Scaffold(
       // 키보드 올라올 때 화면 resize
       resizeToAvoidBottomInset: true,

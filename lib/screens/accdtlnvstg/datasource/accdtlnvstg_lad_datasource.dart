@@ -173,11 +173,6 @@ class AccdtlnvstgLadDatasource extends DataGridSource {
       }
 
       if(dataGridCell.columnName == 'acqsPrpDivNm') {
-        // return Container(
-        //   alignment: Alignment.center,
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
-        // );
         if(!LpController.to.accdtlnvstgAcqstnPrpsList.contains(dataGridCell.value.toString())) {
           LpController.to.accdtlnvstgAcqstnPrpsList.add(dataGridCell.value.toString());
         }

@@ -24,7 +24,6 @@ class AccdtInvstgObstWidget {
       children: [
         Container(
           width: double.infinity,
-          height: 104.h,
           //padding: EdgeInsets.all(40.r),
           margin: EdgeInsets.only(top: 40.h, bottom: 0.h, left: 40.w),
           child: Row(
@@ -61,6 +60,167 @@ class AccdtInvstgObstWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Visibility(
+                      visible: controller.accdtlnvstgTabObstSelected[0] == true,
+                      child: Container(
+                          width: Get.width,
+                          padding: EdgeInsets.symmetric(vertical: 20.h),
+                          child: SizedBox(
+                              width: Get.width,
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // 토지검색 탭
+                                    Visibility(
+                                      visible: controller
+                                          .accdtlnvstgTabObstSelected[0] ==
+                                          true,
+                                      child:
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              flex: 1,
+                                              child: Row(children: [
+                                                SizedBox(
+                                                  //width: 140.w,
+                                                  child: AutoSizeText('소재지',
+                                                      style: TextStyle(
+                                                        color: tableTextColor,
+                                                        fontSize: 1.w > 1.h
+                                                            ? 32.sp
+                                                            : 52.sp,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                      )),
+                                                ),
+                                                SizedBox(
+                                                  width: 20.w,
+                                                ),
+                                                Expanded(
+                                                  child: CustomTextField(
+                                                    controller: controller
+                                                        .accdtlnvstgObstAddrController,
+                                                    hintText: '소재지를 입력해주세요',
+                                                    onChanged: (value) {
+                                                      controller.searchAccdtlnvstgObstAddr(value);
+                                                    },
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 12.w,
+                                                ),
+                                                SizedBox(
+                                                  width: 160.w,
+                                                  child: CustomTextField(
+                                                    controller: controller.accdtlnvstgObstMlnoLtnoController,
+                                                    hintText: '본번',
+                                                    onChanged: (value) {
+                                                      controller.searchAccdtlnvstgObstMlnoLtno(value);
+                                                    },
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 12.w,
+                                                ),
+                                                SizedBox(
+                                                  width: 160.w,
+                                                  child: CustomTextField(
+                                                    isReadOnly: false,
+                                                    controller: controller.accdtlnvstgObstSlnoLtnoController,
+                                                    hintText: '부번',
+                                                    onChanged: (value) {
+                                                      controller.searchAccdtlnvstgObstSlnoLtno(value);
+                                                    },
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 20.w,
+                                                ),
+                                              ])),
+                                          Expanded(
+                                              flex: 1,
+                                              child: Row(children: [
+                                                SizedBox(
+                                                  width: 140.w,
+                                                  child: AutoSizeText('취득용도',
+                                                      style: TextStyle(
+                                                        color: tableTextColor,
+                                                        fontSize: 1.w > 1.h
+                                                            ? 32.sp
+                                                            : 52.sp,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                      )),
+                                                ),
+                                                Expanded(
+                                                  child: CustomTextField(
+                                                    controller: controller
+                                                        .accdtlnvstgObstAcqsPrpDivNmController,
+                                                    hintText: '취득용도를 입력해주세요',
+                                                    onChanged: (value) {},
+                                                    isReadOnly: true,
+                                                    onTap: () {
+                                                      DialogUtil
+                                                          .showBottomSheet(
+                                                          Get.context!,
+                                                          '취득용도를 선택해주세요',
+                                                          Container(
+                                                            padding:
+                                                            EdgeInsets
+                                                                .all(20
+                                                                .r),
+                                                            child: Column(
+                                                              mainAxisSize: MainAxisSize.min,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                SingleChildScrollView(
+                                                                  child: ListView
+                                                                      .builder(
+                                                                    shrinkWrap:
+                                                                    true,
+                                                                    physics:
+                                                                    NeverScrollableScrollPhysics(),
+                                                                    itemCount: controller
+                                                                        .accdtlnvstgAcqstnPrpsList
+                                                                        .length,
+                                                                    itemBuilder:
+                                                                        (context,
+                                                                        index) {
+                                                                      return ListTile(
+                                                                        title: AutoSizeText(controller.accdtlnvstgAcqstnPrpsList[index],
+                                                                            style: TextStyle(
+                                                                              color: tableTextColor,
+                                                                              fontSize: 32.sp,
+                                                                              fontWeight: FontWeight.w500,
+                                                                            )),
+                                                                        onTap:
+                                                                            () {
+                                                                          controller.accdtlnvstgObstAcqsPrpDivNmController.text = controller.accdtlnvstgAcqstnPrpsList[index];
+                                                                          controller
+                                                                              .searchAccdtlnvstgLadPurps(
+                                                                              controller
+                                                                                  .accdtlnvstgObstAcqsPrpDivNmController
+                                                                                  .text);
+                                                                          Get.back();
+                                                                        },
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ));
+                                                    },
+                                                  ),
+                                                ),
+                                              ])),
+                                        ],
+                                      ),
+                                    ),
+                                  ]))),
+                    ),
                     SizedBox(height: 20.h),
                     Visibility(
                         visible:
@@ -71,8 +231,7 @@ class AccdtInvstgObstWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CustomRichText(
-                                length: controller.accdtlnvstgObstDataSource
-                                    .value.rows.length),
+                                length: controller.accdtlnvstgObstDataSource.value.rows.length),
                             SizedBox(height: 20.h),
                             Obx(() {
                               return controller.accdtlnvstgObstDataSource.value
@@ -85,11 +244,10 @@ class AccdtInvstgObstWidget {
                                                   1.w > 1.h ? 36.sp : 56.sp,
                                               fontWeight: FontWeight.w700)),
                                     )
-                                  : SizedBox(
-                                      height: Get.height * 0.6,
-                                      child: lpScreen()
-                                          .buildAccdtlnvstgObstDataGrid(),
-                                    );
+                                  : Expanded(
+                                    child: lpScreen()
+                                        .buildAccdtlnvstgObstDataGrid(),
+                                  );
                             }),
                           ],
                         )),
@@ -108,8 +266,7 @@ class AccdtInvstgObstWidget {
                                     fontWeight: FontWeight.w700)),
                             SizedBox(height: 20.h),
                             Obx(() {
-                              return controller.accdtlnvstgObstDataSource.value
-                                      .rows.isEmpty
+                              return controller.accdtlnvstgObstSelectLadDataSource.value.rows.isEmpty
                                   ? Center(
                                       child: AutoSizeText('검색된 데이터가 없습니다.',
                                           style: TextStyle(
@@ -121,7 +278,7 @@ class AccdtInvstgObstWidget {
                                   : SizedBox(
                                       height: Get.height * 0.25,
                                       child: lpScreen()
-                                          .buildLadAccdtlnvstgSearchDataGrid(),
+                                          .buildObstAccdtlnvstgSelectLadDataGrid(),
                                     );
                             }),
                             SizedBox(height: 20.h),

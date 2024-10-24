@@ -98,8 +98,8 @@ class AccdtlnvstgLadModel {
     lgdongNm = json['lgdongNm'];
     ofcbkLndcgrDivCd = json['ofcbkLndcgrDivCd'];
     ofcbkLndcgrDivNm = json['ofcbkLndcgrDivNm'];
-    ofcbkAra = json['ofcbkAra'];
-    incrprAra = json['incrprAra'];
+    ofcbkAra = json['ofcbkAra'] == 'null' ? 0 : json['ofcbkAra'];
+    incrprAra = json['incrprAra'] == 'null' ? 0 : json['incrprAra'];
     parentMlnoLtno = json['parentMlnoLtno'];
     parentSlnoLtno = json['parentSlnoLtno'];
     parentLcrtsDivCd = json['parentLcrtsDivCd'];

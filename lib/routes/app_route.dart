@@ -4,6 +4,7 @@ import 'package:ldm/screens/np_screen.dart';
 import 'package:ldm/screens/splash/splash_binding.dart';
 
 import '../screens/gis/gis_binding.dart';
+import '../screens/login/login_binding.dart';
 import '../screens/lp_binding.dart';
 import '../screens/lp_screen.dart';
 import '../screens/login/login_screen.dart';
@@ -22,7 +23,7 @@ class AppRoute {
     GetPage(name: splash, page: () => SplashScreen(), binding: SplashBinding(), middlewares: [
 
     ]),
-    GetPage(name: login, page: () => LoginScreen()),
+    GetPage(name: login, page: () => LoginScreen(), binding: LoginBinding()),
     GetPage(name: gis, page: () => GisScreen(), binding: GisBinding()),
     GetPage(name: lp, page: () => lpScreen(), binding: LpBinding()),
     GetPage(name: np, page: () => npScreen(), binding: NpBinding()),

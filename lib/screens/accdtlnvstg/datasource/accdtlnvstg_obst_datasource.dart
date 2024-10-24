@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,9 +20,13 @@ class AccdtlnvstgObstDatasource extends DataGridSource {
             DataGridCell(columnName: 'cmpnstnQtyAraVu', value: e.cmpnstnQtyAraVu),
             DataGridCell(columnName: 'cmpnstnThingUnitDivNm', value: e.cmpnstnThingUnitDivNm ?? ''),
             DataGridCell(columnName: 'lgdongNm', value: e.lgdongNm),
+            DataGridCell(columnName: 'lcrtsDivCdNm', value: e.lcrtsDivCdNm),
+            DataGridCell(columnName: 'mlnoLtno', value: e.mlnoLtno),
+            DataGridCell(columnName: 'slnoLtno', value: e.slnoLtno),
+            DataGridCell(columnName: 'acqsPrpDivNm', value: e.acqsPrpDivNm),
             DataGridCell(columnName: 'accdtInvstgSqnc', value: e.accdtInvstgSqnc),
             DataGridCell(columnName: 'invstgDt', value: e.invstgDt),
-            DataGridCell(columnName: 'spcitm', value: e.spcitm ?? ''),
+            DataGridCell(columnName: 'accdtInvstgRm', value: e.accdtInvstgRm ?? ''),
           ]))
         .toList();
   }
@@ -37,7 +42,7 @@ class AccdtlnvstgObstDatasource extends DataGridSource {
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: Text(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp)),
+        child: AutoSizeText(dataGridCell.value.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp), maxLines: 2),
       );
     }).toList());
   }

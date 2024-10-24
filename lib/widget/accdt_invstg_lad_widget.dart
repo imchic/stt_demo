@@ -18,9 +18,7 @@ import '../utils/dialog_util.dart';
 class AccdtInvstgLadWidget {
   static Widget buildAccdtInvstgLadWidget(LpController controller) {
     return Obx(() =>
-      Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Column(
+      Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,15 +74,7 @@ class AccdtInvstgLadWidget {
                         visible: controller.accdtlnvstgTabLadSelected[0] == true,
                         child: Container(
                             width: Get.width,
-                            height: 256.h,
-                            padding: EdgeInsets.all(40.r),
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(width: 0, color: borderLine),
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(8.r)),
-                              ),
-                            ),
+                            padding: EdgeInsets.symmetric(vertical: 20.h),
                             child: SizedBox(
                                 width: Get.width,
                                 child: Column(
@@ -96,7 +86,8 @@ class AccdtInvstgLadWidget {
                                         visible: controller
                                             .accdtlnvstgTabLadSelected[0] ==
                                             true,
-                                        child: Row(
+                                        child:
+                                        Row(
                                           children: [
                                             Expanded(
                                                 flex: 1,
@@ -378,11 +369,7 @@ class AccdtInvstgLadWidget {
                                       fontWeight: FontWeight.w700,
                                     )),
                                 SizedBox(height: 20.h),
-                                Container(
-                                  height: 200.h,
-                                  child: lpScreen()
-                                      .buildAccdtlnvstgLadOwnerStatusDataGrid(),
-                                ),
+                                lpScreen().buildAccdtlnvstgLadOwnerStatusDataGrid(),
                                 SizedBox(height: 40.h),
                                 controller.accdtlnvstgLadPartcpntDataSource.value
                                     .rows.isEmpty
@@ -425,7 +412,7 @@ class AccdtInvstgLadWidget {
                                   height: 300.h,
                                   child: lpScreen()
                                       .buildLadAccdtlnvstgSearchDataGrid()),
-                              SizedBox(
+                              /*SizedBox(
                                 width: Get.width,
                                 child: Row(
                                   mainAxisAlignment:
@@ -459,143 +446,143 @@ class AccdtInvstgLadWidget {
                                     ),
                                   ],
                                 ),
-                              ),
-                              Obx(() =>
-                                  Container(
-                                    color: Color(0xFFE5E8ED),
-                                    child: Table(
-                                      columnWidths: {
-                                        0: FlexColumnWidth(0.15),
-                                        1: FlexColumnWidth(1),
-                                        2: FlexColumnWidth(0.15),
-                                      },
-                                      border: TableBorder.all(color: borderLine),
-                                      children: [
-                                        TableRow(children: [
-                                          TableCell(
-                                            verticalAlignment:
-                                            TableCellVerticalAlignment.middle,
-                                            child: SizedBox(
-                                              height: 104.h,
-                                              child: Center(
-                                                  child: AutoSizeText('현실이용현황',
-                                                      style: TextStyle(
-                                                          fontSize: 30.sp,
-                                                          fontWeight:
-                                                          FontWeight.w700))),
-                                            ),
-                                          ),
-                                          TableCell(
-                                            verticalAlignment:
-                                            TableCellVerticalAlignment.middle,
-                                            child: SizedBox(
-                                              height: 104.h,
-                                              child: Center(
-                                                  child: AutoSizeText('용지지구 및 지역',
-                                                      style: TextStyle(
-                                                          fontSize: 30.sp,
-                                                          fontWeight:
-                                                          FontWeight.w700))),
-                                            ),
-                                          ),
-                                          TableCell(
-                                            verticalAlignment:
-                                            TableCellVerticalAlignment.middle,
-                                            child: SizedBox(
-                                              height: 104.h,
-                                              child: Center(
-                                                  child: AutoSizeText('면적(㎡)',
-                                                      style: TextStyle(
-                                                          fontSize: 30.sp,
-                                                          fontWeight:
-                                                          FontWeight.w700))),
-                                            ),
-                                          ),
-                                        ]),
-                                        for (var i = 0; i < 1; i++)
-                                          TableRow(children: [
-                                            TableCell(
-                                              verticalAlignment:
-                                              TableCellVerticalAlignment.middle,
-                                              child: Container(
-                                                color: Colors.white,
-                                                height: 104.h,
-                                                child: Center(
-                                                    child: AutoSizeText(controller.selectedLadRealUse.value ?? '',
-                                                        style: TextStyle(
-                                                            fontSize: 32.sp))),
-                                              ),
-                                            ),
-                                            TableCell(
-                                              verticalAlignment:
-                                              TableCellVerticalAlignment.middle,
-                                              child: Container(
-                                                color: Colors.white,
-                                                height: 104.h,
-                                                child: Center(
-                                                    child: AutoSizeText(controller.selectedLadRealAra.value ?? '',
-                                                        style: TextStyle(
-                                                            fontSize: 32.sp))),
-                                              ),
-                                            ),
-                                            TableCell(
-                                              verticalAlignment:
-                                              TableCellVerticalAlignment.middle,
-                                              child: Container(
-                                                color: Colors.white,
-                                                height: 104.h,
-                                                child: Center(
-                                                    child: AutoSizeText(controller.selectedLadRealPurpose.value ?? '',
-                                                        style: TextStyle(
-                                                            fontSize: 32.sp))),
-                                              ),
-                                            ),
-                                          ]),
-                                        /*TableRow(children: [
-                                        TableCell(
-                                          verticalAlignment:
-                                              TableCellVerticalAlignment.middle,
-                                          child: SizedBox(
-                                            height: 104.h,
-                                            child: Center(
-                                                child: AutoSizeText('소계',
-                                                    style: TextStyle(
-                                                        fontSize: 30.sp,
-                                                        fontWeight:
-                                                            FontWeight.w700))),
-                                          ),
-                                        ),
-                                        TableCell(
-                                          verticalAlignment:
-                                              TableCellVerticalAlignment.middle,
-                                          child: SizedBox(
-                                            height: 104.h,
-                                            child: Center(
-                                                child: AutoSizeText('',
-                                                    style: TextStyle(
-                                                        fontSize: 30.sp,
-                                                        fontWeight:
-                                                            FontWeight.w700))),
-                                          ),
-                                        ),
-                                        TableCell(
-                                          verticalAlignment:
-                                              TableCellVerticalAlignment.middle,
-                                          child: SizedBox(
-                                            height: 104.h,
-                                            child: Center(
-                                                child: AutoSizeText('',
-                                                    style: TextStyle(
-                                                        fontSize: 30.sp,
-                                                        fontWeight:
-                                                            FontWeight.w700))),
-                                          ),
-                                        ),
-                                      ])*/
-                                      ],
-                                    ),
-                                  ),
-                              ),
+                              ),*/
+                              // Obx(() =>
+                              //     Container(
+                              //       color: Color(0xFFE5E8ED),
+                              //       child: Table(
+                              //         columnWidths: {
+                              //           0: FlexColumnWidth(0.15),
+                              //           1: FlexColumnWidth(1),
+                              //           2: FlexColumnWidth(0.15),
+                              //         },
+                              //         border: TableBorder.all(color: borderLine),
+                              //         children: [
+                              //           TableRow(children: [
+                              //             TableCell(
+                              //               verticalAlignment:
+                              //               TableCellVerticalAlignment.middle,
+                              //               child: SizedBox(
+                              //                 height: 104.h,
+                              //                 child: Center(
+                              //                     child: AutoSizeText('현실이용현황',
+                              //                         style: TextStyle(
+                              //                             fontSize: 30.sp,
+                              //                             fontWeight:
+                              //                             FontWeight.w700))),
+                              //               ),
+                              //             ),
+                              //             TableCell(
+                              //               verticalAlignment:
+                              //               TableCellVerticalAlignment.middle,
+                              //               child: SizedBox(
+                              //                 height: 104.h,
+                              //                 child: Center(
+                              //                     child: AutoSizeText('용지지구 및 지역',
+                              //                         style: TextStyle(
+                              //                             fontSize: 30.sp,
+                              //                             fontWeight:
+                              //                             FontWeight.w700))),
+                              //               ),
+                              //             ),
+                              //             TableCell(
+                              //               verticalAlignment:
+                              //               TableCellVerticalAlignment.middle,
+                              //               child: SizedBox(
+                              //                 height: 104.h,
+                              //                 child: Center(
+                              //                     child: AutoSizeText('면적(㎡)',
+                              //                         style: TextStyle(
+                              //                             fontSize: 30.sp,
+                              //                             fontWeight:
+                              //                             FontWeight.w700))),
+                              //               ),
+                              //             ),
+                              //           ]),
+                              //           for (var i = 0; i < 1; i++)
+                              //             TableRow(children: [
+                              //               TableCell(
+                              //                 verticalAlignment:
+                              //                 TableCellVerticalAlignment.middle,
+                              //                 child: Container(
+                              //                   color: Colors.white,
+                              //                   height: 104.h,
+                              //                   child: Center(
+                              //                       child: AutoSizeText(controller.selectedLadRealUse.value ?? '',
+                              //                           style: TextStyle(
+                              //                               fontSize: 32.sp))),
+                              //                 ),
+                              //               ),
+                              //               TableCell(
+                              //                 verticalAlignment:
+                              //                 TableCellVerticalAlignment.middle,
+                              //                 child: Container(
+                              //                   color: Colors.white,
+                              //                   height: 104.h,
+                              //                   child: Center(
+                              //                       child: AutoSizeText(controller.selectedLadRealAra.value ?? '',
+                              //                           style: TextStyle(
+                              //                               fontSize: 32.sp))),
+                              //                 ),
+                              //               ),
+                              //               TableCell(
+                              //                 verticalAlignment:
+                              //                 TableCellVerticalAlignment.middle,
+                              //                 child: Container(
+                              //                   color: Colors.white,
+                              //                   height: 104.h,
+                              //                   child: Center(
+                              //                       child: AutoSizeText(controller.selectedLadRealPurpose.value ?? '',
+                              //                           style: TextStyle(
+                              //                               fontSize: 32.sp))),
+                              //                 ),
+                              //               ),
+                              //             ]),
+                              //           /*TableRow(children: [
+                              //           TableCell(
+                              //             verticalAlignment:
+                              //                 TableCellVerticalAlignment.middle,
+                              //             child: SizedBox(
+                              //               height: 104.h,
+                              //               child: Center(
+                              //                   child: AutoSizeText('소계',
+                              //                       style: TextStyle(
+                              //                           fontSize: 30.sp,
+                              //                           fontWeight:
+                              //                               FontWeight.w700))),
+                              //             ),
+                              //           ),
+                              //           TableCell(
+                              //             verticalAlignment:
+                              //                 TableCellVerticalAlignment.middle,
+                              //             child: SizedBox(
+                              //               height: 104.h,
+                              //               child: Center(
+                              //                   child: AutoSizeText('',
+                              //                       style: TextStyle(
+                              //                           fontSize: 30.sp,
+                              //                           fontWeight:
+                              //                               FontWeight.w700))),
+                              //             ),
+                              //           ),
+                              //           TableCell(
+                              //             verticalAlignment:
+                              //                 TableCellVerticalAlignment.middle,
+                              //             child: SizedBox(
+                              //               height: 104.h,
+                              //               child: Center(
+                              //                   child: AutoSizeText('',
+                              //                       style: TextStyle(
+                              //                           fontSize: 30.sp,
+                              //                           fontWeight:
+                              //                               FontWeight.w700))),
+                              //             ),
+                              //           ),
+                              //         ])*/
+                              //         ],
+                              //       ),
+                              //     ),
+                              // ),
                               SizedBox(height: 40.h),
                               Column(
                                 children: [
@@ -933,9 +920,15 @@ class AccdtInvstgLadWidget {
                                                           color: Color(0xFFFFFFFF),
                                                           borderRadius: BorderRadius.circular(6.r),
                                                           border: Border.all(color: borderLine)),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: Image.file(controller.files[i]),
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          AppLog.i('사진 클릭');
+                                                          controller.previewImage(controller.ladImages[i]);
+                                                        },
+                                                        child: Padding(
+                                                          padding: EdgeInsets.all(8.0),
+                                                          child: Image.file(controller.files[i]),
+                                                        ),
                                                       ),
                                                     ),
                                                 ],
@@ -954,7 +947,7 @@ class AccdtInvstgLadWidget {
                 )
             ),
             // 조사내용 저장
-            /*Container(
+            Container(
               width: double.infinity,
               height: 100.h,
               margin: EdgeInsets.only(top: 40.h, bottom: 0.h, left: 40.w),
@@ -967,15 +960,19 @@ class AccdtInvstgLadWidget {
                     onPressed: () {
                       //controller.saveAccdtlnvstgLad();
 
-                    AppLog.i('실태조사 토지 > 현실이용현황 > ${controller.accdtlnvstgLadRealUseEditController.text}');
-                    AppLog.i('실태조사 토지 > 용지지구 및 지역 > ${controller.accdtlnvstgLadRealUseEdit2Controller.text}');
-                    AppLog.i('실태조사 토지 > 면적 > ${controller.accdtlnvstgLadRealUseEdit3Controller.text}');
+                    // AppLog.i('실태조사 토지 > 현실이용현황 > ${controller.accdtlnvstgLadRealUseEditController.text}');
+                    // AppLog.i('실태조사 토지 > 용지지구 및 지역 > ${controller.accdtlnvstgLadRealUseEdit2Controller.text}');
+                    // AppLog.i('실태조사 토지 > 면적 > ${controller.accdtlnvstgLadRealUseEdit3Controller.text}');
                     AppLog.i('실태조사 토지 > 입회자 > ${controller.accdtlnvstgLadPartcpntController.text}');
                     AppLog.i('실태조사 토지 > 주소 > ${controller.accdtlnvstgLadPartcpntAddrController.text}');
                     AppLog.i('실태조사 토지 > 특이사항 > ${controller.accdtlnvstgLadPartcpntRmController.text}');
 
                     AppLog.i('실태조사 토지 > 사업정보 > ${controller.selectedBsnsSelectArea.value.toJson()}');
                     AppLog.i('실태조사 토지 > 토지정보 > ${controller.selectedLadData.value.toJson()}');
+
+
+
+                    // controller.tempInsertPhoto();
 
                     },
                     style: ElevatedButton.styleFrom(
@@ -987,7 +984,7 @@ class AccdtInvstgLadWidget {
                       width: 200.w,
                       height: 72.h,
                       alignment: Alignment.center,
-                      child: AutoSizeText('저장',
+                      child: AutoSizeText('사진저장(임시)',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 30.sp,
@@ -996,10 +993,9 @@ class AccdtInvstgLadWidget {
                   ),
                 ],
               ),
-            ),*/
+            ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

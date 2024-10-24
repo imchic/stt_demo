@@ -25,6 +25,7 @@ import '../widget/bsns_widget.dart';
 import '../widget/cstmr_widget.dart';
 import '../widget/owner_widget.dart';
 import '../widget/sttus_widget.dart';
+import 'accdtlnvstg/datasource/model/accdtlnvstg_obst_model.dart';
 import 'gis/gis_screen.dart';
 import 'owner/lad/model/owner_lad_info_datasource_model.dart';
 import 'lp_controller.dart';
@@ -711,20 +712,6 @@ class lpScreen extends GetView<LpController> {
           AppLog.d('토지내역: ${controller.accdtlnvstgLadList}');
         });
 
-        //controller.fetchAccdtlnvstgObstDataSource();
-
-        // var job1 = await controller.fetchAccdtlnvstgLadDataSource();
-        //
-        // AppLog.d('토지내역: ${job1}');
-        // AppLog.d('지장물내역: ${job2}');
-
-        // if (job1.isNotEmpty && job2.isNotEmpty) {
-        //   controller.bsnsListDataSource.value =
-        //       BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
-        // } else {
-        //   DialogUtil.showSnackBar(Get.context!, '사업구역', '사업구역을 조회할 수 없습니다.');
-        // }
-
         await controller.fetchBsnsSelectAreaGetSqncDataSource();
 
         controller.isBsnsZoneSelectFlag.value = true;
@@ -774,50 +761,51 @@ class lpScreen extends GetView<LpController> {
 
         // 한개라도  있다면 실태조사로 이동
         if (ladRows.isNotEmpty || obstRows.isNotEmpty) {
-          DialogUtil.showAlertDialog(
-            Get.context!,
-            840,
-            '실태조사',
-            widget: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AutoSizeText(
-                      maxFontSize: 20,
-                      '${controller.selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?',
-                      style: TextStyle(
-                          color: Color(0xFF2C2C2C),
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.w500)),
-                ],
-              ),
-            ),
-            onOk: () async {
-              // controller.isBsnsSelectFlag.value = false;
-              // controller.isBsnsSqncSelectFlag.value = false;
-              // controller.isBsnsZoneSelectFlag.value = false;
-              controller.pageController.jumpToPage(2);
-            },
-            onCancel: () {
-
-            },
-          );
+          // DialogUtil.showAlertDialog(
+          //   Get.context!,
+          //   840,
+          //   '실태조사',
+          //   widget: Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: Column(
+          //       mainAxisSize: MainAxisSize.min,
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         AutoSizeText(
+          //             maxFontSize: 20,
+          //             '${controller.selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?',
+          //             style: TextStyle(
+          //                 color: Color(0xFF2C2C2C),
+          //                 fontSize: 32.sp,
+          //                 fontWeight: FontWeight.w500)),
+          //       ],
+          //     ),
+          //   ),
+          //   onOk: () async {
+          //     // controller.isBsnsSelectFlag.value = false;
+          //     // controller.isBsnsSqncSelectFlag.value = false;
+          //     // controller.isBsnsZoneSelectFlag.value = false;
+          //     controller.pageController.jumpToPage(2);
+          //   },
+          //   onCancel: () {
+          //
+          //   },
+          // );
         } else {
           DialogUtil.showSnackBar(Get.context!, '실태조사', '실태조사 데이터가 없습니다.');
         }
 
-        // var jsonString = jsonEncode({
-        //   'bsnsNo': controller.selectBsnsPlan.value.bsnsNo,
-        //   'bsnsSqnc': controller.selectSqnc.value.accdtInvstgSqnc
-        // });
-        //
-        // AppLog.d('jsonString: $jsonString');
-        //
-        // GisController.to.inAppWebViewController
-        //     .evaluateJavascript(source: 'fn_setBsnsInfo($jsonString)');
+        var jsonString = jsonEncode({
+          'bsnsNo': controller.selectBsnsPlan.value.bsnsNo,
+          'bsnsSqnc': controller.selectSqnc.value.accdtInvstgSqnc
+        });
+
+        AppLog.d('jsonString: $jsonString');
+
+        GisController.to.inAppWebViewController
+            .evaluateJavascript(source: 'fn_setBsnsInfo($jsonString)');
+
       }),
       columns: [
         gridColumn('bsnsNo', '사업번호', isVisble: false),
@@ -999,17 +987,17 @@ class lpScreen extends GetView<LpController> {
 
         AppLog.i('buildOwnerLadInfoDataGrid > 선택된 토지 정보: ${data.toJson()}');
 
-        var pnu = data.thingSerNo?.split('-');
-        var sumPnuStr = pnu![3] + pnu[4] + pnu[5] + pnu[6];
-        AppLog.d('sumPnuStr: $sumPnuStr');
-
-        controller.selecteThingSerNo.value = data.thingSerNo ?? '';
-        AppLog.d('선택된 물건일련번호: ${controller.selecteThingSerNo.value}');
-
-        // controller.selectedLadData.value = R
-        //controller.isGisOpenFlag.value = true;
+        // var pnu = data.thingSerNo?.split('-');
+        // var sumPnuStr = pnu![3] + pnu[4] + pnu[5] + pnu[6];
+        // AppLog.d('sumPnuStr: $sumPnuStr');
+        //
+        // controller.selecteThingSerNo.value = data.thingSerNo ?? '';
+        // AppLog.d('선택된 물건일련번호: ${controller.selecteThingSerNo.value}');
+        //
         // GisController.to.inAppWebViewController
         //     .evaluateJavascript(source: 'fn_movePnu($sumPnuStr)');
+
+        controller.handleAccdtlnvstgLadTabSelected(1);
 
         controller.fetchAccdtlnvstgLadOwnerDataSource(data.thingSerNo);
 
@@ -1075,6 +1063,7 @@ class lpScreen extends GetView<LpController> {
         dataSource: controller.accdtlnvstgLadDataSource.value,
         controller: controller.accdtlnvstgLadDataGridController,
         isSort: false,
+        isSelect: true,
         columnWidthMode: ColumnWidthMode.auto,
         freezeColumnCount: 5,
         stackedHeaderRows: [
@@ -1173,8 +1162,7 @@ class lpScreen extends GetView<LpController> {
           AppLog.d('선택된 토지 정보: ${data.toJson()}');
 
           controller.selectedLadData.value = data;
-          controller.accdtlnvstgLadSearchDataSource.value =
-              AccdtlnvstgLadDatasource(items: [data]);
+          controller.accdtlnvstgLadSearchDataSource.value = AccdtlnvstgLadDatasource(items: [data]);
 
           AppLog.d('선택된 토지 정보: $getRow');
 
@@ -1188,11 +1176,14 @@ class lpScreen extends GetView<LpController> {
 
           controller.selectedCells = copyRow;
 
-          var pnu = data.thingSerNo?.split('-');
-          var sumPnuStr = pnu![3] + pnu[4] + pnu[5] + pnu[6];
-          AppLog.d('sumPnuStr: $sumPnuStr');
+          // var pnu = data.thingSerNo?.split('-');
+          // var sumPnuStr = pnu![3] + pnu[4] + pnu[5] + pnu[6];
+          // AppLog.d('sumPnuStr: $sumPnuStr');
+          //
+          // GisController.to.inAppWebViewController.evaluateJavascript(source: 'fn_movePnu($sumPnuStr)');
 
-          GisController.to.inAppWebViewController.evaluateJavascript(source: 'fn_movePnu($sumPnuStr)');
+          controller.fetchAccdtlnvstgLadOwnerDataSource(data.thingSerNo);
+          controller.handleAccdtlnvstgLadTabSelected(1);
 
 
         }));
@@ -1271,6 +1262,32 @@ class lpScreen extends GetView<LpController> {
         ]);
   }
 
+  /// 실태조사 -> 지장물 -> 토지 -> 토지보상 대상 기준 정보
+  Widget buildObstAccdtlnvstgSelectLadDataGrid(){
+    return CustomGrid(
+        dataSource: controller.accdtlnvstgObstSelectLadDataSource.value,
+        controller: controller.accdtlnvstgObstSelectLadDataGridController,
+        isSort: false,
+        columnWidthMode: ColumnWidthMode.auto,
+        columns: [
+          gridColumn('thingSerNo', '물건일련번호', isVisble: false),
+          gridColumn('cmpnstnObstNo', '지장물\n순번', width: 80.w),
+          gridColumn('obstDivNm', '지장물\n구분', width: 200.w),
+          gridColumn('cmpnstnThingKndDtls', '물건의종류', width: 200.w),
+          gridColumn('obstStrctStndrdInfo', '구조 및 규격', width: 200.w),
+          gridColumn('cmpnstnQtyAraVu', '수량(면적)', width: 150.w),
+          gridColumn('cmpnstnThingUnitDivNm', '단위', width: 100.w),
+          gridColumn('lgdongNm', '주소', width: 400.w),
+          gridColumn('lcrtsDivCdNm', '특지', width: 100.w),
+          gridColumn('mlnoLtno', '본번', width: 110.w),
+          gridColumn('slnoLtno', '부번', width: 100.w),
+          gridColumn('acqsPrpDivNm', '취득용도', width: 100.w),
+          gridColumn('acddtInvstgSqnc', '조사차수', width: 90.w),
+          gridColumn('invstgDt', '조사일'),
+          gridColumn('accdtInvstgRm', '비고', width: 300.w),
+        ]);
+  }
+
   /// 실태조사 -> 토지 -> 소유자/관계인 -> 소유자 현황
   Widget buildAccdtlnvstgLadOwnerStatusDataGrid() {
     return CustomGrid(
@@ -1296,8 +1313,7 @@ class lpScreen extends GetView<LpController> {
           ((List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
         if (addedRows.isEmpty) return;
 
-        final index = controller.accdtlnvstgLadOwnerDataSource.value.rows
-            .indexOf(addedRows.first);
+        final index = controller.accdtlnvstgLadOwnerDataSource.value.rows.indexOf(addedRows.first);
         var getRow = controller.accdtlnvstgLadOwnerDataSource.value.rows[index];
 
         var ownerNo = getRow.getCells()[0].value;
@@ -1347,20 +1363,45 @@ class lpScreen extends GetView<LpController> {
         var thingSerNo = getRow.getCells()[0].value;
         AppLog.d('선택된 지장물 번호: $thingSerNo');
 
+        // get row
+        AppLog.d('선택된 지장물 정보: $getRow');
+        var data = AccdtlnvstgObstModel(
+          thingSerNo: getRow.getCells()[0].value,
+          cmpnstnObstNo: getRow.getCells()[1].value,
+          obstDivNm: getRow.getCells()[2].value,
+          cmpnstnThingKndDtls: getRow.getCells()[3].value,
+          obstStrctStndrdInfo: getRow.getCells()[4].value,
+          cmpnstnQtyAraVu: getRow.getCells()[5].value,
+          cmpnstnThingUnitDivNm: getRow.getCells()[6].value,
+          lgdongNm: getRow.getCells()[7].value,
+          lcrtsDivCdNm: getRow.getCells()[8].value,
+          mlnoLtno: getRow.getCells()[9].value,
+          slnoLtno: getRow.getCells()[10].value,
+          acqsPrpDivNm: getRow.getCells()[11].value,
+          accdtInvstgSqnc: getRow.getCells()[12].value,
+          invstgDt: getRow.getCells()[13].value,
+          accdtInvstgRm: getRow.getCells()[14].value,
+        );
+
+        controller.fetchAccdtlnvstgObstSelectDataSource(List<AccdtlnvstgObstModel>.from([data]));
         controller.fetchAccdtlnvstgObstOwnerDataSource(thingSerNo);
       }),
       columns: [
         gridColumn('thingSerNo', '물건일련번호', isVisble: false),
         gridColumn('cmpnstnObstNo', '지장물\n순번', width: 80.w),
         gridColumn('obstDivNm', '지장물\n구분', width: 200.w),
-        gridColumn('cmpnstnThingKndDtls', '물건의종류'),
-        gridColumn('obstStrctStndrdInfo', '구조 및 규격', width: 400.w),
+        gridColumn('cmpnstnThingKndDtls', '물건의종류', width: 200.w),
+        gridColumn('obstStrctStndrdInfo', '구조 및 규격', width: 200.w),
         gridColumn('cmpnstnQtyAraVu', '수량(면적)', width: 150.w),
         gridColumn('cmpnstnThingUnitDivNm', '단위', width: 100.w),
-        gridColumn('lgdongNm', '주소'),
+        gridColumn('lgdongNm', '주소', width: 400.w),
+        gridColumn('lcrtsDivCdNm', '특지', width: 100.w),
+        gridColumn('mlnoLtno', '본번', width: 110.w),
+        gridColumn('slnoLtno', '부번', width: 100.w),
+        gridColumn('acqsPrpDivNm', '취득용도', width: 100.w),
         gridColumn('acddtInvstgSqnc', '조사차수', width: 90.w),
         gridColumn('invstgDt', '조사일'),
-        gridColumn('spcitm', '비고'),
+        gridColumn('accdtInvstgRm', '비고', width: 300.w),
       ],
     );
   }

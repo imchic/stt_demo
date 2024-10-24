@@ -87,6 +87,20 @@ class _BaseTabBarState extends State<BaseTabBar> {
                   LpController.to.accdtlnvstgLadPartcpntDataSource.value.rows.clear();
                 }
               }
+              // else if(widget.controller == LpController.to.accdtlnvstgTabController){
+              //   if(index == 0){
+              //     AppLog.d('토지 index: $index');
+              //     LpController.to.accdtlnvstgLadDataSource.value.rows.clear();
+              //     LpController.to.accdtlnvstgLadDataSource.refresh();
+              //     LpController.to.accdtlnvstgLadOwnerDataSource.value.rows.clear();
+              //     LpController.to.accdtlnvstgLadPartcpntDataSource.value.rows.clear();
+              //   } else if(index == 1){
+              //     AppLog.d('지장물 index: $index');
+              //     LpController.to.accdtlnvstgObstDataSource.value.rows.clear();
+              //     LpController.to.accdtlnvstgObstDataSource.refresh();
+              //     LpController.to.accdtlnvstgObstOwnerDataSource.value.rows.clear();
+              //   }
+              // }
             },
           ),
           //SizedBox(height: 20.h),

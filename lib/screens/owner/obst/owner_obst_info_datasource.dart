@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'model/owner_obst_info_datasource_model.dart';
@@ -44,8 +46,8 @@ class OwnerObstInfoDatasource extends DataGridSource {
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
-        child: Text(dataGridCell.value.toString(),
-            overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12)),
+        child: AutoSizeText(dataGridCell.value.toString(),
+            overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 30.sp, color: Colors.black), maxLines: 2),
       );
     }).toList());
   }
