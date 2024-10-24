@@ -706,6 +706,25 @@ class lpScreen extends GetView<LpController> {
         );
 
         controller.fetchOwnerDataSource();
+
+        controller.fetchAccdtlnvstgLadDataSource().then((value) {
+          AppLog.d('토지내역: ${controller.accdtlnvstgLadList}');
+        });
+
+        //controller.fetchAccdtlnvstgObstDataSource();
+
+        // var job1 = await controller.fetchAccdtlnvstgLadDataSource();
+        //
+        // AppLog.d('토지내역: ${job1}');
+        // AppLog.d('지장물내역: ${job2}');
+
+        // if (job1.isNotEmpty && job2.isNotEmpty) {
+        //   controller.bsnsListDataSource.value =
+        //       BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
+        // } else {
+        //   DialogUtil.showSnackBar(Get.context!, '사업구역', '사업구역을 조회할 수 없습니다.');
+        // }
+
         await controller.fetchBsnsSelectAreaGetSqncDataSource();
 
         controller.isBsnsZoneSelectFlag.value = true;
@@ -748,15 +767,13 @@ class lpScreen extends GetView<LpController> {
 
         controller.selectSqnc.value = sqnc;
 
-        controller.fetchAccdtlnvstgLadDataSource();
-        controller.fetchAccdtlnvstgObstDataSource();
+        var ladRows = await controller.fetchAccdtlnvstgLadDataSource();
+        var obstRows = await controller.fetchAccdtlnvstgObstDataSource();
 
-        AppLog.d('토지내역: ${controller.accdtlnvstgLadList}');
-        AppLog.d('지장물내역: ${controller.accdtlnvstgObstList}');
+        AppLog.d('ladRows: ${ladRows}, obstRows: ${obstRows}');
 
-        if(controller.accdtlnvstgLadList.isEmpty && controller.accdtlnvstgObstList.isEmpty) {
-          DialogUtil.showSnackBar(Get.context!, '실태조사', '실태조사 데이터가 없습니다.');
-        } else {
+        // 한개라도  있다면 실태조사로 이동
+        if (ladRows.isNotEmpty || obstRows.isNotEmpty) {
           DialogUtil.showAlertDialog(
             Get.context!,
             840,
@@ -788,18 +805,19 @@ class lpScreen extends GetView<LpController> {
 
             },
           );
+        } else {
+          DialogUtil.showSnackBar(Get.context!, '실태조사', '실태조사 데이터가 없습니다.');
         }
 
-
-        var jsonString = jsonEncode({
-          'bsnsNo': controller.selectBsnsPlan.value.bsnsNo,
-          'bsnsSqnc': controller.selectSqnc.value.accdtInvstgSqnc
-        });
-
-        AppLog.d('jsonString: $jsonString');
-
-        GisController.to.inAppWebViewController
-            .evaluateJavascript(source: 'fn_setBsnsInfo($jsonString)');
+        // var jsonString = jsonEncode({
+        //   'bsnsNo': controller.selectBsnsPlan.value.bsnsNo,
+        //   'bsnsSqnc': controller.selectSqnc.value.accdtInvstgSqnc
+        // });
+        //
+        // AppLog.d('jsonString: $jsonString');
+        //
+        // GisController.to.inAppWebViewController
+        //     .evaluateJavascript(source: 'fn_setBsnsInfo($jsonString)');
       }),
       columns: [
         gridColumn('bsnsNo', '사업번호', isVisble: false),

@@ -372,58 +372,55 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   // select order
   RxInt selectOrder = 0.obs;
 
-  RxString selectedPurpose = '단지구역'.obs;
-
   // purpose list
   RxList<String> accdtlnvstgAcqstnPrpsList = [
-    '전체',
-    '단지구역',
-    '토취장',
-    '진입도로',
-    '문화재구역',
-    '도로',
-    '침수구역',
-    '잔여부지',
-    '정수시설',
-    '송수관로',
     '도수관로',
+    '송수관로',
+    '단지구역',
+    '친수구역',
+    '잔여부지',
     '가압시설',
-    '일시사용'
+    '도로',
+    '문화재구역',
+    '일시사용',
+    '정수시설',
+    '진입도로',
+    '토취장',
+    //'기타'
   ].obs;
 
-  RxList<String> ladRealUseList = [''].obs;
+  //RxList<String> accdtlnvstgLadRealUseList = ['답', '전', '임', '도', '대', '잡', '구', '천', '제', '묵답', '묵전', '공', '장', '과', '광', '목', '묘', '사', '수', '양', '염', '원', '유', '종', '주', '차', '창', '철', '체', '학', '미등록'].obs;
   RxList<String> accdtlnvstgLadRealUseList = [
-    '답',
-    '전',
-    '임',
-    '도',
-    '대',
-    '잡',
-    '구',
-    '천',
-    '제',
-    '묵답',
-    '묵전',
-    '공',
-    '장',
-    '과',
-    '광',
-    '목',
-    '묘',
-    '사',
-    '수',
-    '양',
-    '염',
-    '원',
-    '유',
-    '종',
-    '주',
-    '차',
-    '창',
-    '철',
-    '체',
-    '학',
-    '미등록'
+  '답',
+  '전',
+  '임야',
+  '도로',
+  '대',
+  '잡종지',
+  '구거',
+  '하천',
+  '제방',
+  '묵답',
+  '묵전',
+  '공원',
+  '공장용지',
+  '과수원',
+  '광천지',
+  '목장용지',
+  '묘지',
+  '사적지',
+  '수',
+  '양어장'
+  '염전',
+  '유원지',
+  '유지',
+  '종교용지',
+  '주유소용지',
+  '주차장',
+  '창고용지',
+  '철도용지',
+  '체육용지',
+  '학',
   ].obs;
 
   //  통계 상세 탑
@@ -674,7 +671,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
 
     /// [사업목록] 조회
     await fetchBsnsListDataSource();
-    await fetchLdcgSeList();
+    //await fetchLdcgSeList();
 
   }
 
@@ -685,8 +682,8 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
     bsnsTabController.dispose();
     bsnsNameSearchController.dispose();
     bsnsNoSearchController.dispose();
-    LoginController.to.methodChannel.invokeMethod('vpnLogout');
-    SystemNavigator.pop();
+    //LoginController.to.methodChannel.invokeMethod('vpnLogout');
+    //SystemNavigator.pop();
   }
 
   @override
@@ -703,17 +700,6 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       case AppLifecycleState.paused:
         AppLog.d('AppLifecycleState.paused $state');
         isAppFinish.value = true;
-        // _timer = Timer(Duration(milliseconds: 500), () {
-        //   if(isAppFinish.value) {
-        //     final MethodChannel methodChannel = MethodChannel(
-        //         'kr.or.kwater.ldm/sslvpn');
-        //     methodChannel.invokeMethod('vpnLogout');
-        //   } else {
-        //     _timer?.cancel();
-        //     isAppFinish.value = false;
-        //   }
-        // });
-
         break;
       case AppLifecycleState.detached:
         AppLog.e('$state');
@@ -856,6 +842,9 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
                 ? '-'
                 : CommonUtil.convertToDateTime(data[i]['bsnsReadngPblancDe'])));
       }
+
+      var job1 = await fetchAccdtlnvstgLadDataSource();
+      var job2 = await fetchAccdtlnvstgObstDataSource();
 
       bsnsListDataSource.value =
           BsnsSelectAreaDataSource(items: bsnsPlanSelectAreaModel);
@@ -1152,7 +1141,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   }
 
   /// [실태조사 > 토지내역] 조회
-  fetchAccdtlnvstgLadDataSource() async {
+  Future<List<DataGridRow>> fetchAccdtlnvstgLadDataSource() async {
     var url = Uri.parse(
         '${CommonUtil.BASE_URL}/lp/accdtInvstg/selectAccdtInvstgLad.do');
 
@@ -1162,13 +1151,13 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       'shAccdtInvstgSqnc': selectSqnc.value.accdtInvstgSqnc.toString(),
     };
 
-    AppLog.d('fetchAccdtlnvstgSearchDataSource > param : $param');
+    AppLog.d('fetchAccdtlnvstgLadDataSource > param : $param');
 
     var response = await http.post(url, body: param);
 
     if (response.statusCode == 200) {
       var data = JsonDecoder().convert(response.body)['list'];
-      AppLog.d('fetchAccdtlnvstgSearchDataSource > data : $data');
+      AppLog.d('fetchAccdtlnvstgLadDataSource > data : $data');
 
       var length = data.length;
       var list = <AccdtlnvstgLadModel>[];
@@ -1203,50 +1192,12 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       }
 
       accdtlnvstgLadDataSource.value = AccdtlnvstgLadDatasource(items: list);
-
-      /*if (accdtlnvstgLadDataSource.value.rows.isEmpty || accdtlnvstgObstDataSource.value.rows.isEmpty) {
-        DialogUtil.showSnackBar(Get.context!, '실태조사', '실태조사 내역이 없습니다.');
-      } else {
-        // AppLog.d('실태조사 시작');
-        // isBsnsSelectFlag.value = false;
-        // isBsnsSqncSelectFlag.value = false;
-        // isBsnsZoneSelectFlag.value = false;
-        // pageController.jumpToPage(2);
-        // Get.back();
-        DialogUtil.showAlertDialog(
-          Get.context!,
-          840,
-          '실태조사',
-          widget: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AutoSizeText(
-                    maxFontSize: 20,
-                    '${selectSqnc.value.accdtInvstgSqnc}차 실태조사로 이동하시겠습니까?',
-                    style: TextStyle(
-                        color: Color(0xFF2C2C2C),
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.w500)),
-              ],
-            ),
-          ),
-          onOk: () async {
-            isBsnsSelectFlag.value = false;
-            isBsnsSqncSelectFlag.value = false;
-            isBsnsZoneSelectFlag.value = false;
-            pageController.jumpToPage(2);
-          },
-          onCancel: () {
-            Get.back();
-          },
-        );
-      }*/
-
     }
+
+    return accdtlnvstgLadDataSource.value.rows.isNotEmpty
+        ? accdtlnvstgLadDataSource.value.rows
+        : [];
+
   }
 
   clearAccdtlnvstgLad() {
@@ -1357,7 +1308,7 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   }
 
   /// [실태조사 > 지장물 정보] 조회
-  fetchAccdtlnvstgObstDataSource() async {
+  Future<List<DataGridRow>> fetchAccdtlnvstgObstDataSource() async {
     var url = Uri.parse(
         '${CommonUtil.BASE_URL}/lp/accdtInvstg/selectAccdtInvstgObst.do');
 
@@ -1408,6 +1359,11 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
       accdtlnvstgObstDataSource.value =
           AccdtlnvstgObstDatasource(items: accdtlnvstgObst);
     }
+
+    return accdtlnvstgObstDataSource.value.rows.isNotEmpty
+        ? accdtlnvstgObstDataSource.value.rows
+        : [];
+
   }
 
   /// [실태조사 > 지장물 정보 > 그리드 선택 소유자 가져오기 ]
@@ -1790,32 +1746,31 @@ class LpController extends GetxController with GetTickerProviderStateMixin, Widg
   }
 
   /// [통계정보 > 토지현황 > 지목] 조회
-  fetchLdcgSeList() async {
-    var url = Uri.parse(
-        '${CommonUtil.BASE_URL}/lp/lssom/selectLdcgSe.do');
-
-    AppLog.d('fetchLdcgSeList > url : $url');
-
-    var response = await http.post(url);
-
-    if (response.statusCode == 200) {
-      var data = JsonDecoder().convert(response.body)['list'];
-      AppLog.d('fetchLdcgSeList > data : $data');
-
-      for (var i = 0; i < data.length; i++) {
-        ladRealUseList.add(data[i]['cmmnCdNm'].trim());
-      }
-
-      // 0번째 삭제
-      ladRealUseList.removeAt(0);
-
-      AppLog.d('fetchLdcgSeList > ladRealUseList : $ladRealUseList');
-
-    } else {
-      AppLog.e('fetchLdcgSeList > error : ${response.body}');
-    }
-
-  }
+  // fetchLdcgSeList() async {
+  //   var url = Uri.parse(
+  //       '${CommonUtil.BASE_URL}/lp/lssom/selectLdcgSe.do');
+  //
+  //   AppLog.d('fetchLdcgSeList > url : $url');
+  //
+  //   var response = await http.post(url);
+  //
+  //   if (response.statusCode == 200) {
+  //     var data = JsonDecoder().convert(response.body)['list'];
+  //     AppLog.d('fetchLdcgSeList > data : $data');
+  //
+  //     for (var i = 0; i < data.length; i++) {
+  //       accdtlnvstgLadRealUseList.add(data[i]['cmmnCdNm'].trim());
+  //     }
+  //
+  //     // 0번째 삭제
+  //     //accdtlnvstgLadRealUseList.removeAt(0);
+  //     AppLog.d('fetchLdcgSeList > ladRealUseList : $accdtlnvstgLadRealUseList');
+  //
+  //   } else {
+  //     AppLog.e('fetchLdcgSeList > error : ${response.body}');
+  //   }
+  //
+  // }
 
   /// [통계정보 > 토지현황 > 취득용도목록] 조회
   fetchAcqsPrpList() async {
